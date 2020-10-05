@@ -1,64 +1,141 @@
-import { Table, Column, Model, DataType } from 'sequelize-typescript';
+import { User } from '@app/src/users/models/user.model';
+import { Table, Column, Model, ForeignKey, HasMany, BelongsTo } from 'sequelize-typescript';
 
 @Table
 export class Patient extends Model<Patient> {
+  @ForeignKey(() => User)
   @Column
   userId: number;
 
   @Column
-  serviceType: number;
+  gender: string;
 
   @Column
-  fatherBirthDate: Date;
+  dateOfBirth: string;
 
   @Column
-  fatherDeathDate: Date;
+  ethnicity: string;
 
   @Column
-  motherBirthDate: Date;
+  primaiyProvider: string;
 
   @Column
-  motherDeathDate: Date;
+  specialist: string;
 
   @Column
-  drugUse: boolean;
+  socialHistory: string;
 
   @Column
-  smoking: boolean;
+  surgeryHistory: string;
 
   @Column
-  smokingPerDay: number;
+  fatherHisory: string;
 
   @Column
-  alcohol: boolean;
+  motherHisory: string;
 
   @Column
-  alcoholPerDay: number;
+  vaccinationHisory: string;
 
   @Column
-  surgeries: string;
+  travelHistory: string;
 
   @Column
-  vaccination: string;
+  hospitalizationHistory: string;
+
+  @HasMany(() => MedicalProblems)
+  medicalProblems: Array<MedicalProblems>
+
+
+  @HasMany(() => Symptoms)
+  currentSymptoms: Array<Symptoms>
+
+}
+
+@Table
+export class PymentInfo extends Model<PymentInfo> {
+  @ForeignKey(() => Patient)
+  @Column
+  patientId: number;
 
   @Column
-  travel: string;
+  name: string;
 
   @Column
-  hospitalization: string;
+  creditCard: string;
 
   @Column
-  prescriptionMeds: string;
+  expiryMonth: string;
 
   @Column
-  overTheCounterMeds: string;
+  expiryYear: string;
+
+}
+
+@Table
+export class MedicalProblems extends Model<MedicalProblems> {
 
   @Column
-  dietRestrictions: string;
+  key: string;
 
   @Column
-  allergies: string;
+  value: string;
+}
+
+
+@Table
+export class HealthInfo extends Model<HealthInfo> {
 
   @Column
-  appointmentPoint: string;
+  listOfMedications: string;
+
+  @Column
+  medicationsAndVitamins: string;
+
+
+  @Column
+  dietaryRestrictions: string;
+
+  @Column
+  listOfAllergies: string;
+}
+
+
+@Table
+export class Symptoms extends Model<Symptoms> {
+
+  @Column
+  key: string;
+
+  @Column
+  value: string;
+}
+
+@Table
+export class PatientSymptoms extends Model<PatientSymptoms> {
+  @ForeignKey(() => Patient)
+  @Column
+  patientId: number;
+
+  @ForeignKey(() => Symptoms)
+  @Column
+  symptomId: number;
+
+  @BelongsTo(() => Symptoms)
+  symtom: Symptoms
+}
+
+
+@Table
+export class PatientMedical extends Model<PatientMedical> {
+  @ForeignKey(() => Patient)
+  @Column
+  patientId: number;
+
+  @ForeignKey(() => PatientMedical)
+  @Column
+  medicalPbmId: number;
+
+  @BelongsTo(() => PatientMedical)
+  medicalProblem: PatientMedical
 }
