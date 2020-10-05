@@ -1,4 +1,4 @@
-import { PatientService } from './../services/patient.service';
+import { DoctorsService } from './../services/doctors.service';
 import {
   Controller,
   Get,
@@ -11,19 +11,19 @@ import {
   Param,
 } from '@nestjs/common';
 import { ResponseData } from '@app/src/core/common/response-data';
-import { PatientDto } from '../dto/patient.dto';
+import { DoctorDto } from '../dto/doctor.dto';
 
 @Controller('role')
 // @UseGuards(JwtAuthGuard)
-export class PatientsController {
-  constructor(private patientsService: PatientService) {}
+export class DoctorsController {
+  constructor(private doctorsService: DoctorsService) {}
 
   @Get('')
-  async getPatients() {
+  async getDoctors() {
     let output = new ResponseData();
 
     try {
-      output.data = await this.patientsService.getPatients();
+      output.data = await this.doctorsService.getDoctors();
     } catch (error) {
       console.log(error);
       output.status = false;
@@ -34,11 +34,11 @@ export class PatientsController {
   }
 
   @Post()
-  async saveRoles(@Body() patientData: PatientDto) {
+  async saveDoctors(@Body() doctorData: DoctorDto) {
     let output = new ResponseData();
 
     try {
-      output.data = await this.patientsService.savePatient(patientData);
+      output.data = await this.doctorsService.saveDoctor(doctorData);
     } catch (error) {
       console.log(error);
       output.status = false;
@@ -49,11 +49,11 @@ export class PatientsController {
   }
 
   @Delete(':id')
-  async deletePatient(@Param() params) {
+  async deleteDoctor(@Param() params) {
     let output = new ResponseData();
 
     try {
-      output.data = await this.patientsService.deletePatient(params.id);
+      output.data = await this.doctorsService.deleteDoctor(params.id);
     } catch (error) {
       console.log(error);
       output.status = false;

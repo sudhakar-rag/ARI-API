@@ -1,3 +1,5 @@
+import { PatientsModule } from './patient/patient.module';
+import { DoctorsModule } from './doctor/doctor.module';
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -9,20 +11,19 @@ import { SettingsModule } from './settings/settings.module';
 import { SmsModule } from './sms/sms.module';
 import { EmailModule } from './email/email.module';
 
-
-
-
 @Module({
   imports: [
     ConfigModule.register({ folder: './config' }),
     DatabaseModule,
     UsersModule,
+    DoctorsModule,
+    PatientsModule,
     AuthModule,
     SettingsModule,
     SmsModule,
-    EmailModule
+    EmailModule,
   ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule { }
+export class AppModule {}

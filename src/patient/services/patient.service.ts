@@ -6,7 +6,7 @@ import { Op } from 'sequelize';
 import { InjectModel } from '@nestjs/sequelize';
 
 @Injectable()
-export class RolesService {
+export class PatientService {
   constructor(
     @InjectModel(Patient)
     private readonly patientModel: typeof Patient,
@@ -16,7 +16,7 @@ export class RolesService {
     return await this.patientModel.findAll();
   }
 
-  async saveRole(patientData: PatientDto): Promise<any> {
+  async savePatient(patientData: PatientDto): Promise<any> {
     let data = {
       userId: patientData.userId,
       serviceType: patientData.userId,
