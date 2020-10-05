@@ -1,22 +1,22 @@
-import { DoctorDto } from './../dto/doctor.dto';
-import { Doctor } from './../models/doctor.model';
+import { DoctorDto } from '../dto/doctor.dto';
+import { Provider } from '../models/provider.model';
 
 import { Injectable, Inject } from '@nestjs/common';
 import { Op } from 'sequelize';
 import { InjectModel } from '@nestjs/sequelize';
 
 @Injectable()
-export class DoctorsService {
+export class ProviderService {
   constructor(
-    @InjectModel(Doctor)
-    private readonly doctorModel: typeof Doctor,
+    @InjectModel(Provider)
+    private readonly doctorModel: typeof Provider,
   ) {}
 
-  async getDoctors(): Promise<any> {
+  async getProviders(): Promise<any> {
     return await this.doctorModel.findAll();
   }
 
-  async saveDoctor(doctorData: DoctorDto): Promise<any> {
+  async saveProvider(doctorData: DoctorDto): Promise<any> {
     let data = {
       userId: doctorData.userId,
       businessName: doctorData.businessName,
@@ -40,7 +40,7 @@ export class DoctorsService {
       isAvailable: doctorData.isAvailable,
     };
 
-    let doctor: Doctor;
+    let doctor: Provider;
     if (doctorData.id) {
       await this.doctorModel.update(data, { where: { id: doctorData.id } });
       doctor = await this.doctorModel.findOne({
@@ -53,7 +53,7 @@ export class DoctorsService {
     return doctor;
   }
 
-  async deleteDoctor(id: number): Promise<any> {
+  async deleteProvider(id: number): Promise<any> {
     let result = await this.doctorModel.destroy({ where: { id: id } });
     return result;
   }

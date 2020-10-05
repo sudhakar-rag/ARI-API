@@ -1,5 +1,5 @@
 import { PatientsModule } from './patient/patient.module';
-import { DoctorsModule } from './doctor/doctor.module';
+import { ProviderModule } from './doctor/provider.module';
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -16,7 +16,7 @@ import { EmailModule } from './email/email.module';
     ConfigModule.register({ folder: './config' }),
     DatabaseModule,
     UsersModule,
-    DoctorsModule,
+    ProviderModule,
     PatientsModule,
     AuthModule,
     SettingsModule,

@@ -1,4 +1,4 @@
-import { DoctorsService } from './../services/doctors.service';
+import { ProviderService } from './../services/provider.service';
 import {
   Controller,
   Get,
@@ -15,15 +15,15 @@ import { DoctorDto } from '../dto/doctor.dto';
 
 @Controller('role')
 // @UseGuards(JwtAuthGuard)
-export class DoctorsController {
-  constructor(private doctorsService: DoctorsService) {}
+export class ProvidersController {
+  constructor(private providerService: ProviderService) {}
 
   @Get('')
   async getDoctors() {
     let output = new ResponseData();
 
     try {
-      output.data = await this.doctorsService.getDoctors();
+      output.data = await this.providerService.getProviders();
     } catch (error) {
       console.log(error);
       output.status = false;
@@ -38,7 +38,7 @@ export class DoctorsController {
     let output = new ResponseData();
 
     try {
-      output.data = await this.doctorsService.saveDoctor(doctorData);
+      output.data = await this.providerService.saveProvider(doctorData);
     } catch (error) {
       console.log(error);
       output.status = false;
@@ -53,7 +53,7 @@ export class DoctorsController {
     let output = new ResponseData();
 
     try {
-      output.data = await this.doctorsService.deleteDoctor(params.id);
+      output.data = await this.providerService.deleteProvider(params.id);
     } catch (error) {
       console.log(error);
       output.status = false;
