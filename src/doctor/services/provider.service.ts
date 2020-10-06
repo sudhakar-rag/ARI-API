@@ -1,4 +1,6 @@
-import { DoctorDto } from '../dto/doctor.dto';
+import { ProviderEducation } from './../models/provider-education.model';
+import { ProviderEducationDto } from './../dto/provider.dto';
+import { ProviderBasicDto } from '../dto/provider.dto';
 import { Provider } from '../models/provider.model';
 
 import { Injectable, Inject } from '@nestjs/common';
@@ -9,52 +11,95 @@ import { InjectModel } from '@nestjs/sequelize';
 export class ProviderService {
   constructor(
     @InjectModel(Provider)
-    private readonly doctorModel: typeof Provider,
+    private readonly providerBasicModel: typeof Provider,
+    private readonly providerEducationModel: typeof ProviderEducation,
   ) {}
 
   async getProviders(): Promise<any> {
-    return await this.doctorModel.findAll();
+    return await this.providerBasicModel.findAll();
   }
 
-  async saveProvider(doctorData: DoctorDto): Promise<any> {
+  async saveProviderBasic(providerBasicData: ProviderBasicDto): Promise<any> {
     let data = {
-      userId: doctorData.userId,
-      businessName: doctorData.businessName,
-      isPublic: doctorData.isPublic,
-      specialityId: doctorData.specialityId,
-      areaOfInterest: doctorData.areaOfInterest,
-      serviceType: doctorData.serviceType,
-      religion: doctorData.religion,
-      specialBackground: doctorData.specialBackground,
-      limitation: doctorData.limitation,
-      addiction: doctorData.addiction,
-      crime: doctorData.crime,
-      malpractice: doctorData.malpractice,
-      timezone: doctorData.timezone,
-      isVerified: doctorData.isVerified,
-      zoomId: doctorData.zoomId,
-      zoomUrl: doctorData.zoomUrl,
-      rating: doctorData.rating,
-      zoomStatus: doctorData.zoomStatus,
-      userStatus: doctorData.userStatus,
-      isAvailable: doctorData.isAvailable,
+      userId: providerBasicData.userId,
+      businessName: providerBasicData.businessName,
+      isPublic: providerBasicData.isPublic,
+      specialityId: providerBasicData.specialityId,
+      areaOfInterest: providerBasicData.areaOfInterest,
+      serviceType: providerBasicData.serviceType,
+      religion: providerBasicData.religion,
+      specialBackground: providerBasicData.specialBackground,
+      limitation: providerBasicData.limitation,
+      addiction: providerBasicData.addiction,
+      crime: providerBasicData.crime,
+      malpractice: providerBasicData.malpractice,
+      timezone: providerBasicData.timezone,
+      isVerified: providerBasicData.isVerified,
+      zoomId: providerBasicData.zoomId,
+      zoomUrl: providerBasicData.zoomUrl,
+      rating: providerBasicData.rating,
+      zoomStatus: providerBasicData.zoomStatus,
+      userStatus: providerBasicData.userStatus,
+      isAvailable: providerBasicData.isAvailable,
     };
 
-    let doctor: Provider;
-    if (doctorData.id) {
-      await this.doctorModel.update(data, { where: { id: doctorData.id } });
-      doctor = await this.doctorModel.findOne({
-        where: { id: doctorData.id },
+    let providerBasic: Provider;
+    if (providerBasicData.id) {
+      await this.providerBasicModel.update(data, {
+        where: { id: providerBasicData.id },
+      });
+      providerBasic = await this.providerBasicModel.findOne({
+        where: { id: providerBasicData.id },
       });
     } else {
-      doctor = await this.doctorModel.create(data);
+      providerBasic = await this.providerBasicModel.create(data);
     }
 
-    return doctor;
+    return providerBasic;
   }
 
-  async deleteProvider(id: number): Promise<any> {
-    let result = await this.doctorModel.destroy({ where: { id: id } });
-    return result;
+  async saveProviderEducation(
+    providerEducationData: ProviderEducationDto,
+    action = 'C',
+    transaction,
+  ): Promise<any> {
+    let providerEducation = {
+      userId: providerEducationData.userId,
+      school: providerEducationData.school,
+      degree: providerEducationData.degree,
+      fromYear: providerEducationData.fromYear,
+      toYear: providerEducationData.toYear,
+    };
+
+    if (!providerEducationData.id) {
+      let education = await this.providerEducationModel.create(
+        providerEducation,
+        {
+          transaction,
+        },
+      );
+      providerEducationData.id = education.id;
+    } else {
+      await this.providerEducationModel.update(providerEducationData, {
+        where: { id: providerEducationData.id },
+        transaction,
+      });
+    }
+
+    await this.providerEducationModel.destroy({
+      where: {
+        id: providerEducationData.id,
+        userId: providerEducationData.userId,
+      },
+      transaction,
+    });
+
+    await this.providerEducationModel.create(
+      {
+        id: providerEducationData.id,
+        userId: providerEducationData.userId,
+      },
+      { transaction },
+    );
   }
 }

@@ -23,7 +23,7 @@ export class Provider extends Model<Provider> {
   specialityId: number;
 
   @Column
-  areaOfInterest: number;
+  areaOfInterest: string;
 
   @Column
   serviceType: number;

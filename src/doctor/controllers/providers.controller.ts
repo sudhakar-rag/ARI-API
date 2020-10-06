@@ -11,15 +11,15 @@ import {
   Param,
 } from '@nestjs/common';
 import { ResponseData } from '@app/src/core/common/response-data';
-import { DoctorDto } from '../dto/doctor.dto';
+import { ProviderBasicDto } from '../dto/provider.dto';
 
-@Controller('role')
+@Controller('provider')
 // @UseGuards(JwtAuthGuard)
 export class ProvidersController {
   constructor(private providerService: ProviderService) {}
 
   @Get('')
-  async getDoctors() {
+  async getProviders() {
     let output = new ResponseData();
 
     try {
@@ -34,26 +34,13 @@ export class ProvidersController {
   }
 
   @Post()
-  async saveDoctors(@Body() doctorData: DoctorDto) {
+  async saveProviderBasic(@Body() providerBasicData: ProviderBasicDto) {
     let output = new ResponseData();
 
     try {
-      output.data = await this.providerService.saveProvider(doctorData);
-    } catch (error) {
-      console.log(error);
-      output.status = false;
-      output.message = typeof error == 'string' ? error : '';
-    }
-
-    return output;
-  }
-
-  @Delete(':id')
-  async deleteDoctor(@Param() params) {
-    let output = new ResponseData();
-
-    try {
-      output.data = await this.providerService.deleteProvider(params.id);
+      output.data = await this.providerService.saveProviderBasic(
+        providerBasicData,
+      );
     } catch (error) {
       console.log(error);
       output.status = false;

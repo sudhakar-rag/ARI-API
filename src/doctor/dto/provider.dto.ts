@@ -1,7 +1,7 @@
 import { IsBoolean, IsDate } from 'class-validator';
 import { IsOptional, IsNumber, IsString } from 'class-validator';
 
-export class DoctorDto {
+export class ProviderBasicDto {
   @IsOptional()
   @IsNumber()
   id: number;
@@ -19,7 +19,7 @@ export class DoctorDto {
   specialityId: number;
 
   @IsNumber()
-  areaOfInterest: number;
+  areaOfInterest: string;
 
   @IsNumber()
   serviceType: number;
@@ -65,4 +65,25 @@ export class DoctorDto {
 
   @IsBoolean()
   isAvailable: boolean;
+}
+
+export class ProviderEducationDto {
+  @IsOptional()
+  @IsNumber()
+  id: number;
+
+  @IsNumber()
+  userId: number;
+
+  @IsString()
+  school: string;
+
+  @IsString()
+  degree: string;
+
+  @IsNumber()
+  fromYear: number;
+
+  @IsNumber()
+  toYear: number;
 }
