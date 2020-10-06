@@ -8,16 +8,6 @@ export class Patient extends Model<Patient> {
   userId: number;
 
   @Column
-  firstName: string;
-
-  @Column
-  lastName: string;
-
-  @Column
-  profilePicture: string;
-
-
-  @Column
   dateOfBirth: string;
 
   @Column

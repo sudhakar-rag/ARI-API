@@ -17,7 +17,7 @@ export class PatientService {
   }
 
   async createPatient(patientData: PatientDto): Promise<any> {
-    let data: PatientDto = {
+    let data: any = {
       id: patientData.id || null,
       userId: patientData.userId,
       gender: patientData.gender,

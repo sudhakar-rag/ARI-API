@@ -10,6 +10,15 @@ export class PatientDto {
   userId: number;
 
   @IsString()
+  firstName: string;
+
+  @IsString()
+  lastName: string;
+
+  @IsString()
+  picture: string;
+
+  @IsString()
   gender: string;
 
   @IsString()
