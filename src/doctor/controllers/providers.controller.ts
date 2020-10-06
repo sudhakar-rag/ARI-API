@@ -16,7 +16,7 @@ import { ProviderBasicDto } from '../dto/provider.dto';
 @Controller('provider')
 // @UseGuards(JwtAuthGuard)
 export class ProvidersController {
-  constructor(private providerService: ProviderService) { }
+  constructor(private providerService: ProviderService) {}
 
   @Get('')
   async getProviders() {
@@ -24,23 +24,6 @@ export class ProvidersController {
 
     try {
       output.data = await this.providerService.getProviders();
-    } catch (error) {
-      console.log(error);
-      output.status = false;
-      output.message = typeof error == 'string' ? error : '';
-    }
-
-    return output;
-  }
-
-  @Post()
-  async saveProviderBasic(@Body() providerBasicData: ProviderBasicDto) {
-    let output = new ResponseData();
-
-    try {
-      output.data = await this.providerService.saveProviderBasic(
-        providerBasicData,
-      );
     } catch (error) {
       console.log(error);
       output.status = false;

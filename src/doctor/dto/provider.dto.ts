@@ -1,5 +1,51 @@
+import { IsArray } from 'class-validator';
 import { IsBoolean, IsDate } from 'class-validator';
 import { IsOptional, IsNumber, IsString } from 'class-validator';
+
+export class ProviderDto {
+  @IsOptional()
+  @IsNumber()
+  id: number;
+
+  @IsString()
+  firstName: string;
+
+  @IsString()
+  lastName: string;
+
+  @IsString()
+  email: string;
+
+  @IsString()
+  address: string;
+
+  @IsDate()
+  dob: Date;
+
+  @IsString()
+  gender: string;
+
+  @IsString()
+  ethnicity: string;
+
+  @IsString()
+  medicalSpeciality: number;
+
+  @IsString()
+  areaOfInterest: string;
+
+  @IsString()
+  phone: string;
+
+  @IsString()
+  serviceType: number;
+
+  @IsArray()
+  education: Array<ProviderEducationDto>;
+
+  @IsArray()
+  hospitals: Array<ProviderHospitalDto>;
+}
 
 export class ProviderBasicDto {
   @IsOptional()
@@ -80,6 +126,30 @@ export class ProviderEducationDto {
 
   @IsString()
   degree: string;
+
+  @IsNumber()
+  fromYear: number;
+
+  @IsNumber()
+  toYear: number;
+}
+
+export class ProviderHospitalDto {
+  @IsOptional()
+  @IsNumber()
+  id: number;
+
+  @IsNumber()
+  userId: number;
+
+  @IsString()
+  hospital: string;
+
+  @IsString()
+  location: string;
+
+  @IsString()
+  state: string;
 
   @IsNumber()
   fromYear: number;

@@ -1,3 +1,4 @@
+import { UsersModule } from './../users/users.module';
 import { ProviderLanguage } from './models/provider-language.model';
 import { ProviderReference } from './models/provider-reference.model';
 import { ProviderHospital } from './models/provider-hospital.model';
@@ -23,6 +24,7 @@ import { ProvidersController } from './controllers/providers.controller';
       ProviderHospital,
       ProviderReference,
     ]),
+    UsersModule,
   ],
   providers: [ProviderService],
   controllers: [ProvidersController],

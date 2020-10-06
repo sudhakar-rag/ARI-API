@@ -24,18 +24,11 @@ import { RolesService } from './services/roles.service';
       UserGroup,
       Address,
       UserAddress,
-      UserBankDetail
-    ])
+      UserBankDetail,
+    ]),
   ],
-  providers: [
-    UsersService,
-    UserCreateService,
-    RolesService
-  ],
-  controllers: [
-    UsersController,
-    RolesController
-  ],
-  exports: [UsersService]
+  providers: [UsersService, UserCreateService, RolesService],
+  controllers: [UsersController, RolesController],
+  exports: [UsersService],
 })
-export class UsersModule { }
+export class UsersModule {}
