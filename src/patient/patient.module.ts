@@ -18,4 +18,4 @@ import { Patient } from './models/patient.model';
   controllers: [PatientsController],
   exports: [PatientService],
 })
-export class PatientsModule {}
+export class PatientsModule { }

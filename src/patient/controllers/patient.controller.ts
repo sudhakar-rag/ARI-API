@@ -2,7 +2,7 @@ import { PatientService } from './../services/patient.service';
 import { Body, Controller, Get, Post } from '@nestjs/common';
 import { ResponseData } from '@app/src/core/common/response-data';
 import { PatientDto } from '../dto/patient.dto';
-import { UsersService } from '@app/src/users/services/users.service';
+// import { UsersService } from '@app/src/users/services/users.service';
 import { CreateUserDto } from '@app/src/users/dto/create-user.dto';
 
 @Controller('patient')
@@ -10,7 +10,8 @@ import { CreateUserDto } from '@app/src/users/dto/create-user.dto';
 export class PatientsController {
   constructor(
     private patientsService: PatientService,
-    private usersService: UsersService) { }
+    // private usersService: UsersService
+  ) { }
 
   @Get('')
   async list() {
@@ -33,10 +34,10 @@ export class PatientsController {
         picture: patientInfo.picture,
         status: 1,
       }
-      let user = await this.usersService.create(userData);
-      if (!patientInfo.userId) {
-        patientInfo.userId = user.id;
-      }
+      // let user = await this.usersService.create(userData);
+      // if (!patientInfo.userId) {
+      //   patientInfo.userId = user.id;
+      // }
       output.data = await this.patientsService.createPatient(patientInfo);
       output.status = true;
 
