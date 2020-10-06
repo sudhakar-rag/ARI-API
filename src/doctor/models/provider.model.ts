@@ -1,7 +1,15 @@
-import { Table, Column, Model, DataType } from 'sequelize-typescript';
+import { User } from './../../users/models/user.model';
+import {
+  Table,
+  Column,
+  Model,
+  DataType,
+  ForeignKey,
+} from 'sequelize-typescript';
 
 @Table
-export class Doctor extends Model<Doctor> {
+export class Provider extends Model<Provider> {
+  @ForeignKey(() => User)
   @Column
   userId: number;
 
@@ -15,7 +23,7 @@ export class Doctor extends Model<Doctor> {
   specialityId: number;
 
   @Column
-  areaOfInterest: number;
+  areaOfInterest: string;
 
   @Column
   serviceType: number;
