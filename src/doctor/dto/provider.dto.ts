@@ -19,9 +19,6 @@ export class ProviderDto {
   @IsString()
   address: string;
 
-  @IsDate()
-  dob: Date;
-
   @IsString()
   gender: string;
 

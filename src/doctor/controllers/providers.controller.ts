@@ -1,3 +1,4 @@
+import { ProviderDto } from './../dto/provider.dto';
 import { ProviderService } from './../services/provider.service';
 import {
   Controller,
@@ -24,6 +25,21 @@ export class ProvidersController {
 
     try {
       output.data = await this.providerService.getProviders();
+    } catch (error) {
+      console.log(error);
+      output.status = false;
+      output.message = typeof error == 'string' ? error : '';
+    }
+
+    return output;
+  }
+
+  @Post()
+  async create(@Body() providerData: ProviderDto): Promise<ResponseData> {
+    let output = new ResponseData();
+
+    try {
+      output.data = await this.providerService.create(providerData);
     } catch (error) {
       console.log(error);
       output.status = false;
