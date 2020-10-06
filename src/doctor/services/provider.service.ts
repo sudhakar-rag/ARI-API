@@ -12,6 +12,7 @@ export class ProviderService {
   constructor(
     @InjectModel(Provider)
     private readonly providerBasicModel: typeof Provider,
+    @InjectModel(ProviderEducation)
     private readonly providerEducationModel: typeof ProviderEducation,
   ) {}
 

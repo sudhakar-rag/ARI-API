@@ -1,5 +1,14 @@
-import { User } from '@app/src/users/models/user.model';
-import { Table, Column, Model, ForeignKey, HasMany, BelongsTo, DataType } from 'sequelize-typescript';
+import { PatientMedicalProblem } from './patient-medical-problems.model';
+import { User } from './../../users/models/user.model';
+import {
+  Table,
+  Column,
+  Model,
+  ForeignKey,
+  HasMany,
+  BelongsTo,
+  DataType,
+} from 'sequelize-typescript';
 
 @Table
 export class Patient extends Model<Patient> {
@@ -43,99 +52,9 @@ export class Patient extends Model<Patient> {
   @Column(DataType.TEXT({ length: 'medium' }))
   hospitalizationHistory: string;
 
-  @HasMany(() => MedicalProblems)
-  medicalProblems: Array<MedicalProblems>
+  @HasMany(() => PatientMedicalProblem)
+  medicalProblems: Array<PatientMedicalProblem>;
 
-
-  @HasMany(() => Symptoms)
-  currentSymptoms: Array<Symptoms>
-
-}
-
-@Table
-export class PymentInfo extends Model<PymentInfo> {
-  @ForeignKey(() => Patient)
-  @Column
-  patientId: number;
-
-  @Column
-  name: string;
-
-  @Column
-  creditCard: string;
-
-  @Column
-  expiryMonth: string;
-
-  @Column
-  expiryYear: string;
-
-}
-
-@Table
-export class MedicalProblems extends Model<MedicalProblems> {
-
-  @Column
-  key: string;
-
-  @Column
-  value: string;
-}
-
-
-@Table
-export class HealthInfo extends Model<HealthInfo> {
-
-  @Column
-  listOfMedications: string;
-
-  @Column
-  medicationsAndVitamins: string;
-
-
-  @Column
-  dietaryRestrictions: string;
-
-  @Column
-  listOfAllergies: string;
-}
-
-
-@Table
-export class Symptoms extends Model<Symptoms> {
-
-  @Column
-  key: string;
-
-  @Column
-  value: string;
-}
-
-@Table
-export class PatientSymptoms extends Model<PatientSymptoms> {
-  @ForeignKey(() => Patient)
-  @Column
-  patientId: number;
-
-  @ForeignKey(() => Symptoms)
-  @Column
-  symptomId: number;
-
-  @BelongsTo(() => Symptoms)
-  symtom: Symptoms
-}
-
-
-@Table
-export class PatientMedical extends Model<PatientMedical> {
-  @ForeignKey(() => Patient)
-  @Column
-  patientId: number;
-
-  @ForeignKey(() => PatientMedical)
-  @Column
-  medicalPbmId: number;
-
-  @BelongsTo(() => PatientMedical)
-  medicalProblem: PatientMedical
+  // @HasMany(() => Symptoms)
+  // currentSymptoms: Array<Symptoms>;
 }
