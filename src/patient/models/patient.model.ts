@@ -17,9 +17,6 @@ export class Patient extends Model<Patient> {
   userId: number;
 
   @Column
-  gender: string;
-
-  @Column
   dateOfBirth: string;
 
   @Column

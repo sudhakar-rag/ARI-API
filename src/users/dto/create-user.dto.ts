@@ -65,6 +65,7 @@ export class CreateUserDto {
   @IsNumber()
   id?: number;
 
+  @IsOptional()
   @IsString()
   userName: string;
 
@@ -78,9 +79,11 @@ export class CreateUserDto {
   @IsString()
   lastName: string;
 
+  @IsOptional()
   @IsString()
   email: string;
 
+  @IsOptional()
   @IsString()
   phone: string;
 
@@ -88,6 +91,7 @@ export class CreateUserDto {
   @IsString()
   picture?: string;
 
+  @IsOptional()
   @IsNumber()
   status: number;
 }
