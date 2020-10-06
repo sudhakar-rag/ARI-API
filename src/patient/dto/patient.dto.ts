@@ -6,7 +6,6 @@ export class PatientDto {
   @IsNumber()
   id: number;
 
-
   @IsNumber()
   userId: number;
 
