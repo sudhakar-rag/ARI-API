@@ -1,4 +1,4 @@
-import { IsBoolean, IsDate } from 'class-validator';
+import { IsArray, IsBoolean, IsDate } from 'class-validator';
 import { IsOptional, IsNumber, IsString } from 'class-validator';
 
 export class PatientDto {
@@ -6,63 +6,58 @@ export class PatientDto {
   @IsNumber()
   id: number;
 
+
   @IsNumber()
   userId: number;
 
-  @IsNumber()
-  serviceType: number;
-
-  @IsDate()
-  fatherBirthDate: Date;
-
-  @IsDate()
-  fatherDeathDate: Date;
-
-  @IsDate()
-  motherBirthDate: Date;
-
-  @IsDate()
-  motherDeathDate: Date;
-
-  @IsBoolean()
-  drugUse: boolean;
-
-  @IsBoolean()
-  smoking: boolean;
-
-  @IsNumber()
-  smokingPerDay: number;
-
-  @IsBoolean()
-  alcohol: boolean;
-
-  @IsNumber()
-  alcoholPerDay: number;
+  @IsString()
+  gender: string;
 
   @IsString()
-  surgeries: string;
+  dateOfBirth: string;
 
   @IsString()
-  vaccination: string;
+  ethnicity: string;
 
   @IsString()
-  travel: string;
+  primaiyProvider: string;
+
+  @IsOptional()
+  @IsString()
+  specialist: string;
 
   @IsString()
-  hospitalization: string;
+  socialHistory: string;
 
+  @IsOptional()
   @IsString()
-  prescriptionMeds: string;
+  surgeryHistory: string;
 
+  @IsOptional()
   @IsString()
-  overTheCounterMeds: string;
+  fatherHisory: string;
 
+  @IsOptional()
   @IsString()
-  dietRestrictions: string;
+  motherHisory: string;
 
+  @IsOptional()
   @IsString()
-  allergies: string;
+  vaccinationHisory: string;
 
+  @IsOptional()
   @IsString()
-  appointmentPoint: string;
+  travelHistory: string;
+
+  @IsOptional()
+  @IsString()
+  hospitalizationHistory: string;
+
+  @IsOptional()
+  @IsArray()
+  medicalProblems: Array<number>;
+
+  @IsOptional()
+  @IsArray()
+  currentSymptoms: Array<number>;
 }

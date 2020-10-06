@@ -8,7 +8,14 @@ export class Patient extends Model<Patient> {
   userId: number;
 
   @Column
-  gender: string;
+  firstName: string;
+
+  @Column
+  lastName: string;
+
+  @Column
+  profilePicture: string;
+
 
   @Column
   dateOfBirth: string;
@@ -43,99 +50,99 @@ export class Patient extends Model<Patient> {
   @Column(DataType.TEXT({ length: 'medium' }))
   hospitalizationHistory: string;
 
-  @HasMany(() => MedicalProblems)
-  medicalProblems: Array<MedicalProblems>
+  // @HasMany(() => MedicalProblems)
+  // medicalProblems: MedicalProblems[]
 
 
-  @HasMany(() => Symptoms)
-  currentSymptoms: Array<Symptoms>
-
-}
-
-@Table
-export class PymentInfo extends Model<PymentInfo> {
-  @ForeignKey(() => Patient)
-  @Column
-  patientId: number;
-
-  @Column
-  name: string;
-
-  @Column
-  creditCard: string;
-
-  @Column
-  expiryMonth: string;
-
-  @Column
-  expiryYear: string;
+  // @HasMany(() => PatientSymptoms)
+  // currentSymptoms: PatientSymptoms[]
 
 }
 
-@Table
-export class MedicalProblems extends Model<MedicalProblems> {
+// @Table
+// export class PymentInfo extends Model<PymentInfo> {
+//   @ForeignKey(() => Patient)
+//   @Column
+//   patientId: number;
 
-  @Column
-  key: string;
+//   @Column
+//   name: string;
 
-  @Column
-  value: string;
-}
+//   @Column
+//   creditCard: string;
 
+//   @Column
+//   expiryMonth: string;
 
-@Table
-export class HealthInfo extends Model<HealthInfo> {
+//   @Column
+//   expiryYear: string;
 
-  @Column
-  listOfMedications: string;
-
-  @Column
-  medicationsAndVitamins: string;
-
-
-  @Column
-  dietaryRestrictions: string;
-
-  @Column
-  listOfAllergies: string;
-}
+// }
 
 
-@Table
-export class Symptoms extends Model<Symptoms> {
+// @Table
+// export class HealthInfo extends Model<HealthInfo> {
 
-  @Column
-  key: string;
+//   @Column
+//   listOfMedications: string;
 
-  @Column
-  value: string;
-}
-
-@Table
-export class PatientSymptoms extends Model<PatientSymptoms> {
-  @ForeignKey(() => Patient)
-  @Column
-  patientId: number;
-
-  @ForeignKey(() => Symptoms)
-  @Column
-  symptomId: number;
-
-  @BelongsTo(() => Symptoms)
-  symtom: Symptoms
-}
+//   @Column
+//   medicationsAndVitamins: string;
 
 
-@Table
-export class PatientMedical extends Model<PatientMedical> {
-  @ForeignKey(() => Patient)
-  @Column
-  patientId: number;
+//   @Column
+//   dietaryRestrictions: string;
 
-  @ForeignKey(() => PatientMedical)
-  @Column
-  medicalPbmId: number;
+//   @Column
+//   listOfAllergies: string;
+// }
 
-  @BelongsTo(() => PatientMedical)
-  medicalProblem: PatientMedical
-}
+
+// @Table
+// export class Symptoms extends Model<Symptoms> {
+
+//   @Column
+//   key: string;
+
+//   @Column
+//   value: string;
+// }
+
+// @Table
+// export class PatientSymptoms extends Model<PatientSymptoms> {
+//   @ForeignKey(() => Patient)
+//   @Column
+//   patientId: number;
+
+//   @ForeignKey(() => Patient)
+//   @Column
+//   userId: number;
+
+//   @ForeignKey(() => Symptoms)
+//   @Column
+//   SymptomId: number;
+
+// }
+
+
+// @Table
+// export class MedicalProblems extends Model<MedicalProblems> {
+
+//   @Column
+//   key: string;
+
+//   @Column
+//   value: string;
+// }
+
+// @Table
+// export class PatientMedical extends Model<PatientMedical> {
+//   @ForeignKey(() => Patient)
+//   @Column
+//   patientId: number;
+
+//   @ForeignKey(() => PatientMedical)
+//   @Column
+//   medicalPbmId: number;
+
+// }

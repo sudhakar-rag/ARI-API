@@ -27,4 +27,4 @@ import { ConfigService } from '../config/config.service';
   ],
   providers: [],
 })
-export class DatabaseModule {}
+export class DatabaseModule { }

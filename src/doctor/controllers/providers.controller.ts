@@ -16,7 +16,7 @@ import { ProviderBasicDto } from '../dto/provider.dto';
 @Controller('provider')
 // @UseGuards(JwtAuthGuard)
 export class ProvidersController {
-  constructor(private providerService: ProviderService) {}
+  constructor(private providerService: ProviderService) { }
 
   @Get('')
   async getProviders() {

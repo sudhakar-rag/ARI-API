@@ -13,7 +13,7 @@ export class ProviderService {
     @InjectModel(Provider)
     private readonly providerBasicModel: typeof Provider,
     private readonly providerEducationModel: typeof ProviderEducation,
-  ) {}
+  ) { }
 
   async getProviders(): Promise<any> {
     return await this.providerBasicModel.findAll();

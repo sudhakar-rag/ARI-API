@@ -17,40 +17,40 @@ export class PatientService {
   }
 
   async savePatient(patientData: PatientDto): Promise<any> {
-    let data = {
-      userId: patientData.userId,
-      serviceType: patientData.userId,
-      fatherBirthDate: patientData.fatherBirthDate,
-      fatherDeathDate: patientData.fatherDeathDate,
-      motherBirthDate: patientData.motherBirthDate,
-      motherDeathDate: patientData.motherDeathDate,
-      drugUse: patientData.drugUse,
-      smoking: patientData.smoking,
-      smokingPerDay: patientData.smokingPerDay,
-      alcohol: patientData.alcohol,
-      alcoholPerDay: patientData.alcoholPerDay,
-      surgeries: patientData.surgeries,
-      vaccination: patientData.vaccination,
-      travel: patientData.travel,
-      hospitalization: patientData.hospitalization,
-      prescriptionMeds: patientData.prescriptionMeds,
-      overTheCounterMeds: patientData.overTheCounterMeds,
-      dietRestrictions: patientData.dietRestrictions,
-      allergies: patientData.allergies,
-      appointmentPoint: patientData.appointmentPoint,
-    };
+    // let data = {
+    //   userId: patientData.userId,
+    //   serviceType: patientData.userId,
+    //   fatherBirthDate: patientData.fatherBirthDate,
+    //   fatherDeathDate: patientData.fatherDeathDate,
+    //   motherBirthDate: patientData.motherBirthDate,
+    //   motherDeathDate: patientData.motherDeathDate,
+    //   drugUse: patientData.drugUse,
+    //   smoking: patientData.smoking,
+    //   smokingPerDay: patientData.smokingPerDay,
+    //   alcohol: patientData.alcohol,
+    //   alcoholPerDay: patientData.alcoholPerDay,
+    //   surgeries: patientData.surgeries,
+    //   vaccination: patientData.vaccination,
+    //   travel: patientData.travel,
+    //   hospitalization: patientData.hospitalization,
+    //   prescriptionMeds: patientData.prescriptionMeds,
+    //   overTheCounterMeds: patientData.overTheCounterMeds,
+    //   dietRestrictions: patientData.dietRestrictions,
+    //   allergies: patientData.allergies,
+    //   appointmentPoint: patientData.appointmentPoint,
+    // };
 
-    let patient: Patient;
-    if (patientData.id) {
-      await this.patientModel.update(data, { where: { id: patientData.id } });
-      patient = await this.patientModel.findOne({
-        where: { id: patientData.id },
-      });
-    } else {
-      patient = await this.patientModel.create(data);
-    }
+    // let patient: Patient;
+    // if (patientData.id) {
+    //   await this.patientModel.update(data, { where: { id: patientData.id } });
+    //   patient = await this.patientModel.findOne({
+    //     where: { id: patientData.id },
+    //   });
+    // } else {
+    //   patient = await this.patientModel.create(data);
+    // }
 
-    return patient;
+    return patientData;
   }
 
   async deletePatient(id: number): Promise<any> {
