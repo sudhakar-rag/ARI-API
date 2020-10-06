@@ -1,5 +1,5 @@
 import { User } from '@app/src/users/models/user.model';
-import { Table, Column, Model, ForeignKey, HasMany, BelongsTo } from 'sequelize-typescript';
+import { Table, Column, Model, ForeignKey, HasMany, BelongsTo, DataType } from 'sequelize-typescript';
 
 @Table
 export class Patient extends Model<Patient> {
@@ -22,25 +22,25 @@ export class Patient extends Model<Patient> {
   @Column
   specialist: string;
 
-  @Column
+  @Column(DataType.TEXT({ length: 'medium' }))
   socialHistory: string;
 
-  @Column
+  @Column(DataType.TEXT({ length: 'medium' }))
   surgeryHistory: string;
 
-  @Column
+  @Column(DataType.TEXT({ length: 'medium' }))
   fatherHisory: string;
 
-  @Column
+  @Column(DataType.TEXT({ length: 'medium' }))
   motherHisory: string;
 
-  @Column
+  @Column(DataType.TEXT({ length: 'medium' }))
   vaccinationHisory: string;
 
-  @Column
+  @Column(DataType.TEXT({ length: 'medium' }))
   travelHistory: string;
 
-  @Column
+  @Column(DataType.TEXT({ length: 'medium' }))
   hospitalizationHistory: string;
 
   @HasMany(() => MedicalProblems)

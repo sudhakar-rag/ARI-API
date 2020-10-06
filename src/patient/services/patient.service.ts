@@ -10,7 +10,7 @@ export class PatientService {
   constructor(
     @InjectModel(Patient)
     private readonly patientModel: typeof Patient,
-  ) {}
+  ) { }
 
   async getPatients(): Promise<any> {
     return await this.patientModel.findAll();
@@ -54,7 +54,6 @@ export class PatientService {
   }
 
   async deletePatient(id: number): Promise<any> {
-    let result = await this.patientModel.destroy({ where: { id: id } });
-    return result;
+    return await this.patientModel.destroy({ where: { id: id } });
   }
 }
