@@ -48,34 +48,10 @@ export class ProviderService {
 
       providerData.id = user.id;
 
-      // if (providerData.id) {
-      //   user = await this.userModel.update(
-      //     {
-      //       firstName: providerData.firstName,
-      //       lastName: providerData.lastName,
-      //       email: providerData.email,
-      //       phone: providerData.phone,
-      //       status: 1,
-      //     },
-      //     { where: { id: providerData.id }, transaction },
-      //   );
-      //   action = 'E';
-      // } else {
-      //   user = await this.userModel.create(
-      //     {
-      //       firstName: providerData.firstName,
-      //       lastName: providerData.lastName,
-      //       email: providerData.email,
-      //       phone: providerData.phone,
-      //       password: 123456,
-      //       status: 1,
-      //     },
-      //     { transaction },
-      //   );
-      //   providerData.id = user.id;
-      // }
+      // Provider Basic
+      await this.saveProvider(providerData, action, transaction);
 
-      // product details
+      // Provider Education
       await this.saveEducation(providerData, action, transaction);
 
       await transaction.commit();
@@ -87,6 +63,46 @@ export class ProviderService {
       if (transaction) await transaction.rollback();
 
       return null;
+    }
+  }
+
+  async saveProvider(
+    providerData: ProviderDto,
+    action = 'C',
+    transaction,
+  ): Promise<any> {
+    let providerBasicData = {
+      userId: providerData.id,
+      businessName: providerData.firstName,
+      isPublic: 1,
+      specialityId: 1,
+      areaOfInterest: 1,
+      serviceType: 1,
+      religion: 'hindu',
+      specialBackground: 'none',
+      limitation: null,
+      addiction: null,
+      crime: null,
+      malpractice: null,
+      timezone: null,
+      isVerified: 1,
+      zoomId: null,
+      zoomUrl: null,
+      rating: null,
+      zoomStatus: null,
+      userStatus: 1,
+      isAvailable: 1,
+    };
+
+    if (action == 'C') {
+      await this.providerBasicModel.create(providerBasicData, { transaction });
+    }
+
+    if (action == 'E') {
+      await this.providerBasicModel.update(providerBasicData, {
+        where: { userId: providerData.id },
+        transaction,
+      });
     }
   }
 
