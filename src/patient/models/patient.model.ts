@@ -1,4 +1,4 @@
-import { PatientMedicalProblem } from './patient-medical-problems.model';
+// import { PatientMedicalProblem } from './patient-medical-problems.model';
 import { User } from './../../users/models/user.model';
 import {
   Table,
@@ -23,34 +23,37 @@ export class Patient extends Model<Patient> {
   ethnicity: string;
 
   @Column
-  primaiyProvider: string;
+  gender: string;
 
-  @Column
-  specialist: string;
+  // @Column
+  // primaiyProvider: string;
 
-  @Column(DataType.TEXT({ length: 'medium' }))
-  socialHistory: string;
+  // @Column
+  // specialist: string;
 
-  @Column(DataType.TEXT({ length: 'medium' }))
-  surgeryHistory: string;
+  // @Column(DataType.TEXT({ length: 'medium' }))
+  // socialHistory: string;
 
-  @Column(DataType.TEXT({ length: 'medium' }))
-  fatherHisory: string;
+  // @Column(DataType.TEXT({ length: 'medium' }))
+  // surgeryHistory: string;
 
-  @Column(DataType.TEXT({ length: 'medium' }))
-  motherHisory: string;
+  // @Column(DataType.TEXT({ length: 'medium' }))
+  // fatherHisory: string;
 
-  @Column(DataType.TEXT({ length: 'medium' }))
-  vaccinationHisory: string;
+  // @Column(DataType.TEXT({ length: 'medium' }))
+  // motherHisory: string;
 
-  @Column(DataType.TEXT({ length: 'medium' }))
-  travelHistory: string;
+  // @Column(DataType.TEXT({ length: 'medium' }))
+  // vaccinationHisory: string;
 
-  @Column(DataType.TEXT({ length: 'medium' }))
-  hospitalizationHistory: string;
+  // @Column(DataType.TEXT({ length: 'medium' }))
+  // travelHistory: string;
 
-  @HasMany(() => PatientMedicalProblem)
-  medicalProblems: Array<PatientMedicalProblem>;
+  // @Column(DataType.TEXT({ length: 'medium' }))
+  // hospitalizationHistory: string;
+
+  // @HasMany(() => PatientMedicalProblem)
+  // medicalProblems: Array<PatientMedicalProblem>;
 
   // @HasMany(() => Symptoms)
   // currentSymptoms: Array<Symptoms>;

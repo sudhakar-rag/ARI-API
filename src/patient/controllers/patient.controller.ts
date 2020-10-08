@@ -23,21 +23,6 @@ export class PatientsController {
     const output = new ResponseData();
 
     try {
-      let userData: CreateUserDto = {
-        id: patientInfo.userId || null,
-        userName: patientInfo.firstName,
-        password: '',
-        firstName: patientInfo.firstName,
-        lastName: patientInfo.lastName,
-        email: '',
-        phone: '',
-        picture: patientInfo.picture,
-        status: 1,
-      }
-      // let user = await this.usersService.create(userData);
-      // if (!patientInfo.userId) {
-      //   patientInfo.userId = user.id;
-      // }
       output.data = await this.patientsService.createPatient(patientInfo);
       output.status = true;
 

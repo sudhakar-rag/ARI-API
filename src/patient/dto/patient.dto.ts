@@ -6,9 +6,6 @@ export class PatientDto {
   @IsNumber()
   id: number;
 
-  @IsNumber()
-  userId: number;
-
   @IsString()
   firstName: string;
 
@@ -16,7 +13,19 @@ export class PatientDto {
   lastName: string;
 
   @IsString()
+  email: string;
+
+  @IsString()
+  phone: string;
+
+  @IsString()
+  password: string;
+
+  @IsString()
   picture: string;
+
+  @IsString()
+  address: string;
 
   @IsString()
   gender: string;
@@ -27,45 +36,45 @@ export class PatientDto {
   @IsString()
   ethnicity: string;
 
-  @IsString()
-  primaiyProvider: string;
+  // @IsString()
+  // primaiyProvider: string;
 
-  @IsOptional()
-  @IsString()
-  specialist: string;
+  // @IsOptional()
+  // @IsString()
+  // specialist: string;
 
-  @IsString()
-  socialHistory: string;
+  // @IsString()
+  // socialHistory: string;
 
-  @IsOptional()
-  @IsString()
-  surgeryHistory: string;
+  // @IsOptional()
+  // @IsString()
+  // surgeryHistory: string;
 
-  @IsOptional()
-  @IsString()
-  fatherHisory: string;
+  // @IsOptional()
+  // @IsString()
+  // fatherHisory: string;
 
-  @IsOptional()
-  @IsString()
-  motherHisory: string;
+  // @IsOptional()
+  // @IsString()
+  // motherHisory: string;
 
-  @IsOptional()
-  @IsString()
-  vaccinationHisory: string;
+  // @IsOptional()
+  // @IsString()
+  // vaccinationHisory: string;
 
-  @IsOptional()
-  @IsString()
-  travelHistory: string;
+  // @IsOptional()
+  // @IsString()
+  // travelHistory: string;
 
-  @IsOptional()
-  @IsString()
-  hospitalizationHistory: string;
+  // @IsOptional()
+  // @IsString()
+  // hospitalizationHistory: string;
 
-  @IsOptional()
-  @IsArray()
-  medicalProblems: Array<number>;
+  // @IsOptional()
+  // @IsArray()
+  // medicalProblems: Array<number>;
 
-  @IsOptional()
-  @IsArray()
-  currentSymptoms: Array<number>;
+  // @IsOptional()
+  // @IsArray()
+  // currentSymptoms: Array<number>;
 }
