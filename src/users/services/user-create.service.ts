@@ -92,11 +92,12 @@ export class UserCreateService {
     }
 
 
-    async saveUser(createUserData: CreateUserDto, action = "C", transaction): Promise<User> {
+    async saveUser(createUserData: CreateUserDto, action = "C", transaction, userRole = null): Promise<User> {
         let userData = {
             userName: createUserData.userName,
             firstName: createUserData.firstName,
             lastName: createUserData.lastName,
+            password: createUserData.password,
             email: createUserData.email,
             phone: createUserData.phone,
             picture: createUserData.picture,
@@ -106,6 +107,10 @@ export class UserCreateService {
         let user: User;
         if (action == 'C') {
             user = await this.userModel.create(userData, { transaction });
+
+            if (userRole) {
+                await this.userRoleModel.create({ userId: user.id, roleId: userRole }, { transaction });
+            }
         }
 
         if (action == 'E') {

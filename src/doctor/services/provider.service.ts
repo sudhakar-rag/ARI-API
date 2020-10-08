@@ -9,6 +9,7 @@ import { Op } from 'sequelize';
 import { InjectModel } from '@nestjs/sequelize';
 import { Address } from '@app/src/users/models/address.model';
 import { CreateAddressDto } from '@app/src/users/dto/create-user.dto';
+import { User } from '@app/src/users/models/user.model';
 
 @Injectable()
 export class ProviderService {
@@ -43,7 +44,7 @@ export class ProviderService {
         status: 1,
       };
 
-      let user = await this.usersService.saveUser(userData, (action = 'C'), transaction);
+      let user = await this.usersService.saveUser(userData, (action = 'C'), transaction, 2);
       if (user) {
         providerData.id = user.id;
       }
@@ -78,11 +79,12 @@ export class ProviderService {
   ): Promise<any> {
     let providerBasicData = {
       userId: providerData.id,
+      addressId: providerData.addressId,
       businessName: providerData.firstName,
       isPublic: 1,
       specialityId: 1,
       areaOfInterest: 1,
-      serviceType: 1,
+      serviceType: providerData.serviceType,
       religion: 'hindu',
       specialBackground: 'none',
       limitation: null,
