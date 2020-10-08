@@ -20,6 +20,9 @@ export class Provider extends Model<Provider> {
   isPublic: number;
 
   @Column
+  addressId: number;
+
+  @Column
   specialityId: number;
 
   @Column

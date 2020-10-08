@@ -11,6 +11,8 @@ import { Provider } from './models/provider.model';
 import { Module } from '@nestjs/common';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { ProvidersController } from './controllers/providers.controller';
+import { Address } from '../users/models/address.model';
+import { UserAddress } from '../users/models/user-address.model';
 
 @Module({
   imports: [
@@ -23,6 +25,8 @@ import { ProvidersController } from './controllers/providers.controller';
       ProviderEducation,
       ProviderHospital,
       ProviderReference,
+      Address,
+      UserAddress,
     ]),
     UsersModule,
   ],
@@ -30,4 +34,4 @@ import { ProvidersController } from './controllers/providers.controller';
   controllers: [ProvidersController],
   exports: [ProviderService],
 })
-export class ProviderModule {}
+export class ProviderModule { }

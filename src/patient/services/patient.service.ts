@@ -47,7 +47,7 @@ export class PatientService {
       patientData.id = user.id;
 
       // Patient BasicInfo
-      await this.saveProvider(patientData, action, transaction);
+      await this.savePatient(patientData, action, transaction);
 
       await transaction.commit();
 
@@ -60,7 +60,7 @@ export class PatientService {
     }
   }
 
-  async saveProvider(patientData: PatientDto, action = 'C', transaction): Promise<any> {
+  async savePatient(patientData: PatientDto, action = 'C', transaction): Promise<any> {
     let providerBasicData = {
       userId: patientData.id,
       gender: patientData.gender,

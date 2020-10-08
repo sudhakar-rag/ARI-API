@@ -5,7 +5,7 @@ import { Type } from "class-transformer";
 export class CreateAddressDto {
   @IsOptional()
   @IsNumber()
-  id: number;
+  id?: number;
 
   @IsOptional()
   @IsNumber()

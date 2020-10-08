@@ -7,6 +7,8 @@ import { Provider } from '../models/provider.model';
 import { Injectable } from '@nestjs/common';
 import { Op } from 'sequelize';
 import { InjectModel } from '@nestjs/sequelize';
+import { Address } from '@app/src/users/models/address.model';
+import { CreateAddressDto } from '@app/src/users/dto/create-user.dto';
 
 @Injectable()
 export class ProviderService {
@@ -14,10 +16,12 @@ export class ProviderService {
     @InjectModel(Provider) private readonly providerBasicModel: typeof Provider,
     @InjectModel(ProviderEducation)
     private readonly providerEducationModel: typeof ProviderEducation,
+    @InjectModel(Address)
+    private readonly addessModel: typeof Address,
     // @InjectModel(User) private readonly userModel: typeof User,
     private readonly sequelize: Sequelize,
     private usersService: UserCreateService,
-  ) {}
+  ) { }
 
   async getProviders(): Promise<any> {
     return await this.providerBasicModel.findAll();
@@ -28,7 +32,6 @@ export class ProviderService {
     try {
       transaction = await this.sequelize.transaction();
 
-      let user;
       let action = 'C';
 
       let userData = {
@@ -40,14 +43,16 @@ export class ProviderService {
         status: 1,
       };
 
-      user = await this.usersService.saveUser(
-        userData,
-        (action = 'C'),
-        transaction,
-      );
+      let user = await this.usersService.saveUser(userData, (action = 'C'), transaction);
+      if (user) {
+        providerData.id = user.id;
+      }
 
-      providerData.id = user.id;
-
+      // Provider Address
+      let address = await this.saveAddress(providerData, action, transaction);
+      if (address) {
+        providerData.addressId = address.id;
+      }
       // Provider Basic
       await this.saveProvider(providerData, action, transaction);
 
@@ -129,5 +134,24 @@ export class ProviderService {
       }
       await this.providerEducationModel.bulkCreate(schools, { transaction });
     }
+  }
+  async saveAddress(
+    providerData: ProviderDto,
+    action = 'C',
+    transaction): Promise<any> {
+    let addressInfo = {
+      id: providerData.addressId || null,
+      userId: providerData.id,
+      name: providerData.firstName,
+      phone: providerData.phone,
+      address1: providerData.address,
+      address2: providerData.address,
+      city: '',
+      state: '',
+      country: '',
+      zip: '',
+    }
+    await this.usersService.saveUserAddress(addressInfo, action, transaction);
+
   }
 }

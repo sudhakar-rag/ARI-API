@@ -5,7 +5,7 @@ import { IsOptional, IsNumber, IsString } from 'class-validator';
 export class ProviderDto {
   @IsOptional()
   @IsNumber()
-  id: number;
+  id?: number;
 
   @IsString()
   firstName: string;
@@ -35,7 +35,11 @@ export class ProviderDto {
   phone: string;
 
   @IsString()
-  serviceType: number;
+  serviceType: string;
+
+  @IsOptional()
+  @IsNumber()
+  addressId: number;
 
   @IsArray()
   education: Array<ProviderEducationDto>;

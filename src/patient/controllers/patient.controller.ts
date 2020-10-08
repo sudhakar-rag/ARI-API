@@ -13,10 +13,22 @@ export class PatientsController {
     // private usersService: UsersService
   ) { }
 
-  @Get('')
-  async list() {
-    return await this.patientsService.getPatients();
+
+  @Get('getPatients')
+  async getPatients() {
+    let output = new ResponseData();
+
+    try {
+      output.data = await this.patientsService.getPatients();
+    } catch (error) {
+      console.log(error);
+      output.status = false;
+      output.message = typeof error == 'string' ? error : '';
+    }
+
+    return output;
   }
+
 
   @Post('createPatient')
   async createPatient(@Body() patientInfo: PatientDto): Promise<ResponseData> {
