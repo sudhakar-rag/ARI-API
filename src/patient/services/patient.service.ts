@@ -6,6 +6,10 @@ import { Injectable, Inject } from '@nestjs/common';
 import { Op } from 'sequelize';
 import { InjectModel } from '@nestjs/sequelize';
 import { UserCreateService } from '@app/src/users/services/user-create.service';
+import { PatientMedicalProblem } from '../models/patient-medical-problems.model';
+import { PatientProviderType } from '../models/patient-provider-type.model';
+import { PatientSpecalist } from '../models/patient-specalist.model';
+import { PatientSymptom } from '../models/patient-symptom.model';
 
 @Injectable()
 export class PatientService {
@@ -18,6 +22,18 @@ export class PatientService {
 
   async getPatients(): Promise<any> {
     return await this.patientModel.findAll();
+  }
+
+  async getPatientById(userId: string): Promise<any> {
+    return await this.patientModel.findAll({
+      where: { userId: userId },
+      include: [
+        PatientMedicalProblem,
+        PatientProviderType,
+        PatientSpecalist,
+        PatientSymptom,
+      ]
+    });
   }
 
   async createPatient(patientData: PatientDto): Promise<any> {

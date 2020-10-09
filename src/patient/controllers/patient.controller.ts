@@ -1,5 +1,5 @@
 import { PatientService } from './../services/patient.service';
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { ResponseData } from '@app/src/core/common/response-data';
 import { PatientDto } from '../dto/patient.dto';
 // import { UsersService } from '@app/src/users/services/users.service';
@@ -20,6 +20,21 @@ export class PatientsController {
 
     try {
       output.data = await this.patientsService.getPatients();
+    } catch (error) {
+      console.log(error);
+      output.status = false;
+      output.message = typeof error == 'string' ? error : '';
+    }
+
+    return output;
+  }
+
+  @Get(':id')
+  async getPatientInfo(@Param('id') userId: string): Promise<ResponseData> {
+    const output = new ResponseData();
+
+    try {
+      output.data = await this.patientsService.getPatientById(userId);
     } catch (error) {
       console.log(error);
       output.status = false;
