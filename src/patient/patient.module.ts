@@ -1,5 +1,3 @@
-import { MedicalProblems } from './models/medical-problems.model';
-// import { PatientMedicalProblem } from './models/patient-medical-problems.model';
 import { PatientService } from './services/patient.service';
 import { PatientsController } from './controllers/patient.controller';
 import { Module } from '@nestjs/common';
@@ -10,9 +8,7 @@ import { UsersModule } from '../users/users.module';
 @Module({
   imports: [
     SequelizeModule.forFeature([
-      Patient,
-      // PatientMedicalProblem,
-      MedicalProblems,
+      Patient
     ]),
     UsersModule,
   ],

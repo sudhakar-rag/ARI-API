@@ -1,4 +1,4 @@
-import { MedicalProblems } from './medical-problems.model';
+import { MedicalProblems } from '../../shared/models/medical-problems.model';
 
 import {
   Table,

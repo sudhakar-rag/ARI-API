@@ -20,7 +20,7 @@ import { ConfigService } from '../config/config.service';
             underscored: false,
           },
           autoLoadModels: true,
-          // synchronize: true,
+          synchronize: false,
         };
       },
     }),

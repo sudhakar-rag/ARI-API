@@ -10,6 +10,7 @@ import { AuthModule } from './auth/auth.module';
 import { SettingsModule } from './settings/settings.module';
 import { SmsModule } from './sms/sms.module';
 import { EmailModule } from './email/email.module';
+import { SharedModule } from './shared/shared.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { EmailModule } from './email/email.module';
     SettingsModule,
     SmsModule,
     EmailModule,
+    SharedModule,
   ],
   controllers: [AppController],
   providers: [AppService],
