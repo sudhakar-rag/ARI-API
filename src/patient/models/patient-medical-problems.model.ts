@@ -5,26 +5,24 @@ import {
   Column,
   Model,
   ForeignKey,
-  HasMany,
-  BelongsTo,
-  DataType,
+  BelongsTo
 } from 'sequelize-typescript';
 
 import { Patient } from './patient.model';
 
-// @Table
-// export class PatientMedicalProblem extends Model<PatientMedicalProblem> {
-//   @ForeignKey(() => Patient)
-//   @Column
-//   patientId: number;
+@Table
+export class PatientMedicalProblem extends Model<PatientMedicalProblem> {
+  @ForeignKey(() => Patient)
+  @Column
+  patientId: number;
 
-//   @ForeignKey(() => MedicalProblems)
-//   @Column
-//   medicalPbmId: number;
+  @ForeignKey(() => MedicalProblems)
+  @Column
+  MedicalProblemId: number;
 
-//   @BelongsTo(() => MedicalProblems)
-//   medicalProblem: MedicalProblems;
+  @BelongsTo(() => MedicalProblems)
+  medicalProblem: MedicalProblems;
 
-//   @BelongsTo(() => Patient)
-//   patient: Patient;
-// }
+  @BelongsTo(() => Patient)
+  patient: Patient;
+}

@@ -1,12 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { Sequelize } from 'sequelize-typescript';
-import { CreateUserDto, CreateVendorDto, CreateBankDetailsDto, CreateAddressDto } from '../dto/create-user.dto';
+import { CreateUserDto } from '../dto/create-user.dto';
 import { User } from '../models/user.model';
 import { UserRole } from '../models/user-role.model';
 import { Role } from '../models/role.model';
 import * as md5 from "md5";
-import { UserBankDetail } from '../models/user-bank-detail';
 import { UserAddress } from '../models/user-address.model';
 import { Address } from '../models/address.model';
 import { convertToJSONObject } from '@app/src/core/common/helpers';
@@ -17,8 +16,6 @@ export class UsersService {
   constructor(
     @InjectModel(User)
     private readonly userModel: typeof User,
-    @InjectModel(UserBankDetail)
-    private readonly userBankDetailModel: typeof UserBankDetail,
     @InjectModel(UserAddress)
     private readonly userAddressModel: typeof UserAddress,
     @InjectModel(Address)
@@ -26,9 +23,9 @@ export class UsersService {
     private readonly sequelize: Sequelize,
   ) { }
 
-  setLoggedinUserData(rawData: User) {
+  setLoggedinUserData(rawData: User): any {
 
-    let user = {
+    const user = {
       id: rawData.id,
       userName: rawData.userName,
       firstName: rawData.firstName,
@@ -52,7 +49,7 @@ export class UsersService {
     this.loggedinUserData = user;
   }
 
-  getLoggedinUserData() {
+  getLoggedinUserData(): any {
     return this.loggedinUserData;
   }
 
@@ -74,11 +71,11 @@ export class UsersService {
   /**
    * getLoggedinUserId
    */
-  public getLoggedinUserId() {
+  public getLoggedinUserId(): any {
     return (this.loggedinUserData && this.loggedinUserData.id) || 0;
   }
 
-  getUser(userId) {
+  getUser(userId: number): any {
     return this.userModel.findOne({
       where: { id: userId },
       attributes: { exclude: ['password'] },

@@ -6,7 +6,6 @@ import { User } from '../models/user.model';
 import { UserRole } from '../models/user-role.model';
 import { Role } from '../models/role.model';
 import * as md5 from "md5";
-import { UserBankDetail } from '../models/user-bank-detail';
 import { UserAddress } from '../models/user-address.model';
 import { Address } from '../models/address.model';
 
@@ -16,8 +15,6 @@ export class UserCreateService {
     constructor(
         @InjectModel(User)
         private readonly userModel: typeof User,
-        @InjectModel(UserBankDetail)
-        private readonly userBankDetailModel: typeof UserBankDetail,
         @InjectModel(UserAddress)
         private readonly userAddressModel: typeof UserAddress,
         @InjectModel(Address)
@@ -59,16 +56,16 @@ export class UserCreateService {
                 action = 'E';
             }
 
-            let user = await this.saveUser(createVendorData.user, action, transaction);
+            const user = await this.saveUser(createVendorData.user, action, transaction);
 
             if (createVendorData.user && createVendorData.user.password) {
                 await this.userModel.update({ password: md5(createVendorData.user.password) }, { where: { id: user.id }, transaction });
             }
 
-            if (createVendorData.bankDetails) {
-                createVendorData.bankDetails.userId = user.id;
-                await this.saveUserBankDetails(createVendorData.bankDetails, action, transaction);
-            }
+            // if (createVendorData.bankDetails) {
+            //     createVendorData.bankDetails.userId = user.id;
+            //     await this.saveUserBankDetails(createVendorData.bankDetails, action, transaction);
+            // }
 
 
             if (createVendorData.contactAddress) {
@@ -121,30 +118,30 @@ export class UserCreateService {
         return user;
     }
 
-    async saveUserBankDetails(BankDeatils: CreateBankDetailsDto, action = "C", transaction): Promise<UserBankDetail> {
-        let BankDeatilsData = {
-            userId: BankDeatils.userId,
-            name: BankDeatils.name,
-            bankName: BankDeatils.bankName,
-            accountNumber: BankDeatils.accountNumber,
-            branch: BankDeatils.branch,
-            ifsc: BankDeatils.ifsc,
-            pan: BankDeatils.pan
-        };
+    // async saveUserBankDetails(BankDeatils: CreateBankDetailsDto, action = "C", transaction): Promise<UserBankDetail> {
+    //     let BankDeatilsData = {
+    //         userId: BankDeatils.userId,
+    //         name: BankDeatils.name,
+    //         bankName: BankDeatils.bankName,
+    //         accountNumber: BankDeatils.accountNumber,
+    //         branch: BankDeatils.branch,
+    //         ifsc: BankDeatils.ifsc,
+    //         pan: BankDeatils.pan
+    //     };
 
-        let ubd = await this.userBankDetailModel.findOne({
-            where: { userId: BankDeatilsData.userId },
-            transaction
-        });
+    //     let ubd = await this.userBankDetailModel.findOne({
+    //         where: { userId: BankDeatilsData.userId },
+    //         transaction
+    //     });
 
-        if (!ubd) {
-            ubd = await this.userBankDetailModel.create(BankDeatilsData, { transaction });
-        } else {
-            await this.userBankDetailModel.update(BankDeatilsData, { where: { id: ubd.id }, transaction });
-        }
+    //     if (!ubd) {
+    //         ubd = await this.userBankDetailModel.create(BankDeatilsData, { transaction });
+    //     } else {
+    //         await this.userBankDetailModel.update(BankDeatilsData, { where: { id: ubd.id }, transaction });
+    //     }
 
-        return ubd;
-    }
+    //     return ubd;
+    // }
 
     async saveUserAddress(addressData: CreateAddressDto, action = "C", transaction): Promise<any> {
 

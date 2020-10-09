@@ -1,8 +1,8 @@
 import { Table, Model, Column, HasMany, BelongsToMany } from "sequelize-typescript";
 import { UserRole } from "./user-role.model";
-import { UserBankDetail } from "./user-bank-detail";
 import { UserAddress } from "./user-address.model";
 import { Role } from "./role.model";
+import { UserCardDetail } from "./user-card-detail";
 
 @Table
 export class User extends Model<User> {
@@ -33,8 +33,8 @@ export class User extends Model<User> {
     @HasMany(() => UserRole)
     userRoles: UserRole[]
 
-    @HasMany(() => UserBankDetail)
-    userBankDetails: UserBankDetail[]
+    @HasMany(() => UserCardDetail)
+    userBankDetails: UserCardDetail[]
 
     @HasMany(() => UserAddress)
     UserAddresses: UserAddress[]

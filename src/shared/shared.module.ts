@@ -3,7 +3,8 @@ import { SequelizeModule } from '@nestjs/sequelize';
 import { MedicalProblems } from './models/medical-problems.model';
 import { ProviderType } from './models/provider-type.model';
 import { Specalist } from './models/specalist.model';
-import { Symptoms } from './models/symptoms.model';
+import { Subscription } from './models/subscription.model';
+import { Symptom } from './models/symptom.model';
 
 @Module({
     imports: [
@@ -11,7 +12,8 @@ import { Symptoms } from './models/symptoms.model';
             MedicalProblems,
             ProviderType,
             Specalist,
-            Symptoms
+            Symptom,
+            Subscription
         ])
     ],
 })

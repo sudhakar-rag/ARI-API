@@ -2,7 +2,7 @@ import { Table, ForeignKey, Column, Model, BelongsTo } from "sequelize-typescrip
 import { User } from "./user.model";
 
 @Table
-export class UserBankDetail extends Model<UserBankDetail> {
+export class UserCardDetail extends Model<UserCardDetail> {
     @ForeignKey(() => User)
     @Column
     userId: number;
@@ -11,19 +11,13 @@ export class UserBankDetail extends Model<UserBankDetail> {
     name: string;
 
     @Column
-    bankName: string;
+    cardNo: string;
 
     @Column
-    accountId: string;
+    expiry: string;
 
     @Column
-    branch: string;
-
-    @Column
-    ifsc: string;
-
-    @Column
-    pan: string;
+    cvv: string;
 
     @BelongsTo(() => User)
     user: User;

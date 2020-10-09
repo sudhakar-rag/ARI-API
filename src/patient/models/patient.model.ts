@@ -9,6 +9,12 @@ import {
   BelongsTo,
   DataType,
 } from 'sequelize-typescript';
+import { Address } from '@app/src/users/models/address.model';
+import { Subscription } from '@app/src/shared/models/subscription.model';
+import { PatientMedicalProblem } from './patient-medical-problems.model';
+import { PatientSymptom } from './patient-symptom.model';
+import { PatientSpecalist } from './patient-specalist.model';
+import { PatientProviderType } from './patient-provider-type.model';
 
 @Table
 export class Patient extends Model<Patient> {
@@ -17,44 +23,40 @@ export class Patient extends Model<Patient> {
   userId: number;
 
   @Column
+  firstName: string;
+
+  @Column
+  lastName: string;
+
+  @ForeignKey(() => Address)
+  @Column
+  addressId: number;
+
+  @Column
   dateOfBirth: string;
 
   @Column
   ethnicity: string;
 
+  @Column(DataType.ENUM('M', 'F', 'T'))
+  gender: 'M' | 'F' | 'T'
+
+  @Column(DataType.TEXT({ length: 'tiny' }))
+  profilePicture: string;
+
+  @ForeignKey(() => Subscription)
   @Column
-  gender: string;
+  subscriptionId: number;
 
-  // @Column
-  // primaiyProvider: string;
+  @HasMany(() => PatientMedicalProblem)
+  problems: Array<PatientMedicalProblem>;
 
-  // @Column
-  // specialist: string;
+  @HasMany(() => PatientSymptom)
+  symptoms: Array<PatientSymptom>;
 
-  // @Column(DataType.TEXT({ length: 'medium' }))
-  // socialHistory: string;
+  @HasMany(() => PatientSpecalist)
+  specalists: Array<PatientSpecalist>;
 
-  // @Column(DataType.TEXT({ length: 'medium' }))
-  // surgeryHistory: string;
-
-  // @Column(DataType.TEXT({ length: 'medium' }))
-  // fatherHisory: string;
-
-  // @Column(DataType.TEXT({ length: 'medium' }))
-  // motherHisory: string;
-
-  // @Column(DataType.TEXT({ length: 'medium' }))
-  // vaccinationHisory: string;
-
-  // @Column(DataType.TEXT({ length: 'medium' }))
-  // travelHistory: string;
-
-  // @Column(DataType.TEXT({ length: 'medium' }))
-  // hospitalizationHistory: string;
-
-  // @HasMany(() => PatientMedicalProblem)
-  // medicalProblems: Array<PatientMedicalProblem>;
-
-  // @HasMany(() => Symptoms)
-  // currentSymptoms: Array<Symptoms>;
+  @HasMany(() => PatientProviderType)
+  providerTypes: Array<PatientProviderType>;
 }

@@ -1,4 +1,4 @@
-import { Table, Column, Model, HasMany, DataType, BelongsToMany } from 'sequelize-typescript';
+import { Table, Column, Model, BelongsToMany } from 'sequelize-typescript';
 import { UserGroup } from './user-group.model';
 import { User } from './user.model';
 @Table
