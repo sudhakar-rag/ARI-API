@@ -32,23 +32,14 @@ export class Provider extends Model<Provider> {
   @Column
   speciality: string;
 
-  @Column(DataType.TEXT({ length: 'medium' }))
-  religoiusAffiliations: string;
+  @Column
+  hasDrugAddiction: boolean;
 
-  @Column(DataType.TEXT({ length: 'medium' }))
-  specialBackground: string;
+  @Column
+  hasCriminalRecord: boolean;
 
-  @Column(DataType.TEXT({ length: 'medium' }))
-  limitations: string;
-
-  @Column(DataType.TEXT({ length: 'medium' }))
-  drugAddiction: string;
-
-  @Column(DataType.TEXT({ length: 'medium' }))
-  crimianalRecord: string;
-
-  @Column(DataType.TEXT({ length: 'medium' }))
-  malpractice: string;
+  @Column
+  hasMalpractice: boolean;
 
   @HasMany(() => ProviderAffilation)
   affilations: Array<ProviderAffilation>;
