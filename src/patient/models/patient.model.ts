@@ -8,9 +8,10 @@ import {
   HasMany,
   BelongsTo,
   DataType,
+  HasOne,
 } from 'sequelize-typescript';
-import { Address } from '@app/src/users/models/address.model';
-import { Subscription } from '@app/src/shared/models/subscription.model';
+import { Address } from './../../users/models/address.model';
+import { Subscription } from './../../shared/models/subscription.model';
 import { PatientMedicalProblem } from './patient-medical-problems.model';
 import { PatientSymptom } from './patient-symptom.model';
 import { PatientSpecalist } from './patient-specalist.model';
@@ -47,6 +48,12 @@ export class Patient extends Model<Patient> {
   @ForeignKey(() => Subscription)
   @Column
   subscriptionId: number;
+
+  @BelongsTo(() => Address)
+  address: Address;
+
+  @BelongsTo(() => Subscription)
+  subscription: Subscription;
 
   @HasMany(() => PatientMedicalProblem)
   problems: Array<PatientMedicalProblem>;
