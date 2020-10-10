@@ -101,8 +101,10 @@ export class CreatePatientService {
             state: addressData.state,
             country: addressData.country,
             zip: addressData.zip,
-            phone: addressData.phone,
+            phone: addressData.phone
         };
+
+
 
         if (!addressData.id) {
             const address = await this.addressModel.create(addressDeatilsData, { transaction });
@@ -131,6 +133,16 @@ export class CreatePatientService {
             gender: createUserData.gender,
             profilePicture: createUserData.picture,
             subscriptionId: createUserData.subscriptionId,
+            medications: createUserData.medications,
+            vitamins: createUserData.vitamins,
+            restrictions: createUserData.restrictions,
+            allergies: createUserData.allergies,
+            spcialHistory: createUserData.spcialHistory,
+            surgeryHistory: createUserData.surgeryHistory,
+            familyHistory: createUserData.familyHistory,
+            vaccinationHistory: createUserData.vaccinationHistory,
+            travelHistory: createUserData.travelHistory,
+            hospitalizationHistory: createUserData.hospitalizationHistory
         };
 
         let patient: Patient;

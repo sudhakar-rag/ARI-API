@@ -55,6 +55,36 @@ export class PatientDto {
   @IsArray()
   medicalProblems: Array<number>;
 
+  @IsString()
+  medications: string;
+
+  @IsString()
+  vitamins: string;
+
+  @IsString()
+  restrictions: string;
+
+  @IsString()
+  allergies: string;
+
+  @IsString()
+  spcialHistory: string;
+
+  @IsString()
+  surgeryHistory: string;
+
+  @IsString()
+  familyHistory: string;
+
+  @IsString()
+  vaccinationHistory: string;
+
+  @IsString()
+  travelHistory: string;
+
+  @IsString()
+  hospitalizationHistory: string;
+
   @IsNumber()
   status: number;
 

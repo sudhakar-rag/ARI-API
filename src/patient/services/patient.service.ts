@@ -13,6 +13,7 @@ import { PatientSymptom } from '../models/patient-symptom.model';
 import { Address } from './../../users/models/address.model';
 import { Subscription } from './../../shared/models/subscription.model';
 import { User } from '@app/src/users/models/user.model';
+import { PatientAddress } from '../models/patient-address.model';
 
 @Injectable()
 export class PatientService {
@@ -33,7 +34,7 @@ export class PatientService {
     return await this.patientModel.findAll({
       where: { userId: userId },
       include: [
-        Address,
+        PatientAddress,
         Subscription,
         PatientMedicalProblem,
         PatientProviderType,
