@@ -8,19 +8,26 @@ import { PatientSymptom } from './models/patient-symptom.model';
 import { PatientSpecalist } from './models/patient-specalist.model';
 import { PatientProviderType } from './models/patient-provider-type.model';
 import { PatientMedicalProblem } from './models/patient-medical-problems.model';
+import { User } from '../users/models/user.model';
+import { CreatePatientService } from './services/create-patient.service';
+import { PatientAddress } from './models/patient-address.model';
+import { Address } from '../users/models/address.model';
 
 @Module({
   imports: [
     SequelizeModule.forFeature([
+      User,
+      Address,
       Patient,
       PatientSymptom,
       PatientSpecalist,
       PatientProviderType,
-      PatientMedicalProblem
+      PatientMedicalProblem,
+      PatientAddress
     ]),
     UsersModule,
   ],
-  providers: [PatientService],
+  providers: [PatientService, CreatePatientService],
   controllers: [PatientsController],
   exports: [PatientService],
 })

@@ -5,7 +5,11 @@ import {
   Model,
   DataType,
   ForeignKey,
+  HasMany,
 } from 'sequelize-typescript';
+import { ProviderReference } from './provider-reference.model';
+import { ProviderLanguage } from './provider-language.model';
+import { ProviderAffilation } from './provider-affilation.model';
 
 @Table
 export class Provider extends Model<Provider> {
@@ -14,62 +18,35 @@ export class Provider extends Model<Provider> {
   userId: number;
 
   @Column
-  businessName: string;
+  dateOfBirth: string;
 
   @Column
-  isPublic: number;
+  ethnicity: string;
 
-  @Column
-  addressId: number;
-
-  @Column
-  specialityId: number;
+  @Column(DataType.ENUM('M', 'F', 'T'))
+  gender: 'M' | 'F' | 'T'
 
   @Column
   areaOfInterest: string;
 
   @Column
-  serviceType: number;
+  speciality: string;
 
   @Column
-  religion: string;
+  hasDrugAddiction: boolean;
 
   @Column
-  specialBackground: string;
+  hasCriminalRecord: boolean;
 
   @Column
-  limitation: string;
+  hasMalpractice: boolean;
 
-  @Column
-  addiction: string;
+  @HasMany(() => ProviderAffilation)
+  affilations: Array<ProviderAffilation>;
 
-  @Column
-  crime: string;
+  @HasMany(() => ProviderLanguage)
+  languages: Array<ProviderLanguage>;
 
-  @Column
-  malpractice: string;
-
-  @Column
-  timezone: string;
-
-  @Column
-  isVerified: boolean;
-
-  @Column
-  zoomId: number;
-
-  @Column
-  zoomUrl: string;
-
-  @Column
-  rating: number;
-
-  @Column
-  zoomStatus: string;
-
-  @Column
-  userStatus: string;
-
-  @Column
-  isAvailable: boolean;
+  @HasMany(() => ProviderReference)
+  references: Array<ProviderReference>;
 }

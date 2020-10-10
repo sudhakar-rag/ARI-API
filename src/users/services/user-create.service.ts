@@ -8,6 +8,7 @@ import { Role } from '../models/role.model';
 import * as md5 from "md5";
 import { UserAddress } from '../models/user-address.model';
 import { Address } from '../models/address.model';
+import { Transaction } from 'sequelize/types';
 
 @Injectable()
 export class UserCreateService {
@@ -70,7 +71,7 @@ export class UserCreateService {
 
             if (createVendorData.contactAddress) {
                 createVendorData.contactAddress.userId = user.id;
-                await this.saveUserAddress(createVendorData.contactAddress, action, transaction);
+                await this.saveUserAddress(createVendorData.contactAddress, transaction);
             }
 
             await this.userRoleModel.create({ userId: user.id, roleId: 2 }, { transaction });
@@ -89,16 +90,17 @@ export class UserCreateService {
     }
 
 
-    async saveUser(createUserData: CreateUserDto, action = "C", transaction, userRole = null): Promise<User> {
-        let userData = {
-            userName: createUserData.userName,
+    async saveUser(createUserData: CreateUserDto, action = "C", transaction: Transaction, userRole = null): Promise<User> {
+
+        const userData = {
             firstName: createUserData.firstName,
             lastName: createUserData.lastName,
-            password: createUserData.password,
+            userName: createUserData.email,
             email: createUserData.email,
+            password: '123456',
             phone: createUserData.phone,
             picture: createUserData.picture,
-            status: createUserData.status
+            status: createUserData.status,
         };
 
         let user: User;
@@ -143,9 +145,9 @@ export class UserCreateService {
     //     return ubd;
     // }
 
-    async saveUserAddress(addressData: CreateAddressDto, action = "C", transaction): Promise<any> {
+    async saveUserAddress(addressData: CreateAddressDto, transaction: Transaction): Promise<any> {
 
-        let addressDeatilsData = {
+        const addressDeatilsData = {
             name: addressData.name,
             address1: addressData.address1,
             address2: addressData.address2,
@@ -157,7 +159,7 @@ export class UserCreateService {
         };
 
         if (!addressData.id) {
-            let address = await this.addressModel.create(addressDeatilsData, { transaction });
+            const address = await this.addressModel.create(addressDeatilsData, { transaction });
             addressData.id = address.id;
         } else {
             await this.addressModel.update(addressDeatilsData, { where: { id: addressData.id }, transaction });
