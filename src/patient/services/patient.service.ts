@@ -21,7 +21,7 @@ export class PatientService {
     private readonly userModel: typeof User,
     @InjectModel(Patient)
     private readonly patientModel: typeof Patient,
-    private usersService: UserCreateService,
+    private userCreateService: UserCreateService,
     private readonly sequelize: Sequelize,
   ) { }
 
@@ -49,18 +49,23 @@ export class PatientService {
     try {
       transaction = await this.sequelize.transaction();
 
+      let action = 'C';
+      if (patientData.id) {
+        action = 'E';
+      }
+
       const userData = {
+        userName: patientData.email,
+        password: '123456',
         firstName: patientData.firstName,
         lastName: patientData.lastName,
-        userName: patientData.email,
         email: patientData.email,
-        password: '123456',
         phone: patientData.phone,
         picture: patientData.picture,
-        status: patientData.status,
-      };
+        status: patientData.status
+      }
 
-      const user = await this.userModel.create(userData);
+      const user = await this.userCreateService.saveUser(userData, action, transaction, 3);
 
       await transaction.commit();
 

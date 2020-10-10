@@ -2,13 +2,14 @@ import { PatientService } from './../services/patient.service';
 import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { ResponseData } from '@app/src/core/common/response-data';
 import { PatientDto } from '../dto/patient.dto';
+import { CreatePatientService } from '../services/create-patient.service';
 
 @Controller('patient')
 // @UseGuards(JwtAuthGuard)
 export class PatientsController {
   constructor(
     private patientsService: PatientService,
-    // private usersService: UsersService
+    private createPatientService: CreatePatientService
   ) { }
 
 
@@ -48,7 +49,7 @@ export class PatientsController {
     const output = new ResponseData();
 
     try {
-      output.data = await this.patientsService.createPatient(patientInfo);
+      output.data = await this.createPatientService.createPatient(patientInfo);
       output.status = true;
 
     } catch (error) {

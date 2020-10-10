@@ -53,9 +53,9 @@ export class PatientDto {
   providerTypes: Array<number>;
 
   @IsArray()
-  MedicalProblems: Array<number>;
+  medicalProblems: Array<number>;
 
-  @IsBoolean()
-  status: boolean;
+  @IsNumber()
+  status: number;
 
 }

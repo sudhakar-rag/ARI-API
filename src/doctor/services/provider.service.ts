@@ -153,7 +153,7 @@ export class ProviderService {
       country: '',
       zip: '',
     }
-    await this.usersService.saveUserAddress(addressInfo, action, transaction);
+    await this.usersService.saveUserAddress(addressInfo, transaction);
 
   }
 }

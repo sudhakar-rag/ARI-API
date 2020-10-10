@@ -9,6 +9,7 @@ import { PatientSpecalist } from './models/patient-specalist.model';
 import { PatientProviderType } from './models/patient-provider-type.model';
 import { PatientMedicalProblem } from './models/patient-medical-problems.model';
 import { User } from '../users/models/user.model';
+import { CreatePatientService } from './services/create-patient.service';
 
 @Module({
   imports: [
@@ -22,7 +23,7 @@ import { User } from '../users/models/user.model';
     ]),
     UsersModule,
   ],
-  providers: [PatientService],
+  providers: [PatientService, CreatePatientService],
   controllers: [PatientsController],
   exports: [PatientService],
 })
