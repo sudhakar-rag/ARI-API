@@ -5,6 +5,7 @@ import {
   Model,
   DataType,
   ForeignKey,
+  BelongsTo,
 } from 'sequelize-typescript';
 import { Provider } from './provider.model';
 
@@ -17,4 +18,10 @@ export class ProviderLanguage extends Model<ProviderLanguage> {
   @ForeignKey(() => Language)
   @Column
   langId: number;
+
+  @BelongsTo(() => Provider)
+  provider: Provider;
+
+  @BelongsTo(() => Language)
+  language: Language;
 }

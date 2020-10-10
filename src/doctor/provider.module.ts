@@ -14,6 +14,7 @@ import { ProvidersController } from './controllers/providers.controller';
 import { Address } from '../users/models/address.model';
 import { CreateProviderService } from './services/create-provider.service';
 import { ProviderAddress } from './models/provider-address.model';
+import { ProviderHistory } from './models/provider-history.model';
 
 @Module({
   imports: [
@@ -27,7 +28,8 @@ import { ProviderAddress } from './models/provider-address.model';
       ProviderHospital,
       ProviderReference,
       Address,
-      ProviderAddress
+      ProviderAddress,
+      ProviderHistory
     ]),
     UsersModule,
   ],

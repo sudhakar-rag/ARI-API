@@ -14,12 +14,15 @@ import { ProviderAffilation } from '../models/provider-affilation.model';
 import { ProviderEducation } from '../models/provider-education.model';
 import { ProviderHospital } from '../models/provider-hospital.model';
 import { ProviderReference } from '../models/provider-reference.model';
+import { ProviderHistory } from '../models/provider-history.model';
 
 @Injectable()
 export class CreateProviderService {
     constructor(
         @InjectModel(Provider)
         private readonly providerModel: typeof Provider,
+        @InjectModel(ProviderHistory)
+        private readonly providerHistoryModel: typeof ProviderHistory,
         @InjectModel(Address)
         private readonly addressModel: typeof Address,
         @InjectModel(ProviderAddress)
@@ -68,6 +71,8 @@ export class CreateProviderService {
             providerData.id = user.id;
 
             const provider = await this.saveProviderInfo(providerData, action, transaction);
+
+            await this.saveProviderHistoryInfo(providerData, action, transaction, provider.id);
 
             await this.saveProviderAddress(providerData.address, transaction, provider.id);
 
@@ -121,6 +126,31 @@ export class CreateProviderService {
 
         await this.providerAddressModel.create({ addressId: addressData.id, providerId: patientId }, { transaction });
 
+    }
+
+    async saveProviderHistoryInfo(providerData: ProviderDto, action = "C", transaction: Transaction, providerId = null): Promise<ProviderHistory> {
+
+        const data = {
+            providerId: providerId,
+            religoiusAffiliations: providerData.religiousAffiliaions,
+            specialBackground: providerData.specialBackground,
+            limitations: providerData.limitation,
+            drugAddiction: providerData.hasDrugAddiction,
+            crimianalRecord: providerData.crime,
+            malpractice: providerData.malpractice
+        };
+
+        let patient: ProviderHistory;
+        if (action == 'C') {
+            patient = await this.providerHistoryModel.create(data, { transaction });
+        }
+
+        if (action == 'E') {
+            await this.providerModel.update(data, { where: { providerId: providerId }, transaction });
+            patient = await this.providerHistoryModel.findOne({ where: { providerId: providerId }, transaction });
+        }
+
+        return patient;
     }
 
     async saveProviderInfo(providerData: ProviderDto, action = "C", transaction: Transaction): Promise<Provider> {

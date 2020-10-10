@@ -5,6 +5,7 @@ import {
     DataType,
     ForeignKey,
     HasMany,
+    BelongsTo,
 } from 'sequelize-typescript';
 import { Provider } from './provider.model';
 
@@ -31,4 +32,7 @@ export class ProviderHistory extends Model<ProviderHistory> {
 
     @Column(DataType.TEXT({ length: 'medium' }))
     malpractice: string;
+
+    @BelongsTo(() => Provider)
+    provider: Provider;
 }
