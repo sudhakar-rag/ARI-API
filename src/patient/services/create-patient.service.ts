@@ -13,6 +13,8 @@ import { PatientSymptom } from '../models/patient-symptom.model';
 import { Address } from './../../users/models/address.model';
 import { Subscription } from './../../shared/models/subscription.model';
 import { User } from '@app/src/users/models/user.model';
+import { AddressDto } from '../dto/address.dto';
+import { PatientAddress } from '../models/patient-address.model';
 
 @Injectable()
 export class CreatePatientService {
@@ -29,6 +31,10 @@ export class CreatePatientService {
         private readonly patientMedicalProblemModel: typeof PatientMedicalProblem,
         @InjectModel(PatientProviderType)
         private readonly patientProviderTypeModel: typeof PatientProviderType,
+        @InjectModel(Address)
+        private readonly addressModel: typeof Address,
+        @InjectModel(PatientAddress)
+        private readonly patientAddressModel: typeof PatientAddress,
         private userCreateService: UserCreateService,
         private readonly sequelize: Sequelize,
     ) { }
@@ -62,21 +68,9 @@ export class CreatePatientService {
 
             patientData.id = user.id;
 
-            // const addressData = {
-            //     userId: user.id,
-            //     name: patientData.address.name,
-            //     address1: patientData.address.address2,
-            //     address2: patientData.address.address2,
-            //     city: patientData.address.city,
-            //     state: patientData.address.state,
-            //     country: patientData.address.country,
-            //     zip: patientData.address.zip,
-            //     phone: patientData.address.phone
-            // };
-
-            // await this.userCreateService.saveUserAddress(addressData, transaction);
-
             const patient = await this.savePatientInfo(patientData, action, transaction);
+
+            await this.savePatientAddress(patientData.address, transaction, patient.id);
 
             await this.saveSpecalists({ patientId: patient.id, specalists: patientData.specalists }, transaction);
 
@@ -95,6 +89,35 @@ export class CreatePatientService {
 
             return null;
         }
+    }
+
+    async savePatientAddress(addressData: AddressDto, transaction: Transaction, patientId = null): Promise<any> {
+
+        const addressDeatilsData = {
+            name: addressData.name,
+            address1: addressData.address1,
+            address2: addressData.address2,
+            city: addressData.city,
+            state: addressData.state,
+            country: addressData.country,
+            zip: addressData.zip,
+            phone: addressData.phone,
+        };
+
+        if (!addressData.id) {
+            const address = await this.addressModel.create(addressDeatilsData, { transaction });
+            addressData.id = address.id;
+        } else {
+            await this.addressModel.update(addressDeatilsData, { where: { id: addressData.id }, transaction });
+        }
+
+        // await this.patientAddressModel.destroy({
+        //     where: { addressId: addressData.id, patientId: patientId },
+        //     transaction
+        // });
+
+        await this.patientAddressModel.create({ addressId: addressData.id, patientId: patientId }, { transaction });
+
     }
 
     async savePatientInfo(createUserData: PatientDto, action = "C", transaction: Transaction): Promise<Patient> {
