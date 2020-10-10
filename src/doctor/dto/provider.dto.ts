@@ -1,6 +1,7 @@
-import { IsArray } from 'class-validator';
-import { IsBoolean, IsDate } from 'class-validator';
+import { AddressDto } from './../../patient/dto/address.dto';
+import { IsArray, ValidateNested } from 'class-validator';
 import { IsOptional, IsNumber, IsString } from 'class-validator';
+import { Type } from 'class-transformer';
 
 export class ProviderDto {
   @IsOptional()
@@ -23,8 +24,9 @@ export class ProviderDto {
   @IsString()
   password: string;
 
-  @IsString()
-  address: string;
+  @ValidateNested()
+  @Type(() => AddressDto)
+  address: AddressDto;
 
   @IsString()
   picture: string;

@@ -42,7 +42,7 @@ export class ProvidersController {
     const output = new ResponseData();
 
     try {
-      output.data = providerData;//await this.createProviderService.createProvider(providerData);
+      output.data = await this.createProviderService.createProvider(providerData);
     } catch (error) {
       console.log(error);
       output.status = false;

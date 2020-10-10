@@ -7,7 +7,7 @@ export class ProviderAddress extends Model<ProviderAddress> {
 
     @ForeignKey(() => Provider)
     @Column
-    patientId: number;
+    providerId: number;
 
     @Column
     type: string;

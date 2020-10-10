@@ -1,4 +1,3 @@
-import { User } from '../../users/models/user.model';
 import {
   Table,
   Column,
@@ -6,12 +5,13 @@ import {
   DataType,
   ForeignKey,
 } from 'sequelize-typescript';
+import { Provider } from './provider.model';
 
 @Table
 export class ProviderReference extends Model<ProviderReference> {
-  @ForeignKey(() => User)
+  @ForeignKey(() => Provider)
   @Column
-  userId: number;
+  providerId: number;
 
   @Column
   title: string;
