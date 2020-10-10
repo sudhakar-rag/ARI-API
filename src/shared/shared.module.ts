@@ -1,3 +1,5 @@
+import { SharedController } from './controllers/shared.controller';
+import { SharedService } from './services/shared.service';
 import { Module } from '@nestjs/common';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { MedicalProblems } from './models/medical-problems.model';
@@ -16,5 +18,8 @@ import { Symptom } from './models/symptom.model';
             Subscription
         ])
     ],
+    providers: [SharedService],
+    controllers: [SharedController],
+    exports: [SharedService],
 })
 export class SharedModule { }
