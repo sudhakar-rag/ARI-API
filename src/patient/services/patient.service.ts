@@ -12,10 +12,13 @@ import { PatientSpecalist } from '../models/patient-specalist.model';
 import { PatientSymptom } from '../models/patient-symptom.model';
 import { Address } from './../../users/models/address.model';
 import { Subscription } from './../../shared/models/subscription.model';
+import { User } from '@app/src/users/models/user.model';
 
 @Injectable()
 export class PatientService {
   constructor(
+    @InjectModel(User)
+    private readonly userModel: typeof User,
     @InjectModel(Patient)
     private readonly patientModel: typeof Patient,
     private usersService: UserCreateService,
@@ -42,33 +45,22 @@ export class PatientService {
 
   async createPatient(patientData: PatientDto): Promise<any> {
     let transaction;
+
     try {
       transaction = await this.sequelize.transaction();
 
-      let user;
-      let action = 'C';
-
-      let userData = {
+      const userData = {
         firstName: patientData.firstName,
         lastName: patientData.lastName,
         userName: patientData.email,
         email: patientData.email,
-        password: patientData.password,
+        password: '123456',
         phone: patientData.phone,
-        status: 1,
+        picture: patientData.picture,
+        status: patientData.status,
       };
 
-      user = await this.usersService.saveUser(
-        userData,
-        (action = 'C'),
-        transaction,
-        3
-      );
-
-      patientData.id = user.id;
-
-      // Patient BasicInfo
-      await this.savePatient(patientData, action, transaction);
+      const user = await this.userModel.create(userData);
 
       await transaction.commit();
 
@@ -81,25 +73,7 @@ export class PatientService {
     }
   }
 
-  async savePatient(patientData: PatientDto, action = 'C', transaction): Promise<any> {
-    let providerBasicData = {
-      userId: patientData.id,
-      gender: patientData.gender,
-      dateOfBirth: patientData.dateOfBirth,
-      ethnicity: patientData.ethnicity
-    };
 
-    if (action == 'C') {
-      await this.patientModel.create(providerBasicData, { transaction });
-    }
-
-    if (action == 'E') {
-      await this.patientModel.update(providerBasicData, {
-        where: { userId: patientData.id },
-        transaction,
-      });
-    }
-  }
   async deletePatient(id: number): Promise<any> {
     return await this.patientModel.destroy({ where: { id: id } });
   }

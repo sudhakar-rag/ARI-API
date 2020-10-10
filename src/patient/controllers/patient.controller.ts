@@ -2,8 +2,6 @@ import { PatientService } from './../services/patient.service';
 import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { ResponseData } from '@app/src/core/common/response-data';
 import { PatientDto } from '../dto/patient.dto';
-// import { UsersService } from '@app/src/users/services/users.service';
-import { CreateUserDto } from '@app/src/users/dto/create-user.dto';
 
 @Controller('patient')
 // @UseGuards(JwtAuthGuard)
@@ -15,8 +13,8 @@ export class PatientsController {
 
 
   @Get('getPatients')
-  async getPatients() {
-    let output = new ResponseData();
+  async getPatients(): Promise<ResponseData> {
+    const output = new ResponseData();
 
     try {
       output.data = await this.patientsService.getPatients();

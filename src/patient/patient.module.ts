@@ -8,10 +8,12 @@ import { PatientSymptom } from './models/patient-symptom.model';
 import { PatientSpecalist } from './models/patient-specalist.model';
 import { PatientProviderType } from './models/patient-provider-type.model';
 import { PatientMedicalProblem } from './models/patient-medical-problems.model';
+import { User } from '../users/models/user.model';
 
 @Module({
   imports: [
     SequelizeModule.forFeature([
+      User,
       Patient,
       PatientSymptom,
       PatientSpecalist,
