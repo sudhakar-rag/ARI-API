@@ -27,4 +27,34 @@ export class SharedController {
     return output;
   }
 
+  @Get('getSymptoms')
+  async getSymptoms() {
+    let output = new ResponseData();
+
+    try {
+      output.data = await this.sharedService.getSymptoms();
+    } catch (error) {
+      console.log(error);
+      output.status = false;
+      output.message = typeof error == 'string' ? error : '';
+    }
+
+    return output;
+  }
+
+  @Get('getSpecialists')
+  async getSpecialists() {
+    let output = new ResponseData();
+
+    try {
+      output.data = await this.sharedService.getSpecialists();
+    } catch (error) {
+      console.log(error);
+      output.status = false;
+      output.message = typeof error == 'string' ? error : '';
+    }
+
+    return output;
+  }
+
 }
