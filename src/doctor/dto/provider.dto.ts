@@ -1,6 +1,7 @@
-import { IsArray } from 'class-validator';
-import { IsBoolean, IsDate } from 'class-validator';
+import { AddressDto } from './../../patient/dto/address.dto';
+import { IsArray, IsBoolean, ValidateNested } from 'class-validator';
 import { IsOptional, IsNumber, IsString } from 'class-validator';
+import { Type } from 'class-transformer';
 
 export class ProviderDto {
   @IsOptional()
@@ -17,13 +18,27 @@ export class ProviderDto {
   email: string;
 
   @IsString()
-  address: string;
+  phone: string;
+
+  @IsOptional()
+  @IsString()
+  password: string;
+
+  @ValidateNested()
+  @Type(() => AddressDto)
+  address: AddressDto;
 
   @IsString()
-  gender: string;
+  picture: string;
+
+  @IsString()
+  dateOfBirth: string;
 
   @IsString()
   ethnicity: string;
+
+  @IsString()
+  gender: string;
 
   @IsString()
   medicalSpeciality: number;
@@ -31,48 +46,26 @@ export class ProviderDto {
   @IsString()
   areaOfInterest: string;
 
-  @IsString()
-  phone: string;
-
-  @IsString()
-  serviceType: string;
-
-  @IsOptional()
-  @IsNumber()
-  addressId: number;
+  @IsArray()
+  services: Array<number>;
 
   @IsArray()
-  education: Array<ProviderEducationDto>;
+  educations: Array<ProviderEducationDto>;
 
   @IsArray()
   hospitals: Array<ProviderHospitalDto>;
-}
 
-export class ProviderBasicDto {
-  @IsOptional()
-  @IsNumber()
-  id: number;
+  @IsArray()
+  affiliations: Array<string>;
 
-  @IsNumber()
-  userId: number;
+  @IsArray()
+  languages: Array<number>;
 
-  @IsString()
-  businessName: string;
-
-  @IsNumber()
-  isPublic: number;
-
-  @IsNumber()
-  specialityId: number;
-
-  @IsNumber()
-  areaOfInterest: string;
-
-  @IsNumber()
-  serviceType: number;
+  @IsArray()
+  references: Array<ProviderReferenceDto>;
 
   @IsString()
-  religion: string;
+  religiousAffiliaions: string;
 
   @IsString()
   specialBackground: string;
@@ -80,38 +73,27 @@ export class ProviderBasicDto {
   @IsString()
   limitation: string;
 
+  @IsBoolean()
+  hasDrugAddiction: boolean;
+
+  @IsOptional()
   @IsString()
   addiction: string;
 
+  @IsBoolean()
+  hasCriminalRecord: boolean;
+
+  @IsOptional()
   @IsString()
   crime: string;
 
+  @IsBoolean()
+  hasMalpractice: boolean;
+
+  @IsOptional()
   @IsString()
   malpractice: string;
 
-  @IsString()
-  timezone: string;
-
-  @IsBoolean()
-  isVerified: boolean;
-
-  @IsNumber()
-  zoomId: number;
-
-  @IsString()
-  zoomUrl: string;
-
-  @IsNumber()
-  rating: number;
-
-  @IsString()
-  zoomStatus: string;
-
-  @IsString()
-  userStatus: string;
-
-  @IsBoolean()
-  isAvailable: boolean;
 }
 
 export class ProviderEducationDto {
@@ -119,8 +101,9 @@ export class ProviderEducationDto {
   @IsNumber()
   id: number;
 
+  @IsOptional()
   @IsNumber()
-  userId: number;
+  providerId: number;
 
   @IsString()
   school: string;
@@ -128,11 +111,11 @@ export class ProviderEducationDto {
   @IsString()
   degree: string;
 
-  @IsNumber()
-  fromYear: number;
+  @IsString()
+  fromYear: string;
 
-  @IsNumber()
-  toYear: number;
+  @IsString()
+  toYear: string;
 }
 
 export class ProviderHospitalDto {
@@ -140,8 +123,9 @@ export class ProviderHospitalDto {
   @IsNumber()
   id: number;
 
+  @IsOptional()
   @IsNumber()
-  userId: number;
+  providerId: number;
 
   @IsString()
   hospital: string;
@@ -152,9 +136,40 @@ export class ProviderHospitalDto {
   @IsString()
   state: string;
 
-  @IsNumber()
-  fromYear: number;
+  @IsString()
+  fromYear: string;
 
+  @IsString()
+  toYear: string;
+}
+
+export class ProviderReferenceDto {
+  @IsOptional()
   @IsNumber()
-  toYear: number;
+  id: number;
+
+  @IsOptional()
+  @IsNumber()
+  providerId: number;
+
+  @IsString()
+  title: string;
+
+  @IsString()
+  firstName: string;
+
+  @IsString()
+  lastName: string;
+
+  @IsString()
+  degree: string;
+
+  @IsString()
+  hospital: string;
+
+  @IsString()
+  email: string;
+
+  @IsString()
+  phone: string;
 }

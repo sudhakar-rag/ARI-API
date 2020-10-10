@@ -1,18 +1,21 @@
-import { User } from '../../users/models/user.model';
 import {
   Table,
   Column,
   Model,
-  DataType,
   ForeignKey,
+  BelongsTo,
 } from 'sequelize-typescript';
+import { Provider } from './provider.model';
 
 @Table
 export class ProviderAffilation extends Model<ProviderAffilation> {
-  @ForeignKey(() => User)
+  @ForeignKey(() => Provider)
   @Column
-  userId: number;
+  providerId: number;
 
   @Column
   name: string;
+
+  @BelongsTo(() => Provider)
+  provider: Provider;
 }

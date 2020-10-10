@@ -1,17 +1,18 @@
-import { User } from './../../users/models/user.model';
 import {
   Table,
   Column,
   Model,
   DataType,
   ForeignKey,
+  BelongsTo,
 } from 'sequelize-typescript';
+import { Provider } from './provider.model';
 
 @Table
 export class ProviderEducation extends Model<ProviderEducation> {
-  @ForeignKey(() => User)
+  @ForeignKey(() => Provider)
   @Column
-  userId: number;
+  providerId: number;
 
   @Column
   school: string;
@@ -24,4 +25,7 @@ export class ProviderEducation extends Model<ProviderEducation> {
 
   @Column
   toYear: number;
+
+  @BelongsTo(() => Provider)
+  provider: Provider;
 }

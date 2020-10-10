@@ -5,7 +5,16 @@ import {
   Model,
   DataType,
   ForeignKey,
+  HasMany,
+  HasOne,
 } from 'sequelize-typescript';
+import { ProviderReference } from './provider-reference.model';
+import { ProviderLanguage } from './provider-language.model';
+import { ProviderAffilation } from './provider-affilation.model';
+import { ProviderAddress } from './provider-address.model';
+import { ProviderEducation } from './provider-education.model';
+import { ProviderHistory } from './provider-history.model';
+import { ProviderHospital } from './provider-hospital.model';
 
 @Table
 export class Provider extends Model<Provider> {
@@ -14,62 +23,47 @@ export class Provider extends Model<Provider> {
   userId: number;
 
   @Column
-  businessName: string;
+  dateOfBirth: string;
 
   @Column
-  isPublic: number;
+  ethnicity: string;
 
-  @Column
-  addressId: number;
-
-  @Column
-  specialityId: number;
+  @Column(DataType.ENUM('M', 'F', 'T'))
+  gender: 'M' | 'F' | 'T'
 
   @Column
   areaOfInterest: string;
 
   @Column
-  serviceType: number;
+  speciality: string;
 
   @Column
-  religion: string;
+  hasDrugAddiction: boolean;
 
   @Column
-  specialBackground: string;
+  hasCriminalRecord: boolean;
 
   @Column
-  limitation: string;
+  hasMalpractice: boolean;
 
-  @Column
-  addiction: string;
+  @HasOne(() => ProviderHistory)
+  history: ProviderHistory;
 
-  @Column
-  crime: string;
+  @HasMany(() => ProviderAddress)
+  addresses: Array<ProviderAddress>;
 
-  @Column
-  malpractice: string;
+  @HasMany(() => ProviderAffilation)
+  affilations: Array<ProviderAffilation>;
 
-  @Column
-  timezone: string;
+  @HasMany(() => ProviderEducation)
+  educations: Array<ProviderEducation>;
 
-  @Column
-  isVerified: boolean;
+  @HasMany(() => ProviderHospital)
+  hospitals: Array<ProviderHospital>;
 
-  @Column
-  zoomId: number;
+  @HasMany(() => ProviderLanguage)
+  languages: Array<ProviderLanguage>;
 
-  @Column
-  zoomUrl: string;
-
-  @Column
-  rating: number;
-
-  @Column
-  zoomStatus: string;
-
-  @Column
-  userStatus: string;
-
-  @Column
-  isAvailable: boolean;
+  @HasMany(() => ProviderReference)
+  references: Array<ProviderReference>;
 }

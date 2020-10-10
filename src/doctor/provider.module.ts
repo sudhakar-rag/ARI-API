@@ -12,7 +12,9 @@ import { Module } from '@nestjs/common';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { ProvidersController } from './controllers/providers.controller';
 import { Address } from '../users/models/address.model';
-import { UserAddress } from '../users/models/user-address.model';
+import { CreateProviderService } from './services/create-provider.service';
+import { ProviderAddress } from './models/provider-address.model';
+import { ProviderHistory } from './models/provider-history.model';
 
 @Module({
   imports: [
@@ -26,11 +28,12 @@ import { UserAddress } from '../users/models/user-address.model';
       ProviderHospital,
       ProviderReference,
       Address,
-      UserAddress,
+      ProviderAddress,
+      ProviderHistory
     ]),
     UsersModule,
   ],
-  providers: [ProviderService],
+  providers: [ProviderService, CreateProviderService],
   controllers: [ProvidersController],
   exports: [ProviderService],
 })

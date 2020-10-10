@@ -10,28 +10,18 @@ import {
   DataType,
   HasOne,
 } from 'sequelize-typescript';
-import { Address } from './../../users/models/address.model';
 import { Subscription } from './../../shared/models/subscription.model';
 import { PatientMedicalProblem } from './patient-medical-problems.model';
 import { PatientSymptom } from './patient-symptom.model';
 import { PatientSpecalist } from './patient-specalist.model';
 import { PatientProviderType } from './patient-provider-type.model';
+import { PatientAddress } from './patient-address.model';
 
 @Table
 export class Patient extends Model<Patient> {
   @ForeignKey(() => User)
   @Column
   userId: number;
-
-  @Column
-  firstName: string;
-
-  @Column
-  lastName: string;
-
-  @ForeignKey(() => Address)
-  @Column
-  addressId: number;
 
   @Column
   dateOfBirth: string;
@@ -42,15 +32,42 @@ export class Patient extends Model<Patient> {
   @Column(DataType.ENUM('M', 'F', 'T'))
   gender: 'M' | 'F' | 'T'
 
-  @Column(DataType.TEXT({ length: 'tiny' }))
-  profilePicture: string;
-
   @ForeignKey(() => Subscription)
   @Column
   subscriptionId: number;
 
-  @BelongsTo(() => Address)
-  address: Address;
+  @Column(DataType.TEXT({ length: 'medium' }))
+  medications: string;
+
+  @Column(DataType.TEXT({ length: 'medium' }))
+  vitamins: string;
+
+  @Column(DataType.TEXT({ length: 'medium' }))
+  restrictions: string;
+
+  @Column(DataType.TEXT({ length: 'medium' }))
+  allergies: string;
+
+  @Column(DataType.TEXT({ length: 'medium' }))
+  spcialHistory: string;
+
+  @Column(DataType.TEXT({ length: 'medium' }))
+  surgeryHistory: string;
+
+  @Column(DataType.TEXT({ length: 'medium' }))
+  familyHistory: string;
+
+  @Column(DataType.TEXT({ length: 'medium' }))
+  vaccinationHistory: string;
+
+  @Column(DataType.TEXT({ length: 'medium' }))
+  travelHistory: string;
+
+  @Column(DataType.TEXT({ length: 'medium' }))
+  hospitalizationHistory: string;
+
+  @HasMany(() => PatientAddress)
+  addresses: Array<PatientAddress>;
 
   @BelongsTo(() => Subscription)
   subscription: Subscription;

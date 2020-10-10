@@ -1,5 +1,7 @@
-import { IsArray, IsBoolean, IsDate } from 'class-validator';
+import { Type } from 'class-transformer';
+import { IsArray, IsBoolean, IsDate, ValidateNested } from 'class-validator';
 import { IsOptional, IsNumber, IsString } from 'class-validator';
+import { AddressDto } from './address.dto';
 
 export class PatientDto {
   @IsOptional()
@@ -18,6 +20,7 @@ export class PatientDto {
   @IsString()
   phone: string;
 
+  @IsOptional()
   @IsString()
   password: string;
 
@@ -25,56 +28,64 @@ export class PatientDto {
   picture: string;
 
   @IsString()
-  address: string;
-
-  @IsString()
-  gender: string;
-
-  @IsString()
   dateOfBirth: string;
 
   @IsString()
   ethnicity: string;
 
-  // @IsString()
-  // primaiyProvider: string;
+  @IsString()
+  gender: string;
 
-  // @IsOptional()
-  // @IsString()
-  // specialist: string;
+  @ValidateNested()
+  @Type(() => AddressDto)
+  address: AddressDto;
 
-  // @IsString()
-  // socialHistory: string;
+  @IsNumber()
+  subscriptionId: number;
 
-  // @IsOptional()
-  // @IsString()
-  // surgeryHistory: string;
+  @IsArray()
+  specalists: Array<number>;
 
-  // @IsOptional()
-  // @IsString()
-  // fatherHisory: string;
+  @IsArray()
+  symptoms: Array<number>;
 
-  // @IsOptional()
-  // @IsString()
-  // motherHisory: string;
+  @IsArray()
+  providerTypes: Array<number>;
 
-  // @IsOptional()
-  // @IsString()
-  // vaccinationHisory: string;
+  @IsArray()
+  medicalProblems: Array<number>;
 
-  // @IsOptional()
-  // @IsString()
-  // travelHistory: string;
+  @IsString()
+  medications: string;
 
-  // @IsOptional()
-  // @IsString()
-  // hospitalizationHistory: string;
+  @IsString()
+  vitamins: string;
 
-  // @IsOptional()
-  // @IsArray()
-  // medicalProblems: Array<number>;
+  @IsString()
+  restrictions: string;
 
-  // @IsOptional()
-  // @IsArray()
-  // currentSymptoms: Array<number>;
+  @IsString()
+  allergies: string;
+
+  @IsString()
+  spcialHistory: string;
+
+  @IsString()
+  surgeryHistory: string;
+
+  @IsString()
+  familyHistory: string;
+
+  @IsString()
+  vaccinationHistory: string;
+
+  @IsString()
+  travelHistory: string;
+
+  @IsString()
+  hospitalizationHistory: string;
+
+  @IsNumber()
+  status: number;
+
 }
