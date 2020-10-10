@@ -17,13 +17,26 @@ export class ProviderDto {
   email: string;
 
   @IsString()
+  phone: string;
+
+  @IsOptional()
+  @IsString()
+  password: string;
+
+  @IsString()
   address: string;
 
   @IsString()
-  gender: string;
+  picture: string;
+
+  @IsString()
+  dateOfBirth: string;
 
   @IsString()
   ethnicity: string;
+
+  @IsString()
+  gender: string;
 
   @IsString()
   medicalSpeciality: number;
@@ -31,48 +44,23 @@ export class ProviderDto {
   @IsString()
   areaOfInterest: string;
 
-  @IsString()
-  phone: string;
-
-  @IsString()
-  serviceType: string;
-
-  @IsOptional()
-  @IsNumber()
-  addressId: number;
+  @IsArray()
+  services: Array<number>;
 
   @IsArray()
   education: Array<ProviderEducationDto>;
 
   @IsArray()
   hospitals: Array<ProviderHospitalDto>;
-}
 
-export class ProviderBasicDto {
-  @IsOptional()
-  @IsNumber()
-  id: number;
+  @IsArray()
+  affiliations: Array<string>;
 
-  @IsNumber()
-  userId: number;
+  @IsArray()
+  languages: Array<string>;
 
   @IsString()
-  businessName: string;
-
-  @IsNumber()
-  isPublic: number;
-
-  @IsNumber()
-  specialityId: number;
-
-  @IsNumber()
-  areaOfInterest: string;
-
-  @IsNumber()
-  serviceType: number;
-
-  @IsString()
-  religion: string;
+  religiousAffiliaions: string;
 
   @IsString()
   specialBackground: string;
@@ -89,29 +77,6 @@ export class ProviderBasicDto {
   @IsString()
   malpractice: string;
 
-  @IsString()
-  timezone: string;
-
-  @IsBoolean()
-  isVerified: boolean;
-
-  @IsNumber()
-  zoomId: number;
-
-  @IsString()
-  zoomUrl: string;
-
-  @IsNumber()
-  rating: number;
-
-  @IsString()
-  zoomStatus: string;
-
-  @IsString()
-  userStatus: string;
-
-  @IsBoolean()
-  isAvailable: boolean;
 }
 
 export class ProviderEducationDto {
@@ -128,11 +93,11 @@ export class ProviderEducationDto {
   @IsString()
   degree: string;
 
-  @IsNumber()
-  fromYear: number;
+  @IsString()
+  fromYear: string;
 
-  @IsNumber()
-  toYear: number;
+  @IsString()
+  toYear: string;
 }
 
 export class ProviderHospitalDto {
@@ -152,9 +117,9 @@ export class ProviderHospitalDto {
   @IsString()
   state: string;
 
-  @IsNumber()
-  fromYear: number;
+  @IsString()
+  fromYear: string;
 
-  @IsNumber()
-  toYear: number;
+  @IsString()
+  toYear: string;
 }

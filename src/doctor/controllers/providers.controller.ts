@@ -11,20 +11,23 @@ import {
   Delete,
   Param,
 } from '@nestjs/common';
-import { ResponseData } from '@app/src/core/common/response-data';
-import { ProviderBasicDto } from '../dto/provider.dto';
+import { ResponseData } from './../../core/common/response-data';
+import { CreateProviderService } from '../services/create-provider.service';
 
 @Controller('provider')
 // @UseGuards(JwtAuthGuard)
 export class ProvidersController {
-  constructor(private providerService: ProviderService) {}
+  constructor(
+    private providerService: ProviderService,
+    private createProviderService: CreateProviderService
+  ) { }
 
-  @Get('')
-  async getProviders() {
-    let output = new ResponseData();
+  @Get()
+  async getProviders(): Promise<ResponseData> {
+    const output = new ResponseData();
 
     try {
-      output.data = await this.providerService.getProviders();
+      output.data = [];//await this.providerService.getProviders();
     } catch (error) {
       console.log(error);
       output.status = false;
@@ -34,12 +37,12 @@ export class ProvidersController {
     return output;
   }
 
-  @Post()
+  @Post('create')
   async create(@Body() providerData: ProviderDto): Promise<ResponseData> {
-    let output = new ResponseData();
+    const output = new ResponseData();
 
     try {
-      output.data = await this.providerService.create(providerData);
+      output.data = providerData;//await this.createProviderService.createProvider(providerData);
     } catch (error) {
       console.log(error);
       output.status = false;
