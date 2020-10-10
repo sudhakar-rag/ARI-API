@@ -1,5 +1,5 @@
 import { AddressDto } from './../../patient/dto/address.dto';
-import { IsArray, ValidateNested } from 'class-validator';
+import { IsArray, IsBoolean, ValidateNested } from 'class-validator';
 import { IsOptional, IsNumber, IsString } from 'class-validator';
 import { Type } from 'class-transformer';
 
@@ -50,7 +50,7 @@ export class ProviderDto {
   services: Array<number>;
 
   @IsArray()
-  education: Array<ProviderEducationDto>;
+  educations: Array<ProviderEducationDto>;
 
   @IsArray()
   hospitals: Array<ProviderHospitalDto>;
@@ -59,7 +59,10 @@ export class ProviderDto {
   affiliations: Array<string>;
 
   @IsArray()
-  languages: Array<string>;
+  languages: Array<number>;
+
+  @IsArray()
+  references: Array<ProviderReferenceDto>;
 
   @IsString()
   religiousAffiliaions: string;
@@ -70,12 +73,24 @@ export class ProviderDto {
   @IsString()
   limitation: string;
 
+  @IsBoolean()
+  hasDrugAddiction: boolean;
+
+  @IsOptional()
   @IsString()
   addiction: string;
 
+  @IsBoolean()
+  hasCriminalRecord: boolean;
+
+  @IsOptional()
   @IsString()
   crime: string;
 
+  @IsBoolean()
+  hasMalpractice: boolean;
+
+  @IsOptional()
   @IsString()
   malpractice: string;
 
@@ -86,8 +101,9 @@ export class ProviderEducationDto {
   @IsNumber()
   id: number;
 
+  @IsOptional()
   @IsNumber()
-  userId: number;
+  providerId: number;
 
   @IsString()
   school: string;
@@ -107,8 +123,9 @@ export class ProviderHospitalDto {
   @IsNumber()
   id: number;
 
+  @IsOptional()
   @IsNumber()
-  userId: number;
+  providerId: number;
 
   @IsString()
   hospital: string;
@@ -124,4 +141,35 @@ export class ProviderHospitalDto {
 
   @IsString()
   toYear: string;
+}
+
+export class ProviderReferenceDto {
+  @IsOptional()
+  @IsNumber()
+  id: number;
+
+  @IsOptional()
+  @IsNumber()
+  providerId: number;
+
+  @IsString()
+  title: string;
+
+  @IsString()
+  firstName: string;
+
+  @IsString()
+  lastName: string;
+
+  @IsString()
+  degree: string;
+
+  @IsString()
+  hospital: string;
+
+  @IsString()
+  email: string;
+
+  @IsString()
+  phone: string;
 }
