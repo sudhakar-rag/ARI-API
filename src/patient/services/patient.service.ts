@@ -63,7 +63,7 @@ export class PatientService {
         email: patientData.email,
         phone: patientData.phone,
         picture: patientData.picture,
-        status: patientData.status
+        status: 1
       }
 
       const user = await this.userCreateService.saveUser(userData, action, transaction, 3);
