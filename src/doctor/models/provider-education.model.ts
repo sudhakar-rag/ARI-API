@@ -4,6 +4,7 @@ import {
   Model,
   DataType,
   ForeignKey,
+  BelongsTo,
 } from 'sequelize-typescript';
 import { Provider } from './provider.model';
 
@@ -24,4 +25,7 @@ export class ProviderEducation extends Model<ProviderEducation> {
 
   @Column
   toYear: number;
+
+  @BelongsTo(() => Provider)
+  provider: Provider;
 }

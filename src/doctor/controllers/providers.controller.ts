@@ -37,6 +37,21 @@ export class ProvidersController {
     return output;
   }
 
+  @Get(':id')
+  async getProviderById(@Param('id') userId: string): Promise<ResponseData> {
+    const output = new ResponseData();
+
+    try {
+      output.data = await this.providerService.getProviderById(userId);
+    } catch (error) {
+      console.log(error);
+      output.status = false;
+      output.message = typeof error == 'string' ? error : '';
+    }
+
+    return output;
+  }
+
   @Post('create')
   async create(@Body() providerData: ProviderDto): Promise<ResponseData> {
     const output = new ResponseData();

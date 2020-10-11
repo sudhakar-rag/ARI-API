@@ -6,10 +6,15 @@ import {
   DataType,
   ForeignKey,
   HasMany,
+  HasOne,
 } from 'sequelize-typescript';
 import { ProviderReference } from './provider-reference.model';
 import { ProviderLanguage } from './provider-language.model';
 import { ProviderAffilation } from './provider-affilation.model';
+import { ProviderAddress } from './provider-address.model';
+import { ProviderEducation } from './provider-education.model';
+import { ProviderHistory } from './provider-history.model';
+import { ProviderHospital } from './provider-hospital.model';
 
 @Table
 export class Provider extends Model<Provider> {
@@ -41,8 +46,20 @@ export class Provider extends Model<Provider> {
   @Column
   hasMalpractice: boolean;
 
+  @HasOne(() => ProviderHistory)
+  history: ProviderHistory;
+
+  @HasMany(() => ProviderAddress)
+  addresses: Array<ProviderAddress>;
+
   @HasMany(() => ProviderAffilation)
   affilations: Array<ProviderAffilation>;
+
+  @HasMany(() => ProviderEducation)
+  educations: Array<ProviderEducation>;
+
+  @HasMany(() => ProviderHospital)
+  hospitals: Array<ProviderHospital>;
 
   @HasMany(() => ProviderLanguage)
   languages: Array<ProviderLanguage>;

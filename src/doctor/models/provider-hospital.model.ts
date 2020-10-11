@@ -3,6 +3,7 @@ import {
   Column,
   Model,
   ForeignKey,
+  BelongsTo,
 } from 'sequelize-typescript';
 import { Provider } from './provider.model';
 
@@ -26,4 +27,7 @@ export class ProviderHospital extends Model<ProviderHospital> {
 
   @Column
   toYear: number;
+
+  @BelongsTo(() => Provider)
+  provider: Provider;
 }

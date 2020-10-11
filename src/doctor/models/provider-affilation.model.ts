@@ -3,6 +3,7 @@ import {
   Column,
   Model,
   ForeignKey,
+  BelongsTo,
 } from 'sequelize-typescript';
 import { Provider } from './provider.model';
 
@@ -14,4 +15,7 @@ export class ProviderAffilation extends Model<ProviderAffilation> {
 
   @Column
   name: string;
+
+  @BelongsTo(() => Provider)
+  provider: Provider;
 }
