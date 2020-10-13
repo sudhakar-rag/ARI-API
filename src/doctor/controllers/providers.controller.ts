@@ -40,11 +40,10 @@ export class ProvidersController {
   }
 
   @Post()
-  async getProviders(): Promise<ResponseData> {
+  async getProviders(@Body() queryParams): Promise<ResponseData> {
     const output = new ResponseData();
-
     try {
-      output.data = await this.providerService.getProviders();
+      output.data = await this.providerService.getProviders(queryParams);
     } catch (error) {
       console.log(error);
       output.status = false;

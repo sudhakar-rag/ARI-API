@@ -16,7 +16,7 @@ export class ProviderService {
     private readonly providerModel: typeof Provider,
   ) { }
 
-  async getProviders(): Promise<any> {
+  async getProviders(queryParams: any): Promise<any> {
 
     return await this.providerModel.findAndCountAll({
       include: [
