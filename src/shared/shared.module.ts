@@ -1,3 +1,4 @@
+import { Language } from './../doctor/models/language.model';
 import { Address } from './../users/models/address.model';
 import { SharedController } from './controllers/shared.controller';
 import { SharedService } from './services/shared.service';
@@ -17,7 +18,8 @@ import { Symptom } from './models/symptom.model';
             Specalist,
             Symptom,
             Subscription,
-            Address
+            Address,
+            Language
         ])
     ],
     providers: [SharedService],

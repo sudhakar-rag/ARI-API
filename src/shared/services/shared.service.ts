@@ -1,3 +1,4 @@
+import { Language } from './../../doctor/models/language.model';
 import { Address } from './../../users/models/address.model';
 import { Symptom } from './../models/symptom.model';
 import { MedicalProblems } from './../models/medical-problems.model';
@@ -18,6 +19,8 @@ export class SharedService {
     private readonly symptomModel: typeof Symptom,
     @InjectModel(Specalist)
     private readonly specialistModel: typeof Specalist,
+    @InjectModel(Language)
+    private readonly languageModel: typeof Language,
     @InjectModel(Address)
     private readonly addressModel: typeof Address,
     private readonly sequelize: Sequelize,
@@ -33,6 +36,10 @@ export class SharedService {
 
   async getSpecialists(): Promise<any> {
     return await this.specialistModel.findAll();
+  }
+
+  async getLanguages(): Promise<any> {
+    return await this.languageModel.findAll();
   }
 
   async getAddressById(addressId): Promise<any> {

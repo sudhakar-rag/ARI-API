@@ -189,7 +189,7 @@ export class CreateProviderService {
 
         const languages = [];
         for (const lng of data.languages) {
-            languages.push({ providerId: data.providerId, symptomId: lng });
+            languages.push({ providerId: data.providerId, langId: lng });
         }
 
         await this.providerLanguageModel.bulkCreate(languages, { transaction: transaction });

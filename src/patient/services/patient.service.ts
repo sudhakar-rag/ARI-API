@@ -34,6 +34,7 @@ export class PatientService {
     return await this.patientModel.findAll({
       where: { userId: userId },
       include: [
+        User,
         PatientAddress,
         Subscription,
         PatientMedicalProblem,
