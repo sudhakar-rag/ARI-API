@@ -1,3 +1,4 @@
+import { User } from '@app/src/users/models/user.model';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { ProviderAddress } from '../models/provider-address.model';
@@ -15,10 +16,22 @@ export class ProviderService {
     private readonly providerModel: typeof Provider,
   ) { }
 
+  async getProviders(): Promise<any> {
+
+    return await this.providerModel.findAndCountAll({
+      include: [
+        User,
+        ProviderAddress,
+        ProviderLanguage
+      ]
+    });
+  }
+
   async getProviderById(userId: string): Promise<any> {
-    return await this.providerModel.findAll({
+    return await this.providerModel.findOne({
       where: { userId: userId },
       include: [
+        User,
         ProviderHistory,
         ProviderAddress,
         ProviderAffilation,

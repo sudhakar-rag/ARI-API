@@ -22,12 +22,14 @@ export class ProvidersController {
     private createProviderService: CreateProviderService
   ) { }
 
-  @Get()
-  async getProviders(): Promise<ResponseData> {
+
+
+  @Get(':id')
+  async getProviderById(@Param('id') userId: string): Promise<ResponseData> {
     const output = new ResponseData();
 
     try {
-      output.data = [];//await this.providerService.getProviders();
+      output.data = await this.providerService.getProviderById(userId);
     } catch (error) {
       console.log(error);
       output.status = false;
@@ -37,12 +39,12 @@ export class ProvidersController {
     return output;
   }
 
-  @Get(':id')
-  async getProviderById(@Param('id') userId: string): Promise<ResponseData> {
+  @Post()
+  async getProviders(): Promise<ResponseData> {
     const output = new ResponseData();
 
     try {
-      output.data = await this.providerService.getProviderById(userId);
+      output.data = await this.providerService.getProviders();
     } catch (error) {
       console.log(error);
       output.status = false;
