@@ -1,3 +1,4 @@
+import { User } from './../users/models/user.model';
 import { UsersModule } from './../users/users.module';
 import { ProviderLanguage } from './models/provider-language.model';
 import { ProviderReference } from './models/provider-reference.model';
@@ -19,6 +20,7 @@ import { ProviderHistory } from './models/provider-history.model';
 @Module({
   imports: [
     SequelizeModule.forFeature([
+      User,
       Provider,
       Speciality,
       Language,

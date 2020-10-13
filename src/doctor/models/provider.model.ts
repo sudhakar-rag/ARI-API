@@ -1,3 +1,4 @@
+import { BelongsTo } from 'sequelize-typescript';
 import { User } from './../../users/models/user.model';
 import {
   Table,
@@ -49,8 +50,8 @@ export class Provider extends Model<Provider> {
   @HasOne(() => ProviderHistory)
   history: ProviderHistory;
 
-  @HasMany(() => ProviderAddress)
-  addresses: Array<ProviderAddress>;
+  @HasOne(() => ProviderAddress)
+  address: ProviderAddress;
 
   @HasMany(() => ProviderAffilation)
   affilations: Array<ProviderAffilation>;
@@ -66,4 +67,7 @@ export class Provider extends Model<Provider> {
 
   @HasMany(() => ProviderReference)
   references: Array<ProviderReference>;
+
+  @BelongsTo(() => User)
+  user: User;
 }

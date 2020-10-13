@@ -1,3 +1,4 @@
+import { Address } from './../../users/models/address.model';
 import { Symptom } from './../models/symptom.model';
 import { MedicalProblems } from './../models/medical-problems.model';
 import { Sequelize } from 'sequelize-typescript';
@@ -17,6 +18,8 @@ export class SharedService {
     private readonly symptomModel: typeof Symptom,
     @InjectModel(Specalist)
     private readonly specialistModel: typeof Specalist,
+    @InjectModel(Address)
+    private readonly addressModel: typeof Address,
     private readonly sequelize: Sequelize,
   ) { }
 
@@ -30,6 +33,12 @@ export class SharedService {
 
   async getSpecialists(): Promise<any> {
     return await this.specialistModel.findAll();
+  }
+
+  async getAddressById(addressId): Promise<any> {
+    return await this.addressModel.findOne({
+      where: { id: addressId }
+    });
   }
 
 }

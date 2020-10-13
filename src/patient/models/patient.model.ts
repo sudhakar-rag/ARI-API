@@ -83,4 +83,7 @@ export class Patient extends Model<Patient> {
 
   @HasMany(() => PatientProviderType)
   providerTypes: Array<PatientProviderType>;
+
+  @BelongsTo(() => User)
+  user: User;
 }

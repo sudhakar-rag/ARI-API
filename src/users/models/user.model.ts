@@ -1,8 +1,10 @@
-import { Table, Model, Column, HasMany, BelongsToMany } from "sequelize-typescript";
+import { Provider } from './../../doctor/models/provider.model';
+import { Table, Model, Column, HasMany, BelongsToMany, BelongsTo, HasOne } from "sequelize-typescript";
 import { UserRole } from "./user-role.model";
 import { UserAddress } from "./user-address.model";
 import { Role } from "./role.model";
 import { UserCardDetail } from "./user-card-detail";
+import { Patient } from '@app/src/patient/models/patient.model';
 
 @Table
 export class User extends Model<User> {
@@ -41,6 +43,12 @@ export class User extends Model<User> {
 
     @BelongsToMany(() => Role, () => UserRole)
     roles: Array<Role & { userRole: UserRole }>;
+
+    @HasOne(() => Provider)
+    provider: Provider;
+
+    @HasOne(() => Patient)
+    patient: Patient;
 
     //   @BelongsToMany(() => Group, () => UserGroup)
     //   groups: Array<Group & { userGroup: UserGroup }>;

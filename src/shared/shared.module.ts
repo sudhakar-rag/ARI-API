@@ -1,3 +1,4 @@
+import { Address } from './../users/models/address.model';
 import { SharedController } from './controllers/shared.controller';
 import { SharedService } from './services/shared.service';
 import { Module } from '@nestjs/common';
@@ -15,7 +16,8 @@ import { Symptom } from './models/symptom.model';
             ProviderType,
             Specalist,
             Symptom,
-            Subscription
+            Subscription,
+            Address
         ])
     ],
     providers: [SharedService],
