@@ -59,6 +59,15 @@ export class PatientDto {
   medications: string;
 
   @IsString()
+  otherMedicalProblems: string;
+
+  @IsString()
+  otherSymptoms: string;
+
+  @IsString()
+  otherSpecialist: string;
+
+  @IsString()
   vitamins: string;
 
   @IsString()

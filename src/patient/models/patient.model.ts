@@ -37,6 +37,15 @@ export class Patient extends Model<Patient> {
   subscriptionId: number;
 
   @Column(DataType.TEXT({ length: 'medium' }))
+  otherMedicalProblems: string;
+
+  @Column(DataType.TEXT({ length: 'medium' }))
+  otherSymptoms: string;
+
+  @Column(DataType.TEXT({ length: 'medium' }))
+  otherSpecialist: string;
+
+  @Column(DataType.TEXT({ length: 'medium' }))
   medications: string;
 
   @Column(DataType.TEXT({ length: 'medium' }))

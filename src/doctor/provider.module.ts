@@ -1,3 +1,4 @@
+import { ProviderServices } from './models/provider-services.model';
 import { User } from './../users/models/user.model';
 import { UsersModule } from './../users/users.module';
 import { ProviderLanguage } from './models/provider-language.model';
@@ -31,7 +32,8 @@ import { ProviderHistory } from './models/provider-history.model';
       ProviderReference,
       Address,
       ProviderAddress,
-      ProviderHistory
+      ProviderHistory,
+      ProviderServices
     ]),
     UsersModule,
   ],

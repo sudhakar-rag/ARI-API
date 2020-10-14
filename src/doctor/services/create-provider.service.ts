@@ -1,3 +1,4 @@
+import { ProviderServices } from './../models/provider-services.model';
 import { Sequelize } from 'sequelize-typescript';
 
 import { Injectable } from '@nestjs/common';
@@ -37,6 +38,8 @@ export class CreateProviderService {
         private readonly providerEducationModel: typeof ProviderEducation,
         @InjectModel(ProviderReference)
         private readonly providerReferenceModel: typeof ProviderReference,
+        @InjectModel(ProviderServices)
+        private readonly providerServicesModel: typeof ProviderServices,
         private userCreateService: UserCreateService,
         private readonly sequelize: Sequelize,
     ) { }
@@ -85,6 +88,8 @@ export class CreateProviderService {
             await this.saveHospitals({ providerId: provider.id, hospitals: providerData.hospitals }, transaction);
 
             await this.saveReferences({ providerId: provider.id, references: providerData.references }, transaction);
+
+            await this.saveServices({ providerId: provider.id, services: providerData.services }, transaction);
 
             await transaction.commit();
 
@@ -286,4 +291,22 @@ export class CreateProviderService {
 
         return data;
     }
+
+    async saveServices(data: { providerId: string, services: Array<number> }, transaction: Transaction): Promise<any> {
+
+        await this.providerServicesModel.destroy({
+            where: { providerId: data.providerId },
+            transaction
+        });
+
+        const services = [];
+        for (const service of data.services) {
+            services.push({ providerId: data.providerId, serviceId: service });
+        }
+
+        await this.providerServicesModel.bulkCreate(services, { transaction: transaction });
+
+        return data;
+    }
+
 }
