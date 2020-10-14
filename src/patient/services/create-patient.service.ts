@@ -134,9 +134,9 @@ export class CreatePatientService {
             profilePicture: createUserData.picture,
             subscriptionId: createUserData.subscriptionId,
             medications: createUserData.medications,
-            otherMedicalProblems:createUserData.otherMedicalProblems,
-            otherSymptoms:createUserData.otherSymptoms,
-            otherSpecialist:createUserData.otherSpecialist,
+            otherMedicalProblems: createUserData.otherMedicalProblems,
+            otherSymptoms: createUserData.otherSymptoms,
+            otherSpecialist: createUserData.otherSpecialist,
             vitamins: createUserData.vitamins,
             restrictions: createUserData.restrictions,
             allergies: createUserData.allergies,
@@ -227,6 +227,26 @@ export class CreatePatientService {
         await this.patientProviderTypeModel.bulkCreate(types, { transaction: transaction });
 
         return data;
+    }
+
+    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+    async updateBasicInfo(data: any): Promise<any> {
+
+        const patientData = {
+            firstName: data.firstName,
+            lastName: data.lastName,
+            ethnicity: data.ethnicity
+        };
+
+        const result = await this.userModel.update(patientData, { where: { userId: data.userId } });
+
+
+        // Address Info
+
+
+        // Patient
+
+        return result;
     }
 
     async deletePatient(id: number): Promise<any> {
