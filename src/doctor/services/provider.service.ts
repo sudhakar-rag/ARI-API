@@ -1,3 +1,4 @@
+import { ProviderServices } from './../models/provider-services.model';
 import { User } from '@app/src/users/models/user.model';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
@@ -38,7 +39,8 @@ export class ProviderService {
         ProviderEducation,
         ProviderHospital,
         ProviderLanguage,
-        ProviderReference
+        ProviderReference,
+        ProviderServices
       ]
     });
   }
