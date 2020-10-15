@@ -233,18 +233,65 @@ export class CreatePatientService {
     async updateBasicInfo(data: any): Promise<any> {
 
         const patientData = {
-            firstName: data.firstName,
-            lastName: data.lastName,
-            ethnicity: data.ethnicity
+            ethnicity: data.ethnicity,
+            dateOfBirth: data.dateOfBirth,
+            gender: data.gender
         };
 
-        const result = await this.userModel.update(patientData, { where: { userId: data.userId } });
+        const userData = {
+            email: data.email,
+            firstName: data.firstName,
+            lastName: data.lastName,
+            phone: data.phone
+        }
 
+        const addressData = {
+            address1: data.address1,
+            address2: data.address2,
+            city: data.city,
+            state: data.state,
+            country: data.country,
+            zip: data.zipcode
+        }
 
         // Address Info
+        await this.userModel.update(userData, { where: { id: data.userId } });
 
+        // Address Info
+        await this.addressModel.update(addressData, { where: { id: data.userId } });
 
         // Patient
+        const result = await this.patientModel.update(patientData, { where: { userId: data.userId } });
+
+        return result;
+    }
+
+    async updateHistory(data: any): Promise<any> {
+
+        const historyData = {
+            familyHistory: data.familyHistory,
+            spcialHistory: data.socialHistory,
+            surgeryHistory: data.surgeryHistory,
+            vaccinationHistory: data.vaccinationHistory,
+            travelHistory: data.travelHistory,
+            hospitalizationHistory: data.hospitalizationHistory,        
+        };
+
+        const result = await this.patientModel.update(historyData, { where: { userId: data.userId } });
+
+        return result;
+    }
+
+    async updateHealth(data: any): Promise<any> {
+
+        const healthData = {
+            allergies: data.allergies,
+            medications: data.medications,
+            restrictions: data.restrictions,
+            vitamins: data.vitamins,       
+        };
+
+        const result = await this.patientModel.update(healthData, { where: { userId: data.userId } });
 
         return result;
     }

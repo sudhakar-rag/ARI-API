@@ -1,5 +1,6 @@
+import { PatientBasicDto } from './../dto/patient-basic.dto';
 import { PatientService } from './../services/patient.service';
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
 import { ResponseData } from '@app/src/core/common/response-data';
 import { PatientDto } from '../dto/patient.dto';
 import { CreatePatientService } from '../services/create-patient.service';
@@ -62,9 +63,9 @@ export class PatientsController {
 
   }
 
-  @Post('basicInfo')
+  @Put('basicInfo')
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-  async saveBasicInfo(@Body() basicInfo: any): Promise<ResponseData> {
+  async updateBasicInfo(@Body() basicInfo: PatientBasicDto): Promise<ResponseData> {
     const output = new ResponseData();
 
     try {
@@ -80,4 +81,43 @@ export class PatientsController {
     return output;
 
   }
+
+  @Put('history')
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+  async updateHistory(@Body() historyData: any): Promise<ResponseData> {
+    const output = new ResponseData();
+
+    try {
+      output.data = await this.createPatientService.updateHistory(historyData);
+      output.status = true;
+
+    } catch (error) {
+      console.log(error);
+      output.status = false;
+      output.message = typeof error == 'string' ? error : '';
+    }
+
+    return output;
+
+  }
+
+  @Put('health')
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+  async updateHealth(@Body() healthData: any): Promise<ResponseData> {
+    const output = new ResponseData();
+
+    try {
+      output.data = await this.createPatientService.updateHealth(healthData);
+      output.status = true;
+
+    } catch (error) {
+      console.log(error);
+      output.status = false;
+      output.message = typeof error == 'string' ? error : '';
+    }
+
+    return output;
+
+  }
+
 }
