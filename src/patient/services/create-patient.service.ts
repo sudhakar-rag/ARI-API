@@ -296,6 +296,78 @@ export class CreatePatientService {
         return result;
     }
 
+    async updateSymptoms(data: any): Promise<any> {
+
+        let patientData = {
+            otherSymptoms: data.otherSymptoms
+        }
+
+        await this.patientSymptomModel.destroy({
+            where: { patientId: data.patientId }
+        });
+
+        const symptoms = [];
+        for (const symptom of data.symptoms) {
+            symptoms.push({ patientId: data.patientId, symptomId: symptom });
+        }
+
+        await this.patientSymptomModel.bulkCreate(symptoms);
+
+        const result = await this.patientModel.update(patientData, { where: { userId: data.userId } });
+
+        return result;
+    }
+
+
+    async updateMedProblems(data: any): Promise<any> {
+
+        let patientData = {
+            otherMedicalProblems: data.otherMedProblem
+        }
+
+        await this.patientMedicalProblemModel.destroy({
+            where: { patientId: data.patientId }
+        });
+
+        const medicalProblems = [];
+        for (const problem of data.patMedProblems) {
+            medicalProblems.push({ patientId: data.patientId, MedicalProblemId: problem });
+        }
+
+        await this.patientMedicalProblemModel.bulkCreate(medicalProblems);
+
+        const result = await this.patientModel.update(patientData, { where: { userId: data.userId } });
+
+        return result;
+    }
+
+    async updateProvider(data: any): Promise<any> {
+
+        await this.patientProviderTypeModel.destroy({
+            where: { patientId: data.patientId }
+        });
+
+        const types = [];
+        for (const providerType of data.priProviders) {
+            types.push({ patientId: data.patientId, providerTypeId: providerType });
+        }
+
+        await this.patientProviderTypeModel.bulkCreate(types);
+
+        await this.patientSpecalistModel.destroy({
+            where: { patientId: data.patientId }
+                });
+
+        const specalists = [];
+        for (const specalist of data.specalists) {
+            specalists.push({ patientId: data.patientId, specalistId: specalist });
+        }
+
+        const result = await this.patientSpecalistModel.bulkCreate(specalists);
+
+        return result;
+    }
+
     async deletePatient(id: number): Promise<any> {
         return await this.patientModel.destroy({ where: { id: id } });
     }

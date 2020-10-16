@@ -41,6 +41,11 @@ export class AuthController {
         return output;
     }
 
+    @Get('forgotPassword')
+    forgotPassword() {
+        return { testing: 'testing...........' }
+    }
+
     @Get('testing')
     testing() {
         return { testing: 'testing...........' }

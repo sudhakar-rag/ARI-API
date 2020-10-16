@@ -120,4 +120,61 @@ export class PatientsController {
 
   }
 
+  @Put('symptoms')
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+  async updateSymptoms(@Body() symptData: any): Promise<ResponseData> {
+    const output = new ResponseData();
+
+    try {
+      output.data = await this.createPatientService.updateSymptoms(symptData);
+      output.status = true;
+
+    } catch (error) {
+      console.log(error);
+      output.status = false;
+      output.message = typeof error == 'string' ? error : '';
+    }
+
+    return output;
+
+  }
+
+  @Put('medProblems')
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+  async updateMedProblems(@Body() medProbData: any): Promise<ResponseData> {
+    const output = new ResponseData();
+
+    try {
+      output.data = await this.createPatientService.updateMedProblems(medProbData);
+      output.status = true;
+
+    } catch (error) {
+      console.log(error);
+      output.status = false;
+      output.message = typeof error == 'string' ? error : '';
+    }
+
+    return output;
+
+  }
+
+  @Put('provider')
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+  async updateProvider(@Body() proData: any): Promise<ResponseData> {
+    const output = new ResponseData();
+
+    try {
+      output.data = await this.createPatientService.updateProvider(proData);
+      output.status = true;
+
+    } catch (error) {
+      console.log(error);
+      output.status = false;
+      output.message = typeof error == 'string' ? error : '';
+    }
+
+    return output;
+
+  }
+
 }

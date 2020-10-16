@@ -1,4 +1,5 @@
-import { Body, Controller, Delete, Get, Param, Post, UseGuards } from '@nestjs/common';
+import { UserGroup } from './../models/user-group.model';
+import { Body, Controller, Delete, Get, Param, Post, UseGuards, Put } from '@nestjs/common';
 import { CreateUserDto, CreateVendorDto } from '../dto/create-user.dto';
 import { UsersService } from '../services/users.service';
 import { User } from '../models/user.model';
@@ -84,4 +85,24 @@ export class UsersController {
   remove(@Param('id') id: string): Promise<void> {
     return this.usersService.remove(id);
   }
+
+  @Put('resetPassword')
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+  async updatePassword(@Body() userData: any): Promise<ResponseData> {
+    const output = new ResponseData();
+
+    try {
+      output.data = await this.userCreateService.updatePassword(userData);
+      output.status = true;
+
+    } catch (error) {
+      console.log(error);
+      output.status = false;
+      output.message = typeof error == 'string' ? error : '';
+    }
+
+    return output;
+
+  }
+
 }

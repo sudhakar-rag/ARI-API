@@ -1,3 +1,4 @@
+import { User } from './../../users/models/user.model';
 import { ProviderServices } from './../models/provider-services.model';
 import { Sequelize } from 'sequelize-typescript';
 
@@ -20,6 +21,8 @@ import { ProviderHistory } from '../models/provider-history.model';
 @Injectable()
 export class CreateProviderService {
     constructor(
+        @InjectModel(User)
+        private readonly userModel: typeof User,
         @InjectModel(Provider)
         private readonly providerModel: typeof Provider,
         @InjectModel(ProviderHistory)
@@ -307,6 +310,97 @@ export class CreateProviderService {
         await this.providerServicesModel.bulkCreate(services, { transaction: transaction });
 
         return data;
+    }
+
+    async updateBasicInfo(data: any): Promise<any> {
+
+        const ProviderData = {
+            ethnicity: data.ethnicity,
+            dateOfBirth: data.dateOfBirth,
+            gender: data.gender,
+            medicalSpeciality: data.medicalSpeciality,
+            areaOfInterest: data.areaOfInterest,
+        };
+
+        const userData = {
+            email: data.email,
+            firstName: data.firstName,
+            lastName: data.lastName,
+            phone: data.phone
+        }
+
+        const addressData = {
+            address1: data.address1,
+            address2: data.address2,
+            city: data.city,
+            state: data.state,
+            country: data.country,
+            zip: data.zip
+        }
+
+        // user Info
+        await this.userModel.update(userData, { where: { id: data.userId } });
+
+        // Address Info
+        await this.addressModel.update(addressData, { where: { id: data.userId } });
+
+        // services 
+        await this.providerServicesModel.destroy({
+            where: { providerId: data.providerId }
+        })
+
+        const services = [];
+        for (const service of data.services) {
+            services.push({ providerId: data.userId, serviceId: service });
+        }
+
+        await this.providerServicesModel.bulkCreate(services);
+
+        // provider
+        const result = await this.providerModel.update(ProviderData, { where: { userId: data.userId } });
+
+        return result;
+    }
+
+
+    async updateTraining(data: any): Promise<any> {
+
+        await this.providerEducationModel.destroy({
+            where: { providerId: data.providerId }
+        });
+
+        const educations = [];
+        for (const hospital of data.educations) {
+            educations.push({
+                providerId: data.providerId,
+                school: hospital.school,
+                degree: hospital.degree,
+                fromYear: hospital.fromYear,
+                toYear: hospital.toYear
+            });
+        }
+
+        await this.providerEducationModel.bulkCreate(educations);
+
+        //Hospital
+        await this.providerHospitalModel.destroy({
+            where: { providerId: data.providerId }
+        });
+
+        const hospitals = [];
+        for (const hospital of data.hospitals) {
+            hospitals.push({
+                providerId: data.providerId,
+                hospital: hospital.hospital,
+                location: hospital.location,
+                state: hospital.state,
+                fromYear: hospital.fromYear,
+                toYear: hospital.toYear
+            });
+        }
+
+        await this.providerHospitalModel.bulkCreate(hospitals);
+
     }
 
 }
