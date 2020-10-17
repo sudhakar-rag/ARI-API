@@ -13,6 +13,7 @@ import {
 } from '@nestjs/common';
 import { ResponseData } from './../../core/common/response-data';
 import { CreateProviderService } from '../services/create-provider.service';
+import { AppointmentAvailabilityDto } from '../dto/appointment-availability.dto';
 
 @Controller('provider')
 // @UseGuards(JwtAuthGuard)
@@ -68,6 +69,21 @@ export class ProvidersController {
     return output;
   }
 
+  @Post('set-availability')
+  async setAvailability(@Body() availabilityData: AppointmentAvailabilityDto): Promise<ResponseData> {
+    const output = new ResponseData();
+
+    try {
+      output.data = await this.providerService.saveAvailability(availabilityData);
+    } catch (error) {
+      console.log(error);
+      output.status = false;
+      output.message = typeof error == 'string' ? error : '';
+    }
+
+    return output;
+  }
+
   @Put('basicInfo')
   async updateBasicInfo(@Body() providerData: any): Promise<ResponseData> {
     const output = new ResponseData();
@@ -82,5 +98,7 @@ export class ProvidersController {
 
     return output;
   }
+
+
 
 }

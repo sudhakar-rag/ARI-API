@@ -10,11 +10,20 @@ import { ProviderHospital } from '../models/provider-hospital.model';
 import { ProviderLanguage } from '../models/provider-language.model';
 import { ProviderReference } from '../models/provider-reference.model';
 import { Provider } from '../models/provider.model';
+import { AppointmentAvailabilityDto } from '../dto/appointment-availability.dto';
+import { ProviderAvailability } from '../models/provider-availability.model';
+import { ProviderAvailabilitySlot } from '../models/provider-availability-slot.model';
+import { Sequelize } from 'sequelize-typescript';
 @Injectable()
 export class ProviderService {
   constructor(
     @InjectModel(Provider)
     private readonly providerModel: typeof Provider,
+    @InjectModel(ProviderAvailability)
+    private readonly providerAvailabilityModel: typeof ProviderAvailability,
+    @InjectModel(ProviderAvailabilitySlot)
+    private readonly providerAvailabilitySlotModel: typeof ProviderAvailabilitySlot,
+    private readonly sequelize: Sequelize,
   ) { }
 
   async getProviders(queryParams: any): Promise<any> {
@@ -46,4 +55,57 @@ export class ProviderService {
     });
   }
 
+  async saveAvailability(availabilityData: AppointmentAvailabilityDto): Promise<any> {
+    let transaction;
+
+    try {
+      transaction = await this.sequelize.transaction();
+
+      for (const slot of availabilityData.slots) {
+
+        let providerAvailability = await this.providerAvailabilityModel.findOne({
+          where: {
+            providerId: availabilityData.providerId,
+            type: slot.type,
+            value: slot.value
+          }
+        })
+
+        if (!providerAvailability) {
+          providerAvailability = await this.providerAvailabilityModel.create({
+            providerId: availabilityData.providerId,
+            type: slot.type,
+            value: slot.value
+          });
+        }
+
+        await this.providerAvailabilitySlotModel.destroy({
+          where: { providerAvailabilityId: providerAvailability.id }
+        });
+
+        const intervals = [];
+        for (const interval of slot.intervals) {
+          intervals.push({
+            providerAvailabilityId: providerAvailability.id,
+            startTime: interval.start,
+            endTime: interval.end
+          });
+        }
+        await this.providerAvailabilitySlotModel.bulkCreate(intervals);
+
+      }
+
+
+      await transaction.commit();
+
+      return availabilityData;
+    } catch (error) {
+
+      if (transaction) await transaction.rollback();
+
+      return null;
+    }
+  }
+
 }
+
