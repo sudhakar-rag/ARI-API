@@ -17,6 +17,8 @@ import { Address } from '../users/models/address.model';
 import { CreateProviderService } from './services/create-provider.service';
 import { ProviderAddress } from './models/provider-address.model';
 import { ProviderHistory } from './models/provider-history.model';
+import { ProviderAvailability } from './models/provider-availability.model';
+import { ProviderAvailabilitySlot } from './models/provider-availability-slot.model';
 
 @Module({
   imports: [
@@ -33,7 +35,9 @@ import { ProviderHistory } from './models/provider-history.model';
       Address,
       ProviderAddress,
       ProviderHistory,
-      ProviderServices
+      ProviderServices,
+      ProviderAvailability,
+      ProviderAvailabilitySlot
     ]),
     UsersModule,
   ],
