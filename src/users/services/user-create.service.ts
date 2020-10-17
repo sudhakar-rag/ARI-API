@@ -173,12 +173,5 @@ export class UserCreateService {
         await this.userAddressModel.create({ addressId: addressData.id, userId: addressData.userId }, { transaction });
 
     }
-
-    async updatePassword(data: any): Promise<any> {
-
-        const result = await this.userModel.update(data.password, { where: { userId: data.userId } });
-
-        return result;
-    }
     
 }

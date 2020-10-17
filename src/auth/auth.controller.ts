@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Get } from '@nestjs/common';
+import { Controller, Post, Body, Get, Put } from '@nestjs/common';
 import { LoginRequestData } from './dto/login-request-data';
 import { AuthService } from './auth.service';
 import { JwtService } from '@nestjs/jwt';
@@ -39,6 +39,44 @@ export class AuthController {
         }
 
         return output;
+    }
+
+    @Put('resetPassword')
+    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+    async updatePassword(@Body() userData: any): Promise<ResponseData> {
+      const output = new ResponseData();
+  
+      try {
+        output.data = await this.authService.updatePassword(userData);
+        output.status = true;
+  
+      } catch (error) {
+        console.log(error);
+        output.status = false;
+        output.message = typeof error == 'string' ? error : '';
+      }
+  
+      return output;
+  
+    }
+
+    @Post('verifyPassword')
+    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+    async verifyPassword(@Body() userData: any): Promise<ResponseData> {
+      const output = new ResponseData();
+  
+      try {
+        output.data = await this.authService.verifyPassword(userData);
+        output.status = true;
+  
+      } catch (error) {
+        console.log(error);
+        output.status = false;
+        output.message = typeof error == 'string' ? error : '';
+      }
+  
+      return output;
+  
     }
 
     @Get('forgotPassword')

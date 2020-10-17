@@ -86,23 +86,4 @@ export class UsersController {
     return this.usersService.remove(id);
   }
 
-  @Put('resetPassword')
-  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-  async updatePassword(@Body() userData: any): Promise<ResponseData> {
-    const output = new ResponseData();
-
-    try {
-      output.data = await this.userCreateService.updatePassword(userData);
-      output.status = true;
-
-    } catch (error) {
-      console.log(error);
-      output.status = false;
-      output.message = typeof error == 'string' ? error : '';
-    }
-
-    return output;
-
-  }
-
 }

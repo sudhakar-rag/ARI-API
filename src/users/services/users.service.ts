@@ -153,4 +153,30 @@ export class UsersService {
     const user = await this.findOne(id);
     await user.destroy();
   }
+
+  async verifyUser(data: any): Promise<any> {
+    const userData = await this.userModel.findOne({
+      where: { id: data.userId }
+    });
+
+    if(userData.password == data.oldPassword) {
+      return true;
+    }
+    else {
+      return false;
+    }
+  }
+
+
+  async updatePassword(data: any): Promise<any> {
+
+    let userData = {
+      password: data.password
+    }
+
+    const result = await this.userModel.update(userData, { where: { id: data.userId } });
+
+    return result;
+}
+
 }

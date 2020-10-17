@@ -23,7 +23,8 @@ export class ProviderService {
       include: [
         User,
         ProviderAddress,
-        ProviderLanguage
+        ProviderLanguage,
+        ProviderServices
       ]
     });
   }
