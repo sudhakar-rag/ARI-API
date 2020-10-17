@@ -47,3 +47,27 @@ export class AppointmentAvailabilityDto {
     @Type(() => AppointmentSlotDto)
     slots: Array<AppointmentSlotDto>;
 }
+
+
+export class ProviderSettingItemDto {
+    @ApiProperty({ type: String, default: '' })
+    @IsString()
+    label: string;
+
+    @ApiProperty({ type: String, default: '' })
+    @IsString()
+    value: string;
+}
+
+export class ProviderSettingsDto {
+    @ApiProperty({ type: Number, default: 11 })
+    @IsNumber()
+    providerId: number;
+
+    @ApiProperty({ type: [ProviderSettingItemDto] })
+    @IsArray()
+    @ValidateNested({ each: true })
+    @ArrayMinSize(1)
+    @Type(() => ProviderSettingItemDto)
+    settings: Array<ProviderSettingItemDto>;
+}

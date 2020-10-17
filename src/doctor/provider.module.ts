@@ -19,6 +19,7 @@ import { ProviderAddress } from './models/provider-address.model';
 import { ProviderHistory } from './models/provider-history.model';
 import { ProviderAvailability } from './models/provider-availability.model';
 import { ProviderAvailabilitySlot } from './models/provider-availability-slot.model';
+import { ProviderSetting } from './models/provider-settings.model';
 
 @Module({
   imports: [
@@ -37,7 +38,8 @@ import { ProviderAvailabilitySlot } from './models/provider-availability-slot.mo
       ProviderHistory,
       ProviderServices,
       ProviderAvailability,
-      ProviderAvailabilitySlot
+      ProviderAvailabilitySlot,
+      ProviderSetting
     ]),
     UsersModule,
   ],

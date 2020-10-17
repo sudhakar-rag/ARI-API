@@ -13,7 +13,7 @@ import {
 } from '@nestjs/common';
 import { ResponseData } from './../../core/common/response-data';
 import { CreateProviderService } from '../services/create-provider.service';
-import { AppointmentAvailabilityDto } from '../dto/appointment-availability.dto';
+import { AppointmentAvailabilityDto, ProviderSettingsDto } from '../dto/appointment-availability.dto';
 import { ApiBearerAuth, ApiBody, ApiCreatedResponse, ApiOperation, ApiParam, ApiTags } from '@nestjs/swagger';
 
 @ApiTags('provider')
@@ -84,6 +84,27 @@ export class ProvidersController {
 
     try {
       output.data = await this.providerService.saveAvailability(availabilityData);
+    } catch (error) {
+      console.log(error);
+      output.status = false;
+      output.message = typeof error == 'string' ? error : '';
+    }
+
+    return output;
+  }
+
+  @ApiOperation({ summary: 'updates provider settings' })
+  @ApiBody({ type: ProviderSettingsDto })
+  @ApiCreatedResponse({
+    description: 'The record has been successfully updated.',
+    type: ProviderSettingsDto,
+  })
+  @Post('settings')
+  async setSettings(@Body() settingsData: ProviderSettingsDto): Promise<ResponseData> {
+    const output = new ResponseData();
+
+    try {
+      output.data = await this.providerService.saveSettings(settingsData);
     } catch (error) {
       console.log(error);
       output.status = false;
