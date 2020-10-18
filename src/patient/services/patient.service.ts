@@ -10,10 +10,11 @@ import { PatientMedicalProblem } from '../models/patient-medical-problems.model'
 import { PatientProviderType } from '../models/patient-provider-type.model';
 import { PatientSpecalist } from '../models/patient-specalist.model';
 import { PatientSymptom } from '../models/patient-symptom.model';
-import { Address } from './../../users/models/address.model';
 import { Subscription } from './../../shared/models/subscription.model';
 import { User } from '@app/src/users/models/user.model';
 import { PatientAddress } from '../models/patient-address.model';
+import { CreateAppointmentDto } from '../dto/create-appointment.dto';
+import { Appointment } from '@app/src/shared/models/appointment.model';
 
 @Injectable()
 export class PatientService {
@@ -22,6 +23,8 @@ export class PatientService {
     private readonly userModel: typeof User,
     @InjectModel(Patient)
     private readonly patientModel: typeof Patient,
+    @InjectModel(Appointment)
+    private readonly appointmentModel: typeof Appointment,
     private userCreateService: UserCreateService,
     private readonly sequelize: Sequelize,
   ) { }
@@ -83,5 +86,62 @@ export class PatientService {
 
   async deletePatient(id: number): Promise<any> {
     return await this.patientModel.destroy({ where: { id: id } });
+  }
+
+
+  async saveAppointment(appointmentData: CreateAppointmentDto): Promise<any> {
+
+    let transaction;
+
+    try {
+      transaction = await this.sequelize.transaction();
+
+      const result = await this.appointmentModel.findOne({
+        where: {
+          providerId: appointmentData.providerId,
+          patientId: appointmentData.patientId,
+          slotId: appointmentData.slotId,
+          type: appointmentData.type
+        },
+        transaction: transaction
+      })
+
+      if (!result) {
+        await this.appointmentModel.create({
+          providerId: appointmentData.providerId,
+          patientId: appointmentData.patientId,
+          slotId: appointmentData.slotId,
+          type: appointmentData.type,
+          status: appointmentData.status || 'PENDING'
+        }, { transaction: transaction });
+      } else {
+        const data: any = {
+          providerId: appointmentData.providerId,
+          patientId: appointmentData.patientId,
+          slotId: appointmentData.slotId,
+          type: appointmentData.type,
+          status: result.status
+        };
+
+        if (appointmentData.status) {
+          data.status = appointmentData.status;
+        }
+
+        await this.appointmentModel.update(data, {
+          where: { id: result.id },
+          transaction
+        });
+      }
+
+
+      await transaction.commit();
+
+      return appointmentData;
+    } catch (error) {
+      console.log(error);
+      if (transaction) await transaction.rollback();
+
+      return null;
+    }
   }
 }

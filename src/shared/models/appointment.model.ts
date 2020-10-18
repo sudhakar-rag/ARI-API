@@ -1,3 +1,4 @@
+import { ProviderAvailabilitySlot } from '@app/src/doctor/models/provider-availability-slot.model';
 import {
     Table,
     Column,
@@ -22,6 +23,10 @@ export class Appointment extends Model<Appointment> {
     @Column
     patientId: number;
 
+    @ForeignKey(() => ProviderAvailabilitySlot)
+    @Column
+    slotId: number;
+
     @Column(DataType.ENUM('I', 'G'))
     type: 'I' | 'G'
 
@@ -34,12 +39,6 @@ export class Appointment extends Model<Appointment> {
     @Column(DataType.TEXT({ length: 'medium' }))
     startUrl: string;
 
-    @Column(DataType.DATE)
-    startTime: string;
-
-    @Column(DataType.DATE)
-    endTime: string;
-
     @Column(DataType.ENUM('PENDING', 'COMPLETED'))
     status: 'PENDING' | 'COMPLETED'
 
@@ -48,6 +47,9 @@ export class Appointment extends Model<Appointment> {
 
     @BelongsTo(() => Patient)
     patient: Patient;
+
+    @BelongsTo(() => ProviderAvailabilitySlot)
+    slot: ProviderAvailabilitySlot;
 
     @BelongsToMany(() => Payment, () => AppointmentPayment)
     payments: Payment[];
