@@ -64,7 +64,7 @@ export class CreatePatientService {
                 status: patientData.status
             }
 
-            const user = await this.userCreateService.saveUser(userData, action, transaction, 3);
+            const user = await this.userCreateService.saveUser(userData, action, transaction);
 
             patientData.id = user.id;
 
@@ -274,7 +274,7 @@ export class CreatePatientService {
             surgeryHistory: data.surgeryHistory,
             vaccinationHistory: data.vaccinationHistory,
             travelHistory: data.travelHistory,
-            hospitalizationHistory: data.hospitalizationHistory,        
+            hospitalizationHistory: data.hospitalizationHistory,
         };
 
         const result = await this.patientModel.update(historyData, { where: { userId: data.userId } });
@@ -288,7 +288,7 @@ export class CreatePatientService {
             allergies: data.allergies,
             medications: data.medications,
             restrictions: data.restrictions,
-            vitamins: data.vitamins,       
+            vitamins: data.vitamins,
         };
 
         const result = await this.patientModel.update(healthData, { where: { userId: data.userId } });
@@ -356,7 +356,7 @@ export class CreatePatientService {
 
         await this.patientSpecalistModel.destroy({
             where: { patientId: data.patientId }
-                });
+        });
 
         const specalists = [];
         for (const specalist of data.specalists) {

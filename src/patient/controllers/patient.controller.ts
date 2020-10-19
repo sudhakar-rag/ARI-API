@@ -17,13 +17,12 @@ export class PatientsController {
     private createPatientService: CreatePatientService
   ) { }
 
-
-  @Get('getPatients')
-  async getPatients(): Promise<ResponseData> {
+  @Post()
+  async getPatients(@Body() queryParams): Promise<ResponseData> {
     const output = new ResponseData();
 
     try {
-      output.data = await this.patientsService.getPatients();
+      output.data = await this.patientsService.getPatients(queryParams);
     } catch (error) {
       console.log(error);
       output.status = false;

@@ -29,8 +29,15 @@ export class PatientService {
     private readonly sequelize: Sequelize,
   ) { }
 
-  async getPatients(): Promise<any> {
-    return await this.patientModel.findAll();
+  async getPatients(queryParams: any): Promise<any> {
+    return await this.patientModel.findAll({
+      include: [
+        User,
+        PatientAddress,
+        PatientMedicalProblem,
+        PatientSymptom
+      ]
+    });
   }
 
   async getPatientById(userId: string): Promise<any> {
@@ -70,7 +77,7 @@ export class PatientService {
         status: 1
       }
 
-      const user = await this.userCreateService.saveUser(userData, action, transaction, 3);
+      const user = await this.userCreateService.saveUser(userData, action, transaction);
 
       await transaction.commit();
 
