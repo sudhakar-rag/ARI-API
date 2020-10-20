@@ -33,6 +33,25 @@ export class PatientsController {
     return output;
   }
 
+  @ApiOperation({ summary: 'get availability data by provider' })
+  @Get(':providerId/availability')
+  async getAvailabilityData(@Param('providerId') providerId: string): Promise<ResponseData> {
+    const output = new ResponseData();
+
+    try {
+      output.data = providerId;
+      output.status = true;
+
+    } catch (error) {
+      console.log(error);
+      output.status = false;
+      output.message = typeof error == 'string' ? error : '';
+    }
+
+    return output;
+
+  }
+
   @Get(':id')
   async getPatientInfo(@Param('id') userId: string): Promise<ResponseData> {
     const output = new ResponseData();
