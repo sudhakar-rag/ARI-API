@@ -95,4 +95,5 @@ export class Patient extends Model<Patient> {
 
   @BelongsTo(() => User)
   user: User;
+
 }
