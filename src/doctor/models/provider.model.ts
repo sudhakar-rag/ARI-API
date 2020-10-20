@@ -50,6 +50,9 @@ export class Provider extends Model<Provider> {
   @Column
   hasMalpractice: boolean;
 
+  @Column
+  isAvailable: boolean;
+
   @HasOne(() => ProviderHistory)
   history: ProviderHistory;
 

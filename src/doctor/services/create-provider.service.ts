@@ -498,4 +498,16 @@ export class CreateProviderService {
 
     }
 
+    async updateStatus(data: any): Promise<any> {
+
+        const StatusData = {
+            isAvailable: data.isAvailable
+        }
+
+        const result = await this.providerModel.update(StatusData, { where: { id: data.providerId } });
+
+        return result;
+
+    }
+
 }
