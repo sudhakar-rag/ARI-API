@@ -143,7 +143,7 @@ export class CreateProviderService {
             religoiusAffiliations: providerData.religiousAffiliaions,
             specialBackground: providerData.specialBackground,
             limitations: providerData.limitation,
-            drugAddiction: providerData.hasDrugAddiction,
+            drugAddiction: providerData.addiction,
             crimianalRecord: providerData.crime,
             malpractice: providerData.malpractice
         };
@@ -399,7 +399,102 @@ export class CreateProviderService {
             });
         }
 
-        await this.providerHospitalModel.bulkCreate(hospitals);
+        const result = await this.providerHospitalModel.bulkCreate(hospitals);
+
+        return result;
+
+    }
+
+    async updateReferences(data: any): Promise<any> {
+
+        await this.providerReferenceModel.destroy({
+            where: { providerId: data.providerId }
+        });
+
+        const references = [];
+        for (const reference of data.references) {
+            references.push({
+                providerId: data.providerId,
+                title: reference.title,
+                firstName: reference.firstName,
+                lastName: reference.lastName,
+                degree: reference.degree,
+                hospital: reference.hospital,
+                email: reference.email,
+                phone: reference.phone
+            });
+        }
+
+        const result = await this.providerReferenceModel.bulkCreate(references);
+
+        return result;
+
+    }
+
+    async updateBackground(data: any): Promise<any> {
+
+        const ProviderData = {
+            hasDrugAddiction: data.hasDrugAddiction,
+            hasCriminalRecord: data.hasCriminalRecord,
+            hasMalpractice: data.hasMalpractice,
+        };
+
+        const historyData = {
+            limitations: data.limitations,
+            drugAddiction: data.drugAddiction,
+            crimianalRecord: data.crimianalRecord,
+            malpractice: data.malpractice
+        }
+
+        // History Info
+        await this.providerHistoryModel.update(historyData, { where: { providerId: data.providerId } });
+
+        // provider
+        const result = await this.providerModel.update(ProviderData, { where: { userId: data.userId } });
+
+        return result;
+    }
+
+    async updateCulturalBackground(data: any): Promise<any> {
+
+        await this.providerLanguageModel.destroy({
+            where: { providerId: data.providerId }
+        });
+
+        const languages = [];
+        for (const lng of data.languages) {
+            languages.push({ providerId: data.providerId, langId: lng });
+        }
+
+        await this.providerLanguageModel.bulkCreate(languages);
+
+        let historyData = {
+            religoiusAffiliations: data.religoiusAffiliations,
+            specialBackground: data.specialBackground,
+        }
+
+        const result = await this.providerHistoryModel.update(historyData, { where: { providerId: data.providerId } });
+
+
+        return result;
+
+    }
+
+
+    async updateAffilations(data: any): Promise<any> {
+
+        await this.providerAffilationModel.destroy({
+            where: { providerId: data.providerId }
+        });
+
+        const affilations = [];
+        for (const hospital of data.affilations) {
+            affilations.push({ providerId: data.providerId, name: hospital });
+        }
+
+        const result = await this.providerAffilationModel.bulkCreate(affilations);
+
+        return result;
 
     }
 
