@@ -4,7 +4,11 @@ import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
 import { ResponseData } from '@app/src/core/common/response-data';
 import { PatientDto } from '../dto/patient.dto';
 import { CreatePatientService } from '../services/create-patient.service';
+import { CreateAppointmentDto } from '../dto/create-appointment.dto';
+import { ApiBearerAuth, ApiBody, ApiCreatedResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('patient')
+@ApiBearerAuth()
 @Controller('patient')
 // @UseGuards(JwtAuthGuard)
 export class PatientsController {
@@ -13,13 +17,12 @@ export class PatientsController {
     private createPatientService: CreatePatientService
   ) { }
 
-
-  @Get('getPatients')
-  async getPatients(): Promise<ResponseData> {
+  @Post()
+  async getPatients(@Body() queryParams): Promise<ResponseData> {
     const output = new ResponseData();
 
     try {
-      output.data = await this.patientsService.getPatients();
+      output.data = await this.patientsService.getPatients(queryParams);
     } catch (error) {
       console.log(error);
       output.status = false;
@@ -27,6 +30,25 @@ export class PatientsController {
     }
 
     return output;
+  }
+
+  @ApiOperation({ summary: 'get availability data by provider' })
+  @Get(':providerId/availability')
+  async getAvailabilityData(@Param('providerId') providerId: string): Promise<ResponseData> {
+    const output = new ResponseData();
+
+    try {
+      output.data = providerId;
+      output.status = true;
+
+    } catch (error) {
+      console.log(error);
+      output.status = false;
+      output.message = typeof error == 'string' ? error : '';
+    }
+
+    return output;
+
   }
 
   @Get(':id')
@@ -51,6 +73,30 @@ export class PatientsController {
 
     try {
       output.data = await this.createPatientService.createPatient(patientInfo);
+      output.status = true;
+
+    } catch (error) {
+      console.log(error);
+      output.status = false;
+      output.message = typeof error == 'string' ? error : '';
+    }
+
+    return output;
+
+  }
+
+  @ApiOperation({ summary: 'create appointment' })
+  @ApiBody({ type: CreateAppointmentDto })
+  @ApiCreatedResponse({
+    description: 'The record has been successfully created.',
+    type: CreateAppointmentDto,
+  })
+  @Post('appointment')
+  async createAppointment(@Body() appointmentData: CreateAppointmentDto): Promise<ResponseData> {
+    const output = new ResponseData();
+
+    try {
+      output.data = await this.patientsService.saveAppointment(appointmentData);
       output.status = true;
 
     } catch (error) {

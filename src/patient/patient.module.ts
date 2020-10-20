@@ -12,6 +12,7 @@ import { User } from '../users/models/user.model';
 import { CreatePatientService } from './services/create-patient.service';
 import { PatientAddress } from './models/patient-address.model';
 import { Address } from '../users/models/address.model';
+import { Appointment } from '../shared/models/appointment.model';
 
 @Module({
   imports: [
@@ -23,7 +24,8 @@ import { Address } from '../users/models/address.model';
       PatientSpecalist,
       PatientProviderType,
       PatientMedicalProblem,
-      PatientAddress
+      PatientAddress,
+      Appointment
     ]),
     UsersModule,
   ],

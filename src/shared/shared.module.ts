@@ -10,6 +10,9 @@ import { ProviderType } from './models/provider-type.model';
 import { Specalist } from './models/specalist.model';
 import { Subscription } from './models/subscription.model';
 import { Symptom } from './models/symptom.model';
+import { Payment } from './models/payment.model';
+import { Appointment } from './models/appointment.model';
+import { AppointmentPayment } from './models/appointment-payment.model';
 
 @Module({
     imports: [
@@ -21,7 +24,10 @@ import { Symptom } from './models/symptom.model';
             Subscription,
             Address,
             Language,
-            Service
+            Service,
+            Payment,
+            Appointment,
+            AppointmentPayment
         ])
     ],
     providers: [SharedService],
