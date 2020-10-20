@@ -9,6 +9,7 @@ import * as md5 from "md5";
 import { UserAddress } from '../models/user-address.model';
 import { Address } from '../models/address.model';
 import { convertToJSONObject } from '@app/src/core/common/helpers';
+import { Provider } from '@app/src/doctor/models/provider.model';
 
 @Injectable()
 export class UsersService {
@@ -34,6 +35,8 @@ export class UsersService {
       phone: rawData.phone,
       picture: rawData.picture,
       status: rawData.status,
+      provider: rawData.provider || null,
+      patient: rawData.patient || null,
       roles: []
     };
 
@@ -83,6 +86,9 @@ export class UsersService {
         {
           model: UserRole,
           include: [Role]
+        },
+        {
+          model: Provider
         }
       ]
     })
@@ -159,7 +165,7 @@ export class UsersService {
       where: { id: data.userId }
     });
 
-    if(userData.password == data.oldPassword) {
+    if (userData.password == data.oldPassword) {
       return true;
     }
     else {
@@ -177,6 +183,6 @@ export class UsersService {
     const result = await this.userModel.update(userData, { where: { id: data.userId } });
 
     return result;
-}
+  }
 
 }
