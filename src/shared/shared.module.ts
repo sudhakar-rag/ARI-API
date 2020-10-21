@@ -13,6 +13,7 @@ import { Symptom } from './models/symptom.model';
 import { Payment } from './models/payment.model';
 import { Appointment } from './models/appointment.model';
 import { AppointmentPayment } from './models/appointment-payment.model';
+import { AppointmentDetails } from './models/appointment-details.model';
 
 @Module({
     imports: [
@@ -27,7 +28,8 @@ import { AppointmentPayment } from './models/appointment-payment.model';
             Service,
             Payment,
             Appointment,
-            AppointmentPayment
+            AppointmentPayment,
+            AppointmentDetails
         ])
     ],
     providers: [SharedService],

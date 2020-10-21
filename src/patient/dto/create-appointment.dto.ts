@@ -46,4 +46,20 @@ export class CreateAppointmentDto {
     @IsOptional()
     @IsString()
     status: string;
+
+    @ApiProperty({ type: String, default: 'Fever' })
+    @IsNumber()
+    appointTypemen: number;
+
+    @ApiProperty({ type: String, default: 'subject text' })
+    @IsString()
+    subject: string;
+
+    @ApiProperty({ type: String, default: 'message text' })
+    @IsString()
+    message: string;
+
+    @ApiProperty({ type: String, default: 'assets/image/user.png' })
+    @IsString()
+    files: string;
 }
