@@ -10,6 +10,7 @@ import { UserAddress } from '../models/user-address.model';
 import { Address } from '../models/address.model';
 import { convertToJSONObject } from '@app/src/core/common/helpers';
 import { Provider } from '@app/src/doctor/models/provider.model';
+import { Patient } from '@app/src/patient/models/patient.model';
 
 @Injectable()
 export class UsersService {
@@ -89,6 +90,9 @@ export class UsersService {
         },
         {
           model: Provider
+        },
+        {
+          model: Patient
         }
       ]
     })
