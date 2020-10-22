@@ -49,7 +49,7 @@ export class CreateAppointmentDto {
 
     @ApiProperty({ type: String, default: 'Fever' })
     @IsNumber()
-    appointTypemen: number;
+    appointmentType: String;
 
     @ApiProperty({ type: String, default: 'subject text' })
     @IsString()

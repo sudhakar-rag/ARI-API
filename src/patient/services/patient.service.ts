@@ -15,6 +15,7 @@ import { User } from '@app/src/users/models/user.model';
 import { PatientAddress } from '../models/patient-address.model';
 import { CreateAppointmentDto } from '../dto/create-appointment.dto';
 import { Appointment } from '@app/src/shared/models/appointment.model';
+import { AppointmentDetails } from '@app/src/shared/models/appointment-details.model';
 
 @Injectable()
 export class PatientService {
@@ -25,6 +26,8 @@ export class PatientService {
     private readonly patientModel: typeof Patient,
     @InjectModel(Appointment)
     private readonly appointmentModel: typeof Appointment,
+    @InjectModel(AppointmentDetails)
+    private readonly appointmentDetailsModel: typeof AppointmentDetails,
     private userCreateService: UserCreateService,
     private readonly sequelize: Sequelize,
   ) { }
@@ -114,13 +117,24 @@ export class PatientService {
       })
 
       if (!result) {
-        await this.appointmentModel.create({
+        const appointment = await this.appointmentModel.create({
           providerId: appointmentData.providerId,
           patientId: appointmentData.patientId,
           slotId: appointmentData.slotId,
           type: appointmentData.type,
           status: appointmentData.status || 'PENDING'
         }, { transaction: transaction });
+
+        if (appointment) {
+
+          await this.appointmentDetailsModel.create({
+            appointmentId: appointment.id,
+            appointmentType: appointmentData.appointmentType,
+            subject: appointmentData.subject,
+            message: appointmentData.message,
+            files: appointmentData.files
+          }, { transaction: transaction });
+        }
       } else {
         const data: any = {
           providerId: appointmentData.providerId,
@@ -134,10 +148,27 @@ export class PatientService {
           data.status = appointmentData.status;
         }
 
-        await this.appointmentModel.update(data, {
+        await this.appointmentModel.update({
+          providerId: appointmentData.providerId,
+          patientId: appointmentData.patientId,
+          slotId: appointmentData.slotId,
+          type: appointmentData.type,
+          status: appointmentData.status || 'PENDING'
+        }, {
           where: { id: result.id },
           transaction
         });
+
+
+        await this.appointmentDetailsModel.update(
+          {
+            appointmentId: result.id,
+            appointmentType: appointmentData.appointmentType,
+            subject: appointmentData.subject,
+            message: appointmentData.message,
+            files: appointmentData.files
+          },
+          { where: { appointmentId: result.id }, transaction });
       }
 
 
