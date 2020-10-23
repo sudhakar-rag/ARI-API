@@ -1,3 +1,4 @@
+import { ProviderModule } from './../doctor/provider.module';
 import { PatientService } from './services/patient.service';
 import { PatientsController } from './controllers/patient.controller';
 import { Module } from '@nestjs/common';
@@ -30,6 +31,7 @@ import { AppointmentDetails } from '../shared/models/appointment-details.model';
       AppointmentDetails
     ]),
     UsersModule,
+    ProviderModule
   ],
   providers: [PatientService, CreatePatientService],
   controllers: [PatientsController],

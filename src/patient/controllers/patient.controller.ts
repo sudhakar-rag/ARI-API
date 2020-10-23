@@ -1,3 +1,4 @@
+import { CreateProviderService } from './../../doctor/services/create-provider.service';
 import { PatientBasicDto } from './../dto/patient-basic.dto';
 import { PatientService } from './../services/patient.service';
 import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
@@ -13,8 +14,9 @@ import { ApiBearerAuth, ApiBody, ApiCreatedResponse, ApiOperation, ApiTags } fro
 // @UseGuards(JwtAuthGuard)
 export class PatientsController {
   constructor(
+    private providerService: CreateProviderService,
     private patientsService: PatientService,
-    private createPatientService: CreatePatientService
+    private createPatientService: CreatePatientService,
   ) { }
 
   @Post()
@@ -192,6 +194,24 @@ export class PatientsController {
 
     try {
       output.data = await this.createPatientService.updateMedProblems(medProbData);
+      output.status = true;
+
+    } catch (error) {
+      console.log(error);
+      output.status = false;
+      output.message = typeof error == 'string' ? error : '';
+    }
+
+    return output;
+
+  }
+
+  @Post('rating')
+  async saveRatings(@Body() ratingData: any): Promise<ResponseData> {
+    const output = new ResponseData();
+
+    try {
+      output.data = await this.providerService.saveRating(ratingData);
       output.status = true;
 
     } catch (error) {

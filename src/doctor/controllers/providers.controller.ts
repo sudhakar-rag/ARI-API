@@ -43,6 +43,21 @@ export class ProvidersController {
     return output;
   }
 
+  @Get('rating/:id')
+  async getProviderRatingById(@Param('id') userId: string): Promise<ResponseData> {
+    const output = new ResponseData();
+
+    try {
+      output.data = await this.providerService.getProviderRatingById(userId);
+    } catch (error) {
+      console.log(error);
+      output.status = false;
+      output.message = typeof error == 'string' ? error : '';
+    }
+
+    return output;
+  }
+
   @Post()
   async getProviders(@Body() queryParams): Promise<ResponseData> {
     const output = new ResponseData();

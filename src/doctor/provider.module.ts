@@ -1,3 +1,4 @@
+import { RatingHistory } from './models/rating-history';
 import { ProviderServices } from './models/provider-services.model';
 import { User } from './../users/models/user.model';
 import { UsersModule } from './../users/users.module';
@@ -39,12 +40,13 @@ import { ProviderSetting } from './models/provider-settings.model';
       ProviderServices,
       ProviderAvailability,
       ProviderAvailabilitySlot,
-      ProviderSetting
+      ProviderSetting,
+      RatingHistory
     ]),
     UsersModule,
   ],
   providers: [ProviderService, CreateProviderService],
   controllers: [ProvidersController],
-  exports: [ProviderService],
+  exports: [ProviderService, CreateProviderService],
 })
 export class ProviderModule { }

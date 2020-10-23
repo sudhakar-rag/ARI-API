@@ -1,3 +1,4 @@
+import { RatingHistory } from './../models/rating-history';
 import { User } from './../../users/models/user.model';
 import { ProviderServices } from './../models/provider-services.model';
 import { Sequelize } from 'sequelize-typescript';
@@ -43,6 +44,8 @@ export class CreateProviderService {
         private readonly providerReferenceModel: typeof ProviderReference,
         @InjectModel(ProviderServices)
         private readonly providerServicesModel: typeof ProviderServices,
+        @InjectModel(RatingHistory)
+        private readonly ratingHistoryModel: typeof RatingHistory,
         private userCreateService: UserCreateService,
         private readonly sequelize: Sequelize,
     ) { }
@@ -508,6 +511,27 @@ export class CreateProviderService {
 
         return result;
 
+    }
+
+    async saveRating(data: any): Promise<any> {
+        
+        const ratingData = {
+            patientId: data.patientId,
+            providerId: data.providerId,
+            rating: data.rating,
+            review: data.review
+        }
+
+        await this.ratingHistoryModel.create(ratingData);
+
+        const ProviderData = {
+            rating: data.averageRating
+        };
+
+        // provider
+        const result = await this.providerModel.update(ProviderData, { where: { userId: data.providerId } });
+
+        return result;
     }
 
 }

@@ -1,3 +1,4 @@
+import { RatingHistory } from './../../doctor/models/rating-history';
 import { PatientDto } from './../dto/patient.dto';
 import { Patient } from './../models/patient.model';
 import { Sequelize } from 'sequelize-typescript';
@@ -54,6 +55,7 @@ export class PatientService {
         PatientProviderType,
         PatientSpecalist,
         PatientSymptom,
+        RatingHistory
       ]
     });
   }

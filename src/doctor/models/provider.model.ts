@@ -1,3 +1,4 @@
+import { RatingHistory } from './rating-history';
 import { ProviderServices } from './provider-services.model';
 import { BelongsTo } from 'sequelize-typescript';
 import { User } from './../../users/models/user.model';
@@ -53,6 +54,9 @@ export class Provider extends Model<Provider> {
   @Column
   isAvailable: boolean;
 
+  @Column
+  rating: number;
+
   @HasOne(() => ProviderHistory)
   history: ProviderHistory;
 
@@ -61,6 +65,9 @@ export class Provider extends Model<Provider> {
 
   @HasMany(() => ProviderServices)
   services: Array<ProviderServices>;
+
+  @HasMany(() => RatingHistory)
+  ratings: Array<RatingHistory>;
 
   @HasMany(() => ProviderAffilation)
   affilations: Array<ProviderAffilation>;
