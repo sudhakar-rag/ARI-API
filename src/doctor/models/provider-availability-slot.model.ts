@@ -14,9 +14,9 @@ export class ProviderAvailabilitySlot extends Model<ProviderAvailabilitySlot> {
     @Column
     providerAvailabilityId: number;
 
-    @Column(DataType.TIME)
+    @Column
     startTime: string;
 
-    @Column(DataType.TIME)
+    @Column
     endTime: string;
 }

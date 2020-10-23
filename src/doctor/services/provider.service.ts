@@ -58,6 +58,27 @@ export class ProviderService {
     });
   }
 
+
+  async getAvailability(providerId: string): Promise<any> {
+    return await this.providerAvailabilityModel.findAll({
+      where: { providerId: providerId },
+      include: [
+        ProviderAvailabilitySlot,
+      ]
+    });
+  }
+
+
+  async getAvailabilityByDay(params): Promise<any> {
+    return await this.providerAvailabilityModel.findAll({
+      where: {
+        providerId: params.providerId,
+        value: params.day
+      },
+      include: [ProviderAvailabilitySlot]
+    });
+  }
+
   async saveAvailability(availabilityData: AppointmentAvailabilityDto): Promise<any> {
     let transaction;
 
