@@ -61,9 +61,31 @@ export class ProviderService {
     });
   }
 
+
   async getProviderRatingById(userId: string): Promise<any> {
     return await this.ratingHistoryModel.findAndCountAll({
-      where: { providerId: userId },
+      where: { providerId: userId } 
+      });
+    }
+
+
+  async getAvailability(providerId: string): Promise<any> {
+    return await this.providerAvailabilityModel.findAll({
+      where: { providerId: providerId },
+      include: [
+        ProviderAvailabilitySlot,
+      ]
+    });
+  }
+
+
+  async getAvailabilityByDay(params): Promise<any> {
+    return await this.providerAvailabilityModel.findAll({
+      where: {
+        providerId: params.providerId,
+        value: params.day
+      },
+      include: [ProviderAvailabilitySlot]
     });
   }
 

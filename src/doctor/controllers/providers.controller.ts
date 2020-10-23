@@ -235,4 +235,37 @@ export class ProvidersController {
     return output;
   }
 
+
+  @Get('get-availability/:providerId')
+  async getAvailability(@Param('providerId') providerId: string): Promise<ResponseData> {
+    const output = new ResponseData();
+
+    try {
+      output.data = await this.providerService.getAvailability(providerId);
+    } catch (error) {
+      console.log(error);
+      output.status = false;
+      output.message = typeof error == 'string' ? error : '';
+    }
+
+    return output;
+  }
+
+
+
+  @Post('availability-by-day')
+  async getAvailabilityByDay(@Body() params: any): Promise<ResponseData> {
+    const output = new ResponseData();
+
+    try {
+      output.data = await this.providerService.getAvailabilityByDay(params);
+    } catch (error) {
+      console.log(error);
+      output.status = false;
+      output.message = typeof error == 'string' ? error : '';
+    }
+
+    return output;
+  }
+
 }
