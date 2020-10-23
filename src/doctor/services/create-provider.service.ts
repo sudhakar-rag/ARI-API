@@ -18,6 +18,7 @@ import { ProviderEducation } from '../models/provider-education.model';
 import { ProviderHospital } from '../models/provider-hospital.model';
 import { ProviderReference } from '../models/provider-reference.model';
 import { ProviderHistory } from '../models/provider-history.model';
+import sequelize from 'sequelize';
 
 @Injectable()
 export class CreateProviderService {
@@ -524,8 +525,21 @@ export class CreateProviderService {
 
         await this.ratingHistoryModel.create(ratingData);
 
+        const ratingCount: any = await this.ratingHistoryModel.findOne({
+            where: { providerId: data.providerId },
+            attributes: [
+                  [sequelize.fn('sum', sequelize.col('rating')), 'totalRating'],
+                  [sequelize.fn('count', sequelize.col('id')), 'count'],
+                        ],
+            raw: true,
+        });
+
+        console.log(ratingCount);
+
+        let average =  Math.round(ratingCount.totalRating / ratingCount.count);
+
         const ProviderData = {
-            rating: data.averageRating
+            rating: average
         };
 
         // provider
