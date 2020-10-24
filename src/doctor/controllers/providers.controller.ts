@@ -79,6 +79,26 @@ export class ProvidersController {
     return output;
   }
 
+  @ApiOperation({ summary: 'returns appointments list' })
+  @ApiBody({ type: ListQueryParamsDto })
+  @ApiCreatedResponse({
+    description: 'provider list.',
+    type: ResponseData,
+  })
+  @Post('appointment-list')
+  async getAppointments(@Body() queryParams: ListQueryParamsDto): Promise<ResponseData> {
+    const output = new ResponseData();
+    try {
+      output.data = await this.providerService.getAppointments(queryParams);
+    } catch (error) {
+      console.log(error);
+      output.status = false;
+      output.message = typeof error == 'string' ? error : '';
+    }
+
+    return output;
+  }
+
   @Post('create')
   async create(@Body() providerData: ProviderDto): Promise<ResponseData> {
     const output = new ResponseData();

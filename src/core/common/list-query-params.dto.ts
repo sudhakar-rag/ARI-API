@@ -32,9 +32,10 @@ export class ListQueryParamsDto {
     @IsString()
     sortOrder?: string;
 
-    @ApiProperty({ type: ListFilterDto })
-    @Type(() => ListFilterDto)
-    filter: ListFilterDto;
+    @ApiProperty()
+    @IsOptional()
+    // @Type(() => ListFilterDto)    
+    filter?: any;
 
 }
 

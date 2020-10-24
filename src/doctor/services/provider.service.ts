@@ -18,6 +18,8 @@ import { Sequelize } from 'sequelize-typescript';
 import { ProviderSetting } from '../models/provider-settings.model';
 import { ListQueryParamsDto } from '@app/src/core/common/list-query-params.dto';
 import { Op } from 'sequelize';
+import { Appointment } from '../../shared/models/appointment.model';
+import { Patient } from '../../patient/models/patient.model';
 
 @Injectable()
 export class ProviderService {
@@ -32,6 +34,8 @@ export class ProviderService {
     private readonly providerSettingModel: typeof ProviderSetting,
     @InjectModel(RatingHistory)
     private readonly ratingHistoryModel: typeof RatingHistory,
+    @InjectModel(Appointment)
+    private readonly appointmentModel: typeof Appointment,
     private readonly sequelize: Sequelize,
   ) { }
 
@@ -65,6 +69,42 @@ export class ProviderService {
         ProviderLanguage,
         ProviderServices,
       ],
+      offset: offset,
+      limit: limit,
+      order: [[sortField, sortOrder]]
+    });
+  }
+
+  async getAppointments(queryParams: ListQueryParamsDto): Promise<any> {
+
+    const searchText = queryParams.queryString || '';
+
+    queryParams.pageNumber = queryParams.pageNumber || 0;
+    queryParams.pageSize = queryParams.pageSize || 10;
+    const offset = queryParams.pageNumber * queryParams.pageSize;
+    const limit = queryParams.pageSize;
+    const sortField = queryParams.sortField || 'id';
+    const sortOrder = queryParams.sortOrder || 'desc';
+
+    let providerId = '0';
+    if (queryParams.filter && queryParams.filter.providerId) {
+      providerId = queryParams.filter.providerId
+    }
+    console.log('providerId', providerId, queryParams);
+
+    return await this.appointmentModel.findAndCountAll({
+      include: [
+        {
+          model: Provider,
+          include: [User]
+        },
+        {
+          model: Patient,
+          include: [User]
+        },
+        ProviderAvailabilitySlot
+      ],
+      where: { providerId: providerId },
       offset: offset,
       limit: limit,
       order: [[sortField, sortOrder]]
