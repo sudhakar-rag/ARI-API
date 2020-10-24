@@ -1,3 +1,4 @@
+import { ProviderType } from './../models/provider-type.model';
 import { AppointmentDetails } from './../models/appointment-details.model';
 import { Service } from './../models/services.model';
 import { Language } from './../../doctor/models/language.model';
@@ -27,6 +28,8 @@ export class SharedService {
     private readonly addressModel: typeof Address,
     @InjectModel(Service)
     private readonly serviceModel: typeof Service,
+    @InjectModel(ProviderType)
+    private readonly providerTypeModel: typeof ProviderType,
     @InjectModel(AppointmentDetails)
     private readonly appointmentDetailsModel: typeof AppointmentDetails,
     private readonly sequelize: Sequelize,
@@ -42,6 +45,10 @@ export class SharedService {
 
   async getSpecialists(): Promise<any> {
     return await this.specialistModel.findAll();
+  }
+
+  async getProviderTypes(): Promise<any> {
+    return await this.providerTypeModel.findAll();
   }
 
   async getLanguages(): Promise<any> {

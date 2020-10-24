@@ -87,6 +87,21 @@ export class SharedController {
     return output;
   }
 
+  @Get('providerTypes')
+  async getProviderTypes() {
+    let output = new ResponseData();
+
+    try {
+      output.data = await this.sharedService.getProviderTypes();
+    } catch (error) {
+      console.log(error);
+      output.status = false;
+      output.message = typeof error == 'string' ? error : '';
+    }
+
+    return output;
+  }
+
   @Get('address/:id')
   async getAddress(@Param('id') addressId: string) {
     let output = new ResponseData();
