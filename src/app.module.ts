@@ -11,6 +11,7 @@ import { SettingsModule } from './settings/settings.module';
 import { SmsModule } from './sms/sms.module';
 import { EmailModule } from './email/email.module';
 import { SharedModule } from './shared/shared.module';
+import { AppointmentModule } from './appointment/appointment.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { SharedModule } from './shared/shared.module';
     SmsModule,
     EmailModule,
     SharedModule,
+    AppointmentModule,
   ],
   controllers: [AppController],
   providers: [AppService],
