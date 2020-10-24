@@ -17,6 +17,9 @@ import { PatientAddress } from '../models/patient-address.model';
 import { CreateAppointmentDto } from '../dto/create-appointment.dto';
 import { Appointment } from '@app/src/shared/models/appointment.model';
 import { AppointmentDetails } from '@app/src/shared/models/appointment-details.model';
+import { ListQueryParamsDto } from '@app/src/core/common/list-query-params.dto';
+import { Provider } from '@app/src/doctor/models/provider.model';
+import { ProviderAvailabilitySlot } from '@app/src/doctor/models/provider-availability-slot.model';
 
 @Injectable()
 export class PatientService {
@@ -183,5 +186,42 @@ export class PatientService {
 
       return null;
     }
+  }
+
+
+  async getAppointments(queryParams: ListQueryParamsDto): Promise<any> {
+
+    const searchText = queryParams.queryString || '';
+
+    queryParams.pageNumber = queryParams.pageNumber || 0;
+    queryParams.pageSize = queryParams.pageSize || 10;
+    const offset = queryParams.pageNumber * queryParams.pageSize;
+    const limit = queryParams.pageSize;
+    const sortField = queryParams.sortField || 'id';
+    const sortOrder = queryParams.sortOrder || 'desc';
+
+    let patientId = '0';
+    if (queryParams.filter && queryParams.filter.patientId) {
+      patientId = queryParams.filter.patientId
+    }
+    console.log('patientId', patientId, queryParams);
+
+    return await this.appointmentModel.findAndCountAll({
+      include: [
+        {
+          model: Provider,
+          include: [User]
+        },
+        {
+          model: Patient,
+          include: [User]
+        },
+        ProviderAvailabilitySlot
+      ],
+      where: { patientId: patientId },
+      offset: offset,
+      limit: limit,
+      order: [[sortField, sortOrder]]
+    });
   }
 }
