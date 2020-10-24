@@ -43,6 +43,21 @@ export class ProvidersController {
     return output;
   }
 
+  @Get('rating/:id')
+  async getProviderRatingById(@Param('id') userId: string): Promise<ResponseData> {
+    const output = new ResponseData();
+
+    try {
+      output.data = await this.providerService.getProviderRatingById(userId);
+    } catch (error) {
+      console.log(error);
+      output.status = false;
+      output.message = typeof error == 'string' ? error : '';
+    }
+
+    return output;
+  }
+
   @Post()
   async getProviders(@Body() queryParams): Promise<ResponseData> {
     const output = new ResponseData();
@@ -211,6 +226,39 @@ export class ProvidersController {
 
     try {
       output.data = await this.createProviderService.updateStatus(providerData);
+    } catch (error) {
+      console.log(error);
+      output.status = false;
+      output.message = typeof error == 'string' ? error : '';
+    }
+
+    return output;
+  }
+
+
+  @Get('get-availability/:providerId')
+  async getAvailability(@Param('providerId') providerId: string): Promise<ResponseData> {
+    const output = new ResponseData();
+
+    try {
+      output.data = await this.providerService.getAvailability(providerId);
+    } catch (error) {
+      console.log(error);
+      output.status = false;
+      output.message = typeof error == 'string' ? error : '';
+    }
+
+    return output;
+  }
+
+
+
+  @Post('availability-by-day')
+  async getAvailabilityByDay(@Body() params: any): Promise<ResponseData> {
+    const output = new ResponseData();
+
+    try {
+      output.data = await this.providerService.getAvailabilityByDay(params);
     } catch (error) {
       console.log(error);
       output.status = false;

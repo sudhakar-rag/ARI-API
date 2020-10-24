@@ -1,3 +1,4 @@
+import { RatingHistory } from './../../doctor/models/rating-history';
 // import { PatientMedicalProblem } from './patient-medical-problems.model';
 import { User } from './../../users/models/user.model';
 import {
@@ -83,6 +84,9 @@ export class Patient extends Model<Patient> {
 
   @HasMany(() => PatientMedicalProblem)
   problems: Array<PatientMedicalProblem>;
+
+  @HasMany(() => RatingHistory)
+  ratings: Array<RatingHistory>;
 
   @HasMany(() => PatientSymptom)
   symptoms: Array<PatientSymptom>;

@@ -1,3 +1,4 @@
+import { RatingHistory } from './../models/rating-history';
 import { ProviderServices } from './../models/provider-services.model';
 import { User } from '@app/src/users/models/user.model';
 import { Injectable } from '@nestjs/common';
@@ -26,6 +27,8 @@ export class ProviderService {
     private readonly providerAvailabilitySlotModel: typeof ProviderAvailabilitySlot,
     @InjectModel(ProviderSetting)
     private readonly providerSettingModel: typeof ProviderSetting,
+    @InjectModel(RatingHistory)
+    private readonly ratingHistoryModel: typeof RatingHistory,
     private readonly sequelize: Sequelize,
   ) { }
 
@@ -36,7 +39,7 @@ export class ProviderService {
         User,
         ProviderAddress,
         ProviderLanguage,
-        ProviderServices
+        ProviderServices,
       ]
     });
   }
@@ -55,6 +58,34 @@ export class ProviderService {
         ProviderReference,
         ProviderServices
       ]
+    });
+  }
+
+
+  async getProviderRatingById(userId: string): Promise<any> {
+    return await this.ratingHistoryModel.findAndCountAll({
+      where: { providerId: userId } 
+      });
+    }
+
+
+  async getAvailability(providerId: string): Promise<any> {
+    return await this.providerAvailabilityModel.findAll({
+      where: { providerId: providerId },
+      include: [
+        ProviderAvailabilitySlot,
+      ]
+    });
+  }
+
+
+  async getAvailabilityByDay(params): Promise<any> {
+    return await this.providerAvailabilityModel.findAll({
+      where: {
+        providerId: params.providerId,
+        value: params.day
+      },
+      include: [ProviderAvailabilitySlot]
     });
   }
 

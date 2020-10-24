@@ -1,3 +1,4 @@
+import { RatingHistory } from './../models/rating-history';
 import { User } from './../../users/models/user.model';
 import { ProviderServices } from './../models/provider-services.model';
 import { Sequelize } from 'sequelize-typescript';
@@ -17,6 +18,7 @@ import { ProviderEducation } from '../models/provider-education.model';
 import { ProviderHospital } from '../models/provider-hospital.model';
 import { ProviderReference } from '../models/provider-reference.model';
 import { ProviderHistory } from '../models/provider-history.model';
+import sequelize from 'sequelize';
 
 @Injectable()
 export class CreateProviderService {
@@ -43,6 +45,8 @@ export class CreateProviderService {
         private readonly providerReferenceModel: typeof ProviderReference,
         @InjectModel(ProviderServices)
         private readonly providerServicesModel: typeof ProviderServices,
+        @InjectModel(RatingHistory)
+        private readonly ratingHistoryModel: typeof RatingHistory,
         private userCreateService: UserCreateService,
         private readonly sequelize: Sequelize,
     ) { }
@@ -508,6 +512,40 @@ export class CreateProviderService {
 
         return result;
 
+    }
+
+    async saveRating(data: any): Promise<any> {
+        
+        const ratingData = {
+            patientId: data.patientId,
+            providerId: data.providerId,
+            rating: data.rating,
+            review: data.review
+        }
+
+        await this.ratingHistoryModel.create(ratingData);
+
+        const ratingCount: any = await this.ratingHistoryModel.findOne({
+            where: { providerId: data.providerId },
+            attributes: [
+                  [sequelize.fn('sum', sequelize.col('rating')), 'totalRating'],
+                  [sequelize.fn('count', sequelize.col('id')), 'count'],
+                        ],
+            raw: true,
+        });
+
+        console.log(ratingCount);
+
+        let average =  Math.round(ratingCount.totalRating / ratingCount.count);
+
+        const ProviderData = {
+            rating: average
+        };
+
+        // provider
+        const result = await this.providerModel.update(ProviderData, { where: { userId: data.providerId } });
+
+        return result;
     }
 
 }
