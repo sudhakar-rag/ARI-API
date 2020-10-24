@@ -27,4 +27,7 @@ export class AppointmentDetails extends Model<AppointmentDetails> {
 
     @Column(DataType.TEXT({ length: 'medium' }))
     files: string;
+
+    @Column(DataType.TEXT({ length: 'medium' }))
+    session: string;
 }

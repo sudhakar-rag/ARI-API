@@ -1,3 +1,4 @@
+import { AppointmentDetails } from './../models/appointment-details.model';
 import { Service } from './../models/services.model';
 import { Language } from './../../doctor/models/language.model';
 import { Address } from './../../users/models/address.model';
@@ -26,6 +27,8 @@ export class SharedService {
     private readonly addressModel: typeof Address,
     @InjectModel(Service)
     private readonly serviceModel: typeof Service,
+    @InjectModel(AppointmentDetails)
+    private readonly appointmentDetailsModel: typeof AppointmentDetails,
     private readonly sequelize: Sequelize,
   ) { }
 
@@ -54,5 +57,24 @@ export class SharedService {
       where: { id: addressId }
     });
   }
+
+  async getAppointmenteDetailsById(appointmentId): Promise<any> {
+    return await this.appointmentDetailsModel.findOne({
+      where: { appointmentId: appointmentId }
+    });
+  }
+
+
+  async updateAppointmentSession(data: any): Promise<any> {
+
+    const sessionData = {
+        session: data.session
+    }
+
+    const result = await this.appointmentDetailsModel.update(sessionData, { where: { appointmentId: data.appointmentId } });
+
+    return result;
+
+}
 
 }

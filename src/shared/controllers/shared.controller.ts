@@ -102,4 +102,35 @@ export class SharedController {
     return output;
   }
 
+  @Post('appointmentDetails')
+  async updateAppointmentDetails(@Body() appointmentData: any): Promise<ResponseData> {
+    const output = new ResponseData();
+
+    try {
+      output.data = await this.sharedService.updateAppointmentSession(appointmentData);
+    } catch (error) {
+      console.log(error);
+      output.status = false;
+      output.message = typeof error == 'string' ? error : '';
+    }
+
+    return output;
+  }
+
+
+  @Get('appointmentDetails/:id')
+  async getAppointmentDetails(@Param('id') appointmentId: number) {
+    let output = new ResponseData();
+
+    try {
+      output.data = await this.sharedService.getAppointmenteDetailsById(appointmentId);
+    } catch (error) {
+      console.log(error);
+      output.status = false;
+      output.message = typeof error == 'string' ? error : '';
+    }
+
+    return output;
+  }
+
 }
