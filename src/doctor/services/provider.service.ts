@@ -51,6 +51,7 @@ export class ProviderService {
     const sortOrder = queryParams.sortOrder || 'desc';
 
     return await this.providerModel.findAndCountAll({
+      distinct: true,
       include: [
         {
           model: User,
