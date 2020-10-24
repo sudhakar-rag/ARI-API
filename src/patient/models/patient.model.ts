@@ -76,8 +76,8 @@ export class Patient extends Model<Patient> {
   @Column(DataType.TEXT({ length: 'medium' }))
   hospitalizationHistory: string;
 
-  @HasMany(() => PatientAddress)
-  addresses: Array<PatientAddress>;
+  @HasOne(() => PatientAddress)
+  address: PatientAddress;
 
   @BelongsTo(() => Subscription)
   subscription: Subscription;
