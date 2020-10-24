@@ -74,7 +74,7 @@ export class UserCreateService {
                 await this.saveUserAddress(createVendorData.contactAddress, transaction);
             }
 
-            await this.userRoleModel.create({ userId: user.id, roleId: 2 }, { transaction });
+            await this.userRoleModel.create({ userId: user.id, roleId: 3 }, { transaction });
 
             await transaction.commit();
 
@@ -173,5 +173,5 @@ export class UserCreateService {
         await this.userAddressModel.create({ addressId: addressData.id, userId: addressData.userId }, { transaction });
 
     }
-    
+
 }

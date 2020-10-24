@@ -76,7 +76,7 @@ export class CreateProviderService {
                 status: 0
             }
 
-            const user = await this.userCreateService.saveUser(userData, action, transaction, 3);
+            const user = await this.userCreateService.saveUser(userData, action, transaction, 2);
 
             providerData.id = user.id;
 
@@ -515,7 +515,7 @@ export class CreateProviderService {
     }
 
     async saveRating(data: any): Promise<any> {
-        
+
         const ratingData = {
             patientId: data.patientId,
             providerId: data.providerId,
@@ -528,15 +528,15 @@ export class CreateProviderService {
         const ratingCount: any = await this.ratingHistoryModel.findOne({
             where: { providerId: data.providerId },
             attributes: [
-                  [sequelize.fn('sum', sequelize.col('rating')), 'totalRating'],
-                  [sequelize.fn('count', sequelize.col('id')), 'count'],
-                        ],
+                [sequelize.fn('sum', sequelize.col('rating')), 'totalRating'],
+                [sequelize.fn('count', sequelize.col('id')), 'count'],
+            ],
             raw: true,
         });
 
         console.log(ratingCount);
 
-        let average =  Math.round(ratingCount.totalRating / ratingCount.count);
+        let average = Math.round(ratingCount.totalRating / ratingCount.count);
 
         const ProviderData = {
             rating: average

@@ -64,7 +64,7 @@ export class CreatePatientService {
                 status: patientData.status
             }
 
-            const user = await this.userCreateService.saveUser(userData, action, transaction);
+            const user = await this.userCreateService.saveUser(userData, action, transaction, 3);
 
             patientData.id = user.id;
 
