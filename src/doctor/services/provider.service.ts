@@ -16,6 +16,9 @@ import { ProviderAvailability } from '../models/provider-availability.model';
 import { ProviderAvailabilitySlot } from '../models/provider-availability-slot.model';
 import { Sequelize } from 'sequelize-typescript';
 import { ProviderSetting } from '../models/provider-settings.model';
+import { ListQueryParamsDto } from '@app/src/core/common/list-query-params.dto';
+import { Op } from 'sequelize';
+
 @Injectable()
 export class ProviderService {
   constructor(
@@ -32,15 +35,39 @@ export class ProviderService {
     private readonly sequelize: Sequelize,
   ) { }
 
-  async getProviders(queryParams: any): Promise<any> {
+  async getProviders(queryParams: ListQueryParamsDto): Promise<any> {
+
+    const searchText = queryParams.queryString || '';
+
+    queryParams.pageNumber = queryParams.pageNumber || 0;
+    queryParams.pageSize = queryParams.pageSize || 10;
+    const offset = queryParams.pageNumber * queryParams.pageSize;
+    const limit = queryParams.pageSize;
+    const sortField = queryParams.sortField || 'id';
+    const sortOrder = queryParams.sortOrder || 'desc';
 
     return await this.providerModel.findAndCountAll({
       include: [
-        User,
+        {
+          model: User,
+          where: {
+            [Op.or]: [
+              {
+                firstName: { [Op.like]: '%' + searchText + '%' }
+              },
+              {
+                lastName: { [Op.like]: '%' + searchText + '%' }
+              }
+            ]
+          },
+        },
         ProviderAddress,
         ProviderLanguage,
         ProviderServices,
-      ]
+      ],
+      offset: offset,
+      limit: limit,
+      order: [[sortField, sortOrder]]
     });
   }
 
@@ -64,9 +91,9 @@ export class ProviderService {
 
   async getProviderRatingById(userId: string): Promise<any> {
     return await this.ratingHistoryModel.findAndCountAll({
-      where: { providerId: userId } 
-      });
-    }
+      where: { providerId: userId }
+    });
+  }
 
 
   async getAvailability(providerId: string): Promise<any> {
