@@ -21,6 +21,7 @@ import { ProviderHistory } from './models/provider-history.model';
 import { ProviderAvailability } from './models/provider-availability.model';
 import { ProviderAvailabilitySlot } from './models/provider-availability-slot.model';
 import { ProviderSetting } from './models/provider-settings.model';
+import { Appointment } from '../shared/models/appointment.model';
 
 @Module({
   imports: [
@@ -41,7 +42,8 @@ import { ProviderSetting } from './models/provider-settings.model';
       ProviderAvailability,
       ProviderAvailabilitySlot,
       ProviderSetting,
-      RatingHistory
+      RatingHistory,
+      Appointment
     ]),
     UsersModule,
   ],

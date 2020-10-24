@@ -2,11 +2,9 @@ export class ResponseData {
     public status = true;
     public data: any = {};
     public message = '';
-    constructor() {
 
-    }
 
-    reset() {
+    reset(): void {
         this.status = true;
         this.message = '';
         this.data = {};

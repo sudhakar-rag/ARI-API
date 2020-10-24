@@ -15,6 +15,8 @@ import { PatientAddress } from './models/patient-address.model';
 import { Address } from '../users/models/address.model';
 import { Appointment } from '../shared/models/appointment.model';
 import { AppointmentDetails } from '../shared/models/appointment-details.model';
+import { Provider } from '../doctor/models/provider.model';
+import { ProviderAvailabilitySlot } from '../doctor/models/provider-availability-slot.model';
 
 @Module({
   imports: [
@@ -28,7 +30,9 @@ import { AppointmentDetails } from '../shared/models/appointment-details.model';
       PatientMedicalProblem,
       PatientAddress,
       Appointment,
-      AppointmentDetails
+      AppointmentDetails,
+      Provider,
+      ProviderAvailabilitySlot
     ]),
     UsersModule,
     ProviderModule

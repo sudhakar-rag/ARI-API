@@ -15,6 +15,7 @@ import { ResponseData } from './../../core/common/response-data';
 import { CreateProviderService } from '../services/create-provider.service';
 import { AppointmentAvailabilityDto, ProviderSettingsDto } from '../dto/appointment-availability.dto';
 import { ApiBearerAuth, ApiBody, ApiCreatedResponse, ApiOperation, ApiParam, ApiTags } from '@nestjs/swagger';
+import { ListQueryParamsDto } from '@app/src/core/common/list-query-params.dto';
 
 @ApiTags('provider')
 @ApiBearerAuth()
@@ -58,11 +59,37 @@ export class ProvidersController {
     return output;
   }
 
+  @ApiOperation({ summary: 'returns providers list' })
+  @ApiBody({ type: ListQueryParamsDto })
+  @ApiCreatedResponse({
+    description: 'provider list.',
+    type: ResponseData,
+  })
   @Post()
-  async getProviders(@Body() queryParams): Promise<ResponseData> {
+  async getProviders(@Body() queryParams: ListQueryParamsDto): Promise<ResponseData> {
     const output = new ResponseData();
     try {
       output.data = await this.providerService.getProviders(queryParams);
+    } catch (error) {
+      console.log(error);
+      output.status = false;
+      output.message = typeof error == 'string' ? error : '';
+    }
+
+    return output;
+  }
+
+  @ApiOperation({ summary: 'returns appointments list' })
+  @ApiBody({ type: ListQueryParamsDto })
+  @ApiCreatedResponse({
+    description: 'provider list.',
+    type: ResponseData,
+  })
+  @Post('appointment-list')
+  async getAppointments(@Body() queryParams: ListQueryParamsDto): Promise<ResponseData> {
+    const output = new ResponseData();
+    try {
+      output.data = await this.providerService.getAppointments(queryParams);
     } catch (error) {
       console.log(error);
       output.status = false;
