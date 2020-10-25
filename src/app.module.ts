@@ -12,6 +12,7 @@ import { SmsModule } from './sms/sms.module';
 import { EmailModule } from './email/email.module';
 import { SharedModule } from './shared/shared.module';
 import { AppointmentModule } from './appointment/appointment.module';
+import { ZoomModule } from './zoom/zoom.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { AppointmentModule } from './appointment/appointment.module';
     EmailModule,
     SharedModule,
     AppointmentModule,
+    ZoomModule,
   ],
   controllers: [AppController],
   providers: [AppService],
