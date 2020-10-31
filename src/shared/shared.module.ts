@@ -14,6 +14,7 @@ import { Payment } from './models/payment.model';
 import { Appointment } from './models/appointment.model';
 import { AppointmentPayment } from './models/appointment-payment.model';
 import { AppointmentDetails } from './models/appointment-details.model';
+import { CallNotification } from './models/call-notifications.model';
 
 @Module({
     imports: [
@@ -29,7 +30,8 @@ import { AppointmentDetails } from './models/appointment-details.model';
             Payment,
             Appointment,
             AppointmentPayment,
-            AppointmentDetails
+            AppointmentDetails,
+            CallNotification
         ])
     ],
     providers: [SharedService],
