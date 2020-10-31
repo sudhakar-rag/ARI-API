@@ -2,6 +2,9 @@ import { IsNumber, IsString } from "class-validator";
 
 export class CreateZoomTokenDto {
     @IsString()
+    topic: string;
+
+    @IsString()
     startTime: string;
 
     @IsNumber()

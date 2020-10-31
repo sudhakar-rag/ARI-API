@@ -18,15 +18,16 @@ export class ZoomService {
      * createMeeting
      */
     public createMeeting(data: CreateZoomTokenDto): Observable<any> {
-        const endpoint = 'https://api.zoom.us/v2/users/krazy879@gmail.com/meetings';
+        const apiUser = this.configService.get('ZOOM_API_USER')
+        const endpoint = 'https://api.zoom.us/v2/users/' + apiUser + '/meetings';
         const params = {
-            "topic": "New Meeting",
+            "topic": data.topic,
             "type": 2,
-            "start_time": "2020-10-03T12:00:00Z",
+            "start_time": data.startTime,
             "duration": data.duration,
-            "timezone": "America/Anchorage",
+            "timezone": "America/New_York",
             "password": "1234",
-            "agenda": "Zoom WordPress",
+            "agenda": "ARI",
             "tracking_fields": [
                 {
                     "field": "string",
