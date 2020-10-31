@@ -11,6 +11,7 @@ import { ProviderAvailabilitySlot } from '@app/src/doctor/models/provider-availa
 import { Patient } from '@app/src/patient/models/patient.model';
 import { UsersService } from '@app/src/users/services/users.service';
 import { Op } from 'sequelize';
+import { ZoomService } from '@app/src/zoom/services/zoom.service';
 @Injectable()
 export class AppointmentService {
     constructor(
@@ -18,8 +19,11 @@ export class AppointmentService {
         private readonly appointmentModel: typeof Appointment,
         @InjectModel(AppointmentDetails)
         private readonly appointmentDetailsModel: typeof AppointmentDetails,
+        @InjectModel(ProviderAvailabilitySlot)
+        private readonly providerAvailabilitySlotModel: typeof ProviderAvailabilitySlot,
         private readonly sequelize: Sequelize,
-        private usersService: UsersService
+        private usersService: UsersService,
+        private zoomService: ZoomService
     ) { }
 
 
@@ -51,12 +55,25 @@ export class AppointmentService {
         try {
             transaction = await this.sequelize.transaction();
 
+            const slot = await this.providerAvailabilitySlotModel.findOne({ where: { id: appointmentData.slotId } });
+            const startTime = appointmentData.date + 'T' + '10:30';
+            const meetingInput = {
+                topic: this.usersService.getLoggedinUserName(),
+                startTime: startTime,
+                duration: 30
+            }
+
+            const meetingData: any = await this.zoomService.createMeeting(meetingInput);
+
             const result = await this.appointmentModel.findOne({
                 where: {
                     providerId: appointmentData.providerId,
                     patientId: appointmentData.patientId,
                     slotId: appointmentData.slotId,
-                    type: appointmentData.type
+                    type: appointmentData.type,
+                    meetingId: meetingData.id,
+                    joinUrl: meetingData.join_url,
+                    startUrl: meetingData.start_url
                 },
                 transaction: transaction
             })

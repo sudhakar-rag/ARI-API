@@ -58,6 +58,17 @@ export class UsersService {
   }
 
   /**
+   * getLoggedinUserName
+   */
+  public getLoggedinUserName(): any {
+    let userName = '';
+    if (this.loggedinUserData) {
+      userName = [this.loggedinUserData.firstName, this.loggedinUserData.lastName].join(' ');
+    }
+    return userName;
+  }
+
+  /**
    * isAdmin
    */
   public isAdmin(): boolean {

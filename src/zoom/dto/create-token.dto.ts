@@ -8,7 +8,7 @@ export class CreateZoomTokenDto {
     startTime: string;
 
     @IsNumber()
-    duration: string;
+    duration: number;
 }
 
 export class CreateSignatureDto {
