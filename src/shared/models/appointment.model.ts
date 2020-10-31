@@ -23,6 +23,9 @@ export class Appointment extends Model<Appointment> {
     @Column
     patientId: number;
 
+    @Column(DataType.DATE)
+    date: string;
+
     @ForeignKey(() => ProviderAvailabilitySlot)
     @Column
     slotId: number;
