@@ -12,6 +12,7 @@ import { Patient } from '@app/src/patient/models/patient.model';
 import { UsersService } from '@app/src/users/services/users.service';
 import { Op } from 'sequelize';
 import { ZoomService } from '@app/src/zoom/services/zoom.service';
+import { UpdateAppointmentDto } from '../dto/update-appointment.dto';
 @Injectable()
 export class AppointmentService {
     constructor(
@@ -67,7 +68,7 @@ export class AppointmentService {
             })
 
             if (!result) {
-                const slot = await this.providerAvailabilitySlotModel.findOne({ where: { id: appointmentData.slotId } });
+                // const slot = await this.providerAvailabilitySlotModel.findOne({ where: { id: appointmentData.slotId } });
                 const startTime = appointmentData.date + 'T' + '10:30';
                 const meetingInput = {
                     topic: this.usersService.getLoggedinUserName(),
@@ -88,6 +89,8 @@ export class AppointmentService {
                     joinUrl: meetingData.join_url,
                     startUrl: meetingData.start_url
                 }, { transaction: transaction });
+
+                appointmentData.meetingId = meetingData.id;
 
                 if (appointment) {
 
@@ -113,6 +116,8 @@ export class AppointmentService {
                     data.status = appointmentData.status;
                 }
 
+                appointmentData.meetingId = result.meetingId;
+
                 await this.appointmentModel.update({
                     providerId: appointmentData.providerId,
                     patientId: appointmentData.patientId,
@@ -123,7 +128,6 @@ export class AppointmentService {
                     where: { id: result.id },
                     transaction
                 });
-
 
                 await this.appointmentDetailsModel.update(
                     {
@@ -136,10 +140,10 @@ export class AppointmentService {
                     { where: { appointmentId: result.id }, transaction });
             }
 
-
             await transaction.commit();
 
             return appointmentData;
+
         } catch (error) {
             console.log(error);
             if (transaction) await transaction.rollback();
@@ -226,5 +230,35 @@ export class AppointmentService {
             limit: limit,
             order: [[sortField, sortOrder]]
         });
+    }
+
+    async updateAppointmentStatus(data: UpdateAppointmentDto): Promise<any> {
+
+        let transaction;
+
+        try {
+            transaction = await this.sequelize.transaction();
+
+            await this.appointmentModel.update({
+                status: data.status || 'PENDING'
+            }, {
+                where: { id: data.appointmentId },
+                transaction
+            });
+
+            const result = await this.appointmentModel.findOne({
+                where: { id: data.appointmentId },
+                transaction: transaction
+            })
+
+            await transaction.commit();
+
+            return result;
+        } catch (error) {
+            console.log(error);
+            if (transaction) await transaction.rollback();
+
+            return null;
+        }
     }
 }

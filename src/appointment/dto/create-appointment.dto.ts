@@ -35,15 +35,18 @@ export class CreateAppointmentDto {
     type: string;
 
     @ApiProperty({ type: String })
+    @IsOptional()
     @IsString()
     meetingId: string;
 
     @ApiProperty({ type: String })
+    @IsOptional()
     @IsString()
     joinUrl: string;
 
 
     @ApiProperty({ type: String })
+    @IsOptional()
     @IsString()
     startUrl: string;
 
