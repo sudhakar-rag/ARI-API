@@ -68,7 +68,7 @@ export class AppointmentService {
             })
 
             if (!result) {
-                const slot = await this.providerAvailabilitySlotModel.findOne({ where: { id: appointmentData.slotId } });
+                // const slot = await this.providerAvailabilitySlotModel.findOne({ where: { id: appointmentData.slotId } });
                 const startTime = appointmentData.date + 'T' + '10:30';
                 const meetingInput = {
                     topic: this.usersService.getLoggedinUserName(),
@@ -89,6 +89,8 @@ export class AppointmentService {
                     joinUrl: meetingData.join_url,
                     startUrl: meetingData.start_url
                 }, { transaction: transaction });
+
+                appointmentData.meetingId = meetingData.id;
 
                 if (appointment) {
 
@@ -114,6 +116,8 @@ export class AppointmentService {
                     data.status = appointmentData.status;
                 }
 
+                appointmentData.meetingId = result.meetingId;
+
                 await this.appointmentModel.update({
                     providerId: appointmentData.providerId,
                     patientId: appointmentData.patientId,
@@ -124,7 +128,6 @@ export class AppointmentService {
                     where: { id: result.id },
                     transaction
                 });
-
 
                 await this.appointmentDetailsModel.update(
                     {
@@ -137,10 +140,10 @@ export class AppointmentService {
                     { where: { appointmentId: result.id }, transaction });
             }
 
-
             await transaction.commit();
 
             return appointmentData;
+
         } catch (error) {
             console.log(error);
             if (transaction) await transaction.rollback();
