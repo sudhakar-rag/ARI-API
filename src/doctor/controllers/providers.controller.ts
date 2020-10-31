@@ -28,6 +28,26 @@ export class ProvidersController {
   ) { }
 
 
+  @ApiOperation({ summary: 'list provider settings' })
+  @ApiBody({})
+  @ApiCreatedResponse({
+    type: ResponseData,
+  })
+  @Get('settings/:providerId')
+  async getSettings(@Param('providerId') providerId: string): Promise<ResponseData> {
+    const output = new ResponseData();
+
+    try {
+      output.data = await this.providerService.getProviderSettings(providerId);
+    } catch (error) {
+      console.log(error);
+      output.status = false;
+      output.message = typeof error == 'string' ? error : '';
+    }
+
+    return output;
+  }
+
 
   @Get(':id')
   async getProviderById(@Param('id') userId: string): Promise<ResponseData> {
@@ -155,6 +175,8 @@ export class ProvidersController {
 
     return output;
   }
+
+
 
   @Put('basicInfo')
   async updateBasicInfo(@Body() providerData: any): Promise<ResponseData> {

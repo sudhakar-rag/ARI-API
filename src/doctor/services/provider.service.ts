@@ -253,5 +253,11 @@ export class ProviderService {
     }
   }
 
+  async getProviderSettings(providerId: string): Promise<any> {
+    return await this.providerSettingModel.findAll({
+      where: { providerId: providerId }
+    });
+  }
+
 }
 
