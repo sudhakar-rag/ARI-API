@@ -3,6 +3,7 @@ import { SequelizeModule } from '@nestjs/sequelize';
 import { AppointmentDetails } from '../shared/models/appointment-details.model';
 import { Appointment } from '../shared/models/appointment.model';
 import { UsersModule } from '../users/users.module';
+import { ZoomModule } from '../zoom/zoom.module';
 import { AppointmentController } from './controllers/appointment.controller';
 import { AppointmentService } from './services/appointment.service';
 
@@ -13,6 +14,7 @@ import { AppointmentService } from './services/appointment.service';
       AppointmentDetails,
     ]),
     UsersModule,
+    ZoomModule
   ],
   controllers: [AppointmentController],
   providers: [AppointmentService],

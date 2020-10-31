@@ -9,6 +9,7 @@ import { ZoomService } from './services/zoom.service';
     ConfigModule.register({ folder: './config' }),
   ],
   controllers: [ZoomController],
-  providers: [ZoomService]
+  providers: [ZoomService],
+  exports: [ZoomService]
 })
 export class ZoomModule { }

@@ -1,18 +1,19 @@
 import { CreateProviderService } from './../../doctor/services/create-provider.service';
 import { PatientBasicDto } from './../dto/patient-basic.dto';
 import { PatientService } from './../services/patient.service';
-import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
 import { ResponseData } from '@app/src/core/common/response-data';
 import { PatientDto } from '../dto/patient.dto';
 import { CreatePatientService } from '../services/create-patient.service';
 import { CreateAppointmentDto } from '../../appointment/dto/create-appointment.dto';
 import { ApiBearerAuth, ApiBody, ApiCreatedResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { ListQueryParamsDto } from '@app/src/core/common/list-query-params.dto';
+import { JwtAuthGuard } from '@app/src/auth/guards/jwt-auth.guard';
 
 @ApiTags('patient')
 @ApiBearerAuth()
 @Controller('patient')
-// @UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard)
 export class PatientsController {
   constructor(
     private providerService: CreateProviderService,

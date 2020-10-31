@@ -1,12 +1,14 @@
 import { ResponseData } from '@app/src/core/common/response-data';
 import { CreateAppointmentDto } from '@app/src/appointment/dto/create-appointment.dto';
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiBody, ApiCreatedResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { AppointmentService } from '../services/appointment.service';
 import { ListQueryParamsDto } from '@app/src/core/common/list-query-params.dto';
+import { JwtAuthGuard } from '@app/src/auth/guards/jwt-auth.guard';
 
 @ApiTags('appointment')
 @ApiBearerAuth()
+@UseGuards(JwtAuthGuard)
 @Controller('appointment')
 export class AppointmentController {
 

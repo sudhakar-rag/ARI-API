@@ -9,7 +9,8 @@ import { ListQueryParamsDto } from '@app/src/core/common/list-query-params.dto';
 import { Provider } from '@app/src/doctor/models/provider.model';
 import { ProviderAvailabilitySlot } from '@app/src/doctor/models/provider-availability-slot.model';
 import { Patient } from '@app/src/patient/models/patient.model';
-
+import { UsersService } from '@app/src/users/services/users.service';
+import { Op } from 'sequelize';
 @Injectable()
 export class AppointmentService {
     constructor(
@@ -18,6 +19,7 @@ export class AppointmentService {
         @InjectModel(AppointmentDetails)
         private readonly appointmentDetailsModel: typeof AppointmentDetails,
         private readonly sequelize: Sequelize,
+        private usersService: UsersService
     ) { }
 
 
@@ -140,25 +142,68 @@ export class AppointmentService {
         const sortField = queryParams.sortField || 'id';
         const sortOrder = queryParams.sortOrder || 'desc';
 
-        let patientId = '0';
-        if (queryParams.filter && queryParams.filter.patientId) {
-            patientId = queryParams.filter.patientId
+        let where: any = {};
+        if (this.usersService.isAdmin()) {
+            if (queryParams.filter) {
+                if (queryParams.filter.providerId) {
+                    where = { providerId: queryParams.filter.providerId };
+                }
+
+                if (queryParams.filter.patientId) {
+                    where = { patientId: queryParams.filter.patientId };
+                }
+            }
+        } else if (this.usersService.isProvider()) {
+            where = { providerId: this.usersService.getLoggedinProviderId() };
+        } else if (this.usersService.isPatient()) {
+            where = { patientId: this.usersService.getLoggedinPatientId() };
         }
-        console.log('patientId', patientId, queryParams);
+        console.log(where, this.usersService.getLoggedinUserData());
 
         return await this.appointmentModel.findAndCountAll({
+            distinct: true,
             include: [
                 {
                     model: Provider,
-                    include: [User]
+                    include: [
+                        {
+                            model: User,
+                            attributes: ['id', 'firstName', 'lastName', 'picture', 'phone'],
+                            where: {
+                                [Op.or]: [
+                                    {
+                                        firstName: { [Op.like]: '%' + searchText + '%' }
+                                    },
+                                    {
+                                        lastName: { [Op.like]: '%' + searchText + '%' }
+                                    }
+                                ]
+                            },
+                        }
+                    ]
                 },
                 {
                     model: Patient,
-                    include: [User]
+                    include: [
+                        {
+                            model: User,
+                            attributes: ['id', 'firstName', 'lastName', 'picture', 'phone'],
+                            where: {
+                                [Op.or]: [
+                                    {
+                                        firstName: { [Op.like]: '%' + searchText + '%' }
+                                    },
+                                    {
+                                        lastName: { [Op.like]: '%' + searchText + '%' }
+                                    }
+                                ]
+                            },
+                        }
+                    ]
                 },
                 ProviderAvailabilitySlot
             ],
-            where: { patientId: patientId },
+            where: where,
             offset: offset,
             limit: limit,
             order: [[sortField, sortOrder]]

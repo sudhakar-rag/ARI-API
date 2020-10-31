@@ -73,10 +73,55 @@ export class UsersService {
   }
 
   /**
+   * isProvider
+   */
+  public isProvider(): boolean {
+    let flag = false;
+    if (this.loggedinUserData && this.loggedinUserData.roles) {
+      for (const role of this.loggedinUserData.roles) {
+        if ([2].indexOf(role.roleId) !== -1) {
+          flag = true;
+        }
+      }
+    }
+    return flag;
+  }
+
+  /**
+   * isPatient
+   */
+  public isPatient(): boolean {
+    let flag = false;
+    if (this.loggedinUserData && this.loggedinUserData.roles) {
+      for (const role of this.loggedinUserData.roles) {
+        if ([3].indexOf(role.roleId) !== -1) {
+          flag = true;
+        }
+      }
+    }
+    return flag;
+  }
+
+  /**
    * getLoggedinUserId
    */
   public getLoggedinUserId(): any {
     return (this.loggedinUserData && this.loggedinUserData.id) || 0;
+  }
+
+  /**
+   * getLoggedinPatientId
+   */
+  public getLoggedinPatientId(): any {
+    return (this.loggedinUserData && this.loggedinUserData.patient && this.loggedinUserData.patient.id) || 0;
+  }
+
+
+  /**
+   * getLoggedinProviderId
+   */
+  public getLoggedinProviderId(): any {
+    return (this.loggedinUserData && this.loggedinUserData.provider && this.loggedinUserData.provider.id) || 0;
   }
 
   getUser(userId: number): any {
