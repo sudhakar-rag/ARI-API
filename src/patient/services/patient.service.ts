@@ -125,6 +125,7 @@ export class PatientService {
         const appointment = await this.appointmentModel.create({
           providerId: appointmentData.providerId,
           patientId: appointmentData.patientId,
+          date: appointmentData.date,
           slotId: appointmentData.slotId,
           type: appointmentData.type,
           date: appointmentData.date,
@@ -145,6 +146,7 @@ export class PatientService {
         const data: any = {
           providerId: appointmentData.providerId,
           patientId: appointmentData.patientId,
+          date: appointmentData.date,
           slotId: appointmentData.slotId,
           type: appointmentData.type,
           status: result.status

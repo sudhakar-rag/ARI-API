@@ -22,6 +22,10 @@ export class CreateAppointmentDto {
     @IsNumber()
     patientId: number;
 
+    @ApiProperty({ type: Date, default: 5 })
+    @IsString()
+    date: string;
+
     @ApiProperty({ type: Number, default: 5 })
     @IsNumber()
     slotId: string;
@@ -53,7 +57,7 @@ export class CreateAppointmentDto {
 
     @ApiProperty({ type: String, default: 'Fever' })
     @IsString()
-    appointmentType: String;
+    appointmentType: string;
 
     @ApiProperty({ type: String, default: 'subject text' })
     @IsString()
