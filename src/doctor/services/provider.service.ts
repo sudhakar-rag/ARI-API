@@ -234,10 +234,9 @@ export class ProviderService {
           });
         } else {
           await this.providerSettingModel.update({
-            label: setting.label,
             value: setting.value
           }, {
-            where: { providerId: providerSettings.providerId }
+            where: { providerId: providerSettings.providerId, label: setting.label }
           });
         }
       }
