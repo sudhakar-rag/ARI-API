@@ -16,11 +16,6 @@ export class AppointmentController {
         private appointmentService: AppointmentService,
     ) { }
 
-    @Get()
-    test(): any {
-        return { 1: 1 };
-    }
-
     @ApiOperation({ summary: 'Get appointment details' })
     @Get(':id')
     async getAppointmentDetails(@Param('id') appointmentId: string): Promise<ResponseData> {
