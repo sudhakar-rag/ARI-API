@@ -12,6 +12,7 @@ import { Patient } from '@app/src/patient/models/patient.model';
 import { UsersService } from '@app/src/users/services/users.service';
 import { Op } from 'sequelize';
 import { ZoomService } from '@app/src/zoom/services/zoom.service';
+import { UpdateAppointmentDto } from '../dto/update-appointment.dto';
 @Injectable()
 export class AppointmentService {
     constructor(
@@ -226,5 +227,35 @@ export class AppointmentService {
             limit: limit,
             order: [[sortField, sortOrder]]
         });
+    }
+
+    async updateAppointmentStatus(data: UpdateAppointmentDto): Promise<any> {
+
+        let transaction;
+
+        try {
+            transaction = await this.sequelize.transaction();
+
+            await this.appointmentModel.update({
+                status: data.status || 'PENDING'
+            }, {
+                where: { id: data.appointmentId },
+                transaction
+            });
+
+            const result = await this.appointmentModel.findOne({
+                where: { id: data.appointmentId },
+                transaction: transaction
+            })
+
+            await transaction.commit();
+
+            return result;
+        } catch (error) {
+            console.log(error);
+            if (transaction) await transaction.rollback();
+
+            return null;
+        }
     }
 }

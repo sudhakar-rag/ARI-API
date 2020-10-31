@@ -5,6 +5,7 @@ import { ApiBearerAuth, ApiBody, ApiCreatedResponse, ApiOperation, ApiTags } fro
 import { AppointmentService } from '../services/appointment.service';
 import { ListQueryParamsDto } from '@app/src/core/common/list-query-params.dto';
 import { JwtAuthGuard } from '@app/src/auth/guards/jwt-auth.guard';
+import { UpdateAppointmentDto } from '../dto/update-appointment.dto';
 
 @ApiTags('appointment')
 @ApiBearerAuth()
@@ -73,6 +74,30 @@ export class AppointmentController {
 
         try {
             output.data = await this.appointmentService.saveAppointment(appointmentData);
+            output.status = true;
+
+        } catch (error) {
+            console.log(error);
+            output.status = false;
+            output.message = typeof error == 'string' ? error : '';
+        }
+
+        return output;
+
+    }
+
+    @ApiOperation({ summary: 'update appointment' })
+    @ApiBody({ type: UpdateAppointmentDto })
+    @ApiCreatedResponse({
+        description: 'The record has been successfully updated.',
+        type: ResponseData,
+    })
+    @Post('update')
+    async updateStatus(@Body() appointmentData: UpdateAppointmentDto): Promise<ResponseData> {
+        const output = new ResponseData();
+
+        try {
+            output.data = await this.appointmentService.updateAppointmentStatus(appointmentData);
             output.status = true;
 
         } catch (error) {
