@@ -22,7 +22,7 @@ export class CreateAppointmentDto {
     @IsNumber()
     patientId: number;
 
-    @ApiProperty({ type: Date, default: 5 })
+    @ApiProperty({ type: String })
     @IsString()
     date: string;
 
@@ -41,6 +41,7 @@ export class CreateAppointmentDto {
     @ApiProperty({ type: String })
     @IsString()
     joinUrl: string;
+
 
     @ApiProperty({ type: String })
     @IsString()

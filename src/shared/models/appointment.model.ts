@@ -43,7 +43,7 @@ export class Appointment extends Model<Appointment> {
     startUrl: string;
 
     @Column(DataType.ENUM('PENDING', 'COMPLETED'))
-    status: 'PENDING' | 'COMPLETED'
+    status: 'PENDING' | 'ACCEPTED' | 'COMPLETED' | 'CANCELLED'
 
     @BelongsTo(() => Provider)
     provider: Provider;
