@@ -182,54 +182,109 @@ export class AppointmentService {
         }
         console.log(where, this.usersService.getLoggedinUserData());
 
-        return await this.appointmentModel.findAndCountAll({
-            distinct: true,
-            include: [
-                {
-                    model: Provider,
-                    include: [
-                        {
-                            model: User,
-                            attributes: ['id', 'firstName', 'lastName', 'picture', 'phone'],
-                            where: {
-                                [Op.or]: [
-                                    {
-                                        firstName: { [Op.like]: '%' + searchText + '%' }
-                                    },
-                                    {
-                                        lastName: { [Op.like]: '%' + searchText + '%' }
-                                    }
-                                ]
-                            },
-                        }
-                    ]
-                },
-                {
-                    model: Patient,
-                    include: [
-                        {
-                            model: User,
-                            attributes: ['id', 'firstName', 'lastName', 'picture', 'phone'],
-                            where: {
-                                [Op.or]: [
-                                    {
-                                        firstName: { [Op.like]: '%' + searchText + '%' }
-                                    },
-                                    {
-                                        lastName: { [Op.like]: '%' + searchText + '%' }
-                                    }
-                                ]
-                            },
-                        }
-                    ]
-                },
-                ProviderAvailabilitySlot
-            ],
-            where: where,
-            offset: offset,
-            limit: limit,
-            order: [[sortField, sortOrder]]
-        });
+        if (this.usersService.isProvider()) {
+            return await this.appointmentModel.findAndCountAll({
+                distinct: true,
+                include: [
+                    {
+                        model: Provider,
+                        include: [
+                            {
+                                model: User,
+                                attributes: ['id', 'firstName', 'lastName', 'picture', 'phone'],
+                                where: {
+                                    [Op.or]: [
+                                        {
+                                            firstName: { [Op.like]: '%' + searchText + '%' }
+                                        },
+                                        {
+                                            lastName: { [Op.like]: '%' + searchText + '%' }
+                                        }
+                                    ]
+                                },
+                            }
+                        ]
+                    },
+                    {
+                        model: Patient,
+                        include: [
+                            {
+                                model: User,
+                                attributes: ['id', 'firstName', 'lastName', 'picture', 'phone'],
+                                where: {
+                                    [Op.or]: [
+                                        {
+                                            firstName: { [Op.like]: '%' + searchText + '%' }
+                                        },
+                                        {
+                                            lastName: { [Op.like]: '%' + searchText + '%' }
+                                        }
+                                    ]
+                                },
+                            }
+                        ],
+                        required: true
+                    },
+                    ProviderAvailabilitySlot
+                ],
+                where: where,
+                offset: offset,
+                limit: limit,
+                order: [[sortField, sortOrder]]
+            });
+        }
+
+        if (this.usersService.isPatient()) {
+            return await this.appointmentModel.findAndCountAll({
+                distinct: true,
+                include: [
+                    {
+                        model: Provider,
+                        include: [
+                            {
+                                model: User,
+                                attributes: ['id', 'firstName', 'lastName', 'picture', 'phone'],
+                                where: {
+                                    [Op.or]: [
+                                        {
+                                            firstName: { [Op.like]: '%' + searchText + '%' }
+                                        },
+                                        {
+                                            lastName: { [Op.like]: '%' + searchText + '%' }
+                                        }
+                                    ]
+                                },
+                            }
+                        ],
+                        required: true
+                    },
+                    {
+                        model: Patient,
+                        include: [
+                            {
+                                model: User,
+                                attributes: ['id', 'firstName', 'lastName', 'picture', 'phone'],
+                                where: {
+                                    [Op.or]: [
+                                        {
+                                            firstName: { [Op.like]: '%' + searchText + '%' }
+                                        },
+                                        {
+                                            lastName: { [Op.like]: '%' + searchText + '%' }
+                                        }
+                                    ]
+                                },
+                            }
+                        ]
+                    },
+                    ProviderAvailabilitySlot
+                ],
+                where: where,
+                offset: offset,
+                limit: limit,
+                order: [[sortField, sortOrder]]
+            });
+        }
     }
 
     async updateAppointmentStatus(data: UpdateAppointmentDto): Promise<any> {
