@@ -47,9 +47,9 @@ export class PatientService {
     });
   }
 
-  async getPatientById(userId: string): Promise<any> {
+  async getPatientById(patientId: string): Promise<any> {
     return await this.patientModel.findAll({
-      where: { userId: userId },
+      where: { id: patientId },
       include: [
         User,
         PatientAddress,
