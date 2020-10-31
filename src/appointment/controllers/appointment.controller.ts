@@ -72,7 +72,7 @@ export class AppointmentController {
         description: 'The record has been successfully created.',
         type: CreateAppointmentDto,
     })
-    @Post('appointment')
+    @Post()
     async createAppointment(@Body() appointmentData: CreateAppointmentDto): Promise<ResponseData> {
         const output = new ResponseData();
 
