@@ -39,8 +39,11 @@ export class Appointment extends Model<Appointment> {
     @Column(DataType.TEXT({ length: 'medium' }))
     startUrl: string;
 
+    @Column
+    date: string;
+
     @Column(DataType.ENUM('PENDING', 'COMPLETED'))
-    status: 'PENDING' | 'COMPLETED'
+    status: 'PENDING' | 'ACCEPTED' | 'COMPLETED' | 'CANCELLED'
 
     @BelongsTo(() => Provider)
     provider: Provider;

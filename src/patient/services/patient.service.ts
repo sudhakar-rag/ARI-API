@@ -127,6 +127,7 @@ export class PatientService {
           patientId: appointmentData.patientId,
           slotId: appointmentData.slotId,
           type: appointmentData.type,
+          date: appointmentData.date,
           status: appointmentData.status || 'PENDING'
         }, { transaction: transaction });
 

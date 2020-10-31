@@ -40,6 +40,10 @@ export class CreateAppointmentDto {
 
     @ApiProperty({ type: String })
     @IsString()
+    date: string;
+
+    @ApiProperty({ type: String })
+    @IsString()
     startUrl: string;
 
     @ApiProperty({ enum: AppointmentStatus, enumName: 'appointmentStatus' })
