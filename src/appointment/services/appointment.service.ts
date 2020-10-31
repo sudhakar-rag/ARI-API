@@ -55,37 +55,38 @@ export class AppointmentService {
         try {
             transaction = await this.sequelize.transaction();
 
-            const slot = await this.providerAvailabilitySlotModel.findOne({ where: { id: appointmentData.slotId } });
-            const startTime = appointmentData.date + 'T' + '10:30';
-            const meetingInput = {
-                topic: this.usersService.getLoggedinUserName(),
-                startTime: startTime,
-                duration: 30
-            }
-
-            const meetingData: any = await this.zoomService.createMeeting(meetingInput);
-
             const result = await this.appointmentModel.findOne({
                 where: {
                     providerId: appointmentData.providerId,
                     patientId: appointmentData.patientId,
                     slotId: appointmentData.slotId,
                     type: appointmentData.type,
-                    meetingId: meetingData.id,
-                    joinUrl: meetingData.join_url,
-                    startUrl: meetingData.start_url
+                    date: appointmentData.date
                 },
                 transaction: transaction
             })
 
             if (!result) {
+                const slot = await this.providerAvailabilitySlotModel.findOne({ where: { id: appointmentData.slotId } });
+                const startTime = appointmentData.date + 'T' + '10:30';
+                const meetingInput = {
+                    topic: this.usersService.getLoggedinUserName(),
+                    startTime: startTime,
+                    duration: 30
+                }
+
+                const meetingData: any = await this.zoomService.createMeeting(meetingInput);
+
                 const appointment = await this.appointmentModel.create({
                     providerId: appointmentData.providerId,
                     patientId: appointmentData.patientId,
                     date: appointmentData.date,
                     slotId: appointmentData.slotId,
                     type: appointmentData.type,
-                    status: appointmentData.status || 'PENDING'
+                    status: appointmentData.status || 'PENDING',
+                    meetingId: meetingData.id,
+                    joinUrl: meetingData.join_url,
+                    startUrl: meetingData.start_url
                 }, { transaction: transaction });
 
                 if (appointment) {
