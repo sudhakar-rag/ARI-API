@@ -14,7 +14,7 @@ import { PatientSymptom } from '../models/patient-symptom.model';
 import { Subscription } from './../../shared/models/subscription.model';
 import { User } from '@app/src/users/models/user.model';
 import { PatientAddress } from '../models/patient-address.model';
-import { CreateAppointmentDto } from '../dto/create-appointment.dto';
+import { CreateAppointmentDto } from '../../appointment/dto/create-appointment.dto';
 import { Appointment } from '@app/src/shared/models/appointment.model';
 import { AppointmentDetails } from '@app/src/shared/models/appointment-details.model';
 import { ListQueryParamsDto } from '@app/src/core/common/list-query-params.dto';

@@ -7,9 +7,11 @@ import {
     BelongsTo,
     DataType,
     BelongsToMany,
+    HasOne,
 } from 'sequelize-typescript';
 import { Provider } from './../../doctor/models/provider.model';
 import { Patient } from './../../patient/models/patient.model';
+import { AppointmentDetails } from './appointment-details.model';
 import { AppointmentPayment } from './appointment-payment.model';
 import { Payment } from './payment.model';
 
@@ -56,4 +58,7 @@ export class Appointment extends Model<Appointment> {
 
     @BelongsToMany(() => Payment, () => AppointmentPayment)
     payments: Payment[];
+
+    @HasOne(() => AppointmentDetails)
+    details: AppointmentDetails;
 }

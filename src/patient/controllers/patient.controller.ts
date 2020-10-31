@@ -5,7 +5,7 @@ import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
 import { ResponseData } from '@app/src/core/common/response-data';
 import { PatientDto } from '../dto/patient.dto';
 import { CreatePatientService } from '../services/create-patient.service';
-import { CreateAppointmentDto } from '../dto/create-appointment.dto';
+import { CreateAppointmentDto } from '../../appointment/dto/create-appointment.dto';
 import { ApiBearerAuth, ApiBody, ApiCreatedResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { ListQueryParamsDto } from '@app/src/core/common/list-query-params.dto';
 
@@ -86,50 +86,6 @@ export class PatientsController {
 
     return output;
 
-  }
-
-  @ApiOperation({ summary: 'create appointment' })
-  @ApiBody({ type: CreateAppointmentDto })
-  @ApiCreatedResponse({
-    description: 'The record has been successfully created.',
-    type: CreateAppointmentDto,
-  })
-  @Post('appointment')
-  async createAppointment(@Body() appointmentData: CreateAppointmentDto): Promise<ResponseData> {
-    const output = new ResponseData();
-
-    try {
-      output.data = await this.patientsService.saveAppointment(appointmentData);
-      output.status = true;
-
-    } catch (error) {
-      console.log(error);
-      output.status = false;
-      output.message = typeof error == 'string' ? error : '';
-    }
-
-    return output;
-
-  }
-
-  @ApiOperation({ summary: 'returns appointments list' })
-  @ApiBody({ type: ListQueryParamsDto })
-  @ApiCreatedResponse({
-    description: 'provider list.',
-    type: ResponseData,
-  })
-  @Post('appointment-list')
-  async getAppointments(@Body() queryParams: ListQueryParamsDto): Promise<ResponseData> {
-    const output = new ResponseData();
-    try {
-      output.data = await this.patientsService.getAppointments(queryParams);
-    } catch (error) {
-      console.log(error);
-      output.status = false;
-      output.message = typeof error == 'string' ? error : '';
-    }
-
-    return output;
   }
 
   @Put('basicInfo')

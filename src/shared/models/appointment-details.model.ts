@@ -1,12 +1,9 @@
-import { ProviderAvailabilitySlot } from '@app/src/doctor/models/provider-availability-slot.model';
 import {
     Table,
     Column,
     Model,
     ForeignKey,
-    BelongsTo,
     DataType,
-    BelongsToMany,
 } from 'sequelize-typescript';
 import { Appointment } from './appointment.model';
 
