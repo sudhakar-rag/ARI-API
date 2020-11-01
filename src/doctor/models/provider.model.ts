@@ -20,6 +20,7 @@ import { ProviderHistory } from './provider-history.model';
 import { ProviderHospital } from './provider-hospital.model';
 import { ProviderAvailability } from './provider-availability.model';
 import { ProviderSetting } from './provider-settings.model';
+import { ProviderSpecality } from './provider-speciality.model';
 
 @Table
 export class Provider extends Model<Provider> {
@@ -89,6 +90,9 @@ export class Provider extends Model<Provider> {
 
   @HasMany(() => ProviderSetting)
   settings: Array<ProviderSetting>;
+
+  @HasMany(() => ProviderSpecality)
+  specialities: Array<ProviderSpecality>;
 
   @BelongsTo(() => User)
   user: User;

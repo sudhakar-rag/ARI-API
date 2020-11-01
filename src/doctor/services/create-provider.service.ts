@@ -19,6 +19,7 @@ import { ProviderHospital } from '../models/provider-hospital.model';
 import { ProviderReference } from '../models/provider-reference.model';
 import { ProviderHistory } from '../models/provider-history.model';
 import sequelize from 'sequelize';
+import { ProviderSpecality } from '../models/provider-speciality.model';
 
 @Injectable()
 export class CreateProviderService {
@@ -47,6 +48,8 @@ export class CreateProviderService {
         private readonly providerServicesModel: typeof ProviderServices,
         @InjectModel(RatingHistory)
         private readonly ratingHistoryModel: typeof RatingHistory,
+        @InjectModel(ProviderSpecality)
+        private readonly providerSpecalityModel: typeof ProviderSpecality,
         private userCreateService: UserCreateService,
         private readonly sequelize: Sequelize,
     ) { }
@@ -82,9 +85,13 @@ export class CreateProviderService {
 
             const provider = await this.saveProviderInfo(providerData, action, transaction);
 
+
+
             await this.saveProviderHistoryInfo(providerData, action, transaction, provider.id);
 
             await this.saveProviderAddress(providerData.address, transaction, provider.id);
+
+            await this.saveSpeciality({ providerId: provider.id, specialities: [providerData.medicalSpeciality] }, transaction);
 
             await this.saveLanguages({ providerId: provider.id, languages: providerData.languages }, transaction);
 
@@ -190,6 +197,23 @@ export class CreateProviderService {
         }
 
         return patient;
+    }
+
+    async saveSpeciality(data: { providerId: string, specialities: Array<number> }, transaction: Transaction): Promise<any> {
+
+        await this.providerSpecalityModel.destroy({
+            where: { providerId: data.providerId },
+            transaction
+        });
+
+        const specialities = [];
+        for (const specality of data.specialities) {
+            specialities.push({ providerId: data.providerId, specalityId: specality });
+        }
+
+        await this.providerLanguageModel.bulkCreate(specialities, { transaction: transaction });
+
+        return data;
     }
 
     async saveLanguages(data: { providerId: string, languages: Array<number> }, transaction: Transaction): Promise<any> {

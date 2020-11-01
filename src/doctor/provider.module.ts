@@ -22,12 +22,14 @@ import { ProviderAvailability } from './models/provider-availability.model';
 import { ProviderAvailabilitySlot } from './models/provider-availability-slot.model';
 import { ProviderSetting } from './models/provider-settings.model';
 import { Appointment } from '../shared/models/appointment.model';
+import { ProviderSpecality } from './models/provider-speciality.model';
 
 @Module({
   imports: [
     SequelizeModule.forFeature([
       User,
       Provider,
+      ProviderSpecality,
       Speciality,
       Language,
       ProviderLanguage,

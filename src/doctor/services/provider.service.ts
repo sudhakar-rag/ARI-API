@@ -20,6 +20,10 @@ import { ListQueryParamsDto } from '@app/src/core/common/list-query-params.dto';
 import { Op } from 'sequelize';
 import { Appointment } from '../../shared/models/appointment.model';
 import { Patient } from '../../patient/models/patient.model';
+import { Address } from '@app/src/users/models/address.model';
+import { ProviderSpecality } from '../models/provider-speciality.model';
+import { Speciality } from '../models/speciality.model';
+import { Specalist } from '@app/src/shared/models/specalist.model';
 
 @Injectable()
 export class ProviderService {
@@ -50,11 +54,42 @@ export class ProviderService {
     const sortField = queryParams.sortField || 'id';
     const sortOrder = queryParams.sortOrder || 'desc';
 
+    const where = {};
+    const serviceWhere = {};
+    const specialitiesWhere = {};
+    if (queryParams.filter) {
+      if (queryParams.filter.gender) {
+        where['gender'] = queryParams.filter.gender;
+      }
+
+      if (typeof queryParams.filter.isAvailable == 'boolean') {
+        where['isAvailable'] = queryParams.filter.isAvailable ? 1 : 0;
+      }
+
+
+      if (queryParams.filter.services) {
+        serviceWhere['serviceId'] = { [Op.in]: queryParams.filter.services };
+      }
+
+      if (queryParams.filter.specialities) {
+        specialitiesWhere['specalityId'] = { [Op.in]: queryParams.filter.specialities };
+      }
+
+    }
+
+    // let orderBy: Array<string> = ['id', 'desc'];
+    // if (sortField == 'id') {
+    //   orderBy = [[sortField, sortOrder]];
+    // } else if (queryParams.sortField == 'name') {
+    //   orderBy = [['User', 'firstName', sortOrder]];
+    // }
+
     return await this.providerModel.findAndCountAll({
       distinct: true,
       include: [
         {
           model: User,
+          as: 'User',
           where: {
             [Op.or]: [
               {
@@ -66,13 +101,25 @@ export class ProviderService {
             ]
           },
         },
-        ProviderAddress,
+        {
+          model: ProviderAddress,
+          include: [Address]
+        },
         ProviderLanguage,
-        ProviderServices,
+        {
+          model: ProviderServices,
+          where: serviceWhere
+        },
+        {
+          model: ProviderSpecality,
+          include: [Specalist],
+          where: specialitiesWhere
+        }
       ],
+      where: where,
       offset: offset,
       limit: limit,
-      order: [[sortField, sortOrder]]
+      order: [sortField, sortOrder]
     });
   }
 
