@@ -13,6 +13,7 @@ import { EmailModule } from './email/email.module';
 import { SharedModule } from './shared/shared.module';
 import { AppointmentModule } from './appointment/appointment.module';
 import { ZoomModule } from './zoom/zoom.module';
+import { AwsModule } from './core/aws/aws.module';
 
 @Module({
   imports: [
@@ -28,8 +29,9 @@ import { ZoomModule } from './zoom/zoom.module';
     SharedModule,
     AppointmentModule,
     ZoomModule,
+    AwsModule
   ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule { }
