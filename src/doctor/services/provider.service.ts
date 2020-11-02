@@ -89,7 +89,6 @@ export class ProviderService {
       include: [
         {
           model: User,
-          as: 'User',
           where: {
             [Op.or]: [
               {
@@ -119,7 +118,7 @@ export class ProviderService {
       where: where,
       offset: offset,
       limit: limit,
-      order: [sortField, sortOrder]
+      order: [[sortField, sortOrder]]
     });
   }
 
