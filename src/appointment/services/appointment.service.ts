@@ -13,6 +13,7 @@ import { UsersService } from '@app/src/users/services/users.service';
 import { Op } from 'sequelize';
 import { ZoomService } from '@app/src/zoom/services/zoom.service';
 import { UpdateAppointmentDto } from '../dto/update-appointment.dto';
+import { Attachments } from '@app/src/shared/models/attachments.model';
 @Injectable()
 export class AppointmentService {
     constructor(
@@ -20,6 +21,8 @@ export class AppointmentService {
         private readonly appointmentModel: typeof Appointment,
         @InjectModel(AppointmentDetails)
         private readonly appointmentDetailsModel: typeof AppointmentDetails,
+        @InjectModel(Attachments)
+        private readonly attachmentsModel: typeof Attachments,
         @InjectModel(ProviderAvailabilitySlot)
         private readonly providerAvailabilitySlotModel: typeof ProviderAvailabilitySlot,
         private readonly sequelize: Sequelize,
@@ -34,7 +37,8 @@ export class AppointmentService {
             const result = await this.appointmentModel.findOne({
                 include: [
                     AppointmentDetails,
-                    ProviderAvailabilitySlot
+                    ProviderAvailabilitySlot,
+                    Attachments
                 ],
                 where: {
                     id: appId
@@ -101,6 +105,17 @@ export class AppointmentService {
                         message: appointmentData.message,
                         files: appointmentData.files
                     }, { transaction: transaction });
+
+                    if(appointmentData.fileType) {
+                        await this.attachmentsModel.create({
+                            appointmentId: appointment.id,
+                            type: appointmentData.fileType,
+                            fileName: appointmentData.fileName,
+                            fileUrl: appointmentData.files,
+                            uploadedBy: appointmentData.uploadedBy
+                        }, { transaction: transaction });
+                    }
+
                 }
             } else {
                 const data: any = {
@@ -225,7 +240,8 @@ export class AppointmentService {
                         ],
                         required: true
                     },
-                    ProviderAvailabilitySlot
+                    ProviderAvailabilitySlot,
+                    Attachments
                 ],
                 where: where,
                 offset: offset,
@@ -254,7 +270,7 @@ export class AppointmentService {
                                         }
                                     ]
                                 },
-                            }
+                            },
                         ],
                         required: true
                     },
@@ -277,7 +293,8 @@ export class AppointmentService {
                             }
                         ]
                     },
-                    ProviderAvailabilitySlot
+                    ProviderAvailabilitySlot,
+                    Attachments
                 ],
                 where: where,
                 offset: offset,

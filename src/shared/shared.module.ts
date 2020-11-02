@@ -1,3 +1,4 @@
+import { Attachments } from './models/attachments.model';
 import { UsersModule } from './../users/users.module';
 import { Service } from './models/services.model';
 import { Language } from './../doctor/models/language.model';
@@ -30,6 +31,7 @@ import { CallNotification } from './models/call-notifications.model';
             Service,
             Payment,
             Appointment,
+            Attachments,
             AppointmentPayment,
             AppointmentDetails,
             CallNotification

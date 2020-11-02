@@ -67,6 +67,18 @@ export class CreateAppointmentDto {
     @IsString()
     message: string;
 
+    @ApiProperty({ type: String })
+    @IsString()
+    fileType: string;
+
+    @ApiProperty({ type: String })
+    @IsString()
+    fileName: string;
+
+    @ApiProperty({ type: Number })
+    @IsNumber()
+    uploadedBy: Number;
+
     @ApiProperty({ type: String, default: 'assets/image/user.png' })
     @IsString()
     files: string;

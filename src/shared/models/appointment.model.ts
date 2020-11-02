@@ -1,3 +1,5 @@
+import { Attachments } from './attachments.model';
+import { HasMany } from 'sequelize-typescript';
 import { ProviderAvailabilitySlot } from '@app/src/doctor/models/provider-availability-slot.model';
 import {
     Table,
@@ -61,4 +63,7 @@ export class Appointment extends Model<Appointment> {
 
     @HasOne(() => AppointmentDetails)
     details: AppointmentDetails;
+
+    @HasMany(() => Attachments)
+    attachments: Attachments[]
 }
