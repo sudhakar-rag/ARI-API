@@ -245,4 +245,15 @@ export class UsersService {
     return result;
   }
 
+  async updateProfilePicture(data: any): Promise<any> {
+
+    let userData = {
+      picture: data.picture
+    }
+
+    const result = await this.userModel.update(userData, { where: { id: data.userId } });
+
+    return result;
+  }
+
 }

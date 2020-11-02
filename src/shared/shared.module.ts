@@ -1,3 +1,4 @@
+import { UsersModule } from './../users/users.module';
 import { Service } from './models/services.model';
 import { Language } from './../doctor/models/language.model';
 import { Address } from './../users/models/address.model';
@@ -32,7 +33,8 @@ import { CallNotification } from './models/call-notifications.model';
             AppointmentPayment,
             AppointmentDetails,
             CallNotification
-        ])
+        ]),
+        UsersModule
     ],
     providers: [SharedService],
     controllers: [SharedController],

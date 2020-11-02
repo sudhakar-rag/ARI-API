@@ -1,14 +1,14 @@
 import { SharedService } from './../services/shared.service';
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
 import { ResponseData } from '@app/src/core/common/response-data';
-// import { UsersService } from '@app/src/users/services/users.service';
+import { UsersService } from '@app/src/users/services/users.service';
 
 @Controller('shared')
 // @UseGuards(JwtAuthGuard)
 export class SharedController {
   constructor(
     private sharedService: SharedService,
-    // private usersService: UsersService
+    private usersService: UsersService
   ) { }
 
 
@@ -139,6 +139,21 @@ export class SharedController {
 
     try {
       output.data = await this.sharedService.getAppointmenteDetailsById(appointmentId);
+    } catch (error) {
+      console.log(error);
+      output.status = false;
+      output.message = typeof error == 'string' ? error : '';
+    }
+
+    return output;
+  }
+
+  @Put('picture')
+  async updatePicture(@Body() userData: any): Promise<ResponseData> {
+    const output = new ResponseData();
+
+    try {
+      output.data = await this.usersService.updateProfilePicture(userData);
     } catch (error) {
       console.log(error);
       output.status = false;
