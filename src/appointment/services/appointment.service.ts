@@ -171,6 +171,7 @@ export class AppointmentService {
     async addAttachments(attachmentData: CreateAttachmentDto): Promise<any> {
 
         const result = await this.attachmentsModel.create({
+            appointmentId: attachmentData.appointmentId,
             type: attachmentData.type,
             fileName: attachmentData.fileName,
             fileUrl: attachmentData.fileUrl,
@@ -179,6 +180,17 @@ export class AppointmentService {
 
         return result;
         
+    }
+
+
+    async getAttachmentsById(userId: number): Promise<any> {
+
+        const result = await this.attachmentsModel.findAll(
+            { where: {uploadedBy: userId} }
+        );
+
+        return result;
+
     }
 
 

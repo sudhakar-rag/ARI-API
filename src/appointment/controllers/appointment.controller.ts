@@ -136,4 +136,28 @@ export class AppointmentController {
 
     }
 
+    @ApiOperation({ summary: 'Get Attachments of user' })
+    @Get('attachments/:id')
+    async getAttachments(@Param('id') userId: number): Promise<ResponseData> {
+        const output = new ResponseData();
+
+        try {
+            const appData = await this.appointmentService.getAttachmentsById(userId);
+
+            if (!appData) {
+                throw 'Invalid Input.';
+            }
+
+            output.data = appData;
+            output.status = true;
+
+        } catch (error) {
+            console.log(error);
+            output.status = false;
+            output.message = typeof error == 'string' ? error : '';
+        }
+
+        return output;
+    }
+
 }
