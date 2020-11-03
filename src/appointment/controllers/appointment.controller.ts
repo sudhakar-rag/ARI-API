@@ -1,3 +1,4 @@
+import { CreateAttachmentDto } from './../dto/create-attachment.dto';
 import { ResponseData } from '@app/src/core/common/response-data';
 import { CreateAppointmentDto } from '@app/src/appointment/dto/create-appointment.dto';
 import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
@@ -6,6 +7,7 @@ import { AppointmentService } from '../services/appointment.service';
 import { ListQueryParamsDto } from '@app/src/core/common/list-query-params.dto';
 import { JwtAuthGuard } from '@app/src/auth/guards/jwt-auth.guard';
 import { UpdateAppointmentDto } from '../dto/update-appointment.dto';
+import { any } from 'sequelize/types/lib/operators';
 
 @ApiTags('appointment')
 @ApiBearerAuth()
@@ -98,6 +100,30 @@ export class AppointmentController {
 
         try {
             output.data = await this.appointmentService.updateAppointmentStatus(appointmentData);
+            output.status = true;
+
+        } catch (error) {
+            console.log(error);
+            output.status = false;
+            output.message = typeof error == 'string' ? error : '';
+        }
+
+        return output;
+
+    }
+
+    @ApiOperation({ summary: 'add attachment' })
+    @ApiBody({ type: CreateAttachmentDto })
+    @ApiCreatedResponse({
+        description: 'The file has been successfully uploaded.',
+        type: ResponseData,
+    })
+    @Post('attachment')
+    async addAttachment(@Body() attachmentData: CreateAttachmentDto): Promise<ResponseData> {
+        const output = new ResponseData();
+
+        try {
+            output.data = await this.appointmentService.addAttachments(attachmentData);
             output.status = true;
 
         } catch (error) {

@@ -1,3 +1,4 @@
+import { CreateAttachmentDto } from './../dto/create-attachment.dto';
 import { Sequelize } from 'sequelize-typescript';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
@@ -166,6 +167,20 @@ export class AppointmentService {
             return null;
         }
     }
+
+    async addAttachments(attachmentData: CreateAttachmentDto): Promise<any> {
+
+        const result = await this.attachmentsModel.create({
+            type: attachmentData.type,
+            fileName: attachmentData.fileName,
+            fileUrl: attachmentData.fileUrl,
+            uploadedBy: attachmentData.uploadedBy
+        });
+
+        return result;
+        
+    }
+
 
 
     async getAppointments(queryParams: ListQueryParamsDto): Promise<any> {
