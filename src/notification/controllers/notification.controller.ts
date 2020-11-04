@@ -1,3 +1,4 @@
+import { JwtAuthGuard } from './../../auth/guards/jwt-auth.guard';
 import { CreateNotificationDto } from './../dto/create-notification.dto';
 import { NotificationService } from './../services/notification.service';
 import {
@@ -17,8 +18,8 @@ import { ListQueryParamsDto } from '@app/src/core/common/list-query-params.dto';
 
 @ApiTags('notification')
 @ApiBearerAuth()
+@UseGuards(JwtAuthGuard)
 @Controller('notification')
-// @UseGuards(JwtAuthGuard)
 export class NotificationController {
   constructor( private notificationService: NotificationService,
   ) { 
@@ -42,11 +43,11 @@ export class NotificationController {
   }
 
   @Post()
-  async saveNotification(@Body() notificationData: CreateNotificationDto): Promise<ResponseData> {
+  async saveNotification(@Body() notificationData: CreateNotificationDto, transaction): Promise<ResponseData> {
     const output = new ResponseData();
 
     try {
-      output.data = await this.notificationService.saveNotifications(notificationData);
+      output.data = await this.notificationService.saveNotifications(notificationData, transaction);
     } catch (error) {
       console.log(error);
       output.status = false;

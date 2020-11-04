@@ -118,7 +118,7 @@ export class AppointmentService {
                             status: false
                         };
 
-                        await this.notificationService.saveNotifications(notificationData);
+                        await this.notificationService.saveNotifications(notificationData, transaction);
                     }
 
                     if(appointmentData.fileType) {

@@ -22,14 +22,14 @@ export class NotificationService {
     });
   }
 
-  async saveNotifications(notificationData: CreateNotificationDto): Promise<any> {
+  async saveNotifications(notificationData: CreateNotificationDto, transaction): Promise<any> {
 
     const result = 
         await this.notificationModel.create({
             appointmentId: notificationData.appointmentId,
             userId: notificationData.userId,
             status: notificationData.status,
-        });
+        }, { transaction: transaction });
      return result;   
 
    }
