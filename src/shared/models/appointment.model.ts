@@ -1,3 +1,4 @@
+import { Notification } from './notification.model';
 import { Attachments } from './attachments.model';
 import { HasMany } from 'sequelize-typescript';
 import { ProviderAvailabilitySlot } from '@app/src/doctor/models/provider-availability-slot.model';
@@ -66,4 +67,7 @@ export class Appointment extends Model<Appointment> {
 
     @HasMany(() => Attachments)
     attachments: Attachments[]
+
+    @HasMany(() => Notification)
+    notifications: Notification[]
 }

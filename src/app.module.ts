@@ -1,3 +1,4 @@
+import { NotificationModule } from './notification/notification.module';
 import { PatientsModule } from './patient/patient.module';
 import { ProviderModule } from './doctor/provider.module';
 import { Module } from '@nestjs/common';
@@ -29,7 +30,8 @@ import { AwsModule } from './core/aws/aws.module';
     SharedModule,
     AppointmentModule,
     ZoomModule,
-    AwsModule
+    AwsModule,
+    NotificationModule
   ],
   controllers: [AppController],
   providers: [AppService],

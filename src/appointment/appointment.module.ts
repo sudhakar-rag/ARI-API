@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { ProviderAvailabilitySlot } from '../doctor/models/provider-availability-slot.model';
+import { NotificationModule } from '../notification/notification.module';
 import { AppointmentDetails } from '../shared/models/appointment-details.model';
 import { Appointment } from '../shared/models/appointment.model';
 import { Attachments } from '../shared/models/attachments.model';
@@ -18,7 +19,8 @@ import { AppointmentService } from './services/appointment.service';
       Attachments
     ]),
     UsersModule,
-    ZoomModule
+    ZoomModule,
+    NotificationModule
   ],
   controllers: [AppointmentController],
   providers: [AppointmentService],

@@ -1,3 +1,5 @@
+import { CreateNotificationDto } from './../../notification/dto/create-notification.dto';
+import { NotificationService } from './../../notification/services/notification.service';
 import { CreateAttachmentDto } from './../dto/create-attachment.dto';
 import { Sequelize } from 'sequelize-typescript';
 import { Injectable } from '@nestjs/common';
@@ -28,7 +30,8 @@ export class AppointmentService {
         private readonly providerAvailabilitySlotModel: typeof ProviderAvailabilitySlot,
         private readonly sequelize: Sequelize,
         private usersService: UsersService,
-        private zoomService: ZoomService
+        private zoomService: ZoomService,
+        private notificationService: NotificationService
     ) { }
 
 
@@ -106,6 +109,17 @@ export class AppointmentService {
                         message: appointmentData.message,
                         files: appointmentData.files
                     }, { transaction: transaction });
+
+                    if(appointmentData.type == 'I')
+                    {
+                        let notificationData: CreateNotificationDto = {
+                            appointmentId: appointment.id,
+                            userId: appointmentData.userId,
+                            status: false
+                        };
+
+                        await this.notificationService.saveNotifications(notificationData);
+                    }
 
                     if(appointmentData.fileType) {
                         await this.attachmentsModel.create({

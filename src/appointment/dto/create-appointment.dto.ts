@@ -22,6 +22,11 @@ export class CreateAppointmentDto {
     @IsNumber()
     patientId: number;
 
+    @ApiProperty({ type: Number, default: 1 })
+    @IsOptional()
+    @IsNumber()
+    userId: number;
+
     @ApiProperty({ type: String })
     @IsString()
     date: string;
@@ -68,14 +73,17 @@ export class CreateAppointmentDto {
     message: string;
 
     @ApiProperty({ type: String })
+    @IsOptional()
     @IsString()
     fileType: string;
 
     @ApiProperty({ type: String })
+    @IsOptional()
     @IsString()
     fileName: string;
 
     @ApiProperty({ type: Number })
+    @IsOptional()
     @IsNumber()
     uploadedBy: Number;
 

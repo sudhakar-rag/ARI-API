@@ -1,3 +1,4 @@
+import { Notification } from './models/notification.model';
 import { Attachments } from './models/attachments.model';
 import { UsersModule } from './../users/users.module';
 import { Service } from './models/services.model';
@@ -34,6 +35,7 @@ import { CallNotification } from './models/call-notifications.model';
             Attachments,
             AppointmentPayment,
             AppointmentDetails,
+            Notification,
             CallNotification
         ]),
         UsersModule
