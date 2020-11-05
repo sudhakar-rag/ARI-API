@@ -17,8 +17,8 @@ import { ApiBearerAuth, ApiBody, ApiCreatedResponse, ApiOperation, ApiParam, Api
 import { ListQueryParamsDto } from '@app/src/core/common/list-query-params.dto';
 
 @ApiTags('notification')
-@ApiBearerAuth()
-@UseGuards(JwtAuthGuard)
+// @ApiBearerAuth()
+// @UseGuards(JwtAuthGuard)
 @Controller('notification')
 export class NotificationController {
   constructor( private notificationService: NotificationService,
@@ -27,12 +27,12 @@ export class NotificationController {
   }
 
 
-  @Get()
-  async getLanaguages() {
+  @Get(':id')
+  async getNotifications(@Param('id') userId: number) {
     let output = new ResponseData();
 
     try {
-      output.data = await this.notificationService.getNotifications();
+      output.data = await this.notificationService.getNotifications(userId);
     } catch (error) {
       console.log(error);
       output.status = false;
@@ -43,7 +43,7 @@ export class NotificationController {
   }
 
   @Post()
-  async saveNotification(@Body() notificationData: CreateNotificationDto, transaction): Promise<ResponseData> {
+  async saveNotification(@Body() notificationData: CreateNotificationDto, transaction = ''): Promise<ResponseData> {
     const output = new ResponseData();
 
     try {
@@ -57,8 +57,8 @@ export class NotificationController {
     return output;
   }
 
-  @Put()
-  async updateNotification(@Body() notificationData: CreateNotificationDto[]): Promise<ResponseData> {
+  @Put('reset')
+  async updateNotification(@Body() notificationData: any): Promise<ResponseData> {
     const output = new ResponseData();
 
     try {
