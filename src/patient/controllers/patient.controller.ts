@@ -13,7 +13,7 @@ import { JwtAuthGuard } from '@app/src/auth/guards/jwt-auth.guard';
 @ApiTags('patient')
 @ApiBearerAuth()
 @Controller('patient')
-@UseGuards(JwtAuthGuard)
+// @UseGuards(JwtAuthGuard)
 export class PatientsController {
   constructor(
     private providerService: CreateProviderService,
