@@ -204,16 +204,13 @@ export class AppointmentService {
         queryParams.pageSize = queryParams.pageSize || 10;
         const offset = queryParams.pageNumber * queryParams.pageSize;
         const limit = queryParams.pageSize;
-        const sortField = queryParams.sortField || 'createdAt';
+        const sortField = queryParams.sortField || 'id';
         const sortOrder = queryParams.sortOrder || 'desc';
 
         const where: any = {
             [Op.or]: [
                 {
-                    firstName: { [Op.like]: '%' + searchText + '%' }
-                },
-                {
-                    lastName: { [Op.like]: '%' + searchText + '%' }
+                    fileName: { [Op.like]: '%' + searchText + '%' }
                 }
             ]
         };
@@ -226,22 +223,18 @@ export class AppointmentService {
 
         if (this.usersService.isAdmin()) {
             if (queryParams.filter) {
-                if (queryParams.filter.providerId) {
-                    where.uploadedBy = queryParams.filter.providerId;
-                }
-
-                if (queryParams.filter.patientId) {
-                    where.uploadedBy = queryParams.filter.patientId;
+                if (queryParams.filter.userId) {
+                    where.uploadedBy = queryParams.filter.userId;
                 }
             }
-        } else if (this.usersService.isProvider()) {
-            where.uploadedBy = this.usersService.getLoggedinProviderId();
-        } else if (this.usersService.isPatient()) {
-            where.uploadedBy = this.usersService.getLoggedinPatientId();
+        } else {
+            where.uploadedBy = this.usersService.getLoggedinUserId()
         }
+        console.log(where);
 
         const result = await this.attachmentsModel.findAll(
             {
+
                 include: [
                     {
                         model: Appointment,
@@ -249,6 +242,7 @@ export class AppointmentService {
                         include: [
                             {
                                 model: Patient,
+                                required: false,
                                 include: [
                                     {
                                         model: User,
@@ -268,6 +262,7 @@ export class AppointmentService {
                             },
                             {
                                 model: Provider,
+                                required: false,
                                 include: [
                                     {
                                         model: User,
@@ -327,7 +322,7 @@ export class AppointmentService {
                 }
 
                 if (queryParams.filter.patientId) {
-                    where.providerId = queryParams.filter.patientId;
+                    where.patientId = queryParams.filter.patientId;
                 }
             }
         } else if (this.usersService.isProvider()) {
