@@ -137,12 +137,12 @@ export class AppointmentController {
     }
 
     @ApiOperation({ summary: 'Get Attachments of user' })
-    @Get('attachments/:id')
-    async getAttachments(@Param('id') userId: number): Promise<ResponseData> {
+    @Post('attachments/list')
+    async getAttachments(@Body() queryParams: ListQueryParamsDto): Promise<ResponseData> {
         const output = new ResponseData();
 
         try {
-            const appData = await this.appointmentService.getAttachmentsById(userId);
+            const appData = await this.appointmentService.getAttachments(queryParams);
 
             if (!appData) {
                 throw 'Invalid Input.';
