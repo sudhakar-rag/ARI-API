@@ -49,7 +49,7 @@ export class PatientService {
   }
 
   async getPatientById(patientId: string): Promise<any> {
-    return await this.patientModel.findAll({
+    return await this.patientModel.findOne({
       where: { id: patientId },
       include: [
         User,
