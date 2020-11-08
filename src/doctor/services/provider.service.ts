@@ -112,7 +112,8 @@ export class ProviderService {
         {
           model: ProviderSpecality,
           include: [Specalist],
-          where: specialitiesWhere
+          required: false,
+          where: specialitiesWhere,
         }
       ],
       where: where,

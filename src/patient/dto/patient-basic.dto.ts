@@ -9,6 +9,10 @@ export class PatientBasicDto {
     @IsNumber()
     userId: number;
 
+    @IsOptional()
+    @IsNumber()
+    patientId: number;
+
     @IsString()
     firstName: string;
 

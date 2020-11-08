@@ -258,7 +258,7 @@ export class CreatePatientService {
         await this.userModel.update(userData, { where: { id: data.userId } });
 
         // Address Info
-        await this.addressModel.update(addressData, { where: { id: data.userId } });
+        await this.addressModel.update(addressData, { where: { id: data.patientId } });
 
         // Patient
         const result = await this.patientModel.update(patientData, { where: { userId: data.userId } });
