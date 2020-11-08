@@ -346,7 +346,7 @@ export class CreateProviderService {
             ethnicity: data.ethnicity,
             dateOfBirth: data.dateOfBirth,
             gender: data.gender,
-            medicalSpeciality: data.medicalSpeciality,
+            // medicalSpeciality: data.medicalSpeciality,
             areaOfInterest: data.areaOfInterest,
         };
 
@@ -370,7 +370,7 @@ export class CreateProviderService {
         await this.userModel.update(userData, { where: { id: data.userId } });
 
         // Address Info
-        await this.addressModel.update(addressData, { where: { id: data.userId } });
+        await this.addressModel.update(addressData, { where: { id: data.addressId } });
 
         // services 
         await this.providerServicesModel.destroy({
@@ -379,10 +379,22 @@ export class CreateProviderService {
 
         const services = [];
         for (const service of data.services) {
-            services.push({ providerId: data.userId, serviceId: service });
+            services.push({ providerId: data.providerId, serviceId: service });
         }
 
         await this.providerServicesModel.bulkCreate(services);
+
+        await this.providerSpecalityModel.destroy({
+            where: { providerId: data.providerId }
+        })
+
+        const specialities = [];
+        for (const specalityId of data.medicalSpeciality) {
+            specialities.push({ providerId: data.providerId, specalityId: specalityId });
+        }
+
+        await this.providerSpecalityModel.bulkCreate(specialities);
+
 
         // provider
         const result = await this.providerModel.update(ProviderData, { where: { userId: data.userId } });

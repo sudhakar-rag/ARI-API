@@ -165,13 +165,18 @@ export class ProviderService {
       include: [
         User,
         ProviderHistory,
-        ProviderAddress,
+        {
+          model: ProviderAddress,
+          include: [Address],
+          required: false
+        },
         ProviderAffilation,
         ProviderEducation,
         ProviderHospital,
         ProviderLanguage,
         ProviderReference,
-        ProviderServices
+        ProviderServices,
+        ProviderSpecality
       ]
     });
   }
