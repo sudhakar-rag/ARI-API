@@ -74,10 +74,6 @@ export class PatientService {
         {
           model: PatientSymptom,
           required: false
-        },
-        {
-          model: RatingHistory,
-          required: false
         }
       ]
     });
