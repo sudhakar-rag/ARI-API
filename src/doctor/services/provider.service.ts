@@ -1,3 +1,4 @@
+import { Service } from './../../shared/models/services.model';
 import { RatingHistory } from './../models/rating-history';
 import { ProviderServices } from './../models/provider-services.model';
 import { User } from '@app/src/users/models/user.model';
@@ -171,7 +172,13 @@ export class ProviderService {
         ProviderHospital,
         ProviderLanguage,
         ProviderReference,
-        ProviderServices
+        {
+          model: ProviderServices,
+          include: [{
+            model: Service
+          }]
+        }
+        
       ]
     });
   }
