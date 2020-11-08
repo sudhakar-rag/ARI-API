@@ -333,7 +333,7 @@ export class AppointmentService {
         } else if (this.usersService.isProvider()) {
             where.providerId = this.usersService.getLoggedinProviderId();
         } else if (this.usersService.isPatient()) {
-            where.providerId = this.usersService.getLoggedinPatientId();
+            where.patientId = this.usersService.getLoggedinPatientId();
         }
         console.log(where, this.usersService.getLoggedinUserData());
 
