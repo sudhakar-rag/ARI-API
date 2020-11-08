@@ -110,8 +110,7 @@ export class AppointmentService {
                         files: appointmentData.files
                     }, { transaction: transaction });
 
-                    if(appointmentData.type == 'I')
-                    {
+                    if (appointmentData.type == 'I') {
                         let notificationData: CreateNotificationDto = {
                             appointmentId: appointment.id,
                             userId: appointmentData.userId,
@@ -121,7 +120,7 @@ export class AppointmentService {
                         await this.notificationService.saveNotifications(notificationData, transaction);
                     }
 
-                    if(appointmentData.fileType) {
+                    if (appointmentData.fileType) {
                         await this.attachmentsModel.create({
                             appointmentId: appointment.id,
                             type: appointmentData.fileType,
@@ -193,14 +192,40 @@ export class AppointmentService {
         });
 
         return result;
-        
+
     }
 
 
     async getAttachmentsById(userId: number): Promise<any> {
 
         const result = await this.attachmentsModel.findAll(
-            { where: {uploadedBy: userId} }
+            {
+                include: [
+                    {
+                        model: Appointment,
+                        required: false,
+                        include: [
+                            {
+                                model: Patient,
+                                include: [
+                                    {
+                                        model: User
+                                    }
+                                ]
+                            },
+                            {
+                                model: Provider,
+                                include: [
+                                    {
+                                        model: User
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ],
+                where: { uploadedBy: userId },
+            }
         );
 
         return result;

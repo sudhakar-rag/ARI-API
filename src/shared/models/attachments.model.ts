@@ -4,6 +4,7 @@ import {
     Model,
     ForeignKey,
     DataType,
+    BelongsTo,
 } from 'sequelize-typescript';
 import { Appointment } from './appointment.model';
 
@@ -24,6 +25,8 @@ export class Attachments extends Model<Attachments> {
     fileUrl: string;
 
     @Column
-    uploadedBy : number;
+    uploadedBy: number;
 
+    @BelongsTo(() => Appointment)
+    appointment: Appointment;
 }
