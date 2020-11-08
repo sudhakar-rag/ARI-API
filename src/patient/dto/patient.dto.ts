@@ -77,7 +77,7 @@ export class PatientDto {
   allergies: string;
 
   @IsString()
-  spcialHistory: string;
+  socialHistory: string;
 
   @IsString()
   surgeryHistory: string;

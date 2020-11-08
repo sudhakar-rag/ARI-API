@@ -140,7 +140,7 @@ export class CreatePatientService {
             vitamins: createUserData.vitamins,
             restrictions: createUserData.restrictions,
             allergies: createUserData.allergies,
-            spcialHistory: createUserData.spcialHistory,
+            socialHistory: createUserData.socialHistory,
             surgeryHistory: createUserData.surgeryHistory,
             familyHistory: createUserData.familyHistory,
             vaccinationHistory: createUserData.vaccinationHistory,
@@ -270,7 +270,7 @@ export class CreatePatientService {
 
         const historyData = {
             familyHistory: data.familyHistory,
-            spcialHistory: data.socialHistory,
+            socialHistory: data.socialHistory,
             surgeryHistory: data.surgeryHistory,
             vaccinationHistory: data.vaccinationHistory,
             travelHistory: data.travelHistory,

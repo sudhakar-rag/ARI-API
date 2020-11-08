@@ -59,7 +59,7 @@ export class Patient extends Model<Patient> {
   allergies: string;
 
   @Column(DataType.TEXT({ length: 'medium' }))
-  spcialHistory: string;
+  socialHistory: string;
 
   @Column(DataType.TEXT({ length: 'medium' }))
   surgeryHistory: string;
