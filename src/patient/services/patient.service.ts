@@ -20,6 +20,7 @@ import { AppointmentDetails } from '@app/src/shared/models/appointment-details.m
 import { ListQueryParamsDto } from '@app/src/core/common/list-query-params.dto';
 import { Provider } from '@app/src/doctor/models/provider.model';
 import { ProviderAvailabilitySlot } from '@app/src/doctor/models/provider-availability-slot.model';
+import { Address } from '@app/src/users/models/address.model';
 
 @Injectable()
 export class PatientService {
@@ -52,13 +53,32 @@ export class PatientService {
       where: { id: patientId },
       include: [
         User,
-        PatientAddress,
         Subscription,
-        PatientMedicalProblem,
-        PatientProviderType,
-        PatientSpecalist,
-        PatientSymptom,
-        RatingHistory
+        {
+          model: PatientAddress,
+          include: [Address],
+          required: false
+        },
+        {
+          model: PatientMedicalProblem,
+          required: false
+        },
+        {
+          model: PatientProviderType,
+          required: false
+        },
+        {
+          model: PatientSpecalist,
+          required: false
+        },
+        {
+          model: PatientSymptom,
+          required: false
+        },
+        {
+          model: RatingHistory,
+          required: false
+        }
       ]
     });
   }
