@@ -7,7 +7,11 @@ export class PatientBasicDto {
 
     @IsOptional()
     @IsNumber()
-    userId: number;
+    userId: number; 
+
+    @IsOptional()
+    @IsNumber()
+    addressId: number;
 
     @IsOptional()
     @IsNumber()

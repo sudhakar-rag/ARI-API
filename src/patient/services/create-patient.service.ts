@@ -251,14 +251,14 @@ export class CreatePatientService {
             city: data.city,
             state: data.state,
             country: data.country,
-            zip: data.zipcode
+            zip: data.zip
         }
 
         // Address Info
         await this.userModel.update(userData, { where: { id: data.userId } });
 
         // Address Info
-        await this.addressModel.update(addressData, { where: { id: data.patientId } });
+        await this.addressModel.update(addressData, { where: { id: data.addressId } });
 
         // Patient
         const result = await this.patientModel.update(patientData, { where: { userId: data.userId } });
@@ -353,6 +353,12 @@ export class CreatePatientService {
         }
 
         await this.patientProviderTypeModel.bulkCreate(types);
+
+        let patientData = {
+            otherSpecialist: data.otherSpecialist
+        }
+
+        await this.patientModel.update(patientData, { where: { userId: data.userId } });
 
         await this.patientSpecalistModel.destroy({
             where: { patientId: data.patientId }
