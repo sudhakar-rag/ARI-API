@@ -111,7 +111,7 @@ export class AppointmentService {
                     }, { transaction: transaction });
 
                     if (appointmentData.type == 'I') {
-                        let notificationData: CreateNotificationDto = {
+                        const notificationData: CreateNotificationDto = {
                             appointmentId: appointment.id,
                             userId: appointmentData.userId,
                             status: false
@@ -196,10 +196,45 @@ export class AppointmentService {
     }
 
 
-    async getAttachmentsById(userId: number): Promise<any> {
+    async getAttachments(queryParams: ListQueryParamsDto): Promise<any> {
+
+        const searchText = queryParams.queryString || '';
+
+        queryParams.pageNumber = queryParams.pageNumber || 0;
+        queryParams.pageSize = queryParams.pageSize || 10;
+        const offset = queryParams.pageNumber * queryParams.pageSize;
+        const limit = queryParams.pageSize;
+        const sortField = queryParams.sortField || 'id';
+        const sortOrder = queryParams.sortOrder || 'desc';
+
+        const where: any = {
+            [Op.or]: [
+                {
+                    fileName: { [Op.like]: '%' + searchText + '%' }
+                }
+            ]
+        };
+
+        if (queryParams.filter) {
+            if (queryParams.filter.type) {
+                where.type = queryParams.filter.type;
+            }
+        }
+
+        if (this.usersService.isAdmin()) {
+            if (queryParams.filter) {
+                if (queryParams.filter.userId) {
+                    where.uploadedBy = queryParams.filter.userId;
+                }
+            }
+        } else {
+            where.uploadedBy = this.usersService.getLoggedinUserId()
+        }
+        console.log(where);
 
         const result = await this.attachmentsModel.findAll(
             {
+
                 include: [
                     {
                         model: Appointment,
@@ -207,24 +242,51 @@ export class AppointmentService {
                         include: [
                             {
                                 model: Patient,
+                                required: false,
                                 include: [
                                     {
-                                        model: User
+                                        model: User,
+                                        attributes: ['id', 'firstName', 'lastName', 'picture', 'phone'],
+                                        where: {
+                                            [Op.or]: [
+                                                {
+                                                    firstName: { [Op.like]: '%' + searchText + '%' }
+                                                },
+                                                {
+                                                    lastName: { [Op.like]: '%' + searchText + '%' }
+                                                }
+                                            ]
+                                        },
                                     }
                                 ]
                             },
                             {
                                 model: Provider,
+                                required: false,
                                 include: [
                                     {
-                                        model: User
+                                        model: User,
+                                        attributes: ['id', 'firstName', 'lastName', 'picture', 'phone'],
+                                        where: {
+                                            [Op.or]: [
+                                                {
+                                                    firstName: { [Op.like]: '%' + searchText + '%' }
+                                                },
+                                                {
+                                                    lastName: { [Op.like]: '%' + searchText + '%' }
+                                                }
+                                            ]
+                                        },
                                     }
                                 ]
                             }
                         ]
                     }
                 ],
-                where: { uploadedBy: userId },
+                where: where,
+                offset: offset,
+                limit: limit,
+                order: [[sortField, sortOrder]]
             }
         );
 
@@ -245,23 +307,31 @@ export class AppointmentService {
         const sortField = queryParams.sortField || 'id';
         const sortOrder = queryParams.sortOrder || 'desc';
 
-        let where: any = {};
+        const where: any = {};
+
+        if (queryParams.filter) {
+            if (queryParams.filter.date) {
+                where.date = queryParams.filter.date;
+            }
+        }
+
         if (this.usersService.isAdmin()) {
             if (queryParams.filter) {
                 if (queryParams.filter.providerId) {
-                    where = { providerId: queryParams.filter.providerId };
+                    where.providerId = queryParams.filter.providerId;
                 }
 
                 if (queryParams.filter.patientId) {
-                    where = { patientId: queryParams.filter.patientId };
+                    where.patientId = queryParams.filter.patientId;
                 }
             }
         } else if (this.usersService.isProvider()) {
-            where = { providerId: this.usersService.getLoggedinProviderId() };
+            where.providerId = this.usersService.getLoggedinProviderId();
         } else if (this.usersService.isPatient()) {
-            where = { patientId: this.usersService.getLoggedinPatientId() };
+            where.patientId = this.usersService.getLoggedinPatientId();
         }
         console.log(where, this.usersService.getLoggedinUserData());
+
 
         if (this.usersService.isProvider()) {
             return await this.appointmentModel.findAndCountAll({
