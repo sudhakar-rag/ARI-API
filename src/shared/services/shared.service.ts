@@ -1,3 +1,5 @@
+import { Country } from './../models/country.model';
+import { State } from './../models/state.model';
 import { ProviderType } from './../models/provider-type.model';
 import { AppointmentDetails } from './../models/appointment-details.model';
 import { Service } from './../models/services.model';
@@ -28,6 +30,10 @@ export class SharedService {
     private readonly addressModel: typeof Address,
     @InjectModel(Service)
     private readonly serviceModel: typeof Service,
+    @InjectModel(State)
+    private readonly stateModel: typeof State,
+    @InjectModel(Country)
+    private readonly countryModel: typeof Country,
     @InjectModel(ProviderType)
     private readonly providerTypeModel: typeof ProviderType,
     @InjectModel(AppointmentDetails)
@@ -57,6 +63,14 @@ export class SharedService {
 
   async getServices(): Promise<any> {
     return await this.serviceModel.findAll();
+  }
+
+  async getStates(): Promise<any> {
+    return await this.stateModel.findAll();
+  }
+
+  async getCountries(): Promise<any> {
+    return await this.countryModel.findAll();
   }
 
   async getAddressById(addressId): Promise<any> {

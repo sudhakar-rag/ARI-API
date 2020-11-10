@@ -1,3 +1,5 @@
+import { Country } from './models/country.model';
+import { State } from './models/state.model';
 import { Notification } from './models/notification.model';
 import { Attachments } from './models/attachments.model';
 import { UsersModule } from './../users/users.module';
@@ -28,6 +30,8 @@ import { CallNotification } from './models/call-notifications.model';
             Symptom,
             Subscription,
             Address,
+            State,
+            Country,
             Language,
             Service,
             Payment,
