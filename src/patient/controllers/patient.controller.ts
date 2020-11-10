@@ -108,6 +108,25 @@ export class PatientsController {
 
   }
 
+  @Put('subscription')
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+  async updateSubscription(@Body() subData: any): Promise<ResponseData> {
+    const output = new ResponseData();
+
+    try {
+      output.data = await this.createPatientService.updateSubscription(subData);
+      output.status = true;
+
+    } catch (error) {
+      console.log(error);
+      output.status = false;
+      output.message = typeof error == 'string' ? error : '';
+    }
+
+    return output;
+
+  }
+
   @Put('history')
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   async updateHistory(@Body() historyData: any): Promise<ResponseData> {

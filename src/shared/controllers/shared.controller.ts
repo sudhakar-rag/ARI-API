@@ -12,6 +12,21 @@ export class SharedController {
   ) { }
 
 
+  @Get('payments/:id')
+  async getPayments(@Param('id') userId: number): Promise<ResponseData> {
+    const output = new ResponseData();
+
+    try {
+      output.data = await this.sharedService.getPaymentsById(userId);
+    } catch (error) {
+      console.log(error);
+      output.status = false;
+      output.message = typeof error == 'string' ? error : '';
+    }
+
+    return output;
+  }
+
   @Get('getMedicalProblems')
   async getMedicalProblems() {
     let output = new ResponseData();

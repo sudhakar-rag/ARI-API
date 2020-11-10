@@ -266,6 +266,18 @@ export class CreatePatientService {
         return result;
     }
 
+
+    async updateSubscription(data: { userId: number, subscriptionId: number }): Promise<any> {
+
+        const subData = {
+            subscriptionId: data.subscriptionId,
+        };
+
+        const result = await this.patientModel.update(subData, { where: { userId: data.userId } });
+
+        return result;
+    }
+
     async updateHistory(data: any): Promise<any> {
 
         const historyData = {

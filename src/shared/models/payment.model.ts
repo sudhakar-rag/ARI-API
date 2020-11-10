@@ -1,12 +1,19 @@
+import { User } from './../../users/models/user.model';
 import {
     Table,
     Column,
     Model,
     DataType,
+    ForeignKey
 } from 'sequelize-typescript';
 
 @Table
 export class Payment extends Model<Payment> {
+
+    @ForeignKey(() => User)
+    @Column
+    userId: number;
+
     @Column(DataType.ENUM('S', 'P'))
     type: 'S' | 'P'
 

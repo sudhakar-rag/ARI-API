@@ -1,3 +1,4 @@
+import { Payment } from './../models/payment.model';
 import { Country } from './../models/country.model';
 import { State } from './../models/state.model';
 import { ProviderType } from './../models/provider-type.model';
@@ -38,6 +39,8 @@ export class SharedService {
     private readonly providerTypeModel: typeof ProviderType,
     @InjectModel(AppointmentDetails)
     private readonly appointmentDetailsModel: typeof AppointmentDetails,
+    @InjectModel(Payment)
+    private readonly paymentModel: typeof Payment,
     private readonly sequelize: Sequelize,
   ) { }
 
@@ -67,6 +70,12 @@ export class SharedService {
 
   async getStates(): Promise<any> {
     return await this.stateModel.findAll();
+  }
+
+  async getPaymentsById(userId: number): Promise<any> {
+    return await this.paymentModel.findAll({
+      where: { userId: userId }
+    });
   }
 
   async getCountries(): Promise<any> {
