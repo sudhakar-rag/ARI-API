@@ -25,6 +25,11 @@ export class CreateAppointmentDto {
     @ApiProperty({ type: Number, default: 1 })
     @IsOptional()
     @IsNumber()
+    appointmentId?: number;
+
+    @ApiProperty({ type: Number, default: 1 })
+    @IsOptional()
+    @IsNumber()
     userId: number;
 
     @ApiProperty({ type: String })

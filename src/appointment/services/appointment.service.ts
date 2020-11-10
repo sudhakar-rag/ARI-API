@@ -102,6 +102,8 @@ export class AppointmentService {
 
                 if (appointment) {
 
+                    appointmentData.appointmentId = appointment.id;
+
                     await this.appointmentDetailsModel.create({
                         appointmentId: appointment.id,
                         appointmentType: appointmentData.appointmentType,
