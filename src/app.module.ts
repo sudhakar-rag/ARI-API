@@ -1,3 +1,4 @@
+import { PaymentModule } from './payment/payment.module';
 import { NotificationModule } from './notification/notification.module';
 import { PatientsModule } from './patient/patient.module';
 import { ProviderModule } from './doctor/provider.module';
@@ -31,7 +32,8 @@ import { AwsModule } from './core/aws/aws.module';
     AppointmentModule,
     ZoomModule,
     AwsModule,
-    NotificationModule
+    NotificationModule,
+    PaymentModule
   ],
   controllers: [AppController],
   providers: [AppService],
