@@ -23,7 +23,7 @@ export class AddressDto {
     @IsString()
     state: string;
 
-    @IsString()
+    @IsNumber()
     country: number;
 
     @IsString()

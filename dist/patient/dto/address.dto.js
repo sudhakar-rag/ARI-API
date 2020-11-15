@@ -43,7 +43,7 @@ __decorate([
     __metadata("design:type", String)
 ], AddressDto.prototype, "state", void 0);
 __decorate([
-    class_validator_1.IsString(),
+    class_validator_1.IsNumber(),
     __metadata("design:type", Number)
 ], AddressDto.prototype, "country", void 0);
 __decorate([
