@@ -1,6 +1,6 @@
 module.exports = {
     apps: [{
-        name: 'nest-commerce',
+        name: 'ari-api',
         script: './dist/main.js',
 
         // Options reference: https://pm2.io/doc/en/runtime/reference/ecosystem-file/
