@@ -24,7 +24,7 @@ export class AddressDto {
     state: string;
 
     @IsString()
-    country: string;
+    country: number;
 
     @IsString()
     zip: string;
