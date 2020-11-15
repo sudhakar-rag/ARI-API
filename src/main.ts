@@ -8,9 +8,16 @@ import * as compression from 'compression';
 import { ValidationPipe } from '@nestjs/common';
 import { join } from 'path';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import * as fs from 'fs';
 
 async function bootstrap() {
-  const app = await NestFactory.create<NestExpressApplication>(AppModule);
+  const httpsOptions = {
+    key: fs.readFileSync("/etc/ssl/certs/besecure_private.key"),
+    cert: fs.readFileSync("/etc/ssl/certs/be-secure.in.crt"),
+    ca: fs.readFileSync('/etc/ssl/certs/ca-bundle.crt')
+  };
+
+  const app = await NestFactory.create<NestExpressApplication>(AppModule, { httpsOptions });
 
   app.enableCors();
 

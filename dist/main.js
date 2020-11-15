@@ -8,8 +8,14 @@ const compression = require("compression");
 const common_1 = require("@nestjs/common");
 const path_1 = require("path");
 const swagger_1 = require("@nestjs/swagger");
+const fs = require("fs");
 async function bootstrap() {
-    const app = await core_1.NestFactory.create(app_module_1.AppModule);
+    const httpsOptions = {
+        key: fs.readFileSync("/etc/ssl/certs/besecure_private.key"),
+        cert: fs.readFileSync("/etc/ssl/certs/be-secure.in.crt"),
+        ca: fs.readFileSync('/etc/ssl/certs/ca-bundle.crt')
+    };
+    const app = await core_1.NestFactory.create(app_module_1.AppModule, { httpsOptions });
     app.enableCors();
     app.use(helmet());
     app.use(rateLimit({
