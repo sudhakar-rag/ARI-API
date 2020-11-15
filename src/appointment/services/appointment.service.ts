@@ -148,6 +148,7 @@ export class AppointmentService {
                 }
 
                 appointmentData.meetingId = result.meetingId;
+                appointmentData.appointmentId = result.id;
 
                 await this.appointmentModel.update({
                     providerId: appointmentData.providerId,

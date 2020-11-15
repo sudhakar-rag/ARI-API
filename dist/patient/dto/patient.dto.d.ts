@@ -1,0 +1,33 @@
+import { AddressDto } from './address.dto';
+export declare class PatientDto {
+    id: number;
+    firstName: string;
+    lastName: string;
+    email: string;
+    phone: string;
+    password: string;
+    picture: string;
+    dateOfBirth: string;
+    ethnicity: string;
+    gender: string;
+    address: AddressDto;
+    subscriptionId: number;
+    specalists: Array<number>;
+    symptoms: Array<number>;
+    providerTypes: Array<number>;
+    medicalProblems: Array<number>;
+    medications: string;
+    otherMedicalProblems: string;
+    otherSymptoms: string;
+    otherSpecialist: string;
+    vitamins: string;
+    restrictions: string;
+    allergies: string;
+    socialHistory: string;
+    surgeryHistory: string;
+    familyHistory: string;
+    vaccinationHistory: string;
+    travelHistory: string;
+    hospitalizationHistory: string;
+    status: number;
+}
