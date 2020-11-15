@@ -1,3 +1,4 @@
+import { PatientSubscription } from './../models/patient-subscription.model';
 import { RatingHistory } from './../../doctor/models/rating-history';
 import { PatientDto } from './../dto/patient.dto';
 import { Patient } from './../models/patient.model';
@@ -53,7 +54,6 @@ export class PatientService {
       where: { id: patientId },
       include: [
         User,
-        Subscription,
         {
           model: PatientAddress,
           include: [Address],
@@ -73,6 +73,10 @@ export class PatientService {
         },
         {
           model: PatientSymptom,
+          required: false
+        },
+        {
+          model: PatientSubscription,
           required: false
         }
       ]

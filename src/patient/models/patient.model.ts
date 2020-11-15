@@ -1,3 +1,4 @@
+import { PatientSubscription } from './patient-subscription.model';
 import { RatingHistory } from './../../doctor/models/rating-history';
 // import { PatientMedicalProblem } from './patient-medical-problems.model';
 import { User } from './../../users/models/user.model';
@@ -96,6 +97,9 @@ export class Patient extends Model<Patient> {
 
   @HasMany(() => PatientProviderType)
   providerTypes: Array<PatientProviderType>;
+
+  @HasMany(() => PatientSubscription)
+  patientSubscriptions: Array<PatientSubscription>;
 
   @BelongsTo(() => User)
   user: User;

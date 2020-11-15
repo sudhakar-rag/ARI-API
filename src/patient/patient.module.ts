@@ -1,3 +1,4 @@
+import { PatientSubscription } from './models/patient-subscription.model';
 import { ProviderModule } from './../doctor/provider.module';
 import { PatientService } from './services/patient.service';
 import { PatientsController } from './controllers/patient.controller';
@@ -26,6 +27,7 @@ import { ProviderAvailabilitySlot } from '../doctor/models/provider-availability
       Patient,
       PatientSymptom,
       PatientSpecalist,
+      PatientSubscription,
       PatientProviderType,
       PatientMedicalProblem,
       PatientAddress,
