@@ -11,13 +11,20 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import * as fs from 'fs';
 
 async function bootstrap() {
-  const httpsOptions = {
-    key: fs.readFileSync("/etc/ssl/certs/besecure_private.key"),
-    cert: fs.readFileSync("/etc/ssl/certs/be-secure.in.crt"),
-    ca: fs.readFileSync('/etc/ssl/certs/ca-bundle.crt')
-  };
+  const enableHttps = true;
+  let app;
+  if (enableHttps) {
+    const httpsOptions = {
+      key: fs.readFileSync("/etc/ssl/certs/besecure_private.key"),
+      cert: fs.readFileSync("/etc/ssl/certs/be-secure.in.crt"),
+      ca: fs.readFileSync('/etc/ssl/certs/ca-bundle.crt')
+    };
 
-  const app = await NestFactory.create<NestExpressApplication>(AppModule, { httpsOptions });
+    app = await NestFactory.create<NestExpressApplication>(AppModule, { httpsOptions });
+  } else {
+    app = await NestFactory.create<NestExpressApplication>(AppModule);
+  }
+
 
   app.enableCors();
 

@@ -134,6 +134,7 @@ let AppointmentService = class AppointmentService {
                     data.status = appointmentData.status;
                 }
                 appointmentData.meetingId = result.meetingId;
+                appointmentData.appointmentId = result.id;
                 await this.appointmentModel.update({
                     providerId: appointmentData.providerId,
                     patientId: appointmentData.patientId,

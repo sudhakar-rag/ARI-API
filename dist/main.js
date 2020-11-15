@@ -10,12 +10,19 @@ const path_1 = require("path");
 const swagger_1 = require("@nestjs/swagger");
 const fs = require("fs");
 async function bootstrap() {
-    const httpsOptions = {
-        key: fs.readFileSync("/etc/ssl/certs/besecure_private.key"),
-        cert: fs.readFileSync("/etc/ssl/certs/be-secure.in.crt"),
-        ca: fs.readFileSync('/etc/ssl/certs/ca-bundle.crt')
-    };
-    const app = await core_1.NestFactory.create(app_module_1.AppModule, { httpsOptions });
+    const enableHttps = true;
+    let app;
+    if (enableHttps) {
+        const httpsOptions = {
+            key: fs.readFileSync("/etc/ssl/certs/besecure_private.key"),
+            cert: fs.readFileSync("/etc/ssl/certs/be-secure.in.crt"),
+            ca: fs.readFileSync('/etc/ssl/certs/ca-bundle.crt')
+        };
+        app = await core_1.NestFactory.create(app_module_1.AppModule, { httpsOptions });
+    }
+    else {
+        app = await core_1.NestFactory.create(app_module_1.AppModule);
+    }
     app.enableCors();
     app.use(helmet());
     app.use(rateLimit({
