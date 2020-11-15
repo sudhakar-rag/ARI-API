@@ -6,6 +6,6 @@ export declare class AddressDto {
     address2: string;
     city: string;
     state: string;
-    country: string;
+    country: number;
     zip: string;
 }
