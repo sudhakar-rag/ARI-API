@@ -102,14 +102,6 @@ let AppointmentService = class AppointmentService {
                         message: appointmentData.message,
                         files: appointmentData.files
                     }, { transaction: transaction });
-                    if (appointmentData.type == 'I') {
-                        const notificationData = {
-                            appointmentId: appointment.id,
-                            userId: appointmentData.userId,
-                            status: false
-                        };
-                        await this.notificationService.saveNotifications(notificationData, transaction);
-                    }
                     if (appointmentData.fileType) {
                         await this.attachmentsModel.create({
                             appointmentId: appointment.id,
@@ -152,6 +144,15 @@ let AppointmentService = class AppointmentService {
                     message: appointmentData.message,
                     files: appointmentData.files
                 }, { where: { appointmentId: result.id }, transaction });
+            }
+            if (appointmentData.type == 'I') {
+                const provider = await this.usersService.finProvider({ id: appointmentData.providerId });
+                const notificationData = {
+                    appointmentId: appointmentData.appointmentId,
+                    userId: provider.userId,
+                    status: false
+                };
+                await this.notificationService.saveNotifications(notificationData, transaction);
             }
             await transaction.commit();
             return appointmentData;

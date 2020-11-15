@@ -13,6 +13,7 @@ import { UserCreateService } from './services/user-create.service';
 import { RolesController } from './controllers/roles.controller';
 import { RolesService } from './services/roles.service';
 import { UserCardDetail } from './models/user-card-detail';
+import { Provider } from '../doctor/models/provider.model';
 
 @Module({
   imports: [
@@ -24,7 +25,8 @@ import { UserCardDetail } from './models/user-card-detail';
       UserGroup,
       Address,
       UserAddress,
-      UserCardDetail
+      UserCardDetail,
+      Provider
     ]),
   ],
   providers: [UsersService, UserCreateService, RolesService],

@@ -25,8 +25,9 @@ const helpers_1 = require("../../core/common/helpers");
 const provider_model_1 = require("../../doctor/models/provider.model");
 const patient_model_1 = require("../../patient/models/patient.model");
 let UsersService = class UsersService {
-    constructor(userModel, userAddressModel, addressModel, sequelize) {
+    constructor(userModel, providerModel, userAddressModel, addressModel, sequelize) {
         this.userModel = userModel;
+        this.providerModel = providerModel;
         this.userAddressModel = userAddressModel;
         this.addressModel = addressModel;
         this.sequelize = sequelize;
@@ -197,13 +198,19 @@ let UsersService = class UsersService {
         const result = await this.userModel.update(userData, { where: { id: data.userId } });
         return result;
     }
+    async finProvider(where) {
+        return this.providerModel.findOne({
+            where: where
+        });
+    }
 };
 UsersService = __decorate([
     common_1.Injectable(),
     __param(0, sequelize_1.InjectModel(user_model_1.User)),
-    __param(1, sequelize_1.InjectModel(user_address_model_1.UserAddress)),
-    __param(2, sequelize_1.InjectModel(address_model_1.Address)),
-    __metadata("design:paramtypes", [Object, Object, Object, sequelize_typescript_1.Sequelize])
+    __param(1, sequelize_1.InjectModel(provider_model_1.Provider)),
+    __param(2, sequelize_1.InjectModel(user_address_model_1.UserAddress)),
+    __param(3, sequelize_1.InjectModel(address_model_1.Address)),
+    __metadata("design:paramtypes", [Object, Object, Object, Object, sequelize_typescript_1.Sequelize])
 ], UsersService);
 exports.UsersService = UsersService;
 //# sourceMappingURL=users.service.js.map
