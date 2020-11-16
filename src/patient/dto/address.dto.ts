@@ -23,8 +23,8 @@ export class AddressDto {
     @IsString()
     state: string;
 
-    @IsString()
-    country: string;
+    @IsNumber()
+    country: number;
 
     @IsString()
     zip: string;

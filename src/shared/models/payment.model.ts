@@ -23,6 +23,6 @@ export class Payment extends Model<Payment> {
     @Column(DataType.TEXT({ length: 'medium' }))
     txnId: string;
 
-    @Column(DataType.ENUM('PENDING', 'COMPLETED'))
-    status: 'PENDING' | 'COMPLETED'
+    @Column(DataType.ENUM('succeeded', 'pending', 'failed'))
+    status: 'succeeded' | 'pending' | 'failed'
 }

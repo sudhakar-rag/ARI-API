@@ -29,6 +29,7 @@
     "@nestjs/platform-express": "^7.0.0",
     "@nestjs/sequelize": "^0.1.0",
     "@nestjs/swagger": "^4.6.1",
+    "@types/stripe": "^7.13.25",
     "aws-sdk": "^2.783.0",
     "class-transformer": "^0.2.3",
     "class-validator": "^0.12.2",
@@ -45,6 +46,7 @@
     "rxjs": "^6.5.4",
     "sequelize": "^6.1.1",
     "sequelize-typescript": "^2.0.0-beta.0",
+    "stripe": "^8.121.0",
     "swagger-ui-express": "^4.1.4"
   },
   "devDependencies": {

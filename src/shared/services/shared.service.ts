@@ -72,12 +72,6 @@ export class SharedService {
     return await this.stateModel.findAll();
   }
 
-  async getPaymentsById(userId: number): Promise<any> {
-    return await this.paymentModel.findAll({
-      where: { userId: userId }
-    });
-  }
-
   async getCountries(): Promise<any> {
     return await this.countryModel.findAll();
   }
