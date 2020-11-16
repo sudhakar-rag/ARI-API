@@ -182,7 +182,8 @@ export class ProviderService {
             model: Service
           }]
         },
-        ProviderSpecality
+        ProviderSpecality,
+        ProviderSetting
       ]
     });
   }
