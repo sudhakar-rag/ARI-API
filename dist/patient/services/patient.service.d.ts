@@ -15,7 +15,7 @@ export declare class PatientService {
     private userCreateService;
     private readonly sequelize;
     constructor(userModel: typeof User, patientModel: typeof Patient, appointmentModel: typeof Appointment, appointmentDetailsModel: typeof AppointmentDetails, userCreateService: UserCreateService, sequelize: Sequelize);
-    getPatients(queryParams: any): Promise<any>;
+    getPatients(queryParams: ListQueryParamsDto): Promise<any>;
     getPatientById(patientId: string): Promise<any>;
     createPatient(patientData: PatientDto): Promise<any>;
     deletePatient(id: number): Promise<any>;
