@@ -25,4 +25,5 @@ export declare class ProviderService {
     saveAvailability(availabilityData: AppointmentAvailabilityDto): Promise<any>;
     saveSettings(providerSettings: ProviderSettingsDto): Promise<any>;
     getProviderSettings(providerId: string): Promise<any>;
+    deleteProvider(id: number): Promise<any>;
 }

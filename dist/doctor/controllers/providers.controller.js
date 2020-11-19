@@ -230,6 +230,18 @@ let ProvidersController = class ProvidersController {
         }
         return output;
     }
+    async deleteProvider(id) {
+        const output = new response_data_1.ResponseData();
+        try {
+            output.data = await this.providerService.deleteProvider(id);
+        }
+        catch (error) {
+            console.log(error);
+            output.status = false;
+            output.message = typeof error == 'string' ? error : '';
+        }
+        return output;
+    }
 };
 __decorate([
     swagger_1.ApiOperation({ summary: 'list provider settings' }),
@@ -379,6 +391,13 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], ProvidersController.prototype, "getAvailabilityByDay", null);
+__decorate([
+    common_1.Delete(':id'),
+    __param(0, common_1.Param('id')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number]),
+    __metadata("design:returntype", Promise)
+], ProvidersController.prototype, "deleteProvider", null);
 ProvidersController = __decorate([
     swagger_1.ApiTags('provider'),
     swagger_1.ApiBearerAuth(),

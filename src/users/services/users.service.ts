@@ -217,9 +217,8 @@ export class UsersService {
     });
   }
 
-  async remove(id: string): Promise<void> {
-    const user = await this.findOne(id);
-    await user.destroy();
+  async deleteUser(id: string): Promise<any> {
+    return await this.userModel.destroy({ where: { id: id } })
   }
 
   async verifyUser(data: any): Promise<any> {

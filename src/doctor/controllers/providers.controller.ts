@@ -317,4 +317,23 @@ export class ProvidersController {
     return output;
   }
 
+
+  @Delete(':id')
+  // @UseGuards(JwtAuthGuard)
+  async deleteProvider(@Param('id') id: number): Promise<ResponseData> {
+    const output = new ResponseData();
+
+    try {
+
+      output.data = await this.providerService.deleteProvider(id);
+
+    } catch (error) {
+      console.log(error);
+      output.status = false;
+      output.message = typeof error == 'string' ? error : '';
+    }
+
+    return output;
+  }
+
 }

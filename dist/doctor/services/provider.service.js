@@ -272,6 +272,9 @@ let ProviderService = class ProviderService {
             where: { providerId: providerId }
         });
     }
+    async deleteProvider(id) {
+        return await this.providerModel.destroy({ where: { id: id } });
+    }
 };
 ProviderService = __decorate([
     common_1.Injectable(),

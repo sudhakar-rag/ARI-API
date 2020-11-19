@@ -25,4 +25,5 @@ export declare class ProvidersController {
     updateStatus(providerData: any): Promise<ResponseData>;
     getAvailability(providerId: string): Promise<ResponseData>;
     getAvailabilityByDay(params: any): Promise<ResponseData>;
+    deleteProvider(id: number): Promise<ResponseData>;
 }

@@ -82,8 +82,21 @@ export class UsersController {
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string): Promise<void> {
-    return this.usersService.remove(id);
+  // @UseGuards(JwtAuthGuard)
+  async deleteUser(@Param('id') id: string): Promise<ResponseData> {
+    const output = new ResponseData();
+
+    try {
+
+      output.data = await this.usersService.deleteUser(id);
+
+    } catch (error) {
+      console.log(error);
+      output.status = false;
+      output.message = typeof error == 'string' ? error : '';
+    }
+
+    return output;
   }
 
 }

@@ -318,5 +318,10 @@ export class ProviderService {
     });
   }
 
+
+  async deleteProvider(id: number): Promise<any> {
+    return await this.providerModel.destroy({ where: { id: id } })
+  }
+
 }
 
