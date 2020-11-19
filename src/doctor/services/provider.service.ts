@@ -323,5 +323,20 @@ export class ProviderService {
     return await this.providerModel.destroy({ where: { id: id } })
   }
 
+
+  async verifyProvider(data: any): Promise<any> {
+
+    const StatusData = {
+      isVerified: data.isVerified
+    }
+
+    const result = await this.providerModel.update({
+      isVerified: data.isVerified
+    }, { where: { id: data.providerId } });
+
+    return result;
+
+  }
+
 }
 

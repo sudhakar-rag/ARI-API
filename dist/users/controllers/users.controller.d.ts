@@ -13,5 +13,5 @@ export declare class UsersController {
     findAll(): Promise<User[]>;
     getLoggedInUserData(): Promise<any>;
     findOne(id: string): Promise<User>;
-    remove(id: string): Promise<void>;
+    deleteUser(id: string): Promise<ResponseData>;
 }

@@ -206,6 +206,18 @@ let ProvidersController = class ProvidersController {
         }
         return output;
     }
+    async verifyProvider(providerData) {
+        const output = new response_data_1.ResponseData();
+        try {
+            output.data = await this.providerService.verifyProvider(providerData);
+        }
+        catch (error) {
+            console.log(error);
+            output.status = false;
+            output.message = typeof error == 'string' ? error : '';
+        }
+        return output;
+    }
     async getAvailability(providerId) {
         const output = new response_data_1.ResponseData();
         try {
@@ -377,6 +389,13 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], ProvidersController.prototype, "updateStatus", null);
+__decorate([
+    common_1.Put('verifyStatus'),
+    __param(0, common_1.Body()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], ProvidersController.prototype, "verifyProvider", null);
 __decorate([
     common_1.Get('get-availability/:providerId'),
     __param(0, common_1.Param('providerId')),

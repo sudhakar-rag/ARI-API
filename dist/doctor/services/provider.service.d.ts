@@ -26,4 +26,5 @@ export declare class ProviderService {
     saveSettings(providerSettings: ProviderSettingsDto): Promise<any>;
     getProviderSettings(providerId: string): Promise<any>;
     deleteProvider(id: number): Promise<any>;
+    verifyProvider(data: any): Promise<any>;
 }

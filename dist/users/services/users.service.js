@@ -169,9 +169,8 @@ let UsersService = class UsersService {
             where: where,
         });
     }
-    async remove(id) {
-        const user = await this.findOne(id);
-        await user.destroy();
+    async deleteUser(id) {
+        return await this.userModel.destroy({ where: { id: id } });
     }
     async verifyUser(data) {
         const userData = await this.userModel.findOne({

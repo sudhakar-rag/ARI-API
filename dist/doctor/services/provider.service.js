@@ -275,6 +275,15 @@ let ProviderService = class ProviderService {
     async deleteProvider(id) {
         return await this.providerModel.destroy({ where: { id: id } });
     }
+    async verifyProvider(data) {
+        const StatusData = {
+            isVerified: data.isVerified
+        };
+        const result = await this.providerModel.update({
+            isVerified: data.isVerified
+        }, { where: { id: data.providerId } });
+        return result;
+    }
 };
 ProviderService = __decorate([
     common_1.Injectable(),

@@ -23,6 +23,7 @@ export declare class Provider extends Model<Provider> {
     hasCriminalRecord: boolean;
     hasMalpractice: boolean;
     isAvailable: boolean;
+    isVerified: boolean;
     rating: number;
     history: ProviderHistory;
     address: ProviderAddress;

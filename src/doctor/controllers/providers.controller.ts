@@ -285,6 +285,22 @@ export class ProvidersController {
   }
 
 
+  @Put('verifyStatus')
+  async verifyProvider(@Body() providerData: any): Promise<ResponseData> {
+    const output = new ResponseData();
+
+    try {
+      output.data = await this.providerService.verifyProvider(providerData);
+    } catch (error) {
+      console.log(error);
+      output.status = false;
+      output.message = typeof error == 'string' ? error : '';
+    }
+
+    return output;
+  }
+
+
   @Get('get-availability/:providerId')
   async getAvailability(@Param('providerId') providerId: string): Promise<ResponseData> {
     const output = new ResponseData();

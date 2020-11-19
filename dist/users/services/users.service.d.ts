@@ -26,7 +26,7 @@ export declare class UsersService {
     create(createUserDto: CreateUserDto): Promise<User>;
     findAll(): Promise<User[]>;
     findOne(where: any): Promise<User>;
-    remove(id: string): Promise<void>;
+    deleteUser(id: string): Promise<any>;
     verifyUser(data: any): Promise<any>;
     updatePassword(data: any): Promise<any>;
     updateProfilePicture(data: any): Promise<any>;

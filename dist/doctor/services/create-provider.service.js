@@ -135,6 +135,7 @@ let CreateProviderService = class CreateProviderService {
             userId: providerData.id,
             dateOfBirth: providerData.dateOfBirth,
             ethnicity: providerData.ethnicity,
+            isVerified: 0,
             gender: providerData.gender,
             areaOfInterest: providerData.areaOfInterest,
             speciality: providerData.medicalSpeciality,

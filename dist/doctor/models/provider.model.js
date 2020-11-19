@@ -70,6 +70,10 @@ __decorate([
 ], Provider.prototype, "isAvailable", void 0);
 __decorate([
     sequelize_typescript_2.Column,
+    __metadata("design:type", Boolean)
+], Provider.prototype, "isVerified", void 0);
+__decorate([
+    sequelize_typescript_2.Column,
     __metadata("design:type", Number)
 ], Provider.prototype, "rating", void 0);
 __decorate([
