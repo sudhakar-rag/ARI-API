@@ -1,3 +1,4 @@
+import { PatientSubscription } from './../models/patient-subscription.model';
 import { PatientDto } from './../dto/patient.dto';
 import { Patient } from './../models/patient.model';
 import { Sequelize } from 'sequelize-typescript';
@@ -35,6 +36,8 @@ export class CreatePatientService {
         private readonly addressModel: typeof Address,
         @InjectModel(PatientAddress)
         private readonly patientAddressModel: typeof PatientAddress,
+        @InjectModel(PatientSubscription)
+        private readonly patientSubscriptionModel: typeof PatientSubscription,
         private userCreateService: UserCreateService,
         private readonly sequelize: Sequelize,
     ) { }
@@ -69,6 +72,8 @@ export class CreatePatientService {
             patientData.id = user.id;
 
             const patient = await this.savePatientInfo(patientData, action, transaction);
+
+            await this.savePatientSubscription(patient.id, transaction);
 
             await this.savePatientAddress(patientData.address, transaction, patient.id);
 
@@ -159,6 +164,20 @@ export class CreatePatientService {
         }
 
         return patient;
+    }
+
+    async savePatientSubscription(data: { patientId: string }, transaction: Transaction): Promise<any> {
+
+        const patientData = {
+
+            patientId: data.patientId,
+            subscriptionId: 1
+
+        };
+
+        const result = await this.patientSubscriptionModel.create(patientData, { transaction });
+
+        return result;
     }
 
     async saveSpecalists(data: { patientId: string, specalists: Array<number> }, transaction: Transaction): Promise<any> {

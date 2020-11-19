@@ -59,6 +59,22 @@ let AppointmentService = class AppointmentService {
             return null;
         }
     }
+    async getAppointmentByDate(date) {
+        try {
+            const result = await this.appointmentModel.findAll({
+                include: [
+                    appointment_details_model_1.AppointmentDetails,
+                    provider_availability_slot_model_1.ProviderAvailabilitySlot,
+                    attachments_model_1.Attachments
+                ],
+            });
+            return result;
+        }
+        catch (error) {
+            console.log(error);
+            return null;
+        }
+    }
     async saveAppointment(appointmentData) {
         let transaction;
         try {

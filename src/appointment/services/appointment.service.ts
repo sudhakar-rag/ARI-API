@@ -57,6 +57,24 @@ export class AppointmentService {
         }
     }
 
+    async getAppointmentByDate(date: any): Promise<Appointment[]> {
+        try {
+            const result = await this.appointmentModel.findAll({
+                include: [
+                    AppointmentDetails,
+                    ProviderAvailabilitySlot,
+                    Attachments
+                ],
+            });
+
+            return result;
+        } catch (error) {
+            console.log(error);
+
+            return null;
+        }
+    }
+
     async saveAppointment(appointmentData: CreateAppointmentDto): Promise<any> {
 
         let transaction;

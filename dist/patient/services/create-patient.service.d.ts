@@ -1,3 +1,4 @@
+import { PatientSubscription } from './../models/patient-subscription.model';
 import { PatientDto } from './../dto/patient.dto';
 import { Patient } from './../models/patient.model';
 import { Sequelize } from 'sequelize-typescript';
@@ -20,12 +21,16 @@ export declare class CreatePatientService {
     private readonly patientProviderTypeModel;
     private readonly addressModel;
     private readonly patientAddressModel;
+    private readonly patientSubscriptionModel;
     private userCreateService;
     private readonly sequelize;
-    constructor(userModel: typeof User, patientModel: typeof Patient, patientSpecalistModel: typeof PatientSpecalist, patientSymptomModel: typeof PatientSymptom, patientMedicalProblemModel: typeof PatientMedicalProblem, patientProviderTypeModel: typeof PatientProviderType, addressModel: typeof Address, patientAddressModel: typeof PatientAddress, userCreateService: UserCreateService, sequelize: Sequelize);
+    constructor(userModel: typeof User, patientModel: typeof Patient, patientSpecalistModel: typeof PatientSpecalist, patientSymptomModel: typeof PatientSymptom, patientMedicalProblemModel: typeof PatientMedicalProblem, patientProviderTypeModel: typeof PatientProviderType, addressModel: typeof Address, patientAddressModel: typeof PatientAddress, patientSubscriptionModel: typeof PatientSubscription, userCreateService: UserCreateService, sequelize: Sequelize);
     createPatient(patientData: PatientDto): Promise<any>;
     savePatientAddress(addressData: AddressDto, transaction: Transaction, patientId?: any): Promise<any>;
     savePatientInfo(createUserData: PatientDto, action: string, transaction: Transaction): Promise<Patient>;
+    savePatientSubscription(data: {
+        patientId: string;
+    }, transaction: Transaction): Promise<any>;
     saveSpecalists(data: {
         patientId: string;
         specalists: Array<number>;

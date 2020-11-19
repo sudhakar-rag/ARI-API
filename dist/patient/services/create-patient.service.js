@@ -13,6 +13,7 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CreatePatientService = void 0;
+const patient_subscription_model_1 = require("./../models/patient-subscription.model");
 const patient_model_1 = require("./../models/patient.model");
 const sequelize_typescript_1 = require("sequelize-typescript");
 const common_1 = require("@nestjs/common");
@@ -26,7 +27,7 @@ const address_model_1 = require("./../../users/models/address.model");
 const user_model_1 = require("../../users/models/user.model");
 const patient_address_model_1 = require("../models/patient-address.model");
 let CreatePatientService = class CreatePatientService {
-    constructor(userModel, patientModel, patientSpecalistModel, patientSymptomModel, patientMedicalProblemModel, patientProviderTypeModel, addressModel, patientAddressModel, userCreateService, sequelize) {
+    constructor(userModel, patientModel, patientSpecalistModel, patientSymptomModel, patientMedicalProblemModel, patientProviderTypeModel, addressModel, patientAddressModel, patientSubscriptionModel, userCreateService, sequelize) {
         this.userModel = userModel;
         this.patientModel = patientModel;
         this.patientSpecalistModel = patientSpecalistModel;
@@ -35,6 +36,7 @@ let CreatePatientService = class CreatePatientService {
         this.patientProviderTypeModel = patientProviderTypeModel;
         this.addressModel = addressModel;
         this.patientAddressModel = patientAddressModel;
+        this.patientSubscriptionModel = patientSubscriptionModel;
         this.userCreateService = userCreateService;
         this.sequelize = sequelize;
     }
@@ -59,6 +61,7 @@ let CreatePatientService = class CreatePatientService {
             const user = await this.userCreateService.saveUser(userData, action, transaction, 3);
             patientData.id = user.id;
             const patient = await this.savePatientInfo(patientData, action, transaction);
+            await this.savePatientSubscription(patient.id, transaction);
             await this.savePatientAddress(patientData.address, transaction, patient.id);
             await this.saveSpecalists({ patientId: patient.id, specalists: patientData.specalists }, transaction);
             await this.saveProviderTypes({ patientId: patient.id, providerTypes: patientData.providerTypes }, transaction);
@@ -127,6 +130,14 @@ let CreatePatientService = class CreatePatientService {
             patient = await this.patientModel.findOne({ where: { userId: createUserData.id }, transaction });
         }
         return patient;
+    }
+    async savePatientSubscription(data, transaction) {
+        const patientData = {
+            patientId: data.patientId,
+            subscriptionId: 1
+        };
+        const result = await this.patientSubscriptionModel.create(patientData, { transaction });
+        return result;
     }
     async saveSpecalists(data, transaction) {
         await this.patientSpecalistModel.destroy({
@@ -297,7 +308,8 @@ CreatePatientService = __decorate([
     __param(5, sequelize_1.InjectModel(patient_provider_type_model_1.PatientProviderType)),
     __param(6, sequelize_1.InjectModel(address_model_1.Address)),
     __param(7, sequelize_1.InjectModel(patient_address_model_1.PatientAddress)),
-    __metadata("design:paramtypes", [Object, Object, Object, Object, Object, Object, Object, Object, user_create_service_1.UserCreateService,
+    __param(8, sequelize_1.InjectModel(patient_subscription_model_1.PatientSubscription)),
+    __metadata("design:paramtypes", [Object, Object, Object, Object, Object, Object, Object, Object, Object, user_create_service_1.UserCreateService,
         sequelize_typescript_1.Sequelize])
 ], CreatePatientService);
 exports.CreatePatientService = CreatePatientService;
