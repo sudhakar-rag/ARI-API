@@ -131,9 +131,9 @@ let CreatePatientService = class CreatePatientService {
         }
         return patient;
     }
-    async savePatientSubscription(data, transaction) {
+    async savePatientSubscription(patientId, transaction) {
         const patientData = {
-            patientId: data.patientId,
+            patientId: patientId,
             subscriptionId: 1
         };
         const result = await this.patientSubscriptionModel.create(patientData, { transaction });

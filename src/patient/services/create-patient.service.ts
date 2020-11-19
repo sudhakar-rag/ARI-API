@@ -166,11 +166,11 @@ export class CreatePatientService {
         return patient;
     }
 
-    async savePatientSubscription(data: { patientId: string }, transaction: Transaction): Promise<any> {
+    async savePatientSubscription(patientId: number , transaction: Transaction): Promise<any> {
 
         const patientData = {
 
-            patientId: data.patientId,
+            patientId: patientId,
             subscriptionId: 1
 
         };

@@ -28,9 +28,7 @@ export declare class CreatePatientService {
     createPatient(patientData: PatientDto): Promise<any>;
     savePatientAddress(addressData: AddressDto, transaction: Transaction, patientId?: any): Promise<any>;
     savePatientInfo(createUserData: PatientDto, action: string, transaction: Transaction): Promise<Patient>;
-    savePatientSubscription(data: {
-        patientId: string;
-    }, transaction: Transaction): Promise<any>;
+    savePatientSubscription(patientId: number, transaction: Transaction): Promise<any>;
     saveSpecalists(data: {
         patientId: string;
         specalists: Array<number>;
