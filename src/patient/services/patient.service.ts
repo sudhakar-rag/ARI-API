@@ -38,15 +38,73 @@ export class PatientService {
     private readonly sequelize: Sequelize,
   ) { }
 
-  async getPatients(queryParams: any): Promise<any> {
-    return await this.patientModel.findAll({
+  async getPatients(queryParams: ListQueryParamsDto): Promise<any> {
+    // return await this.patientModel.findAll({
+    //   include: [
+    //     User,
+    //     PatientAddress,
+    //     PatientMedicalProblem,
+    //     PatientSymptom
+    //   ]
+    // });
+
+    const searchText = queryParams.queryString || '';
+
+    queryParams.pageNumber = queryParams.pageNumber || 0;
+    queryParams.pageSize = queryParams.pageSize || 10;
+    const offset = queryParams.pageNumber * queryParams.pageSize;
+    const limit = queryParams.pageSize;
+    const sortField = queryParams.sortField || 'id';
+    const sortOrder = queryParams.sortOrder || 'desc';
+
+    const where = {};
+    const serviceWhere = {};
+    const specialitiesWhere = {};
+    if (queryParams.filter) {
+      if (queryParams.filter.gender) {
+        where['gender'] = queryParams.filter.gender;
+      }
+
+      if (typeof queryParams.filter.isAvailable == 'boolean') {
+        where['isAvailable'] = queryParams.filter.isAvailable ? 1 : 0;
+      }
+
+    }
+
+    // let orderBy: Array<string> = ['id', 'desc'];
+    // if (sortField == 'id') {
+    //   orderBy = [[sortField, sortOrder]];
+    // } else if (queryParams.sortField == 'name') {
+    //   orderBy = [['User', 'firstName', sortOrder]];
+    // }
+
+    return await this.patientModel.findAndCountAll({
+      distinct: true,
       include: [
-        User,
-        PatientAddress,
-        PatientMedicalProblem,
-        PatientSymptom
-      ]
+        {
+          model: User,
+          where: {
+            [Op.or]: [
+              {
+                firstName: { [Op.like]: '%' + searchText + '%' }
+              },
+              {
+                lastName: { [Op.like]: '%' + searchText + '%' }
+              }
+            ]
+          },
+        },
+        {
+          model: PatientAddress,
+          include: [Address]
+        }
+      ],
+      where: where,
+      offset: offset,
+      limit: limit,
+      order: [[sortField, sortOrder]]
     });
+
   }
 
   async getPatientById(patientId: string): Promise<any> {

@@ -22,6 +22,7 @@ const user_create_service_1 = require("./services/user-create.service");
 const roles_controller_1 = require("./controllers/roles.controller");
 const roles_service_1 = require("./services/roles.service");
 const user_card_detail_1 = require("./models/user-card-detail");
+const provider_model_1 = require("../doctor/models/provider.model");
 let UsersModule = class UsersModule {
 };
 UsersModule = __decorate([
@@ -35,7 +36,8 @@ UsersModule = __decorate([
                 user_group_model_1.UserGroup,
                 address_model_1.Address,
                 user_address_model_1.UserAddress,
-                user_card_detail_1.UserCardDetail
+                user_card_detail_1.UserCardDetail,
+                provider_model_1.Provider
             ]),
         ],
         providers: [users_service_1.UsersService, user_create_service_1.UserCreateService, roles_service_1.RolesService],

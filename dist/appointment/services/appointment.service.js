@@ -118,14 +118,6 @@ let AppointmentService = class AppointmentService {
                         message: appointmentData.message,
                         files: appointmentData.files
                     }, { transaction: transaction });
-                    if (appointmentData.type == 'I') {
-                        const notificationData = {
-                            appointmentId: appointment.id,
-                            userId: appointmentData.userId,
-                            status: false
-                        };
-                        await this.notificationService.saveNotifications(notificationData, transaction);
-                    }
                     if (appointmentData.fileType) {
                         await this.attachmentsModel.create({
                             appointmentId: appointment.id,
@@ -168,6 +160,15 @@ let AppointmentService = class AppointmentService {
                     message: appointmentData.message,
                     files: appointmentData.files
                 }, { where: { appointmentId: result.id }, transaction });
+            }
+            if (appointmentData.type == 'I') {
+                const provider = await this.usersService.finProvider({ id: appointmentData.providerId });
+                const notificationData = {
+                    appointmentId: appointmentData.appointmentId,
+                    userId: provider.userId,
+                    status: false
+                };
+                await this.notificationService.saveNotifications(notificationData, transaction);
             }
             await transaction.commit();
             return appointmentData;
@@ -312,25 +313,6 @@ let AppointmentService = class AppointmentService {
                 distinct: true,
                 include: [
                     {
-                        model: provider_model_1.Provider,
-                        include: [
-                            {
-                                model: user_model_1.User,
-                                attributes: ['id', 'firstName', 'lastName', 'picture', 'phone'],
-                                where: {
-                                    [sequelize_2.Op.or]: [
-                                        {
-                                            firstName: { [sequelize_2.Op.like]: '%' + searchText + '%' }
-                                        },
-                                        {
-                                            lastName: { [sequelize_2.Op.like]: '%' + searchText + '%' }
-                                        }
-                                    ]
-                                },
-                            }
-                        ]
-                    },
-                    {
                         model: patient_model_1.Patient,
                         include: [
                             {
@@ -382,25 +364,6 @@ let AppointmentService = class AppointmentService {
                             },
                         ],
                         required: true
-                    },
-                    {
-                        model: patient_model_1.Patient,
-                        include: [
-                            {
-                                model: user_model_1.User,
-                                attributes: ['id', 'firstName', 'lastName', 'picture', 'phone'],
-                                where: {
-                                    [sequelize_2.Op.or]: [
-                                        {
-                                            firstName: { [sequelize_2.Op.like]: '%' + searchText + '%' }
-                                        },
-                                        {
-                                            lastName: { [sequelize_2.Op.like]: '%' + searchText + '%' }
-                                        }
-                                    ]
-                                },
-                            }
-                        ]
                     },
                     provider_availability_slot_model_1.ProviderAvailabilitySlot,
                     attachments_model_1.Attachments

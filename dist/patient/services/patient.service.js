@@ -17,7 +17,8 @@ const patient_subscription_model_1 = require("./../models/patient-subscription.m
 const patient_model_1 = require("./../models/patient.model");
 const sequelize_typescript_1 = require("sequelize-typescript");
 const common_1 = require("@nestjs/common");
-const sequelize_1 = require("@nestjs/sequelize");
+const sequelize_1 = require("sequelize");
+const sequelize_2 = require("@nestjs/sequelize");
 const user_create_service_1 = require("../../users/services/user-create.service");
 const patient_medical_problems_model_1 = require("../models/patient-medical-problems.model");
 const patient_provider_type_model_1 = require("../models/patient-provider-type.model");
@@ -41,13 +42,49 @@ let PatientService = class PatientService {
         this.sequelize = sequelize;
     }
     async getPatients(queryParams) {
-        return await this.patientModel.findAll({
+        const searchText = queryParams.queryString || '';
+        queryParams.pageNumber = queryParams.pageNumber || 0;
+        queryParams.pageSize = queryParams.pageSize || 10;
+        const offset = queryParams.pageNumber * queryParams.pageSize;
+        const limit = queryParams.pageSize;
+        const sortField = queryParams.sortField || 'id';
+        const sortOrder = queryParams.sortOrder || 'desc';
+        const where = {};
+        const serviceWhere = {};
+        const specialitiesWhere = {};
+        if (queryParams.filter) {
+            if (queryParams.filter.gender) {
+                where['gender'] = queryParams.filter.gender;
+            }
+            if (typeof queryParams.filter.isAvailable == 'boolean') {
+                where['isAvailable'] = queryParams.filter.isAvailable ? 1 : 0;
+            }
+        }
+        return await this.patientModel.findAndCountAll({
+            distinct: true,
             include: [
-                user_model_1.User,
-                patient_address_model_1.PatientAddress,
-                patient_medical_problems_model_1.PatientMedicalProblem,
-                patient_symptom_model_1.PatientSymptom
-            ]
+                {
+                    model: user_model_1.User,
+                    where: {
+                        [sequelize_1.Op.or]: [
+                            {
+                                firstName: { [sequelize_1.Op.like]: '%' + searchText + '%' }
+                            },
+                            {
+                                lastName: { [sequelize_1.Op.like]: '%' + searchText + '%' }
+                            }
+                        ]
+                    },
+                },
+                {
+                    model: patient_address_model_1.PatientAddress,
+                    include: [address_model_1.Address]
+                }
+            ],
+            where: where,
+            offset: offset,
+            limit: limit,
+            order: [[sortField, sortOrder]]
         });
     }
     async getPatientById(patientId) {
@@ -221,10 +258,10 @@ let PatientService = class PatientService {
 };
 PatientService = __decorate([
     common_1.Injectable(),
-    __param(0, sequelize_1.InjectModel(user_model_1.User)),
-    __param(1, sequelize_1.InjectModel(patient_model_1.Patient)),
-    __param(2, sequelize_1.InjectModel(appointment_model_1.Appointment)),
-    __param(3, sequelize_1.InjectModel(appointment_details_model_1.AppointmentDetails)),
+    __param(0, sequelize_2.InjectModel(user_model_1.User)),
+    __param(1, sequelize_2.InjectModel(patient_model_1.Patient)),
+    __param(2, sequelize_2.InjectModel(appointment_model_1.Appointment)),
+    __param(3, sequelize_2.InjectModel(appointment_details_model_1.AppointmentDetails)),
     __metadata("design:paramtypes", [Object, Object, Object, Object, user_create_service_1.UserCreateService,
         sequelize_typescript_1.Sequelize])
 ], PatientService);

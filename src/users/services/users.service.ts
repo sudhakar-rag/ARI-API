@@ -18,6 +18,8 @@ export class UsersService {
   constructor(
     @InjectModel(User)
     private readonly userModel: typeof User,
+    @InjectModel(Provider)
+    private readonly providerModel: typeof Provider,
     @InjectModel(UserAddress)
     private readonly userAddressModel: typeof UserAddress,
     @InjectModel(Address)
@@ -254,6 +256,12 @@ export class UsersService {
     const result = await this.userModel.update(userData, { where: { id: data.userId } });
 
     return result;
+  }
+
+  async finProvider(where: any): Promise<Provider> {
+    return this.providerModel.findOne({
+      where: where
+    });
   }
 
 }

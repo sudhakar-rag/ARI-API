@@ -130,16 +130,6 @@ export class AppointmentService {
                         files: appointmentData.files
                     }, { transaction: transaction });
 
-                    if (appointmentData.type == 'I') {
-                        const notificationData: CreateNotificationDto = {
-                            appointmentId: appointment.id,
-                            userId: appointmentData.userId,
-                            status: false
-                        };
-
-                        await this.notificationService.saveNotifications(notificationData, transaction);
-                    }
-
                     if (appointmentData.fileType) {
                         await this.attachmentsModel.create({
                             appointmentId: appointment.id,
@@ -188,6 +178,17 @@ export class AppointmentService {
                         files: appointmentData.files
                     },
                     { where: { appointmentId: result.id }, transaction });
+            }
+
+            if (appointmentData.type == 'I') {
+                const provider = await this.usersService.finProvider({ id: appointmentData.providerId });
+                const notificationData: CreateNotificationDto = {
+                    appointmentId: appointmentData.appointmentId,
+                    userId: provider.userId,
+                    status: false
+                };
+
+                await this.notificationService.saveNotifications(notificationData, transaction);
             }
 
             await transaction.commit();
@@ -359,25 +360,6 @@ export class AppointmentService {
                 distinct: true,
                 include: [
                     {
-                        model: Provider,
-                        include: [
-                            {
-                                model: User,
-                                attributes: ['id', 'firstName', 'lastName', 'picture', 'phone'],
-                                where: {
-                                    [Op.or]: [
-                                        {
-                                            firstName: { [Op.like]: '%' + searchText + '%' }
-                                        },
-                                        {
-                                            lastName: { [Op.like]: '%' + searchText + '%' }
-                                        }
-                                    ]
-                                },
-                            }
-                        ]
-                    },
-                    {
                         model: Patient,
                         include: [
                             {
@@ -430,25 +412,6 @@ export class AppointmentService {
                             },
                         ],
                         required: true
-                    },
-                    {
-                        model: Patient,
-                        include: [
-                            {
-                                model: User,
-                                attributes: ['id', 'firstName', 'lastName', 'picture', 'phone'],
-                                where: {
-                                    [Op.or]: [
-                                        {
-                                            firstName: { [Op.like]: '%' + searchText + '%' }
-                                        },
-                                        {
-                                            lastName: { [Op.like]: '%' + searchText + '%' }
-                                        }
-                                    ]
-                                },
-                            }
-                        ]
                     },
                     ProviderAvailabilitySlot,
                     Attachments
