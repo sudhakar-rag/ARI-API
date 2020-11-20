@@ -134,7 +134,8 @@ let CreatePatientService = class CreatePatientService {
     async savePatientSubscription(patientId, transaction) {
         const patientData = {
             patientId: patientId,
-            subscriptionId: 1
+            subscriptionId: 1,
+            lastSubscriptionAt: new Date()
         };
         const result = await this.patientSubscriptionModel.create(patientData, { transaction });
         return result;
@@ -213,10 +214,16 @@ let CreatePatientService = class CreatePatientService {
         return result;
     }
     async updateSubscription(data) {
+        await this.patientSubscriptionModel.destroy({
+            where: { patientId: data.patientId,
+                subscriptionId: data.subscriptionId }
+        });
         const subData = {
+            patientId: data.patientId,
             subscriptionId: data.subscriptionId,
+            lastSubscriptionAt: new Date()
         };
-        const result = await this.patientModel.update(subData, { where: { userId: data.userId } });
+        const result = await this.patientSubscriptionModel.create(subData);
         return result;
     }
     async updateHistory(data) {

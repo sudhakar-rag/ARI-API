@@ -9,6 +9,7 @@ export declare class AppointmentController {
     constructor(appointmentService: AppointmentService);
     getAppointmentDetails(appointmentId: string): Promise<ResponseData>;
     getAppointments(queryParams: ListQueryParamsDto): Promise<ResponseData>;
+    getAppointmentsByDate(data: any): Promise<ResponseData>;
     createAppointment(appointmentData: CreateAppointmentDto): Promise<ResponseData>;
     updateStatus(appointmentData: UpdateAppointmentDto): Promise<ResponseData>;
     addAttachment(attachmentData: CreateAttachmentDto): Promise<ResponseData>;

@@ -171,7 +171,8 @@ export class CreatePatientService {
         const patientData = {
 
             patientId: patientId,
-            subscriptionId: 1
+            subscriptionId: 1,
+            lastSubscriptionAt: new Date()
 
         };
 
@@ -286,13 +287,20 @@ export class CreatePatientService {
     }
 
 
-    async updateSubscription(data: { userId: number, subscriptionId: number }): Promise<any> {
+    async updateSubscription(data: { patientId: number, subscriptionId: number }): Promise<any> {
+
+        await this.patientSubscriptionModel.destroy({
+            where: { patientId: data.patientId,
+                     subscriptionId: data.subscriptionId}
+        });
 
         const subData = {
+            patientId: data.patientId,
             subscriptionId: data.subscriptionId,
+            lastSubscriptionAt: new Date()
         };
 
-        const result = await this.patientModel.update(subData, { where: { userId: data.userId } });
+        const result = await this.patientSubscriptionModel.create(subData);
 
         return result;
     }

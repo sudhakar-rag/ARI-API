@@ -1,3 +1,4 @@
+import { PatientSubscription } from './../../patient/models/patient-subscription.model';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { Sequelize } from 'sequelize-typescript';
@@ -150,7 +151,11 @@ export class UsersService {
           model: Provider
         },
         {
-          model: Patient
+          model: Patient,
+          include: [{
+            model: PatientSubscription,
+            required: false
+          }]
         }
       ]
     })

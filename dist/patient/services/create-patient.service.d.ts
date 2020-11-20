@@ -47,7 +47,7 @@ export declare class CreatePatientService {
     }, transaction: Transaction): Promise<any>;
     updateBasicInfo(data: any): Promise<any>;
     updateSubscription(data: {
-        userId: number;
+        patientId: number;
         subscriptionId: number;
     }): Promise<any>;
     updateHistory(data: any): Promise<any>;

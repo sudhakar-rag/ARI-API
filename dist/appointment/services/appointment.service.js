@@ -59,14 +59,15 @@ let AppointmentService = class AppointmentService {
             return null;
         }
     }
-    async getAppointmentByDate(date) {
+    async getAppointmentByDate(data) {
         try {
             const result = await this.appointmentModel.findAll({
-                include: [
-                    appointment_details_model_1.AppointmentDetails,
-                    provider_availability_slot_model_1.ProviderAvailabilitySlot,
-                    attachments_model_1.Attachments
-                ],
+                where: {
+                    patientId: data.patientId,
+                    createdAt: {
+                        [sequelize_2.Op.gte]: data.date
+                    }
+                }
             });
             return result;
         }

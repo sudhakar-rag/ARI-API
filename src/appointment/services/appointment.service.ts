@@ -57,14 +57,17 @@ export class AppointmentService {
         }
     }
 
-    async getAppointmentByDate(date: any): Promise<Appointment[]> {
+    async getAppointmentByDate(data:{ patientId: number, date: Date }): Promise<Appointment[]> {
         try {
             const result = await this.appointmentModel.findAll({
-                include: [
-                    AppointmentDetails,
-                    ProviderAvailabilitySlot,
-                    Attachments
-                ],
+
+                where: {
+                    patientId: data.patientId,
+                    createdAt: {
+                        [Op.gte]: data.date
+                      }
+                }
+                
             });
 
             return result;

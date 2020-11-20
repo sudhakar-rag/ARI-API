@@ -13,6 +13,7 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UsersService = void 0;
+const patient_subscription_model_1 = require("./../../patient/models/patient-subscription.model");
 const common_1 = require("@nestjs/common");
 const sequelize_1 = require("@nestjs/sequelize");
 const sequelize_typescript_1 = require("sequelize-typescript");
@@ -121,7 +122,11 @@ let UsersService = class UsersService {
                     model: provider_model_1.Provider
                 },
                 {
-                    model: patient_model_1.Patient
+                    model: patient_model_1.Patient,
+                    include: [{
+                            model: patient_subscription_model_1.PatientSubscription,
+                            required: false
+                        }]
                 }
             ]
         });

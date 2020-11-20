@@ -55,6 +55,18 @@ let AppointmentController = class AppointmentController {
         }
         return output;
     }
+    async getAppointmentsByDate(data) {
+        const output = new response_data_1.ResponseData();
+        try {
+            output.data = await this.appointmentService.getAppointmentByDate(data);
+        }
+        catch (error) {
+            console.log(error);
+            output.status = false;
+            output.message = typeof error == 'string' ? error : '';
+        }
+        return output;
+    }
     async createAppointment(appointmentData) {
         const output = new response_data_1.ResponseData();
         try {
@@ -133,6 +145,13 @@ __decorate([
     __metadata("design:paramtypes", [list_query_params_dto_1.ListQueryParamsDto]),
     __metadata("design:returntype", Promise)
 ], AppointmentController.prototype, "getAppointments", null);
+__decorate([
+    common_1.Post('date'),
+    __param(0, common_1.Body()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], AppointmentController.prototype, "getAppointmentsByDate", null);
 __decorate([
     swagger_1.ApiOperation({ summary: 'create appointment' }),
     swagger_1.ApiBody({ type: create_appointment_dto_1.CreateAppointmentDto }),

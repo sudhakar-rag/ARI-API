@@ -21,7 +21,10 @@ export declare class AppointmentService {
     private notificationService;
     constructor(appointmentModel: typeof Appointment, appointmentDetailsModel: typeof AppointmentDetails, attachmentsModel: typeof Attachments, providerAvailabilitySlotModel: typeof ProviderAvailabilitySlot, sequelize: Sequelize, usersService: UsersService, zoomService: ZoomService, notificationService: NotificationService);
     getAppointmentDeatils(appId: string): Promise<Appointment>;
-    getAppointmentByDate(date: any): Promise<Appointment[]>;
+    getAppointmentByDate(data: {
+        patientId: number;
+        date: Date;
+    }): Promise<Appointment[]>;
     saveAppointment(appointmentData: CreateAppointmentDto): Promise<any>;
     addAttachments(attachmentData: CreateAttachmentDto): Promise<any>;
     getAttachments(queryParams: ListQueryParamsDto): Promise<any>;
