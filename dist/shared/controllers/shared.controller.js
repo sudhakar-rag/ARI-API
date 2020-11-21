@@ -118,6 +118,18 @@ let SharedController = class SharedController {
         }
         return output;
     }
+    async getSubscriptions() {
+        let output = new response_data_1.ResponseData();
+        try {
+            output.data = await this.sharedService.getSubscriptions();
+        }
+        catch (error) {
+            console.log(error);
+            output.status = false;
+            output.message = typeof error == 'string' ? error : '';
+        }
+        return output;
+    }
     async getAddress(addressId) {
         let output = new response_data_1.ResponseData();
         try {
@@ -158,6 +170,18 @@ let SharedController = class SharedController {
         const output = new response_data_1.ResponseData();
         try {
             output.data = await this.usersService.updateProfilePicture(userData);
+        }
+        catch (error) {
+            console.log(error);
+            output.status = false;
+            output.message = typeof error == 'string' ? error : '';
+        }
+        return output;
+    }
+    async updateSub(subData) {
+        const output = new response_data_1.ResponseData();
+        try {
+            output.data = await this.sharedService.updateSubscription(subData);
         }
         catch (error) {
             console.log(error);
@@ -216,6 +240,12 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], SharedController.prototype, "getCountries", null);
 __decorate([
+    common_1.Get('subscriptions'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], SharedController.prototype, "getSubscriptions", null);
+__decorate([
     common_1.Get('address/:id'),
     __param(0, common_1.Param('id')),
     __metadata("design:type", Function),
@@ -243,6 +273,13 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], SharedController.prototype, "updatePicture", null);
+__decorate([
+    common_1.Put('subscription'),
+    __param(0, common_1.Body()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], SharedController.prototype, "updateSub", null);
 SharedController = __decorate([
     common_1.Controller('shared'),
     __metadata("design:paramtypes", [shared_service_1.SharedService,

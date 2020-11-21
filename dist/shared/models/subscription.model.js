@@ -21,6 +21,10 @@ __decorate([
     sequelize_typescript_1.Column,
     __metadata("design:type", String)
 ], Subscription.prototype, "name", void 0);
+__decorate([
+    sequelize_typescript_1.Column,
+    __metadata("design:type", Number)
+], Subscription.prototype, "price", void 0);
 Subscription = __decorate([
     sequelize_typescript_1.Table
 ], Subscription);

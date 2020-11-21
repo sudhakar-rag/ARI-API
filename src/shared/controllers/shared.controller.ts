@@ -132,6 +132,21 @@ export class SharedController {
     return output;
   }
 
+  @Get('subscriptions')
+  async getSubscriptions() {
+    let output = new ResponseData();
+
+    try {
+      output.data = await this.sharedService.getSubscriptions();
+    } catch (error) {
+      console.log(error);
+      output.status = false;
+      output.message = typeof error == 'string' ? error : '';
+    }
+
+    return output;
+  }
+
   @Get('address/:id')
   async getAddress(@Param('id') addressId: string) {
     let output = new ResponseData();
@@ -184,6 +199,21 @@ export class SharedController {
 
     try {
       output.data = await this.usersService.updateProfilePicture(userData);
+    } catch (error) {
+      console.log(error);
+      output.status = false;
+      output.message = typeof error == 'string' ? error : '';
+    }
+
+    return output;
+  }
+
+  @Put('subscription')
+  async updateSub(@Body() subData: any): Promise<ResponseData> {
+    const output = new ResponseData();
+
+    try {
+      output.data = await this.sharedService.updateSubscription(subData);
     } catch (error) {
       console.log(error);
       output.status = false;

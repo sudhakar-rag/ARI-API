@@ -7,4 +7,7 @@ export class Subscription extends Model<Subscription> {
 
     @Column
     name: string;
+
+    @Column
+    price: number;
 }

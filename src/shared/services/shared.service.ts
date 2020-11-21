@@ -1,3 +1,4 @@
+import { Subscription } from './../models/subscription.model';
 import { Payment } from './../models/payment.model';
 import { Country } from './../models/country.model';
 import { State } from './../models/state.model';
@@ -15,6 +16,7 @@ import { Op } from 'sequelize';
 import { InjectModel } from '@nestjs/sequelize';
 import { UserCreateService } from '@app/src/users/services/user-create.service';
 import { Specalist } from '../models/specalist.model';
+import { subscribeOn } from 'rxjs/operators';
 
 @Injectable()
 export class SharedService {
@@ -41,6 +43,8 @@ export class SharedService {
     private readonly appointmentDetailsModel: typeof AppointmentDetails,
     @InjectModel(Payment)
     private readonly paymentModel: typeof Payment,
+    @InjectModel(Subscription)
+    private readonly subscriptionModel: typeof Subscription,
     private readonly sequelize: Sequelize,
   ) { }
 
@@ -76,6 +80,10 @@ export class SharedService {
     return await this.countryModel.findAll();
   }
 
+  async getSubscriptions(): Promise<any> {
+    return await this.subscriptionModel.findAll();
+  }
+
   async getAddressById(addressId): Promise<any> {
     return await this.addressModel.findOne({
       where: { id: addressId }
@@ -100,5 +108,21 @@ export class SharedService {
     return result;
 
 }
+
+async updateSubscription(data: any): Promise<any> {
+
+  const subData = {
+      name: data.name,
+      code: data.code,
+      price: data.price
+  }
+
+  const result = await this.subscriptionModel.update(subData, { where: { id: data.subId } });
+
+  return result;
+
+}
+
+
 
 }

@@ -1,3 +1,4 @@
+import { Subscription } from './../models/subscription.model';
 import { Payment } from './../models/payment.model';
 import { Country } from './../models/country.model';
 import { State } from './../models/state.model';
@@ -22,8 +23,9 @@ export declare class SharedService {
     private readonly providerTypeModel;
     private readonly appointmentDetailsModel;
     private readonly paymentModel;
+    private readonly subscriptionModel;
     private readonly sequelize;
-    constructor(medicalProblemsModel: typeof MedicalProblems, symptomModel: typeof Symptom, specialistModel: typeof Specalist, languageModel: typeof Language, addressModel: typeof Address, serviceModel: typeof Service, stateModel: typeof State, countryModel: typeof Country, providerTypeModel: typeof ProviderType, appointmentDetailsModel: typeof AppointmentDetails, paymentModel: typeof Payment, sequelize: Sequelize);
+    constructor(medicalProblemsModel: typeof MedicalProblems, symptomModel: typeof Symptom, specialistModel: typeof Specalist, languageModel: typeof Language, addressModel: typeof Address, serviceModel: typeof Service, stateModel: typeof State, countryModel: typeof Country, providerTypeModel: typeof ProviderType, appointmentDetailsModel: typeof AppointmentDetails, paymentModel: typeof Payment, subscriptionModel: typeof Subscription, sequelize: Sequelize);
     getMedicalProblems(): Promise<any>;
     getSymptoms(): Promise<any>;
     getSpecialists(): Promise<any>;
@@ -32,7 +34,9 @@ export declare class SharedService {
     getServices(): Promise<any>;
     getStates(): Promise<any>;
     getCountries(): Promise<any>;
+    getSubscriptions(): Promise<any>;
     getAddressById(addressId: any): Promise<any>;
     getAppointmenteDetailsById(appointmentId: any): Promise<any>;
     updateAppointmentSession(data: any): Promise<any>;
+    updateSubscription(data: any): Promise<any>;
 }

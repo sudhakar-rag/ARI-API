@@ -13,6 +13,7 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.SharedService = void 0;
+const subscription_model_1 = require("./../models/subscription.model");
 const payment_model_1 = require("./../models/payment.model");
 const country_model_1 = require("./../models/country.model");
 const state_model_1 = require("./../models/state.model");
@@ -29,7 +30,7 @@ const sequelize_1 = require("@nestjs/sequelize");
 const user_create_service_1 = require("../../users/services/user-create.service");
 const specalist_model_1 = require("../models/specalist.model");
 let SharedService = class SharedService {
-    constructor(medicalProblemsModel, symptomModel, specialistModel, languageModel, addressModel, serviceModel, stateModel, countryModel, providerTypeModel, appointmentDetailsModel, paymentModel, sequelize) {
+    constructor(medicalProblemsModel, symptomModel, specialistModel, languageModel, addressModel, serviceModel, stateModel, countryModel, providerTypeModel, appointmentDetailsModel, paymentModel, subscriptionModel, sequelize) {
         this.medicalProblemsModel = medicalProblemsModel;
         this.symptomModel = symptomModel;
         this.specialistModel = specialistModel;
@@ -41,6 +42,7 @@ let SharedService = class SharedService {
         this.providerTypeModel = providerTypeModel;
         this.appointmentDetailsModel = appointmentDetailsModel;
         this.paymentModel = paymentModel;
+        this.subscriptionModel = subscriptionModel;
         this.sequelize = sequelize;
     }
     async getMedicalProblems() {
@@ -67,6 +69,9 @@ let SharedService = class SharedService {
     async getCountries() {
         return await this.countryModel.findAll();
     }
+    async getSubscriptions() {
+        return await this.subscriptionModel.findAll();
+    }
     async getAddressById(addressId) {
         return await this.addressModel.findOne({
             where: { id: addressId }
@@ -84,6 +89,15 @@ let SharedService = class SharedService {
         const result = await this.appointmentDetailsModel.update(sessionData, { where: { appointmentId: data.appointmentId } });
         return result;
     }
+    async updateSubscription(data) {
+        const subData = {
+            name: data.name,
+            code: data.code,
+            price: data.price
+        };
+        const result = await this.subscriptionModel.update(subData, { where: { id: data.subId } });
+        return result;
+    }
 };
 SharedService = __decorate([
     common_1.Injectable(),
@@ -98,7 +112,8 @@ SharedService = __decorate([
     __param(8, sequelize_1.InjectModel(provider_type_model_1.ProviderType)),
     __param(9, sequelize_1.InjectModel(appointment_details_model_1.AppointmentDetails)),
     __param(10, sequelize_1.InjectModel(payment_model_1.Payment)),
-    __metadata("design:paramtypes", [Object, Object, Object, Object, Object, Object, Object, Object, Object, Object, Object, sequelize_typescript_1.Sequelize])
+    __param(11, sequelize_1.InjectModel(subscription_model_1.Subscription)),
+    __metadata("design:paramtypes", [Object, Object, Object, Object, Object, Object, Object, Object, Object, Object, Object, Object, sequelize_typescript_1.Sequelize])
 ], SharedService);
 exports.SharedService = SharedService;
 //# sourceMappingURL=shared.service.js.map

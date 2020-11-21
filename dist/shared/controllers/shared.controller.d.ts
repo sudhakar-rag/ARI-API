@@ -13,8 +13,10 @@ export declare class SharedController {
     getProviderTypes(): Promise<ResponseData>;
     getStates(): Promise<ResponseData>;
     getCountries(): Promise<ResponseData>;
+    getSubscriptions(): Promise<ResponseData>;
     getAddress(addressId: string): Promise<ResponseData>;
     updateAppointmentDetails(appointmentData: any): Promise<ResponseData>;
     getAppointmentDetails(appointmentId: number): Promise<ResponseData>;
     updatePicture(userData: any): Promise<ResponseData>;
+    updateSub(subData: any): Promise<ResponseData>;
 }
