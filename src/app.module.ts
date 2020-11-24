@@ -33,7 +33,8 @@ import { AwsModule } from './core/aws/aws.module';
     ZoomModule,
     AwsModule,
     NotificationModule,
-    PaymentModule
+    PaymentModule,
+    EmailModule
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -21,6 +21,7 @@
     "test:e2e": "jest --config ./test/jest-e2e.json"
   },
   "dependencies": {
+    "@nestjs-modules/mailer": "^1.5.1",
     "@nestjs/common": "^7.0.0",
     "@nestjs/config": "^0.5.0",
     "@nestjs/core": "^7.0.0",
@@ -31,6 +32,7 @@
     "@nestjs/swagger": "^4.6.1",
     "@types/stripe": "^7.13.25",
     "aws-sdk": "^2.783.0",
+    "base-64": "^1.0.0",
     "class-transformer": "^0.2.3",
     "class-validator": "^0.12.2",
     "compression": "^1.7.4",
