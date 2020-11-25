@@ -16,7 +16,7 @@ const base64 = require("base-64");
 let EmailService = class EmailService {
     constructor(mailerService) {
         this.mailerService = mailerService;
-        this.cc = ['joelimalive1994@gmail.com'];
+        this.cc = ['ramakrishnan001@gmail.com'];
     }
     async sendWeclcomeMail(data) {
         let options = {
