@@ -1,3 +1,4 @@
+import { EmailService } from './../../email/email.service';
 import { RatingHistory } from './../models/rating-history';
 import { User } from './../../users/models/user.model';
 import { ProviderServices } from './../models/provider-services.model';
@@ -51,6 +52,7 @@ export class CreateProviderService {
         @InjectModel(ProviderSpecality)
         private readonly providerSpecalityModel: typeof ProviderSpecality,
         private userCreateService: UserCreateService,
+        private emailService: EmailService,
         private readonly sequelize: Sequelize,
     ) { }
 
@@ -106,6 +108,15 @@ export class CreateProviderService {
             await this.saveServices({ providerId: provider.id, services: providerData.services }, transaction);
 
             await transaction.commit();
+
+            const welcomeData = {
+                email: userData.email,
+                name: userData.firstName + ' ' + userData.lastName,
+                userName: userData.userName,
+                password: userData.password
+            };
+
+            await this.emailService.sendWeclcomeMail(welcomeData);
 
             return user;
         } catch (error) {

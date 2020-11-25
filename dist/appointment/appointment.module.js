@@ -7,6 +7,8 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AppointmentModule = void 0;
+const provider_module_1 = require("./../doctor/provider.module");
+const email_module_1 = require("./../email/email.module");
 const common_1 = require("@nestjs/common");
 const sequelize_1 = require("@nestjs/sequelize");
 const provider_availability_slot_model_1 = require("../doctor/models/provider-availability-slot.model");
@@ -31,7 +33,9 @@ AppointmentModule = __decorate([
             ]),
             users_module_1.UsersModule,
             zoom_module_1.ZoomModule,
-            notification_module_1.NotificationModule
+            notification_module_1.NotificationModule,
+            email_module_1.EmailModule,
+            provider_module_1.ProviderModule
         ],
         controllers: [appointment_controller_1.AppointmentController],
         providers: [appointment_service_1.AppointmentService],

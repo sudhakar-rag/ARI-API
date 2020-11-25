@@ -13,6 +13,8 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AppointmentService = void 0;
+const email_service_1 = require("./../../email/email.service");
+const provider_service_1 = require("./../../doctor/services/provider.service");
 const notification_service_1 = require("./../../notification/services/notification.service");
 const sequelize_typescript_1 = require("sequelize-typescript");
 const common_1 = require("@nestjs/common");
@@ -29,13 +31,15 @@ const sequelize_2 = require("sequelize");
 const zoom_service_1 = require("../../zoom/services/zoom.service");
 const attachments_model_1 = require("../../shared/models/attachments.model");
 let AppointmentService = class AppointmentService {
-    constructor(appointmentModel, appointmentDetailsModel, attachmentsModel, providerAvailabilitySlotModel, sequelize, usersService, zoomService, notificationService) {
+    constructor(appointmentModel, appointmentDetailsModel, attachmentsModel, providerAvailabilitySlotModel, sequelize, usersService, providerService, emailService, zoomService, notificationService) {
         this.appointmentModel = appointmentModel;
         this.appointmentDetailsModel = appointmentDetailsModel;
         this.attachmentsModel = attachmentsModel;
         this.providerAvailabilitySlotModel = providerAvailabilitySlotModel;
         this.sequelize = sequelize;
         this.usersService = usersService;
+        this.providerService = providerService;
+        this.emailService = emailService;
         this.zoomService = zoomService;
         this.notificationService = notificationService;
     }
@@ -128,6 +132,12 @@ let AppointmentService = class AppointmentService {
                             uploadedBy: appointmentData.uploadedBy
                         }, { transaction: transaction });
                     }
+                    const providerDetails = await this.providerService.getProviderById(appointmentData.providerId);
+                    const mailData = {
+                        name: (await providerDetails).user.firstName,
+                        email: (await providerDetails).user.email,
+                    };
+                    await this.emailService.sendAppointmentMail(mailData);
                 }
             }
             else {
@@ -409,6 +419,8 @@ AppointmentService = __decorate([
     __param(3, sequelize_1.InjectModel(provider_availability_slot_model_1.ProviderAvailabilitySlot)),
     __metadata("design:paramtypes", [Object, Object, Object, Object, sequelize_typescript_1.Sequelize,
         users_service_1.UsersService,
+        provider_service_1.ProviderService,
+        email_service_1.EmailService,
         zoom_service_1.ZoomService,
         notification_service_1.NotificationService])
 ], AppointmentService);

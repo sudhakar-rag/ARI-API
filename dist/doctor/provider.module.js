@@ -7,6 +7,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProviderModule = void 0;
+const email_module_1 = require("./../email/email.module");
 const rating_history_1 = require("./models/rating-history");
 const provider_services_model_1 = require("./models/provider-services.model");
 const user_model_1 = require("./../users/models/user.model");
@@ -59,6 +60,7 @@ ProviderModule = __decorate([
                 appointment_model_1.Appointment
             ]),
             users_module_1.UsersModule,
+            email_module_1.EmailModule
         ],
         providers: [provider_service_1.ProviderService, create_provider_service_1.CreateProviderService],
         controllers: [providers_controller_1.ProvidersController],

@@ -44,7 +44,8 @@ AppModule = __decorate([
             zoom_module_1.ZoomModule,
             aws_module_1.AwsModule,
             notification_module_1.NotificationModule,
-            payment_module_1.PaymentModule
+            payment_module_1.PaymentModule,
+            email_module_1.EmailModule
         ],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],

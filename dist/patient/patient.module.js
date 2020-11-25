@@ -7,6 +7,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.PatientsModule = void 0;
+const email_module_1 = require("./../email/email.module");
 const patient_subscription_model_1 = require("./models/patient-subscription.model");
 const provider_module_1 = require("./../doctor/provider.module");
 const patient_service_1 = require("./services/patient.service");
@@ -48,7 +49,8 @@ PatientsModule = __decorate([
                 provider_availability_slot_model_1.ProviderAvailabilitySlot
             ]),
             users_module_1.UsersModule,
-            provider_module_1.ProviderModule
+            provider_module_1.ProviderModule,
+            email_module_1.EmailModule
         ],
         providers: [patient_service_1.PatientService, create_patient_service_1.CreatePatientService],
         controllers: [patient_controller_1.PatientsController],

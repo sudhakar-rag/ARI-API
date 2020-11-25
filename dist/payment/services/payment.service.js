@@ -13,6 +13,8 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.PaymentService = void 0;
+const email_service_1 = require("./../../email/email.service");
+const users_service_1 = require("./../../users/services/users.service");
 const constants_1 = require("./../../core/config/constants");
 const payment_model_1 = require("./../../shared/models/payment.model");
 const sequelize_typescript_1 = require("sequelize-typescript");
@@ -20,8 +22,10 @@ const sequelize_1 = require("@nestjs/sequelize");
 const common_1 = require("@nestjs/common");
 const stripe_1 = require("stripe");
 let PaymentService = class PaymentService {
-    constructor(paymentModel, sequelize) {
+    constructor(paymentModel, usersService, emailService, sequelize) {
         this.paymentModel = paymentModel;
+        this.usersService = usersService;
+        this.emailService = emailService;
         this.sequelize = sequelize;
     }
     async getPaymentsById(userId) {
@@ -46,6 +50,13 @@ let PaymentService = class PaymentService {
                 txnId: (await stripeResult).id,
                 status: (await stripeResult).status,
             });
+            const userDetails = await this.usersService.getLoggedinUserData();
+            const mailData = {
+                name: (await userDetails).firstName,
+                email: (await userDetails).email,
+                amount: paymentData.amount,
+            };
+            await this.emailService.sendPaymentMail(mailData);
             return stripeResult;
         }
         else {
@@ -56,7 +67,9 @@ let PaymentService = class PaymentService {
 PaymentService = __decorate([
     common_1.Injectable(),
     __param(0, sequelize_1.InjectModel(payment_model_1.Payment)),
-    __metadata("design:paramtypes", [Object, sequelize_typescript_1.Sequelize])
+    __metadata("design:paramtypes", [Object, users_service_1.UsersService,
+        email_service_1.EmailService,
+        sequelize_typescript_1.Sequelize])
 ], PaymentService);
 exports.PaymentService = PaymentService;
 //# sourceMappingURL=payment.service.js.map

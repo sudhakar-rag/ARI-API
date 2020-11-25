@@ -1,3 +1,4 @@
+import { EmailModule } from './../email/email.module';
 import { PatientSubscription } from './models/patient-subscription.model';
 import { ProviderModule } from './../doctor/provider.module';
 import { PatientService } from './services/patient.service';
@@ -37,7 +38,8 @@ import { ProviderAvailabilitySlot } from '../doctor/models/provider-availability
       ProviderAvailabilitySlot
     ]),
     UsersModule,
-    ProviderModule
+    ProviderModule,
+    EmailModule
   ],
   providers: [PatientService, CreatePatientService],
   controllers: [PatientsController],

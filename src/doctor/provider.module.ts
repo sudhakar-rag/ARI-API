@@ -1,3 +1,4 @@
+import { EmailModule } from './../email/email.module';
 import { RatingHistory } from './models/rating-history';
 import { ProviderServices } from './models/provider-services.model';
 import { User } from './../users/models/user.model';
@@ -48,6 +49,7 @@ import { ProviderSpecality } from './models/provider-speciality.model';
       Appointment
     ]),
     UsersModule,
+    EmailModule
   ],
   providers: [ProviderService, CreateProviderService],
   controllers: [ProvidersController],

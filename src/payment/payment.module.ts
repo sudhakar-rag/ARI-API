@@ -1,3 +1,4 @@
+import { EmailModule } from './../email/email.module';
 import { PaymentService } from './services/payment.service';
 import { PaymentController } from './controllers/payment.controller';
 import { Payment } from './../shared/models/payment.model';
@@ -11,6 +12,7 @@ import { UsersModule } from '../users/users.module';
       Payment,
     ]),
     UsersModule,
+    EmailModule
   ],
   controllers: [PaymentController],
   providers: [PaymentService],

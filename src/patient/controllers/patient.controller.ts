@@ -1,3 +1,4 @@
+import { EmailService } from './../../email/email.service';
 import { CreateProviderService } from './../../doctor/services/create-provider.service';
 import { PatientBasicDto } from './../dto/patient-basic.dto';
 import { PatientService } from './../services/patient.service';
@@ -19,6 +20,7 @@ export class PatientsController {
     private providerService: CreateProviderService,
     private patientsService: PatientService,
     private createPatientService: CreatePatientService,
+    private emailService: EmailService,
   ) { }
 
   @Post()
@@ -43,6 +45,25 @@ export class PatientsController {
 
     try {
       output.data = providerId;
+      output.status = true;
+
+    } catch (error) {
+      console.log(error);
+      output.status = false;
+      output.message = typeof error == 'string' ? error : '';
+    }
+
+    return output;
+
+  }
+
+
+  @Post('test')
+  async testMail(@Body() data: any): Promise<ResponseData> {
+    const output = new ResponseData();
+
+    try {
+      output.data = await this.emailService.sendReminderMail(data);
       output.status = true;
 
     } catch (error) {

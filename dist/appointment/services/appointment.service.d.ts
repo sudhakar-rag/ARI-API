@@ -1,3 +1,5 @@
+import { EmailService } from './../../email/email.service';
+import { ProviderService } from './../../doctor/services/provider.service';
 import { NotificationService } from './../../notification/services/notification.service';
 import { CreateAttachmentDto } from './../dto/create-attachment.dto';
 import { Sequelize } from 'sequelize-typescript';
@@ -17,9 +19,11 @@ export declare class AppointmentService {
     private readonly providerAvailabilitySlotModel;
     private readonly sequelize;
     private usersService;
+    private providerService;
+    private emailService;
     private zoomService;
     private notificationService;
-    constructor(appointmentModel: typeof Appointment, appointmentDetailsModel: typeof AppointmentDetails, attachmentsModel: typeof Attachments, providerAvailabilitySlotModel: typeof ProviderAvailabilitySlot, sequelize: Sequelize, usersService: UsersService, zoomService: ZoomService, notificationService: NotificationService);
+    constructor(appointmentModel: typeof Appointment, appointmentDetailsModel: typeof AppointmentDetails, attachmentsModel: typeof Attachments, providerAvailabilitySlotModel: typeof ProviderAvailabilitySlot, sequelize: Sequelize, usersService: UsersService, providerService: ProviderService, emailService: EmailService, zoomService: ZoomService, notificationService: NotificationService);
     getAppointmentDeatils(appId: string): Promise<Appointment>;
     getAppointmentByDate(data: {
         patientId: number;

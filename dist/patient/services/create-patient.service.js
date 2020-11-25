@@ -13,6 +13,7 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CreatePatientService = void 0;
+const email_service_1 = require("./../../email/email.service");
 const patient_subscription_model_1 = require("./../models/patient-subscription.model");
 const patient_model_1 = require("./../models/patient.model");
 const sequelize_typescript_1 = require("sequelize-typescript");
@@ -27,7 +28,7 @@ const address_model_1 = require("./../../users/models/address.model");
 const user_model_1 = require("../../users/models/user.model");
 const patient_address_model_1 = require("../models/patient-address.model");
 let CreatePatientService = class CreatePatientService {
-    constructor(userModel, patientModel, patientSpecalistModel, patientSymptomModel, patientMedicalProblemModel, patientProviderTypeModel, addressModel, patientAddressModel, patientSubscriptionModel, userCreateService, sequelize) {
+    constructor(userModel, patientModel, patientSpecalistModel, patientSymptomModel, patientMedicalProblemModel, patientProviderTypeModel, addressModel, patientAddressModel, patientSubscriptionModel, userCreateService, emailService, sequelize) {
         this.userModel = userModel;
         this.patientModel = patientModel;
         this.patientSpecalistModel = patientSpecalistModel;
@@ -38,6 +39,7 @@ let CreatePatientService = class CreatePatientService {
         this.patientAddressModel = patientAddressModel;
         this.patientSubscriptionModel = patientSubscriptionModel;
         this.userCreateService = userCreateService;
+        this.emailService = emailService;
         this.sequelize = sequelize;
     }
     async createPatient(patientData) {
@@ -68,6 +70,13 @@ let CreatePatientService = class CreatePatientService {
             await this.saveMedicalProblems({ patientId: patient.id, problems: patientData.medicalProblems }, transaction);
             await this.saveSymptoms({ patientId: patient.id, symptoms: patientData.symptoms }, transaction);
             await transaction.commit();
+            const welcomeData = {
+                email: userData.email,
+                name: userData.firstName + ' ' + userData.lastName,
+                userName: userData.userName,
+                password: userData.password
+            };
+            await this.emailService.sendWeclcomeMail(welcomeData);
             return user;
         }
         catch (error) {
@@ -317,6 +326,7 @@ CreatePatientService = __decorate([
     __param(7, sequelize_1.InjectModel(patient_address_model_1.PatientAddress)),
     __param(8, sequelize_1.InjectModel(patient_subscription_model_1.PatientSubscription)),
     __metadata("design:paramtypes", [Object, Object, Object, Object, Object, Object, Object, Object, Object, user_create_service_1.UserCreateService,
+        email_service_1.EmailService,
         sequelize_typescript_1.Sequelize])
 ], CreatePatientService);
 exports.CreatePatientService = CreatePatientService;

@@ -160,7 +160,7 @@ export class ProviderService {
     });
   }
 
-  async getProviderById(providerId: string): Promise<any> {
+  async getProviderById(providerId: any): Promise<any> {
     return await this.providerModel.findOne({
       where: { id: providerId },
       include: [

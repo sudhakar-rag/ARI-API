@@ -1,3 +1,4 @@
+import { EmailService } from './../../email/email.service';
 import { PatientSubscription } from './../models/patient-subscription.model';
 import { PatientDto } from './../dto/patient.dto';
 import { Patient } from './../models/patient.model';
@@ -39,6 +40,7 @@ export class CreatePatientService {
         @InjectModel(PatientSubscription)
         private readonly patientSubscriptionModel: typeof PatientSubscription,
         private userCreateService: UserCreateService,
+        private emailService: EmailService,
         private readonly sequelize: Sequelize,
     ) { }
 
@@ -86,6 +88,15 @@ export class CreatePatientService {
             await this.saveSymptoms({ patientId: patient.id, symptoms: patientData.symptoms }, transaction);
 
             await transaction.commit();
+
+            const welcomeData = {
+                email: userData.email,
+                name: userData.firstName + ' ' + userData.lastName,
+                userName: userData.userName,
+                password: userData.password
+            };
+
+            await this.emailService.sendWeclcomeMail(welcomeData);
 
             return user;
         } catch (error) {

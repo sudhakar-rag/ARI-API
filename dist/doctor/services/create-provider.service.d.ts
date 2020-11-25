@@ -1,3 +1,4 @@
+import { EmailService } from './../../email/email.service';
 import { RatingHistory } from './../models/rating-history';
 import { User } from './../../users/models/user.model';
 import { ProviderServices } from './../models/provider-services.model';
@@ -31,8 +32,9 @@ export declare class CreateProviderService {
     private readonly ratingHistoryModel;
     private readonly providerSpecalityModel;
     private userCreateService;
+    private emailService;
     private readonly sequelize;
-    constructor(userModel: typeof User, providerModel: typeof Provider, providerHistoryModel: typeof ProviderHistory, addressModel: typeof Address, providerAddressModel: typeof ProviderAddress, providerLanguageModel: typeof ProviderLanguage, providerAffilationModel: typeof ProviderAffilation, providerHospitalModel: typeof ProviderHospital, providerEducationModel: typeof ProviderEducation, providerReferenceModel: typeof ProviderReference, providerServicesModel: typeof ProviderServices, ratingHistoryModel: typeof RatingHistory, providerSpecalityModel: typeof ProviderSpecality, userCreateService: UserCreateService, sequelize: Sequelize);
+    constructor(userModel: typeof User, providerModel: typeof Provider, providerHistoryModel: typeof ProviderHistory, addressModel: typeof Address, providerAddressModel: typeof ProviderAddress, providerLanguageModel: typeof ProviderLanguage, providerAffilationModel: typeof ProviderAffilation, providerHospitalModel: typeof ProviderHospital, providerEducationModel: typeof ProviderEducation, providerReferenceModel: typeof ProviderReference, providerServicesModel: typeof ProviderServices, ratingHistoryModel: typeof RatingHistory, providerSpecalityModel: typeof ProviderSpecality, userCreateService: UserCreateService, emailService: EmailService, sequelize: Sequelize);
     createProvider(providerData: ProviderDto): Promise<any>;
     saveProviderAddress(addressData: AddressDto, transaction: Transaction, patientId?: any): Promise<any>;
     saveProviderHistoryInfo(providerData: ProviderDto, action: string, transaction: Transaction, providerId?: any): Promise<ProviderHistory>;

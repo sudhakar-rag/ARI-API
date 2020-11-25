@@ -1,3 +1,5 @@
+import { EmailService } from './../../email/email.service';
+import { UsersService } from './../../users/services/users.service';
 import { STRIPE_SECRET_KEY } from './../../core/config/constants';
 import { Payment } from './../../shared/models/payment.model';
 import { Sequelize } from 'sequelize-typescript';
@@ -11,6 +13,8 @@ export class PaymentService {
   constructor(
     @InjectModel(Payment)
     private readonly paymentModel: typeof Payment,
+    private usersService: UsersService,
+    private emailService: EmailService,
     private readonly sequelize: Sequelize,
   ) { }
 
@@ -43,6 +47,16 @@ export class PaymentService {
             txnId: (await stripeResult).id,
             status: (await stripeResult).status,
         });
+
+        const userDetails = await this.usersService.getLoggedinUserData();
+
+        const mailData = {
+          name: (await userDetails).firstName,
+          email: (await userDetails).email,
+          amount: paymentData.amount,
+        };
+
+        await this.emailService.sendPaymentMail(mailData);
 
         return stripeResult;
 

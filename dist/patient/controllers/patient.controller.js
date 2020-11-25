@@ -13,6 +13,7 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.PatientsController = void 0;
+const email_service_1 = require("./../../email/email.service");
 const create_provider_service_1 = require("./../../doctor/services/create-provider.service");
 const patient_basic_dto_1 = require("./../dto/patient-basic.dto");
 const patient_service_1 = require("./../services/patient.service");
@@ -24,10 +25,11 @@ const swagger_1 = require("@nestjs/swagger");
 const list_query_params_dto_1 = require("../../core/common/list-query-params.dto");
 const jwt_auth_guard_1 = require("../../auth/guards/jwt-auth.guard");
 let PatientsController = class PatientsController {
-    constructor(providerService, patientsService, createPatientService) {
+    constructor(providerService, patientsService, createPatientService, emailService) {
         this.providerService = providerService;
         this.patientsService = patientsService;
         this.createPatientService = createPatientService;
+        this.emailService = emailService;
     }
     async getPatients(queryParams) {
         const output = new response_data_1.ResponseData();
@@ -45,6 +47,19 @@ let PatientsController = class PatientsController {
         const output = new response_data_1.ResponseData();
         try {
             output.data = providerId;
+            output.status = true;
+        }
+        catch (error) {
+            console.log(error);
+            output.status = false;
+            output.message = typeof error == 'string' ? error : '';
+        }
+        return output;
+    }
+    async testMail(data) {
+        const output = new response_data_1.ResponseData();
+        try {
+            output.data = await this.emailService.sendReminderMail(data);
             output.status = true;
         }
         catch (error) {
@@ -200,6 +215,13 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], PatientsController.prototype, "getAvailabilityData", null);
 __decorate([
+    common_1.Post('test'),
+    __param(0, common_1.Body()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], PatientsController.prototype, "testMail", null);
+__decorate([
     common_1.Get(':id'),
     __param(0, common_1.Param('id')),
     __metadata("design:type", Function),
@@ -275,7 +297,8 @@ PatientsController = __decorate([
     common_1.Controller('patient'),
     __metadata("design:paramtypes", [create_provider_service_1.CreateProviderService,
         patient_service_1.PatientService,
-        create_patient_service_1.CreatePatientService])
+        create_patient_service_1.CreatePatientService,
+        email_service_1.EmailService])
 ], PatientsController);
 exports.PatientsController = PatientsController;
 //# sourceMappingURL=patient.controller.js.map

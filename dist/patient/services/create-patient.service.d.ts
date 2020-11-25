@@ -1,3 +1,4 @@
+import { EmailService } from './../../email/email.service';
 import { PatientSubscription } from './../models/patient-subscription.model';
 import { PatientDto } from './../dto/patient.dto';
 import { Patient } from './../models/patient.model';
@@ -23,8 +24,9 @@ export declare class CreatePatientService {
     private readonly patientAddressModel;
     private readonly patientSubscriptionModel;
     private userCreateService;
+    private emailService;
     private readonly sequelize;
-    constructor(userModel: typeof User, patientModel: typeof Patient, patientSpecalistModel: typeof PatientSpecalist, patientSymptomModel: typeof PatientSymptom, patientMedicalProblemModel: typeof PatientMedicalProblem, patientProviderTypeModel: typeof PatientProviderType, addressModel: typeof Address, patientAddressModel: typeof PatientAddress, patientSubscriptionModel: typeof PatientSubscription, userCreateService: UserCreateService, sequelize: Sequelize);
+    constructor(userModel: typeof User, patientModel: typeof Patient, patientSpecalistModel: typeof PatientSpecalist, patientSymptomModel: typeof PatientSymptom, patientMedicalProblemModel: typeof PatientMedicalProblem, patientProviderTypeModel: typeof PatientProviderType, addressModel: typeof Address, patientAddressModel: typeof PatientAddress, patientSubscriptionModel: typeof PatientSubscription, userCreateService: UserCreateService, emailService: EmailService, sequelize: Sequelize);
     createPatient(patientData: PatientDto): Promise<any>;
     savePatientAddress(addressData: AddressDto, transaction: Transaction, patientId?: any): Promise<any>;
     savePatientInfo(createUserData: PatientDto, action: string, transaction: Transaction): Promise<Patient>;

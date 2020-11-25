@@ -1,3 +1,4 @@
+import { EmailService } from './../../email/email.service';
 import { CreateProviderService } from './../../doctor/services/create-provider.service';
 import { PatientBasicDto } from './../dto/patient-basic.dto';
 import { PatientService } from './../services/patient.service';
@@ -8,9 +9,11 @@ export declare class PatientsController {
     private providerService;
     private patientsService;
     private createPatientService;
-    constructor(providerService: CreateProviderService, patientsService: PatientService, createPatientService: CreatePatientService);
+    private emailService;
+    constructor(providerService: CreateProviderService, patientsService: PatientService, createPatientService: CreatePatientService, emailService: EmailService);
     getPatients(queryParams: any): Promise<ResponseData>;
     getAvailabilityData(providerId: string): Promise<ResponseData>;
+    testMail(data: any): Promise<ResponseData>;
     getPatientInfo(userId: string): Promise<ResponseData>;
     createPatient(patientInfo: PatientDto): Promise<ResponseData>;
     updateBasicInfo(basicInfo: PatientBasicDto): Promise<ResponseData>;

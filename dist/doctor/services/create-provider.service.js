@@ -13,6 +13,7 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CreateProviderService = void 0;
+const email_service_1 = require("./../../email/email.service");
 const rating_history_1 = require("./../models/rating-history");
 const user_model_1 = require("./../../users/models/user.model");
 const provider_services_model_1 = require("./../models/provider-services.model");
@@ -33,7 +34,7 @@ const provider_history_model_1 = require("../models/provider-history.model");
 const sequelize_2 = require("sequelize");
 const provider_speciality_model_1 = require("../models/provider-speciality.model");
 let CreateProviderService = class CreateProviderService {
-    constructor(userModel, providerModel, providerHistoryModel, addressModel, providerAddressModel, providerLanguageModel, providerAffilationModel, providerHospitalModel, providerEducationModel, providerReferenceModel, providerServicesModel, ratingHistoryModel, providerSpecalityModel, userCreateService, sequelize) {
+    constructor(userModel, providerModel, providerHistoryModel, addressModel, providerAddressModel, providerLanguageModel, providerAffilationModel, providerHospitalModel, providerEducationModel, providerReferenceModel, providerServicesModel, ratingHistoryModel, providerSpecalityModel, userCreateService, emailService, sequelize) {
         this.userModel = userModel;
         this.providerModel = providerModel;
         this.providerHistoryModel = providerHistoryModel;
@@ -48,6 +49,7 @@ let CreateProviderService = class CreateProviderService {
         this.ratingHistoryModel = ratingHistoryModel;
         this.providerSpecalityModel = providerSpecalityModel;
         this.userCreateService = userCreateService;
+        this.emailService = emailService;
         this.sequelize = sequelize;
     }
     async createProvider(providerData) {
@@ -81,6 +83,13 @@ let CreateProviderService = class CreateProviderService {
             await this.saveReferences({ providerId: provider.id, references: providerData.references }, transaction);
             await this.saveServices({ providerId: provider.id, services: providerData.services }, transaction);
             await transaction.commit();
+            const welcomeData = {
+                email: userData.email,
+                name: userData.firstName + ' ' + userData.lastName,
+                userName: userData.userName,
+                password: userData.password
+            };
+            await this.emailService.sendWeclcomeMail(welcomeData);
             return user;
         }
         catch (error) {
@@ -443,6 +452,7 @@ CreateProviderService = __decorate([
     __param(11, sequelize_1.InjectModel(rating_history_1.RatingHistory)),
     __param(12, sequelize_1.InjectModel(provider_speciality_model_1.ProviderSpecality)),
     __metadata("design:paramtypes", [Object, Object, Object, Object, Object, Object, Object, Object, Object, Object, Object, Object, Object, user_create_service_1.UserCreateService,
+        email_service_1.EmailService,
         sequelize_typescript_1.Sequelize])
 ], CreateProviderService);
 exports.CreateProviderService = CreateProviderService;

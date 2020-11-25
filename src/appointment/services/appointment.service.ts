@@ -1,3 +1,5 @@
+import { EmailService } from './../../email/email.service';
+import { ProviderService } from './../../doctor/services/provider.service';
 import { CreateNotificationDto } from './../../notification/dto/create-notification.dto';
 import { NotificationService } from './../../notification/services/notification.service';
 import { CreateAttachmentDto } from './../dto/create-attachment.dto';
@@ -30,6 +32,8 @@ export class AppointmentService {
         private readonly providerAvailabilitySlotModel: typeof ProviderAvailabilitySlot,
         private readonly sequelize: Sequelize,
         private usersService: UsersService,
+        private providerService: ProviderService,
+        private emailService: EmailService,
         private zoomService: ZoomService,
         private notificationService: NotificationService
     ) { }
@@ -142,6 +146,15 @@ export class AppointmentService {
                             uploadedBy: appointmentData.uploadedBy
                         }, { transaction: transaction });
                     }
+
+                    const providerDetails = await this.providerService.getProviderById(appointmentData.providerId);
+
+                    const mailData = {
+                        name: (await providerDetails).user.firstName,
+                        email: (await providerDetails).user.email,
+                      };
+              
+                      await this.emailService.sendAppointmentMail(mailData);
 
                 }
             } else {

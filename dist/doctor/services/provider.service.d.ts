@@ -18,7 +18,7 @@ export declare class ProviderService {
     constructor(providerModel: typeof Provider, providerAvailabilityModel: typeof ProviderAvailability, providerAvailabilitySlotModel: typeof ProviderAvailabilitySlot, providerSettingModel: typeof ProviderSetting, ratingHistoryModel: typeof RatingHistory, appointmentModel: typeof Appointment, sequelize: Sequelize);
     getProviders(queryParams: ListQueryParamsDto): Promise<any>;
     getAppointments(queryParams: ListQueryParamsDto): Promise<any>;
-    getProviderById(providerId: string): Promise<any>;
+    getProviderById(providerId: any): Promise<any>;
     getProviderRatingById(userId: string): Promise<any>;
     getAvailability(providerId: string): Promise<any>;
     getAvailabilityByDay(params: any): Promise<any>;

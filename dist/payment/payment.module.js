@@ -7,6 +7,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.PaymentModule = void 0;
+const email_module_1 = require("./../email/email.module");
 const payment_service_1 = require("./services/payment.service");
 const payment_controller_1 = require("./controllers/payment.controller");
 const payment_model_1 = require("./../shared/models/payment.model");
@@ -22,6 +23,7 @@ PaymentModule = __decorate([
                 payment_model_1.Payment,
             ]),
             users_module_1.UsersModule,
+            email_module_1.EmailModule
         ],
         controllers: [payment_controller_1.PaymentController],
         providers: [payment_service_1.PaymentService],
