@@ -56,6 +56,9 @@ export class Provider extends Model<Provider> {
   isAvailable: boolean;
 
   @Column
+  isVerified: boolean;
+
+  @Column
   rating: number;
 
   @HasOne(() => ProviderHistory)
