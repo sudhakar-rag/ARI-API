@@ -9,5 +9,8 @@ export class Subscription extends Model<Subscription> {
     name: string;
 
     @Column
+    type: string;
+
+    @Column
     price: number;
 }
