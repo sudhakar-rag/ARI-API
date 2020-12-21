@@ -191,6 +191,7 @@ export class CreateProviderService {
             ethnicity: providerData.ethnicity,
             gender: providerData.gender,
             areaOfInterest: providerData.areaOfInterest,
+            otherLang: providerData.otherLang,
             speciality: providerData.medicalSpeciality,
             hasDrugAddiction: providerData.hasDrugAddiction,
             hasCriminalRecord: providerData.hasCriminalRecord,
@@ -359,6 +360,7 @@ export class CreateProviderService {
             gender: data.gender,
             // medicalSpeciality: data.medicalSpeciality,
             areaOfInterest: data.areaOfInterest,
+            otherLang: data.otherLang,
         };
 
         const userData = {

@@ -33,6 +33,7 @@ export declare class Provider extends Model<Provider> {
     educations: Array<ProviderEducation>;
     hospitals: Array<ProviderHospital>;
     languages: Array<ProviderLanguage>;
+    otherLang: string;
     references: Array<ProviderReference>;
     availabilities: Array<ProviderAvailability>;
     settings: Array<ProviderSetting>;

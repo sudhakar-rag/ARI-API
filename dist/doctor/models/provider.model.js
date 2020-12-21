@@ -109,6 +109,10 @@ __decorate([
     __metadata("design:type", Array)
 ], Provider.prototype, "languages", void 0);
 __decorate([
+    sequelize_typescript_2.Column,
+    __metadata("design:type", String)
+], Provider.prototype, "otherLang", void 0);
+__decorate([
     sequelize_typescript_2.HasMany(() => provider_reference_model_1.ProviderReference),
     __metadata("design:type", Array)
 ], Provider.prototype, "references", void 0);

@@ -18,6 +18,7 @@ export declare class ProviderDto {
     hospitals: Array<ProviderHospitalDto>;
     affiliations: Array<string>;
     languages: Array<number>;
+    otherLang: string;
     references: Array<ProviderReferenceDto>;
     religiousAffiliaions: string;
     specialBackground: string;

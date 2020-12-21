@@ -85,6 +85,9 @@ export class Provider extends Model<Provider> {
   @HasMany(() => ProviderLanguage)
   languages: Array<ProviderLanguage>;
 
+  @Column
+  otherLang: string;
+
   @HasMany(() => ProviderReference)
   references: Array<ProviderReference>;
 

@@ -61,6 +61,10 @@ export class ProviderDto {
   @IsArray()
   languages: Array<number>;
 
+  @IsOptional()
+  @IsString()
+  otherLang: string;
+
   @IsArray()
   references: Array<ProviderReferenceDto>;
 

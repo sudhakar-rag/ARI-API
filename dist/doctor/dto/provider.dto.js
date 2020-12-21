@@ -92,6 +92,11 @@ __decorate([
     __metadata("design:type", Array)
 ], ProviderDto.prototype, "languages", void 0);
 __decorate([
+    class_validator_2.IsOptional(),
+    class_validator_2.IsString(),
+    __metadata("design:type", String)
+], ProviderDto.prototype, "otherLang", void 0);
+__decorate([
     class_validator_1.IsArray(),
     __metadata("design:type", Array)
 ], ProviderDto.prototype, "references", void 0);

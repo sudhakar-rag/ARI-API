@@ -146,6 +146,7 @@ let CreateProviderService = class CreateProviderService {
             ethnicity: providerData.ethnicity,
             gender: providerData.gender,
             areaOfInterest: providerData.areaOfInterest,
+            otherLang: providerData.otherLang,
             speciality: providerData.medicalSpeciality,
             hasDrugAddiction: providerData.hasDrugAddiction,
             hasCriminalRecord: providerData.hasCriminalRecord,
@@ -273,6 +274,7 @@ let CreateProviderService = class CreateProviderService {
             dateOfBirth: data.dateOfBirth,
             gender: data.gender,
             areaOfInterest: data.areaOfInterest,
+            otherLang: data.otherLang,
         };
         const userData = {
             email: data.email,
