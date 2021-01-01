@@ -11,12 +11,12 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import * as fs from 'fs';
 
 async function bootstrap() {
-  const enableHttps = false;
+  const enableHttps = true;
   let app;
   if (enableHttps) {
     const httpsOptions = {
-      key: fs.readFileSync("/etc/ssl/certs/besecure_private.key"),
-      cert: fs.readFileSync("/etc/ssl/certs/be-secure.in.crt"),
+      // key: fs.readFileSync("/etc/ssl/certs/besecure_private.key"),
+      cert: fs.readFileSync("/etc/ssl/certs/ca-bundle.trust.crt"),
       ca: fs.readFileSync('/etc/ssl/certs/ca-bundle.crt')
     };
 
