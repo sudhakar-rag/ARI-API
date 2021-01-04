@@ -61,7 +61,7 @@ export class AppointmentService {
         }
     }
 
-    async getAppointmentByDate(data:{ patientId: number, date: Date }): Promise<Appointment[]> {
+    async getAppointmentByDate(data: { patientId: number, date: Date }): Promise<Appointment[]> {
         try {
             const result = await this.appointmentModel.findAll({
 
@@ -69,9 +69,9 @@ export class AppointmentService {
                     patientId: data.patientId,
                     createdAt: {
                         [Op.gte]: data.date
-                      }
+                    }
                 }
-                
+
             });
 
             return result;
@@ -152,9 +152,9 @@ export class AppointmentService {
                     const mailData = {
                         name: (await providerDetails).user.firstName,
                         email: (await providerDetails).user.email,
-                      };
-              
-                      await this.emailService.sendAppointmentMail(mailData);
+                    };
+
+                    await this.emailService.sendAppointmentMail(mailData);
 
                 }
             } else {
@@ -468,5 +468,14 @@ export class AppointmentService {
 
             return null;
         }
+    }
+
+
+    async deleteFile(fileId: string): Promise<any> {
+        return await this.attachmentsModel.destroy({
+            where: {
+                id: fileId
+            }
+        })
     }
 }

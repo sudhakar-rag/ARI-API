@@ -1,7 +1,7 @@
 import { CreateAttachmentDto } from './../dto/create-attachment.dto';
 import { ResponseData } from '@app/src/core/common/response-data';
 import { CreateAppointmentDto } from '@app/src/appointment/dto/create-appointment.dto';
-import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiBody, ApiCreatedResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { AppointmentService } from '../services/appointment.service';
 import { ListQueryParamsDto } from '@app/src/core/common/list-query-params.dto';
@@ -174,4 +174,19 @@ export class AppointmentController {
         return output;
     }
 
+
+    @Delete('delete-file/:fileId')
+    async deleteFile(@Param('fileId') fileId: string): Promise<ResponseData> {
+        const output = new ResponseData();
+
+        try {
+            output.data = await this.appointmentService.deleteFile(fileId);
+        } catch (error) {
+            console.log(error);
+            output.status = false;
+            output.message = typeof error == 'string' ? error : '';
+        }
+
+        return output;
+    }
 }

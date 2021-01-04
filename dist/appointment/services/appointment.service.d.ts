@@ -34,4 +34,5 @@ export declare class AppointmentService {
     getAttachments(queryParams: ListQueryParamsDto): Promise<any>;
     getAppointments(queryParams: ListQueryParamsDto): Promise<any>;
     updateAppointmentStatus(data: UpdateAppointmentDto): Promise<any>;
+    deleteFile(fileId: string): Promise<any>;
 }

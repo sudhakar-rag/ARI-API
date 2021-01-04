@@ -123,6 +123,18 @@ let AppointmentController = class AppointmentController {
         }
         return output;
     }
+    async deleteFile(fileId) {
+        const output = new response_data_1.ResponseData();
+        try {
+            output.data = await this.appointmentService.deleteFile(fileId);
+        }
+        catch (error) {
+            console.log(error);
+            output.status = false;
+            output.message = typeof error == 'string' ? error : '';
+        }
+        return output;
+    }
 };
 __decorate([
     swagger_1.ApiOperation({ summary: 'Get appointment details' }),
@@ -199,6 +211,13 @@ __decorate([
     __metadata("design:paramtypes", [list_query_params_dto_1.ListQueryParamsDto]),
     __metadata("design:returntype", Promise)
 ], AppointmentController.prototype, "getAttachments", null);
+__decorate([
+    common_1.Delete('delete-file/:fileId'),
+    __param(0, common_1.Param('fileId')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], AppointmentController.prototype, "deleteFile", null);
 AppointmentController = __decorate([
     swagger_1.ApiTags('appointment'),
     swagger_1.ApiBearerAuth(),

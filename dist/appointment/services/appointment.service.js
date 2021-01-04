@@ -410,6 +410,13 @@ let AppointmentService = class AppointmentService {
             return null;
         }
     }
+    async deleteFile(fileId) {
+        return await this.attachmentsModel.destroy({
+            where: {
+                id: fileId
+            }
+        });
+    }
 };
 AppointmentService = __decorate([
     common_1.Injectable(),
