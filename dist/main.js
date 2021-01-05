@@ -10,7 +10,7 @@ const path_1 = require("path");
 const swagger_1 = require("@nestjs/swagger");
 const fs = require("fs");
 async function bootstrap() {
-    const enableHttps = true;
+    const enableHttps = false;
     let app;
     if (enableHttps) {
         const httpsOptions = {

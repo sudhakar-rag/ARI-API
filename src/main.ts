@@ -11,7 +11,7 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import * as fs from 'fs';
 
 async function bootstrap() {
-  const enableHttps = true;
+  const enableHttps = false;
   let app;
   if (enableHttps) {
     const httpsOptions = {

@@ -31,7 +31,7 @@ DatabaseModule = __decorate([
                             underscored: false,
                         },
                         autoLoadModels: true,
-                        synchronize: false,
+                        synchronize: true,
                     };
                 },
             }),
