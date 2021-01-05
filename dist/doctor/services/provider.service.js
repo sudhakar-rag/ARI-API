@@ -164,7 +164,11 @@ let ProviderService = class ProviderService {
                             model: services_model_1.Service
                         }]
                 },
-                provider_speciality_model_1.ProviderSpecality,
+                {
+                    model: provider_speciality_model_1.ProviderSpecality,
+                    include: [specalist_model_1.Specalist],
+                    required: false,
+                },
                 provider_settings_model_1.ProviderSetting
             ]
         });

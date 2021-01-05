@@ -182,7 +182,11 @@ export class ProviderService {
             model: Service
           }]
         },
-        ProviderSpecality,
+        {
+          model: ProviderSpecality,
+          include: [Specalist],
+          required: false,
+        },
         ProviderSetting
       ]
     });
