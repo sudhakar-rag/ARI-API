@@ -27,7 +27,7 @@ let NotificationService = class NotificationService {
         this.sequelize = sequelize;
     }
     async getNotifications(userId) {
-        return await this.notificationModel.findAll({
+        const count = await this.notificationModel.count({
             include: [
                 {
                     model: appointment_model_1.Appointment,
@@ -48,6 +48,33 @@ let NotificationService = class NotificationService {
             ],
             where: { userId: userId, status: false }
         });
+        const result = await this.notificationModel.findAll({
+            include: [
+                {
+                    model: appointment_model_1.Appointment,
+                    include: [{
+                            model: patient_model_1.Patient,
+                            include: [{
+                                    model: user_model_1.User
+                                }]
+                        },
+                        {
+                            model: provider_model_1.Provider,
+                            include: [{
+                                    model: user_model_1.User
+                                }]
+                        }
+                    ]
+                }
+            ],
+            where: { userId: userId },
+            limit: 6,
+            order: [['id', 'desc']]
+        });
+        return {
+            count: count,
+            data: result,
+        };
     }
     async saveNotifications(notificationData, transaction) {
         const result = await this.notificationModel.create({

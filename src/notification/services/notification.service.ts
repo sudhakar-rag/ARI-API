@@ -18,7 +18,7 @@ export class NotificationService {
   ) { }
 
   async getNotifications(userId): Promise<any> {
-    return await this.notificationModel.findAll({
+    const count = await this.notificationModel.count({
       include: [
         {
           model: Appointment,
@@ -34,52 +34,80 @@ export class NotificationService {
               model: User
             }]
           }
-        ]
+          ]
         }
       ],
       where: { userId: userId, status: false }
     });
+    const result = await this.notificationModel.findAll({
+      include: [
+        {
+          model: Appointment,
+          include: [{
+            model: Patient,
+            include: [{
+              model: User
+            }]
+          },
+          {
+            model: Provider,
+            include: [{
+              model: User
+            }]
+          }
+          ]
+        }
+      ],
+      where: { userId: userId },
+      limit: 6,
+      order: [['id', 'desc']]
+    });
+    return {
+      count: count,
+      data: result,
+    };
+
   }
 
   async saveNotifications(notificationData: CreateNotificationDto, transaction): Promise<any> {
 
-    const result = 
-        await this.notificationModel.create({
-            appointmentId: notificationData.appointmentId,
-            userId: notificationData.userId,
-            status: notificationData.status,
-        }, { transaction: transaction });
-     return result;   
+    const result =
+      await this.notificationModel.create({
+        appointmentId: notificationData.appointmentId,
+        userId: notificationData.userId,
+        status: notificationData.status,
+      }, { transaction: transaction });
+    return result;
 
-   }
+  }
 
 
-   async updateNotifications(notificationData: any): Promise<any> {
+  async updateNotifications(notificationData: any): Promise<any> {
 
-    for(const notification of notificationData){
+    for (const notification of notificationData) {
 
-        const result = await this.notificationModel.findOne({
-            where: {
-              id: notification.id
-            }
-          })
-
-          if (result) {
-            await this.notificationModel.update({
-              status: true
-            }, {
-              where: { id: notification.id, userId: notification.userId }
-            });
-          }
+      const result = await this.notificationModel.findOne({
+        where: {
+          id: notification.id
         }
+      })
 
-        return notificationData;
-
+      if (result) {
+        await this.notificationModel.update({
+          status: true
+        }, {
+          where: { id: notification.id, userId: notification.userId }
+        });
+      }
     }
 
+    return notificationData;
+
+  }
 
 
 
-   }
+
+}
 
 

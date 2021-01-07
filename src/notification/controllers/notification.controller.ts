@@ -21,8 +21,8 @@ import { ListQueryParamsDto } from '@app/src/core/common/list-query-params.dto';
 // @UseGuards(JwtAuthGuard)
 @Controller('notification')
 export class NotificationController {
-  constructor( private notificationService: NotificationService,
-  ) { 
+  constructor(private notificationService: NotificationService,
+  ) {
 
   }
 
