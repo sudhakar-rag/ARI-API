@@ -417,6 +417,38 @@ let AppointmentService = class AppointmentService {
             }
         });
     }
+    async getAppointmentsListByDate(date) {
+        try {
+            const where = {
+                date: date
+            };
+            const includes = [];
+            if (this.usersService.isAdmin()) {
+            }
+            else if (this.usersService.isProvider()) {
+                where.providerId = this.usersService.getLoggedinProviderId();
+                includes.push({
+                    model: patient_model_1.Patient,
+                    attributes: ['id'],
+                    include: [user_model_1.User],
+                    required: false
+                });
+            }
+            else if (this.usersService.isPatient()) {
+                where.patientId = this.usersService.getLoggedinPatientId();
+            }
+            console.log(where);
+            const result = await this.appointmentModel.findAll({
+                where: where,
+                include: includes
+            });
+            return result;
+        }
+        catch (error) {
+            console.log(error);
+            return null;
+        }
+    }
 };
 AppointmentService = __decorate([
     common_1.Injectable(),

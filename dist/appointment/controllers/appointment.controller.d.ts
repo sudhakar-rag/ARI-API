@@ -7,6 +7,7 @@ import { UpdateAppointmentDto } from '../dto/update-appointment.dto';
 export declare class AppointmentController {
     private appointmentService;
     constructor(appointmentService: AppointmentService);
+    getTodaysAppointmentList(date: string): Promise<ResponseData>;
     getAppointmentDetails(appointmentId: string): Promise<ResponseData>;
     getAppointments(queryParams: ListQueryParamsDto): Promise<ResponseData>;
     getAppointmentsByDate(data: any): Promise<ResponseData>;

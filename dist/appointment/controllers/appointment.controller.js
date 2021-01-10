@@ -26,6 +26,23 @@ let AppointmentController = class AppointmentController {
     constructor(appointmentService) {
         this.appointmentService = appointmentService;
     }
+    async getTodaysAppointmentList(date) {
+        const output = new response_data_1.ResponseData();
+        try {
+            const appData = await this.appointmentService.getAppointmentsListByDate(date);
+            if (!appData) {
+                throw 'Invalid Input.';
+            }
+            output.data = appData;
+            output.status = true;
+        }
+        catch (error) {
+            console.log(error);
+            output.status = false;
+            output.message = typeof error == 'string' ? error : '';
+        }
+        return output;
+    }
     async getAppointmentDetails(appointmentId) {
         const output = new response_data_1.ResponseData();
         try {
@@ -136,6 +153,14 @@ let AppointmentController = class AppointmentController {
         return output;
     }
 };
+__decorate([
+    swagger_1.ApiOperation({ summary: "Get appointment list by date" }),
+    common_1.Get('byDate/:date'),
+    __param(0, common_1.Param('date')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], AppointmentController.prototype, "getTodaysAppointmentList", null);
 __decorate([
     swagger_1.ApiOperation({ summary: 'Get appointment details' }),
     common_1.Get(':id'),
