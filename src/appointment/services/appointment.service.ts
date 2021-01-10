@@ -478,4 +478,41 @@ export class AppointmentService {
             }
         })
     }
+
+    async getAppointmentsListByDate(date: string): Promise<Appointment[]> {
+        try {
+
+            const where: any = {
+                date: date
+            }
+
+            const includes = [];
+
+            if (this.usersService.isAdmin()) {
+
+            } else if (this.usersService.isProvider()) {
+                where.providerId = this.usersService.getLoggedinProviderId();
+                includes.push({
+                    model: Patient,
+                    attributes: ['id'],
+                    include: [User],
+                    required: false
+                });
+            } else if (this.usersService.isPatient()) {
+                where.patientId = this.usersService.getLoggedinPatientId();
+            }
+            console.log(where);
+
+            const result = await this.appointmentModel.findAll({
+                where: where,
+                include: includes
+            });
+
+            return result;
+        } catch (error) {
+            console.log(error);
+
+            return null;
+        }
+    }
 }
