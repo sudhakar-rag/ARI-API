@@ -7,7 +7,6 @@ import { AppointmentService } from '../services/appointment.service';
 import { ListQueryParamsDto } from '@app/src/core/common/list-query-params.dto';
 import { JwtAuthGuard } from '@app/src/auth/guards/jwt-auth.guard';
 import { UpdateAppointmentDto } from '../dto/update-appointment.dto';
-import { any } from 'sequelize/types/lib/operators';
 
 @ApiTags('appointment')
 @ApiBearerAuth()
@@ -18,6 +17,30 @@ export class AppointmentController {
     constructor(
         private appointmentService: AppointmentService,
     ) { }
+
+    @ApiOperation({ summary: "Get appointment list by date" })
+    @Get('byDate/:date')
+    async getTodaysAppointmentList(@Param('date') date: string): Promise<ResponseData> {
+        const output = new ResponseData();
+
+        try {
+            const appData = await this.appointmentService.getAppointmentsListByDate(date);
+
+            if (!appData) {
+                throw 'Invalid Input.';
+            }
+
+            output.data = appData;
+            output.status = true;
+
+        } catch (error) {
+            console.log(error);
+            output.status = false;
+            output.message = typeof error == 'string' ? error : '';
+        }
+
+        return output;
+    }
 
     @ApiOperation({ summary: 'Get appointment details' })
     @Get(':id')
