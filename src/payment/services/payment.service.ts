@@ -29,44 +29,59 @@ export class PaymentService {
   async savePayment(paymentData: any): Promise<any> {
 
     const stripe = new Stripe(STRIPE_SECRET_KEY, {
-        apiVersion: '2020-08-27',
+      apiVersion: '2020-08-27',
+    });
+
+    const stripeResult = stripe.charges.create({
+      amount: paymentData.amount,
+      currency: paymentData.currency,
+      source: paymentData.source
+    });
+
+    if (stripeResult) {
+
+      await this.paymentModel.create({
+        userId: paymentData.userId,
+        type: paymentData.type,
+        amount: paymentData.amount,
+        txnId: (await stripeResult).id,
+        status: (await stripeResult).status,
       });
 
-    const stripeResult =   stripe.charges.create({
+      const userDetails = await this.usersService.getLoggedinUserData();
+
+      const mailData = {
+        name: (await userDetails).firstName,
+        email: (await userDetails).email,
         amount: paymentData.amount,
-        currency: paymentData.currency,
-        source: paymentData.source
-        });
+      };
 
-    if(stripeResult) {
+      await this.emailService.sendPaymentMail(mailData);
 
-        await this.paymentModel.create({
-            userId: paymentData.userId,
-            type: paymentData.type,
-            amount: paymentData.amount,
-            txnId: (await stripeResult).id,
-            status: (await stripeResult).status,
-        });
+      return stripeResult;
 
-        const userDetails = await this.usersService.getLoggedinUserData();
-
-        const mailData = {
-          name: (await userDetails).firstName,
-          email: (await userDetails).email,
-          amount: paymentData.amount,
-        };
-
-        await this.emailService.sendPaymentMail(mailData);
-
-        return stripeResult;
-
-    } else 
-    {
-        return paymentData;   
+    } else {
+      return paymentData;
     }
 
-   }
+  }
 
-   }
+
+  async chargeStripe(token: string): Promise<any> {
+    const stripe = new Stripe(STRIPE_SECRET_KEY, {
+      apiVersion: '2020-08-27',
+    });
+
+    const charge = await stripe.charges.create({
+      amount: 999,
+      currency: 'usd',
+      description: 'Example charge',
+      source: token,
+    });
+
+    return charge;
+  }
+
+}
 
 

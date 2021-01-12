@@ -21,4 +21,9 @@ export class ZoomController {
             signature: this.zoomService.getSignature(signatureData)
         };
     }
+
+    @Post('token')
+    async getToken(@Body() signatureData: any): Promise<any> {
+        return await this.zoomService.getToken1();
+    }
 }
