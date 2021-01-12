@@ -497,7 +497,8 @@ export class AppointmentService {
                     attributes: ['id'],
                     include: [User],
                     required: false
-                });
+                },
+                    ProviderAvailabilitySlot);
             } else if (this.usersService.isPatient()) {
                 where.patientId = this.usersService.getLoggedinPatientId();
             }

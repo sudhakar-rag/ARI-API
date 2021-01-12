@@ -432,7 +432,7 @@ let AppointmentService = class AppointmentService {
                     attributes: ['id'],
                     include: [user_model_1.User],
                     required: false
-                });
+                }, provider_availability_slot_model_1.ProviderAvailabilitySlot);
             }
             else if (this.usersService.isPatient()) {
                 where.patientId = this.usersService.getLoggedinPatientId();
