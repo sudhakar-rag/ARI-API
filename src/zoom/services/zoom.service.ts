@@ -104,4 +104,38 @@ export class ZoomService {
         return signature;
     }
 
+    /**
+     * getToken
+     */
+    public getToken1(): Promise<any> {
+        return new Promise((resolve) => {
+            const apiUser = this.configService.get('ZOOM_API_USER')
+            const endpoint = 'https://api.zoom.us/v2/users/' + apiUser + '/token';
+            console.log(endpoint);
+
+
+            const auth_token = this.getToken();
+            const headers = {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${auth_token}`
+            };
+            console.log(auth_token);
+            this.httpService.get(endpoint, { headers: headers }).pipe(
+                map((resp) => {
+                    return resp.data || {};
+                }),
+                catchError(error => {
+                    console.log(error);
+
+                    return of({});
+                })
+            ).subscribe((data) => {
+                resolve({
+                    token: data.token || '',
+                    accessToken: auth_token
+                });
+            })
+        });
+    }
+
 }
