@@ -95,7 +95,7 @@ export class CreateAppointmentDto {
     @ApiProperty({ type: Number })
     @IsOptional()
     @IsNumber()
-    uploadedBy: Number;
+    uploadedBy: number;
 
     @ApiProperty({ type: String, default: 'assets/image/user.png' })
     @IsString()
