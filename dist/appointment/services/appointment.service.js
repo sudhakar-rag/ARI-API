@@ -49,7 +49,6 @@ let AppointmentService = class AppointmentService {
             const result = await this.appointmentModel.findOne({
                 include: [
                     appointment_details_model_1.AppointmentDetails,
-                    provider_availability_slot_model_1.ProviderAvailabilitySlot,
                     attachments_model_1.Attachments
                 ],
                 where: {
@@ -88,7 +87,8 @@ let AppointmentService = class AppointmentService {
                 where: {
                     providerId: appointmentData.providerId,
                     patientId: appointmentData.patientId,
-                    slotId: appointmentData.slotId,
+                    start: appointmentData.start,
+                    end: appointmentData.end,
                     type: appointmentData.type,
                     date: appointmentData.date
                 },
@@ -106,7 +106,8 @@ let AppointmentService = class AppointmentService {
                     providerId: appointmentData.providerId,
                     patientId: appointmentData.patientId,
                     date: appointmentData.date,
-                    slotId: appointmentData.slotId,
+                    start: appointmentData.start,
+                    end: appointmentData.end,
                     type: appointmentData.type,
                     status: appointmentData.status || 'PENDING',
                     meetingId: meetingData.id,
@@ -145,7 +146,8 @@ let AppointmentService = class AppointmentService {
                     providerId: appointmentData.providerId,
                     patientId: appointmentData.patientId,
                     date: appointmentData.date,
-                    slotId: appointmentData.slotId,
+                    start: appointmentData.start,
+                    end: appointmentData.end,
                     type: appointmentData.type,
                     status: result.status
                 };
@@ -157,7 +159,8 @@ let AppointmentService = class AppointmentService {
                 await this.appointmentModel.update({
                     providerId: appointmentData.providerId,
                     patientId: appointmentData.patientId,
-                    slotId: appointmentData.slotId,
+                    start: appointmentData.start,
+                    end: appointmentData.end,
                     type: appointmentData.type,
                     status: appointmentData.status || 'PENDING'
                 }, {
@@ -343,7 +346,6 @@ let AppointmentService = class AppointmentService {
                         ],
                         required: true
                     },
-                    provider_availability_slot_model_1.ProviderAvailabilitySlot,
                     attachments_model_1.Attachments
                 ],
                 where: where,
@@ -432,7 +434,10 @@ let AppointmentService = class AppointmentService {
                     attributes: ['id'],
                     include: [user_model_1.User],
                     required: false
-                }, provider_availability_slot_model_1.ProviderAvailabilitySlot);
+                });
+                includes.push({
+                    model: provider_availability_slot_model_1.ProviderAvailabilitySlot
+                });
             }
             else if (this.usersService.isPatient()) {
                 where.patientId = this.usersService.getLoggedinPatientId();

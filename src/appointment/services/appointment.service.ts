@@ -45,7 +45,7 @@ export class AppointmentService {
             const result = await this.appointmentModel.findOne({
                 include: [
                     AppointmentDetails,
-                    ProviderAvailabilitySlot,
+                    // ProviderAvailabilitySlot,
                     Attachments
                 ],
                 where: {
@@ -93,7 +93,8 @@ export class AppointmentService {
                 where: {
                     providerId: appointmentData.providerId,
                     patientId: appointmentData.patientId,
-                    slotId: appointmentData.slotId,
+                    start: appointmentData.start,
+                    end: appointmentData.end,
                     type: appointmentData.type,
                     date: appointmentData.date
                 },
@@ -115,7 +116,8 @@ export class AppointmentService {
                     providerId: appointmentData.providerId,
                     patientId: appointmentData.patientId,
                     date: appointmentData.date,
-                    slotId: appointmentData.slotId,
+                    start: appointmentData.start,
+                    end: appointmentData.end,
                     type: appointmentData.type,
                     status: appointmentData.status || 'PENDING',
                     meetingId: meetingData.id,
@@ -162,7 +164,8 @@ export class AppointmentService {
                     providerId: appointmentData.providerId,
                     patientId: appointmentData.patientId,
                     date: appointmentData.date,
-                    slotId: appointmentData.slotId,
+                    start: appointmentData.start,
+                    end: appointmentData.end,
                     type: appointmentData.type,
                     status: result.status
                 };
@@ -177,7 +180,8 @@ export class AppointmentService {
                 await this.appointmentModel.update({
                     providerId: appointmentData.providerId,
                     patientId: appointmentData.patientId,
-                    slotId: appointmentData.slotId,
+                    start: appointmentData.start,
+                    end: appointmentData.end,
                     type: appointmentData.type,
                     status: appointmentData.status || 'PENDING'
                 }, {
@@ -395,7 +399,7 @@ export class AppointmentService {
                         ],
                         required: true
                     },
-                    ProviderAvailabilitySlot,
+                    // ProviderAvailabilitySlot,
                     Attachments
                 ],
                 where: where,

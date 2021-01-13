@@ -31,9 +31,11 @@ export class Appointment extends Model<Appointment> {
     @Column(DataType.DATEONLY)
     date: string;
 
-    @ForeignKey(() => ProviderAvailabilitySlot)
     @Column
-    slotId: number;
+    start: string;
+
+    @Column
+    end: string;
 
     @Column(DataType.ENUM('I', 'G'))
     type: 'I' | 'G'
@@ -56,8 +58,8 @@ export class Appointment extends Model<Appointment> {
     @BelongsTo(() => Patient)
     patient: Patient;
 
-    @BelongsTo(() => ProviderAvailabilitySlot)
-    slot: ProviderAvailabilitySlot;
+    // @BelongsTo(() => ProviderAvailabilitySlot)
+    // slot: ProviderAvailabilitySlot;
 
     @BelongsToMany(() => Payment, () => AppointmentPayment)
     payments: Payment[];

@@ -36,9 +36,14 @@ export class CreateAppointmentDto {
     @IsString()
     date: string;
 
-    @ApiProperty({ type: Number, default: 5 })
-    @IsNumber()
-    slotId: string;
+    @ApiProperty({ type: String, default: '' })
+    @IsString()
+    start: string;
+
+
+    @ApiProperty({ type: String, default: '' })
+    @IsString()
+    end: string;
 
     @ApiProperty({ enum: AppointmentType, enumName: 'appointmentType' })
     @IsString()

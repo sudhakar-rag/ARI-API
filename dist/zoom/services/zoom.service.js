@@ -89,6 +89,30 @@ let ZoomService = class ZoomService {
         const signature = Buffer.from(`${key}.${data.meetingNumber}.${timestamp}.${data.role}.${hash}`).toString('base64');
         return signature;
     }
+    getToken1() {
+        return new Promise((resolve) => {
+            const apiUser = this.configService.get('ZOOM_API_USER');
+            const endpoint = 'https://api.zoom.us/v2/users/' + apiUser + '/token';
+            console.log(endpoint);
+            const auth_token = this.getToken();
+            const headers = {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${auth_token}`
+            };
+            console.log(auth_token);
+            this.httpService.get(endpoint, { headers: headers }).pipe(operators_1.map((resp) => {
+                return resp.data || {};
+            }), operators_1.catchError(error => {
+                console.log(error);
+                return rxjs_1.of({});
+            })).subscribe((data) => {
+                resolve({
+                    token: data.token || '',
+                    accessToken: auth_token
+                });
+            });
+        });
+    }
 };
 ZoomService = __decorate([
     common_1.Injectable(),

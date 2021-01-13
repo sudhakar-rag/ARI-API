@@ -10,4 +10,5 @@ export declare class PaymentService {
     constructor(paymentModel: typeof Payment, usersService: UsersService, emailService: EmailService, sequelize: Sequelize);
     getPaymentsById(userId: number): Promise<any>;
     savePayment(paymentData: any): Promise<any>;
+    chargeStripe(token: string): Promise<any>;
 }

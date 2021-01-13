@@ -14,7 +14,8 @@ export declare class CreateAppointmentDto {
     appointmentId?: number;
     userId: number;
     date: string;
-    slotId: string;
+    start: string;
+    end: string;
     type: string;
     meetingId: string;
     joinUrl: string;

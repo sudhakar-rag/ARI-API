@@ -63,6 +63,18 @@ let PaymentService = class PaymentService {
             return paymentData;
         }
     }
+    async chargeStripe(token) {
+        const stripe = new stripe_1.default(constants_1.STRIPE_SECRET_KEY, {
+            apiVersion: '2020-08-27',
+        });
+        const charge = await stripe.charges.create({
+            amount: 999,
+            currency: 'usd',
+            description: 'Example charge',
+            source: token,
+        });
+        return charge;
+    }
 };
 PaymentService = __decorate([
     common_1.Injectable(),

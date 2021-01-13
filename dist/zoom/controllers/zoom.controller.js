@@ -28,6 +28,9 @@ let ZoomController = class ZoomController {
             signature: this.zoomService.getSignature(signatureData)
         };
     }
+    async getToken(signatureData) {
+        return await this.zoomService.getToken1();
+    }
 };
 __decorate([
     common_1.Post('meeting'),
@@ -43,6 +46,13 @@ __decorate([
     __metadata("design:paramtypes", [create_token_dto_1.CreateSignatureDto]),
     __metadata("design:returntype", Object)
 ], ZoomController.prototype, "getSignature", null);
+__decorate([
+    common_1.Post('token'),
+    __param(0, common_1.Body()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], ZoomController.prototype, "getToken", null);
 ZoomController = __decorate([
     common_1.Controller('zoom'),
     __metadata("design:paramtypes", [zoom_service_1.ZoomService])

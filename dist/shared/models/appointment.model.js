@@ -37,10 +37,13 @@ __decorate([
     __metadata("design:type", String)
 ], Appointment.prototype, "date", void 0);
 __decorate([
-    sequelize_typescript_2.ForeignKey(() => provider_availability_slot_model_1.ProviderAvailabilitySlot),
     sequelize_typescript_2.Column,
-    __metadata("design:type", Number)
-], Appointment.prototype, "slotId", void 0);
+    __metadata("design:type", String)
+], Appointment.prototype, "start", void 0);
+__decorate([
+    sequelize_typescript_2.Column,
+    __metadata("design:type", String)
+], Appointment.prototype, "end", void 0);
 __decorate([
     sequelize_typescript_2.Column(sequelize_typescript_2.DataType.ENUM('I', 'G')),
     __metadata("design:type", String)
@@ -69,10 +72,6 @@ __decorate([
     sequelize_typescript_2.BelongsTo(() => patient_model_1.Patient),
     __metadata("design:type", patient_model_1.Patient)
 ], Appointment.prototype, "patient", void 0);
-__decorate([
-    sequelize_typescript_2.BelongsTo(() => provider_availability_slot_model_1.ProviderAvailabilitySlot),
-    __metadata("design:type", provider_availability_slot_model_1.ProviderAvailabilitySlot)
-], Appointment.prototype, "slot", void 0);
 __decorate([
     sequelize_typescript_2.BelongsToMany(() => payment_model_1.Payment, () => appointment_payment_model_1.AppointmentPayment),
     __metadata("design:type", Array)

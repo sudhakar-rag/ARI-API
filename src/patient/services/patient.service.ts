@@ -193,7 +193,8 @@ export class PatientService {
         where: {
           providerId: appointmentData.providerId,
           patientId: appointmentData.patientId,
-          slotId: appointmentData.slotId,
+          start: appointmentData.start,
+          end: appointmentData.end,
           type: appointmentData.type
         },
         transaction: transaction
@@ -204,7 +205,8 @@ export class PatientService {
           providerId: appointmentData.providerId,
           patientId: appointmentData.patientId,
           date: appointmentData.date,
-          slotId: appointmentData.slotId,
+          start: appointmentData.start,
+          end: appointmentData.end,
           type: appointmentData.type,
           status: appointmentData.status || 'PENDING'
         }, { transaction: transaction });
@@ -224,7 +226,8 @@ export class PatientService {
           providerId: appointmentData.providerId,
           patientId: appointmentData.patientId,
           date: appointmentData.date,
-          slotId: appointmentData.slotId,
+          start: appointmentData.start,
+          end: appointmentData.end,
           type: appointmentData.type,
           status: result.status
         };
@@ -236,7 +239,8 @@ export class PatientService {
         await this.appointmentModel.update({
           providerId: appointmentData.providerId,
           patientId: appointmentData.patientId,
-          slotId: appointmentData.slotId,
+          start: appointmentData.start,
+          end: appointmentData.end,
           type: appointmentData.type,
           status: appointmentData.status || 'PENDING'
         }, {

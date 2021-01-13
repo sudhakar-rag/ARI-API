@@ -5,4 +5,5 @@ export declare class ZoomController {
     constructor(zoomService: ZoomService);
     createToken(tokenRequest: CreateZoomTokenDto): any;
     getSignature(signatureData: CreateSignatureDto): any;
+    getToken(signatureData: any): Promise<any>;
 }

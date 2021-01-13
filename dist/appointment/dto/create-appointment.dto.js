@@ -54,10 +54,15 @@ __decorate([
     __metadata("design:type", String)
 ], CreateAppointmentDto.prototype, "date", void 0);
 __decorate([
-    swagger_1.ApiProperty({ type: Number, default: 5 }),
-    class_validator_1.IsNumber(),
+    swagger_1.ApiProperty({ type: String, default: '' }),
+    class_validator_1.IsString(),
     __metadata("design:type", String)
-], CreateAppointmentDto.prototype, "slotId", void 0);
+], CreateAppointmentDto.prototype, "start", void 0);
+__decorate([
+    swagger_1.ApiProperty({ type: String, default: '' }),
+    class_validator_1.IsString(),
+    __metadata("design:type", String)
+], CreateAppointmentDto.prototype, "end", void 0);
 __decorate([
     swagger_1.ApiProperty({ enum: AppointmentType, enumName: 'appointmentType' }),
     class_validator_1.IsString(),
