@@ -29,7 +29,7 @@ export class NotificationController {
 
   @Get(':id')
   async getNotifications(@Param('id') userId: number) {
-    let output = new ResponseData();
+    const output = new ResponseData();
 
     try {
       output.data = await this.notificationService.getNotifications(userId);

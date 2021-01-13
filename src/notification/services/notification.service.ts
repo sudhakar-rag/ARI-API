@@ -69,14 +69,27 @@ export class NotificationService {
 
   }
 
-  async saveNotifications(notificationData: CreateNotificationDto, transaction): Promise<any> {
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+  async saveNotifications(notificationData: CreateNotificationDto, transaction: any): Promise<any> {
 
-    const result =
-      await this.notificationModel.create({
-        appointmentId: notificationData.appointmentId,
-        userId: notificationData.userId,
-        status: notificationData.status,
-      }, { transaction: transaction });
+    let result: any;
+    if (transaction) {
+      result =
+        await this.notificationModel.create({
+          appointmentId: notificationData.appointmentId,
+          userId: notificationData.userId,
+          status: notificationData.status,
+        }, { transaction: transaction });
+    } else {
+      result =
+        await this.notificationModel.create({
+          appointmentId: notificationData.appointmentId,
+          userId: notificationData.userId,
+          status: notificationData.status,
+        });
+    }
+
+
     return result;
 
   }
