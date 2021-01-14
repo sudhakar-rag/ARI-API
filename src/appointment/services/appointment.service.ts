@@ -89,6 +89,7 @@ export class AppointmentService {
         try {
             transaction = await this.sequelize.transaction();
 
+
             const result = await this.appointmentModel.findOne({
                 where: {
                     providerId: appointmentData.providerId,
@@ -101,7 +102,7 @@ export class AppointmentService {
                 transaction: transaction
             })
 
-            if (!result) {
+            if (!result || appointmentData.type == 'I') {
                 // const slot = await this.providerAvailabilitySlotModel.findOne({ where: { id: appointmentData.slotId } });
                 const startTime = appointmentData.date + 'T' + '10:30';
                 const meetingInput = {
