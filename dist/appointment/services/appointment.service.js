@@ -94,7 +94,7 @@ let AppointmentService = class AppointmentService {
                 },
                 transaction: transaction
             });
-            if (!result) {
+            if (!result || appointmentData.type == 'I') {
                 const startTime = appointmentData.date + 'T' + '10:30';
                 const meetingInput = {
                     topic: this.usersService.getLoggedinUserName(),

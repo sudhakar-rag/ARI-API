@@ -26,6 +26,6 @@ export declare class CreateAppointmentDto {
     message: string;
     fileType: string;
     fileName: string;
-    uploadedBy: Number;
+    uploadedBy: number;
     files: string;
 }
