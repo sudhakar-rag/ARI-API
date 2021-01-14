@@ -77,11 +77,23 @@ let NotificationService = class NotificationService {
         };
     }
     async saveNotifications(notificationData, transaction) {
-        const result = await this.notificationModel.create({
-            appointmentId: notificationData.appointmentId,
-            userId: notificationData.userId,
-            status: notificationData.status,
-        }, { transaction: transaction });
+        let result;
+        if (transaction) {
+            result =
+                await this.notificationModel.create({
+                    appointmentId: notificationData.appointmentId,
+                    userId: notificationData.userId,
+                    status: notificationData.status,
+                }, { transaction: transaction });
+        }
+        else {
+            result =
+                await this.notificationModel.create({
+                    appointmentId: notificationData.appointmentId,
+                    userId: notificationData.userId,
+                    status: notificationData.status,
+                });
+        }
         return result;
     }
     async updateNotifications(notificationData) {

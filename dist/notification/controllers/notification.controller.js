@@ -24,7 +24,7 @@ let NotificationController = class NotificationController {
         this.notificationService = notificationService;
     }
     async getNotifications(userId) {
-        let output = new response_data_1.ResponseData();
+        const output = new response_data_1.ResponseData();
         try {
             output.data = await this.notificationService.getNotifications(userId);
         }
