@@ -448,29 +448,24 @@ export class AppointmentService {
 
     async updateAppointmentStatus(data: UpdateAppointmentDto): Promise<any> {
 
-        let transaction;
-
         try {
-            transaction = await this.sequelize.transaction();
+
 
             await this.appointmentModel.update({
                 status: data.status || 'PENDING'
             }, {
-                where: { id: data.appointmentId },
-                transaction
+                where: { id: data.appointmentId }
             });
 
             const result = await this.appointmentModel.findOne({
-                where: { id: data.appointmentId },
-                transaction: transaction
+                where: { id: data.appointmentId }
             })
 
-            await transaction.commit();
+
 
             return result;
         } catch (error) {
             console.log(error);
-            if (transaction) await transaction.rollback();
 
             return null;
         }
