@@ -27,6 +27,10 @@ __decorate([
     __metadata("design:type", Number)
 ], Notification.prototype, "userId", void 0);
 __decorate([
+    sequelize_typescript_2.Column(sequelize_typescript_1.DataType.TEXT({ length: 'medium' })),
+    __metadata("design:type", String)
+], Notification.prototype, "message", void 0);
+__decorate([
     sequelize_typescript_2.Column,
     __metadata("design:type", Boolean)
 ], Notification.prototype, "status", void 0);
