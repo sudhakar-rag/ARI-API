@@ -206,6 +206,7 @@ export class AppointmentService {
                 const notificationData: CreateNotificationDto = {
                     appointmentId: appointmentData.appointmentId,
                     userId: provider.userId,
+                    message: 'You have OnDemand eVisit call with <b>' + this.usersService.getLoggedinUserName() + '</b>.',
                     status: false
                 };
 

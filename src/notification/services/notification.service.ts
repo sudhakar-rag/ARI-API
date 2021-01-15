@@ -17,49 +17,26 @@ export class NotificationService {
     private readonly sequelize: Sequelize,
   ) { }
 
-  async getNotifications(userId): Promise<any> {
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+  async getNotifications(userId: any): Promise<any> {
     const count = await this.notificationModel.count({
       include: [
         {
-          model: Appointment,
-          include: [{
-            model: Patient,
-            include: [{
-              model: User
-            }]
-          },
-          {
-            model: Provider,
-            include: [{
-              model: User
-            }]
-          }
-          ]
+          model: Appointment
         }
       ],
       where: { userId: userId, status: false }
     });
+
+    const limit = count || 10;
     const result = await this.notificationModel.findAll({
       include: [
         {
-          model: Appointment,
-          include: [{
-            model: Patient,
-            include: [{
-              model: User
-            }]
-          },
-          {
-            model: Provider,
-            include: [{
-              model: User
-            }]
-          }
-          ]
+          model: Appointment
         }
       ],
       where: { userId: userId },
-      limit: 6,
+      limit: limit,
       order: [['id', 'desc']]
     });
     return {
@@ -78,6 +55,7 @@ export class NotificationService {
         await this.notificationModel.create({
           appointmentId: notificationData.appointmentId,
           userId: notificationData.userId,
+          message: notificationData.message,
           status: notificationData.status,
         }, { transaction: transaction });
     } else {
@@ -85,6 +63,7 @@ export class NotificationService {
         await this.notificationModel.create({
           appointmentId: notificationData.appointmentId,
           userId: notificationData.userId,
+          message: notificationData.message,
           status: notificationData.status,
         });
     }

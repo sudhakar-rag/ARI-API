@@ -1,5 +1,5 @@
 import { User } from './../../users/models/user.model';
-import { BelongsTo } from 'sequelize-typescript';
+import { BelongsTo, DataType } from 'sequelize-typescript';
 import {
     Table,
     Column,
@@ -17,6 +17,9 @@ export class Notification extends Model<Notification> {
     @ForeignKey(() => User)
     @Column
     userId: number;
+
+    @Column(DataType.TEXT({ length: 'medium' }))
+    message: string;
 
     @Column
     status: boolean;
