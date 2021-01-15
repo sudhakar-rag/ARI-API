@@ -435,9 +435,6 @@ let AppointmentService = class AppointmentService {
                     include: [user_model_1.User],
                     required: false
                 });
-                includes.push({
-                    model: provider_availability_slot_model_1.ProviderAvailabilitySlot
-                });
             }
             else if (this.usersService.isPatient()) {
                 where.patientId = this.usersService.getLoggedinPatientId();
