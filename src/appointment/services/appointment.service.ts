@@ -104,7 +104,7 @@ export class AppointmentService {
 
             if (!result || appointmentData.type == 'I') {
                 // const slot = await this.providerAvailabilitySlotModel.findOne({ where: { id: appointmentData.slotId } });
-                const startTime = appointmentData.date + 'T' + '10:30';
+                const startTime = appointmentData.date + 'T' + appointmentData.start;
                 const meetingInput = {
                     topic: this.usersService.getLoggedinUserName(),
                     startTime: startTime,
