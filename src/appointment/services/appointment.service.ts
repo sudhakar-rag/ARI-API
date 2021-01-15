@@ -434,7 +434,7 @@ export class AppointmentService {
                         ],
                         required: true
                     },
-                    ProviderAvailabilitySlot,
+                    // ProviderAvailabilitySlot,
                     Attachments
                 ],
                 where: where,
