@@ -503,9 +503,6 @@ export class AppointmentService {
                     include: [User],
                     required: false
                 });
-                includes.push({
-                    model: ProviderAvailabilitySlot
-                });
             } else if (this.usersService.isPatient()) {
                 where.patientId = this.usersService.getLoggedinPatientId();
             }
