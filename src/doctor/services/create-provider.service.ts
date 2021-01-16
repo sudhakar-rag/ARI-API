@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { EmailService } from './../../email/email.service';
 import { RatingHistory } from './../models/rating-history';
 import { User } from './../../users/models/user.model';
@@ -521,7 +522,7 @@ export class CreateProviderService {
 
         await this.providerLanguageModel.bulkCreate(languages);
 
-        let historyData = {
+        const historyData = {
             religoiusAffiliations: data.religoiusAffiliations,
             specialBackground: data.specialBackground,
         }
@@ -585,7 +586,7 @@ export class CreateProviderService {
 
         console.log(ratingCount);
 
-        let average = Math.round(ratingCount.totalRating / ratingCount.count);
+        const average = Math.round(ratingCount.totalRating / ratingCount.count);
 
         const ProviderData = {
             rating: average
