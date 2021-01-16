@@ -95,7 +95,7 @@ let AppointmentService = class AppointmentService {
                 transaction: transaction
             });
             if (!result || appointmentData.type == 'I') {
-                const startTime = appointmentData.date + 'T' + '10:30';
+                const startTime = appointmentData.date + 'T' + appointmentData.start;
                 const meetingInput = {
                     topic: this.usersService.getLoggedinUserName(),
                     startTime: startTime,
@@ -389,26 +389,19 @@ let AppointmentService = class AppointmentService {
         }
     }
     async updateAppointmentStatus(data) {
-        let transaction;
         try {
-            transaction = await this.sequelize.transaction();
             await this.appointmentModel.update({
                 status: data.status || 'PENDING'
             }, {
-                where: { id: data.appointmentId },
-                transaction
+                where: { id: data.appointmentId }
             });
             const result = await this.appointmentModel.findOne({
-                where: { id: data.appointmentId },
-                transaction: transaction
+                where: { id: data.appointmentId }
             });
-            await transaction.commit();
             return result;
         }
         catch (error) {
             console.log(error);
-            if (transaction)
-                await transaction.rollback();
             return null;
         }
     }

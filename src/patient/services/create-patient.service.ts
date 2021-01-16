@@ -177,7 +177,7 @@ export class CreatePatientService {
         return patient;
     }
 
-    async savePatientSubscription(patientId: number , transaction: Transaction): Promise<any> {
+    async savePatientSubscription(patientId: number, transaction: Transaction): Promise<any> {
 
         const patientData = {
 
@@ -301,8 +301,10 @@ export class CreatePatientService {
     async updateSubscription(data: { patientId: number, subscriptionId: number }): Promise<any> {
 
         await this.patientSubscriptionModel.destroy({
-            where: { patientId: data.patientId,
-                     subscriptionId: data.subscriptionId}
+            where: {
+                patientId: data.patientId,
+                subscriptionId: data.subscriptionId
+            }
         });
 
         const subData = {

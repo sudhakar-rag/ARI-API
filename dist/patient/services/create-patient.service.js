@@ -224,8 +224,10 @@ let CreatePatientService = class CreatePatientService {
     }
     async updateSubscription(data) {
         await this.patientSubscriptionModel.destroy({
-            where: { patientId: data.patientId,
-                subscriptionId: data.subscriptionId }
+            where: {
+                patientId: data.patientId,
+                subscriptionId: data.subscriptionId
+            }
         });
         const subData = {
             patientId: data.patientId,
