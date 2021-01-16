@@ -484,7 +484,9 @@ export class AppointmentService {
         try {
 
             const where: any = {
-                date: date
+                date: {
+                    [Op.gte]: date
+                }
             }
 
             const includes = [];
@@ -493,6 +495,7 @@ export class AppointmentService {
 
             } else if (this.usersService.isProvider()) {
                 where.providerId = this.usersService.getLoggedinProviderId();
+                where.type = 'G';
                 includes.push({
                     model: Patient,
                     attributes: ['id'],

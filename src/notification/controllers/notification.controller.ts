@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { JwtAuthGuard } from './../../auth/guards/jwt-auth.guard';
 import { CreateNotificationDto } from './../dto/create-notification.dto';
 import { NotificationService } from './../services/notification.service';
@@ -42,12 +43,31 @@ export class NotificationController {
     return output;
   }
 
+
+
+
+
   @Post()
   async saveNotification(@Body() notificationData: CreateNotificationDto, transaction = ''): Promise<ResponseData> {
     const output = new ResponseData();
 
     try {
       output.data = await this.notificationService.saveNotifications(notificationData, transaction);
+    } catch (error) {
+      console.log(error);
+      output.status = false;
+      output.message = typeof error == 'string' ? error : '';
+    }
+
+    return output;
+  }
+
+  @Post('byType')
+  async getOnDemandNotifications(@Body() params: any) {
+    const output = new ResponseData();
+
+    try {
+      output.data = await this.notificationService.getNotificationsByType(params);
     } catch (error) {
       console.log(error);
       output.status = false;
