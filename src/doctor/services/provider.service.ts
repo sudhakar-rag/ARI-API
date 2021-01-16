@@ -56,8 +56,8 @@ export class ProviderService {
     const sortOrder = queryParams.sortOrder || 'desc';
 
     const where = {};
-    const serviceWhere = {};
-    const specialitiesWhere = {};
+    const serviceWhere: any = {};
+    const specialitiesWhere: any = {};
     if (queryParams.filter) {
       if (queryParams.filter.gender) {
         where['gender'] = queryParams.filter.gender;
@@ -78,18 +78,22 @@ export class ProviderService {
 
     }
 
-    // let orderBy: Array<string> = ['id', 'desc'];
-    // if (sortField == 'id') {
-    //   orderBy = [[sortField, sortOrder]];
-    // } else if (queryParams.sortField == 'name') {
-    //   orderBy = [['User', 'firstName', sortOrder]];
-    // }
+
+    let orderBy: any = [['id', 'desc']];
+    if (sortField == 'id') {
+      orderBy = [[sortField, sortOrder]];
+    } else if (sortField == 'rating') {
+      orderBy = [[sortField, 'DESC']];
+    } else if (queryParams.sortField == 'name') {
+      orderBy = [[Sequelize.literal('`user.firstName`'), sortOrder]]
+    }
 
     return await this.providerModel.findAndCountAll({
       distinct: true,
       include: [
         {
           model: User,
+          as: 'user',
           where: {
             [Op.or]: [
               {
@@ -108,19 +112,20 @@ export class ProviderService {
         ProviderLanguage,
         {
           model: ProviderServices,
+          required: typeof serviceWhere.serviceId != 'undefined',
           where: serviceWhere
         },
         {
           model: ProviderSpecality,
           include: [Specalist],
-          required: false,
+          required: typeof specialitiesWhere.specalityId != 'undefined',
           where: specialitiesWhere,
         }
       ],
       where: where,
       offset: offset,
       limit: limit,
-      order: [[sortField, sortOrder]]
+      order: orderBy
     });
   }
 
