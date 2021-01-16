@@ -223,18 +223,21 @@ let CreatePatientService = class CreatePatientService {
         return result;
     }
     async updateSubscription(data) {
-        await this.patientSubscriptionModel.destroy({
+        let result;
+        result = await this.patientSubscriptionModel.destroy({
             where: {
                 patientId: data.patientId,
                 subscriptionId: data.subscriptionId
             }
         });
-        const subData = {
-            patientId: data.patientId,
-            subscriptionId: data.subscriptionId,
-            lastSubscriptionAt: new Date()
-        };
-        const result = await this.patientSubscriptionModel.create(subData);
+        if (data.healthPackage) {
+            const subData = {
+                patientId: data.patientId,
+                subscriptionId: data.subscriptionId,
+                lastSubscriptionAt: new Date()
+            };
+            result = await this.patientSubscriptionModel.create(subData);
+        }
         return result;
     }
     async updateHistory(data) {
