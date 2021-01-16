@@ -51,6 +51,7 @@ export declare class CreatePatientService {
     updateSubscription(data: {
         patientId: number;
         subscriptionId: number;
+        healthPackage: boolean;
     }): Promise<any>;
     updateHistory(data: any): Promise<any>;
     updateHealth(data: any): Promise<any>;
