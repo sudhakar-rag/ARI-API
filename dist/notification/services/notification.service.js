@@ -13,8 +13,6 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.NotificationService = void 0;
-const provider_model_1 = require("./../../doctor/models/provider.model");
-const user_model_1 = require("./../../users/models/user.model");
 const appointment_model_1 = require("../../shared/models/appointment.model");
 const sequelize_typescript_1 = require("sequelize-typescript");
 const notification_model_1 = require("./../../shared/models/notification.model");
@@ -30,45 +28,20 @@ let NotificationService = class NotificationService {
         const count = await this.notificationModel.count({
             include: [
                 {
-                    model: appointment_model_1.Appointment,
-                    include: [{
-                            model: patient_model_1.Patient,
-                            include: [{
-                                    model: user_model_1.User
-                                }]
-                        },
-                        {
-                            model: provider_model_1.Provider,
-                            include: [{
-                                    model: user_model_1.User
-                                }]
-                        }
-                    ]
+                    model: appointment_model_1.Appointment
                 }
             ],
             where: { userId: userId, status: false }
         });
+        const limit = count || 10;
         const result = await this.notificationModel.findAll({
             include: [
                 {
-                    model: appointment_model_1.Appointment,
-                    include: [{
-                            model: patient_model_1.Patient,
-                            include: [{
-                                    model: user_model_1.User
-                                }]
-                        },
-                        {
-                            model: provider_model_1.Provider,
-                            include: [{
-                                    model: user_model_1.User
-                                }]
-                        }
-                    ]
+                    model: appointment_model_1.Appointment
                 }
             ],
             where: { userId: userId },
-            limit: 6,
+            limit: limit,
             order: [['id', 'desc']]
         });
         return {
@@ -83,6 +56,7 @@ let NotificationService = class NotificationService {
                 await this.notificationModel.create({
                     appointmentId: notificationData.appointmentId,
                     userId: notificationData.userId,
+                    message: notificationData.message,
                     status: notificationData.status,
                 }, { transaction: transaction });
         }
@@ -91,6 +65,7 @@ let NotificationService = class NotificationService {
                 await this.notificationModel.create({
                     appointmentId: notificationData.appointmentId,
                     userId: notificationData.userId,
+                    message: notificationData.message,
                     status: notificationData.status,
                 });
         }

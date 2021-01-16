@@ -31,6 +31,11 @@ __decorate([
     __metadata("design:type", Number)
 ], CreateNotificationDto.prototype, "userId", void 0);
 __decorate([
+    swagger_1.ApiProperty({ type: String }),
+    class_validator_1.IsString(),
+    __metadata("design:type", String)
+], CreateNotificationDto.prototype, "message", void 0);
+__decorate([
     swagger_1.ApiProperty({ type: Boolean }),
     class_validator_1.IsBoolean(),
     __metadata("design:type", Boolean)

@@ -180,6 +180,7 @@ let AppointmentService = class AppointmentService {
                 const notificationData = {
                     appointmentId: appointmentData.appointmentId,
                     userId: provider.userId,
+                    message: 'You have OnDemand eVisit call with <b>' + this.usersService.getLoggedinUserName() + '</b>.',
                     status: false
                 };
                 await this.notificationService.saveNotifications(notificationData, transaction);
@@ -378,7 +379,6 @@ let AppointmentService = class AppointmentService {
                         ],
                         required: true
                     },
-                    provider_availability_slot_model_1.ProviderAvailabilitySlot,
                     attachments_model_1.Attachments
                 ],
                 where: where,

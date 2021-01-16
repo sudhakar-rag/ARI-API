@@ -4,6 +4,7 @@ import { Appointment } from './appointment.model';
 export declare class Notification extends Model<Notification> {
     appointmentId: number;
     userId: number;
+    message: string;
     status: boolean;
     Appointment: Appointment;
     user: User;

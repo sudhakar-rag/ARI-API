@@ -519,7 +519,7 @@ export class CreateProviderService {
         for (const lng of data.languages) {
             languages.push({ providerId: data.providerId, langId: lng });
         }
-
+        await this.providerModel.update({ otherLang: data.otherLang }, { where: { id: data.providerId } });
         await this.providerLanguageModel.bulkCreate(languages);
 
         const historyData = {
