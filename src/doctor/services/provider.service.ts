@@ -96,12 +96,17 @@ export class ProviderService {
           as: 'user',
           where: {
             [Op.or]: [
-              {
-                firstName: { [Op.like]: '%' + searchText + '%' }
-              },
-              {
-                lastName: { [Op.like]: '%' + searchText + '%' }
-              }
+              Sequelize.where(Sequelize.fn('concat', Sequelize.col('firstName'), ' ', Sequelize.col('lastName')),
+                {
+                  [Op.like]: '%' + searchText + '%'
+                })
+              // ,
+              // {
+              //   firstName: { [Op.like]: '%' + searchText + '%' }
+              // },
+              // {
+              //   lastName: { [Op.like]: '%' + searchText + '%' }
+              // }
             ]
           },
         },
