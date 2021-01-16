@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { EmailService } from './../../email/email.service';
 import { CreateProviderService } from './../../doctor/services/create-provider.service';
 import { PatientBasicDto } from './../dto/patient-basic.dto';

@@ -49,7 +49,7 @@ export class Appointment extends Model<Appointment> {
     @Column(DataType.TEXT({ length: 'medium' }))
     startUrl: string;
 
-    @Column(DataType.ENUM('PENDING', 'COMPLETED'))
+    @Column(DataType.ENUM('PENDING', 'ACCEPTED', 'COMPLETED', 'CANCELLED'))
     status: 'PENDING' | 'ACCEPTED' | 'COMPLETED' | 'CANCELLED'
 
     @BelongsTo(() => Provider)
