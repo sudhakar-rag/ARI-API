@@ -262,4 +262,18 @@ export class PatientsController {
 
   }
 
+  @Put('testMail')
+  async test() {
+    const welcomeData = {
+      email: 'jithinmurali166@gmail.com',
+      name: 'Ram K',
+      userName: 'ramki',
+      password: '123456'
+    };
+
+    const t = await this.emailService.sendWeclcomeMail(welcomeData);
+    console.log(t);
+
+  }
+
 }
