@@ -15,7 +15,7 @@ import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handleba
                     // secure: true, // true for 465, false for other ports
                     auth: {
                         user: 'ramakrishnan001@gmail.com', // generated ethereal user
-                        pass: 'raavananvsram' // generated ethereal password
+                        pass: 'Prajna1910$' // generated ethereal password
                     }
                 },
                 // transport: {
@@ -24,7 +24,7 @@ import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handleba
                 //     path: '/usr/sbin/sendmail'
                 // },
                 defaults: {
-                    from: '"nnps" <ram.izaap@gmail.com>',
+                    from: '"ARI" <admin@ari.com>',
                 },
                 template: {
                     dir: __dirname + '/templates',
