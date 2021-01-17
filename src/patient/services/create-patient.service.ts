@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { EmailService } from './../../email/email.service';
 import { PatientSubscription } from './../models/patient-subscription.model';
 import { PatientDto } from './../dto/patient.dto';
@@ -352,7 +353,7 @@ export class CreatePatientService {
 
     async updateSymptoms(data: any): Promise<any> {
 
-        let patientData = {
+        const patientData = {
             otherSymptoms: data.otherSymptoms
         }
 
@@ -375,7 +376,7 @@ export class CreatePatientService {
 
     async updateMedProblems(data: any): Promise<any> {
 
-        let patientData = {
+        const patientData = {
             otherMedicalProblems: data.otherMedProblem
         }
 
@@ -408,7 +409,7 @@ export class CreatePatientService {
 
         await this.patientProviderTypeModel.bulkCreate(types);
 
-        let patientData = {
+        const patientData = {
             otherSpecialist: data.otherSpecialist
         }
 

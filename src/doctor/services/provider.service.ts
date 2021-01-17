@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { Service } from './../../shared/models/services.model';
 import { RatingHistory } from './../models/rating-history';
 import { ProviderServices } from './../models/provider-services.model';
@@ -23,8 +24,8 @@ import { Appointment } from '../../shared/models/appointment.model';
 import { Patient } from '../../patient/models/patient.model';
 import { Address } from '@app/src/users/models/address.model';
 import { ProviderSpecality } from '../models/provider-speciality.model';
-import { Speciality } from '../models/speciality.model';
 import { Specalist } from '@app/src/shared/models/specalist.model';
+import { ProviderExceptionalDays } from '../models/provider-exceptional-days.model';
 
 @Injectable()
 export class ProviderService {
@@ -41,6 +42,8 @@ export class ProviderService {
     private readonly ratingHistoryModel: typeof RatingHistory,
     @InjectModel(Appointment)
     private readonly appointmentModel: typeof Appointment,
+    @InjectModel(ProviderExceptionalDays)
+    private readonly providerExceptionalDaysModel: typeof ProviderExceptionalDays,
     private readonly sequelize: Sequelize,
   ) { }
 
@@ -330,6 +333,34 @@ export class ProviderService {
     return await this.providerSettingModel.findAll({
       where: { providerId: providerId }
     });
+  }
+
+  async getExceptionalDays(providerId: string): Promise<any> {
+    return await this.providerExceptionalDaysModel.findAll({
+      where: { providerId: providerId }
+    });
+  }
+
+  async setExceptionalDays(data: any): Promise<any> {
+    try {
+
+      await this.providerExceptionalDaysModel.destroy({
+        where: { providerId: data.providerId }
+      });
+
+      const days = [];
+      for (const day of data.days) {
+        days.push({
+          providerId: data.providerId,
+          date: day
+        });
+      }
+      await this.providerExceptionalDaysModel.bulkCreate(days);
+
+      return data;
+    } catch (error) {
+      return null;
+    }
   }
 
 }

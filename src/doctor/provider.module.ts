@@ -24,6 +24,7 @@ import { ProviderAvailabilitySlot } from './models/provider-availability-slot.mo
 import { ProviderSetting } from './models/provider-settings.model';
 import { Appointment } from '../shared/models/appointment.model';
 import { ProviderSpecality } from './models/provider-speciality.model';
+import { ProviderExceptionalDays } from './models/provider-exceptional-days.model';
 
 @Module({
   imports: [
@@ -46,7 +47,8 @@ import { ProviderSpecality } from './models/provider-speciality.model';
       ProviderAvailabilitySlot,
       ProviderSetting,
       RatingHistory,
-      Appointment
+      Appointment,
+      ProviderExceptionalDays
     ]),
     UsersModule,
     EmailModule
