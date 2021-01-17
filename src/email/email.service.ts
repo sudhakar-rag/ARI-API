@@ -50,10 +50,12 @@ export class EmailService {
         // let options: ISendMailOptions = {
         let options = {
             to: data.email,
-            subject: 'NNPS Password Reset Email',
+            subject: 'ARI Password Reset Email',
             template: 'forgot-password',
             context: {
-                link: data.link + base64.encode(data.email)
+                // link: data.link + base64.encode(data.email)
+                name: data.name || '',
+                link: data.link + data.id
             }
         };
 
