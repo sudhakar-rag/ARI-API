@@ -564,6 +564,18 @@ export class CreateProviderService {
 
     }
 
+    async updateVerifyStatus(data: any): Promise<any> {
+
+        const StatusData = {
+            isVerified: data.isVerified
+        }
+
+        const result = await this.providerModel.update(StatusData, { where: { id: data.providerId } });
+
+        return result;
+
+    }
+
     async saveRating(data: any): Promise<any> {
 
         const ratingData = {
