@@ -263,9 +263,9 @@ export class PatientsController {
   }
 
   @Put('testMail')
-  async test() {
+  async test(@Body() proData: any) {
     const welcomeData = {
-      email: 'jithinmurali166@gmail.com',
+      email: proData.email,
       name: 'Ram K',
       userName: 'ramki',
       password: '123456'
