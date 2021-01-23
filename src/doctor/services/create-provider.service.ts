@@ -579,6 +579,19 @@ export class CreateProviderService {
 
     }
 
+
+    async updateLeadStatus(data: any): Promise<any> {
+
+        const StatusData = {
+            verified: data.verified
+        }
+
+        const result = await this.providerRegistrationModel.update(StatusData, { where: { id: data.providerId } });
+
+        return result;
+
+    }
+
     async saveRating(data: any): Promise<any> {
 
         const ratingData = {

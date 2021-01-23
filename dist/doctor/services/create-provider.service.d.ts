@@ -77,6 +77,7 @@ export declare class CreateProviderService {
     updateAffilations(data: any): Promise<any>;
     updateStatus(data: any): Promise<any>;
     updateVerifyStatus(data: any): Promise<any>;
+    updateLeadStatus(data: any): Promise<any>;
     saveRating(data: any): Promise<any>;
     providerRegistration(providerData: ProviderRegistrationDto): Promise<any>;
 }

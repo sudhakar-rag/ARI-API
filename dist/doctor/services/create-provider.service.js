@@ -423,6 +423,13 @@ let CreateProviderService = class CreateProviderService {
         const result = await this.providerModel.update(StatusData, { where: { id: data.providerId } });
         return result;
     }
+    async updateLeadStatus(data) {
+        const StatusData = {
+            verified: data.verified
+        };
+        const result = await this.providerRegistrationModel.update(StatusData, { where: { id: data.providerId } });
+        return result;
+    }
     async saveRating(data) {
         const ratingData = {
             patientId: data.patientId,

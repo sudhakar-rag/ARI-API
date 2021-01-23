@@ -305,6 +305,18 @@ let ProvidersController = class ProvidersController {
         }
         return output;
     }
+    async updateLeadStatus(providerData) {
+        const output = new response_data_1.ResponseData();
+        try {
+            output.data = await this.createProviderService.updateLeadStatus(providerData);
+        }
+        catch (error) {
+            console.log(error);
+            output.status = false;
+            output.message = typeof error == 'string' ? error : '';
+        }
+        return output;
+    }
     async removeLeadProvider(providerId) {
         const provider = await this.providerRegistrationModel.findOne({ where: { id: providerId } });
         return await provider.destroy();
@@ -500,6 +512,13 @@ __decorate([
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
 ], ProvidersController.prototype, "dasdasd", null);
+__decorate([
+    common_1.Put('updateLeadStatus'),
+    __param(0, common_1.Body()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], ProvidersController.prototype, "updateLeadStatus", null);
 __decorate([
     common_1.Delete(':providerId'),
     __param(0, common_1.Param('providerId')),

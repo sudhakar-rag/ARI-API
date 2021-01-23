@@ -413,6 +413,21 @@ export class ProvidersController {
   }
 
 
+  @Put('updateLeadStatus')
+  async updateLeadStatus(@Body() providerData: any): Promise<ResponseData> {
+    const output = new ResponseData();
+
+    try {
+      output.data = await this.createProviderService.updateLeadStatus(providerData);
+    } catch (error) {
+      console.log(error);
+      output.status = false;
+      output.message = typeof error == 'string' ? error : '';
+    }
+
+    return output;
+  }
+
   @Delete(':providerId')
   async removeLeadProvider(@Param('providerId') providerId: string): Promise<any> {
     const provider = await this.providerRegistrationModel.findOne({ where: { id: providerId } });

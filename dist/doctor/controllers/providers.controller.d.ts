@@ -33,5 +33,6 @@ export declare class ProvidersController {
     providerRegistration(registrationData: ProviderRegistrationDto): Promise<ResponseData>;
     getProvidersLead(queryParams: ListQueryParamsDto): Promise<ResponseData>;
     dasdasd(providerId: string): Promise<ResponseData>;
+    updateLeadStatus(providerData: any): Promise<ResponseData>;
     removeLeadProvider(providerId: string): Promise<any>;
 }
