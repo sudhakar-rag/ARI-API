@@ -18,9 +18,13 @@ const login_request_data_1 = require("./dto/login-request-data");
 const auth_service_1 = require("./auth.service");
 const jwt_1 = require("@nestjs/jwt");
 const response_data_1 = require("../core/common/response-data");
+const email_service_1 = require("../email/email.service");
+const config_service_1 = require("../core/config/config.service");
 let AuthController = class AuthController {
-    constructor(authService, jwtService) {
+    constructor(authService, emailService, configService, jwtService) {
         this.authService = authService;
+        this.emailService = emailService;
+        this.configService = configService;
         this.jwtService = jwtService;
     }
     async login(loginData) {
@@ -69,8 +73,28 @@ let AuthController = class AuthController {
         }
         return output;
     }
-    forgotPassword() {
-        return { testing: 'testing...........' };
+    async forgotPassword(params) {
+        const output = new response_data_1.ResponseData();
+        try {
+            let user = await this.authService.login({ email: params.email });
+            if (!user) {
+                throw 'Email does not exist.';
+            }
+            await this.emailService.sendForgotPasswordMail({
+                email: user.email,
+                id: user.id,
+                link: this.configService.get('WEB_URL') + 'reset-password/',
+                name: user.firstName + ' ' + user.lastName
+            });
+            output.data = params;
+            output.status = true;
+        }
+        catch (error) {
+            console.log(error);
+            output.status = false;
+            output.message = typeof error == 'string' ? error : '';
+        }
+        return output;
     }
     testing() {
         return { testing: 'testing...........' };
@@ -98,10 +122,11 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "verifyPassword", null);
 __decorate([
-    common_1.Get('forgotPassword'),
+    common_1.Post('forgotPassword'),
+    __param(0, common_1.Body()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
-    __metadata("design:returntype", void 0)
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
 ], AuthController.prototype, "forgotPassword", null);
 __decorate([
     common_1.Get('testing'),
@@ -112,6 +137,8 @@ __decorate([
 AuthController = __decorate([
     common_1.Controller('auth'),
     __metadata("design:paramtypes", [auth_service_1.AuthService,
+        email_service_1.EmailService,
+        config_service_1.ConfigService,
         jwt_1.JwtService])
 ], AuthController);
 exports.AuthController = AuthController;

@@ -25,6 +25,7 @@ import { ProviderSetting } from './models/provider-settings.model';
 import { Appointment } from '../shared/models/appointment.model';
 import { ProviderSpecality } from './models/provider-speciality.model';
 import { ProviderExceptionalDays } from './models/provider-exceptional-days.model';
+import { ProviderRegistration } from './models/provider-registratioin.model';
 
 @Module({
   imports: [
@@ -48,7 +49,8 @@ import { ProviderExceptionalDays } from './models/provider-exceptional-days.mode
       ProviderSetting,
       RatingHistory,
       Appointment,
-      ProviderExceptionalDays
+      ProviderExceptionalDays,
+      ProviderRegistration
     ]),
     UsersModule,
     EmailModule

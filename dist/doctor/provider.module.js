@@ -33,6 +33,8 @@ const provider_availability_slot_model_1 = require("./models/provider-availabili
 const provider_settings_model_1 = require("./models/provider-settings.model");
 const appointment_model_1 = require("../shared/models/appointment.model");
 const provider_speciality_model_1 = require("./models/provider-speciality.model");
+const provider_exceptional_days_model_1 = require("./models/provider-exceptional-days.model");
+const provider_registratioin_model_1 = require("./models/provider-registratioin.model");
 let ProviderModule = class ProviderModule {
 };
 ProviderModule = __decorate([
@@ -57,7 +59,9 @@ ProviderModule = __decorate([
                 provider_availability_slot_model_1.ProviderAvailabilitySlot,
                 provider_settings_model_1.ProviderSetting,
                 rating_history_1.RatingHistory,
-                appointment_model_1.Appointment
+                appointment_model_1.Appointment,
+                provider_exceptional_days_model_1.ProviderExceptionalDays,
+                provider_registratioin_model_1.ProviderRegistration
             ]),
             users_module_1.UsersModule,
             email_module_1.EmailModule

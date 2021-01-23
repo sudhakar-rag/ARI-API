@@ -15,6 +15,8 @@ const jwt_1 = require("@nestjs/jwt");
 const passport_1 = require("@nestjs/passport");
 const jwt_strategy_1 = require("./jwt.strategy");
 const constants_1 = require("./constants");
+const email_module_1 = require("../email/email.module");
+const config_module_1 = require("../core/config/config.module");
 let AuthModule = class AuthModule {
 };
 AuthModule = __decorate([
@@ -26,6 +28,8 @@ AuthModule = __decorate([
                 secret: constants_1.jwtConstants.secret,
                 signOptions: { expiresIn: '60s' },
             }),
+            email_module_1.EmailModule,
+            config_module_1.ConfigModule.register({ folder: './config' })
         ],
         controllers: [auth_controller_1.AuthController],
         providers: [auth_service_1.AuthService, jwt_strategy_1.JwtStrategy]

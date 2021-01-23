@@ -9,6 +9,7 @@ export declare class ProvidersController {
     private createProviderService;
     constructor(providerService: ProviderService, createProviderService: CreateProviderService);
     getSettings(providerId: string): Promise<ResponseData>;
+    getExceptionalDays(providerId: string): Promise<ResponseData>;
     getProviderById(userId: string): Promise<ResponseData>;
     getProviderRatingById(userId: string): Promise<ResponseData>;
     getProviders(queryParams: ListQueryParamsDto): Promise<ResponseData>;
@@ -23,6 +24,8 @@ export declare class ProvidersController {
     updateCulturalBackground(providerData: any): Promise<ResponseData>;
     updateAffilations(providerData: any): Promise<ResponseData>;
     updateStatus(providerData: any): Promise<ResponseData>;
+    updateVerifyStatus(providerData: any): Promise<ResponseData>;
     getAvailability(providerId: string): Promise<ResponseData>;
     getAvailabilityByDay(params: any): Promise<ResponseData>;
+    setAvailabilityByDay(providerId: string, params: any): Promise<ResponseData>;
 }

@@ -38,6 +38,18 @@ let ProvidersController = class ProvidersController {
         }
         return output;
     }
+    async getExceptionalDays(providerId) {
+        const output = new response_data_1.ResponseData();
+        try {
+            output.data = await this.providerService.getExceptionalDays(providerId);
+        }
+        catch (error) {
+            console.log(error);
+            output.status = false;
+            output.message = typeof error == 'string' ? error : '';
+        }
+        return output;
+    }
     async getProviderById(userId) {
         const output = new response_data_1.ResponseData();
         try {
@@ -206,6 +218,18 @@ let ProvidersController = class ProvidersController {
         }
         return output;
     }
+    async updateVerifyStatus(providerData) {
+        const output = new response_data_1.ResponseData();
+        try {
+            output.data = await this.createProviderService.updateVerifyStatus(providerData);
+        }
+        catch (error) {
+            console.log(error);
+            output.status = false;
+            output.message = typeof error == 'string' ? error : '';
+        }
+        return output;
+    }
     async getAvailability(providerId) {
         const output = new response_data_1.ResponseData();
         try {
@@ -230,6 +254,18 @@ let ProvidersController = class ProvidersController {
         }
         return output;
     }
+    async setAvailabilityByDay(providerId, params) {
+        const output = new response_data_1.ResponseData();
+        try {
+            output.data = await this.providerService.setExceptionalDays({ providerId: providerId, days: params.days });
+        }
+        catch (error) {
+            console.log(error);
+            output.status = false;
+            output.message = typeof error == 'string' ? error : '';
+        }
+        return output;
+    }
 };
 __decorate([
     swagger_1.ApiOperation({ summary: 'list provider settings' }),
@@ -243,6 +279,13 @@ __decorate([
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
 ], ProvidersController.prototype, "getSettings", null);
+__decorate([
+    common_1.Get('exceptional-days/:providerId'),
+    __param(0, common_1.Param('providerId')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], ProvidersController.prototype, "getExceptionalDays", null);
 __decorate([
     common_1.Get(':id'),
     __param(0, common_1.Param('id')),
@@ -366,6 +409,13 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], ProvidersController.prototype, "updateStatus", null);
 __decorate([
+    common_1.Put('verifyStatus'),
+    __param(0, common_1.Body()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], ProvidersController.prototype, "updateVerifyStatus", null);
+__decorate([
     common_1.Get('get-availability/:providerId'),
     __param(0, common_1.Param('providerId')),
     __metadata("design:type", Function),
@@ -379,6 +429,13 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], ProvidersController.prototype, "getAvailabilityByDay", null);
+__decorate([
+    common_1.Post('exceptional-days/:providerId'),
+    __param(0, common_1.Param('providerId')), __param(1, common_1.Body()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, Object]),
+    __metadata("design:returntype", Promise)
+], ProvidersController.prototype, "setAvailabilityByDay", null);
 ProvidersController = __decorate([
     swagger_1.ApiTags('provider'),
     swagger_1.ApiBearerAuth(),

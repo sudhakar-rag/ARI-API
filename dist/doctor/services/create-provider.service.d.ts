@@ -74,5 +74,6 @@ export declare class CreateProviderService {
     updateCulturalBackground(data: any): Promise<any>;
     updateAffilations(data: any): Promise<any>;
     updateStatus(data: any): Promise<any>;
+    updateVerifyStatus(data: any): Promise<any>;
     saveRating(data: any): Promise<any>;
 }

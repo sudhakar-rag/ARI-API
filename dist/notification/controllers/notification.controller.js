@@ -47,6 +47,18 @@ let NotificationController = class NotificationController {
         }
         return output;
     }
+    async getOnDemandNotifications(params) {
+        const output = new response_data_1.ResponseData();
+        try {
+            output.data = await this.notificationService.getNotificationsByType(params);
+        }
+        catch (error) {
+            console.log(error);
+            output.status = false;
+            output.message = typeof error == 'string' ? error : '';
+        }
+        return output;
+    }
     async updateNotification(notificationData) {
         const output = new response_data_1.ResponseData();
         try {
@@ -74,6 +86,13 @@ __decorate([
     __metadata("design:paramtypes", [create_notification_dto_1.CreateNotificationDto, Object]),
     __metadata("design:returntype", Promise)
 ], NotificationController.prototype, "saveNotification", null);
+__decorate([
+    common_1.Post('byType'),
+    __param(0, common_1.Body()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], NotificationController.prototype, "getOnDemandNotifications", null);
 __decorate([
     common_1.Put('reset'),
     __param(0, common_1.Body()),

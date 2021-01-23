@@ -389,7 +389,7 @@ let CreateProviderService = class CreateProviderService {
         }
         await this.providerModel.update({ otherLang: data.otherLang }, { where: { id: data.providerId } });
         await this.providerLanguageModel.bulkCreate(languages);
-        let historyData = {
+        const historyData = {
             religoiusAffiliations: data.religoiusAffiliations,
             specialBackground: data.specialBackground,
         };
@@ -414,6 +414,13 @@ let CreateProviderService = class CreateProviderService {
         const result = await this.providerModel.update(StatusData, { where: { id: data.providerId } });
         return result;
     }
+    async updateVerifyStatus(data) {
+        const StatusData = {
+            isVerified: data.isVerified
+        };
+        const result = await this.providerModel.update(StatusData, { where: { id: data.providerId } });
+        return result;
+    }
     async saveRating(data) {
         const ratingData = {
             patientId: data.patientId,
@@ -431,7 +438,7 @@ let CreateProviderService = class CreateProviderService {
             raw: true,
         });
         console.log(ratingCount);
-        let average = Math.round(ratingCount.totalRating / ratingCount.count);
+        const average = Math.round(ratingCount.totalRating / ratingCount.count);
         const ProviderData = {
             rating: average
         };

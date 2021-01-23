@@ -38,14 +38,16 @@ const patient_model_1 = require("../../patient/models/patient.model");
 const address_model_1 = require("../../users/models/address.model");
 const provider_speciality_model_1 = require("../models/provider-speciality.model");
 const specalist_model_1 = require("../../shared/models/specalist.model");
+const provider_exceptional_days_model_1 = require("../models/provider-exceptional-days.model");
 let ProviderService = class ProviderService {
-    constructor(providerModel, providerAvailabilityModel, providerAvailabilitySlotModel, providerSettingModel, ratingHistoryModel, appointmentModel, sequelize) {
+    constructor(providerModel, providerAvailabilityModel, providerAvailabilitySlotModel, providerSettingModel, ratingHistoryModel, appointmentModel, providerExceptionalDaysModel, sequelize) {
         this.providerModel = providerModel;
         this.providerAvailabilityModel = providerAvailabilityModel;
         this.providerAvailabilitySlotModel = providerAvailabilitySlotModel;
         this.providerSettingModel = providerSettingModel;
         this.ratingHistoryModel = ratingHistoryModel;
         this.appointmentModel = appointmentModel;
+        this.providerExceptionalDaysModel = providerExceptionalDaysModel;
         this.sequelize = sequelize;
     }
     async getProviders(queryParams) {
@@ -73,19 +75,27 @@ let ProviderService = class ProviderService {
                 specialitiesWhere['specalityId'] = { [sequelize_2.Op.in]: queryParams.filter.specialities };
             }
         }
+        let orderBy = [['id', 'desc']];
+        if (sortField == 'id') {
+            orderBy = [[sortField, sortOrder]];
+        }
+        else if (sortField == 'rating') {
+            orderBy = [[sortField, 'DESC']];
+        }
+        else if (queryParams.sortField == 'name') {
+            orderBy = [[sequelize_typescript_1.Sequelize.literal('`user.firstName`'), sortOrder]];
+        }
         return await this.providerModel.findAndCountAll({
             distinct: true,
             include: [
                 {
                     model: user_model_1.User,
+                    as: 'user',
                     where: {
                         [sequelize_2.Op.or]: [
-                            {
-                                firstName: { [sequelize_2.Op.like]: '%' + searchText + '%' }
-                            },
-                            {
-                                lastName: { [sequelize_2.Op.like]: '%' + searchText + '%' }
-                            }
+                            sequelize_typescript_1.Sequelize.where(sequelize_typescript_1.Sequelize.fn('concat', sequelize_typescript_1.Sequelize.col('firstName'), ' ', sequelize_typescript_1.Sequelize.col('lastName')), {
+                                [sequelize_2.Op.like]: '%' + searchText + '%'
+                            })
                         ]
                     },
                 },
@@ -96,19 +106,20 @@ let ProviderService = class ProviderService {
                 provider_language_model_1.ProviderLanguage,
                 {
                     model: provider_services_model_1.ProviderServices,
+                    required: typeof serviceWhere.serviceId != 'undefined',
                     where: serviceWhere
                 },
                 {
                     model: provider_speciality_model_1.ProviderSpecality,
                     include: [specalist_model_1.Specalist],
-                    required: false,
+                    required: typeof specialitiesWhere.specalityId != 'undefined',
                     where: specialitiesWhere,
                 }
             ],
             where: where,
             offset: offset,
             limit: limit,
-            order: [[sortField, sortOrder]]
+            order: orderBy
         });
     }
     async getAppointments(queryParams) {
@@ -276,6 +287,30 @@ let ProviderService = class ProviderService {
             where: { providerId: providerId }
         });
     }
+    async getExceptionalDays(providerId) {
+        return await this.providerExceptionalDaysModel.findAll({
+            where: { providerId: providerId }
+        });
+    }
+    async setExceptionalDays(data) {
+        try {
+            await this.providerExceptionalDaysModel.destroy({
+                where: { providerId: data.providerId }
+            });
+            const days = [];
+            for (const day of data.days) {
+                days.push({
+                    providerId: data.providerId,
+                    date: day
+                });
+            }
+            await this.providerExceptionalDaysModel.bulkCreate(days);
+            return data;
+        }
+        catch (error) {
+            return null;
+        }
+    }
 };
 ProviderService = __decorate([
     common_1.Injectable(),
@@ -285,7 +320,8 @@ ProviderService = __decorate([
     __param(3, sequelize_1.InjectModel(provider_settings_model_1.ProviderSetting)),
     __param(4, sequelize_1.InjectModel(rating_history_1.RatingHistory)),
     __param(5, sequelize_1.InjectModel(appointment_model_1.Appointment)),
-    __metadata("design:paramtypes", [Object, Object, Object, Object, Object, Object, sequelize_typescript_1.Sequelize])
+    __param(6, sequelize_1.InjectModel(provider_exceptional_days_model_1.ProviderExceptionalDays)),
+    __metadata("design:paramtypes", [Object, Object, Object, Object, Object, Object, Object, sequelize_typescript_1.Sequelize])
 ], ProviderService);
 exports.ProviderService = ProviderService;
 //# sourceMappingURL=provider.service.js.map

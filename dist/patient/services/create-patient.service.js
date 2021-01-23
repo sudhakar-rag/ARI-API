@@ -263,7 +263,7 @@ let CreatePatientService = class CreatePatientService {
         return result;
     }
     async updateSymptoms(data) {
-        let patientData = {
+        const patientData = {
             otherSymptoms: data.otherSymptoms
         };
         await this.patientSymptomModel.destroy({
@@ -278,7 +278,7 @@ let CreatePatientService = class CreatePatientService {
         return result;
     }
     async updateMedProblems(data) {
-        let patientData = {
+        const patientData = {
             otherMedicalProblems: data.otherMedProblem
         };
         await this.patientMedicalProblemModel.destroy({
@@ -301,7 +301,7 @@ let CreatePatientService = class CreatePatientService {
             types.push({ patientId: data.patientId, providerTypeId: providerType });
         }
         await this.patientProviderTypeModel.bulkCreate(types);
-        let patientData = {
+        const patientData = {
             otherSpecialist: data.otherSpecialist
         };
         await this.patientModel.update(patientData, { where: { userId: data.userId } });

@@ -198,6 +198,16 @@ let PatientsController = class PatientsController {
         }
         return output;
     }
+    async test(proData) {
+        const welcomeData = {
+            email: proData.email,
+            name: 'Ram K',
+            userName: 'ramki',
+            password: '123456'
+        };
+        const t = await this.emailService.sendWeclcomeMail(welcomeData);
+        console.log(t);
+    }
 };
 __decorate([
     common_1.Post(),
@@ -291,6 +301,13 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], PatientsController.prototype, "updateProvider", null);
+__decorate([
+    common_1.Put('testMail'),
+    __param(0, common_1.Body()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], PatientsController.prototype, "test", null);
 PatientsController = __decorate([
     swagger_1.ApiTags('patient'),
     swagger_1.ApiBearerAuth(),

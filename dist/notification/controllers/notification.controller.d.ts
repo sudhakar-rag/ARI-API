@@ -6,5 +6,6 @@ export declare class NotificationController {
     constructor(notificationService: NotificationService);
     getNotifications(userId: number): Promise<ResponseData>;
     saveNotification(notificationData: CreateNotificationDto, transaction?: string): Promise<ResponseData>;
+    getOnDemandNotifications(params: any): Promise<ResponseData>;
     updateNotification(notificationData: any): Promise<ResponseData>;
 }

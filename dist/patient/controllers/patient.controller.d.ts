@@ -24,4 +24,5 @@ export declare class PatientsController {
     updateMedProblems(medProbData: any): Promise<ResponseData>;
     saveRatings(ratingData: any): Promise<ResponseData>;
     updateProvider(proData: any): Promise<ResponseData>;
+    test(proData: any): Promise<void>;
 }

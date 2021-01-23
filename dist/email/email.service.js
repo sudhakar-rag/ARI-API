@@ -12,25 +12,24 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.EmailService = void 0;
 const common_1 = require("@nestjs/common");
 const mailer_1 = require("@nestjs-modules/mailer");
-const base64 = require("base-64");
 let EmailService = class EmailService {
     constructor(mailerService) {
         this.mailerService = mailerService;
-        this.cc = ['ramakrishnan001@gmail.com'];
+        this.cc = [];
     }
     async sendWeclcomeMail(data) {
-        let options = {
+        const options = {
             to: data.email || 'joelimalive1994@gmail.com',
             subject: 'ARI Registration Notification',
             template: 'welcome',
             context: data,
             cc: this.cc
         };
-        let result = await this.sendMail(options);
+        const result = await this.sendMail(options);
         return result;
     }
     async sendVerifiedMail(data) {
-        let options = {
+        const options = {
             to: data.email || 'joelimalive1994@gmail.com',
             subject: 'ARI Verification Notification',
             template: 'verification-success',
@@ -43,10 +42,11 @@ let EmailService = class EmailService {
     async sendForgotPasswordMail(data) {
         let options = {
             to: data.email,
-            subject: 'NNPS Password Reset Email',
+            subject: 'ARI Password Reset Email',
             template: 'forgot-password',
             context: {
-                link: data.link + base64.encode(data.email)
+                name: data.name || '',
+                link: data.link + data.id
             }
         };
         let result = await this.sendMail(options);

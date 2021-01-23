@@ -13,16 +13,19 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.NotificationService = void 0;
+const user_model_1 = require("./../../users/models/user.model");
 const appointment_model_1 = require("../../shared/models/appointment.model");
 const sequelize_typescript_1 = require("sequelize-typescript");
 const notification_model_1 = require("./../../shared/models/notification.model");
 const sequelize_1 = require("@nestjs/sequelize");
 const common_1 = require("@nestjs/common");
 const patient_model_1 = require("../../patient/models/patient.model");
+const users_service_1 = require("../../users/services/users.service");
 let NotificationService = class NotificationService {
-    constructor(notificationModel, sequelize) {
+    constructor(notificationModel, sequelize, usersService) {
         this.notificationModel = notificationModel;
         this.sequelize = sequelize;
+        this.usersService = usersService;
     }
     async getNotifications(userId) {
         const count = await this.notificationModel.count({
@@ -33,14 +36,14 @@ let NotificationService = class NotificationService {
             ],
             where: { userId: userId, status: false }
         });
-        const limit = count || 10;
+        const limit = count || 0;
         const result = await this.notificationModel.findAll({
             include: [
                 {
                     model: appointment_model_1.Appointment
                 }
             ],
-            where: { userId: userId },
+            where: { userId: userId, status: false },
             limit: limit,
             order: [['id', 'desc']]
         });
@@ -48,6 +51,37 @@ let NotificationService = class NotificationService {
             count: count,
             data: result,
         };
+    }
+    async getNotificationsByType(params) {
+        if (this.usersService.isAdmin()) {
+        }
+        else if (this.usersService.isProvider()) {
+            return await this.notificationModel.findAll({
+                include: [
+                    {
+                        model: appointment_model_1.Appointment,
+                        where: {
+                            type: 'I',
+                            date: params.date,
+                            status: 'PENDING'
+                        },
+                        include: [{
+                                model: patient_model_1.Patient,
+                                attributes: ['id'],
+                                include: [user_model_1.User],
+                                required: false
+                            }]
+                    }
+                ],
+                where: {
+                    userId: params.userId
+                },
+                order: [['id', 'desc']]
+            });
+        }
+        else if (this.usersService.isPatient()) {
+        }
+        return {};
     }
     async saveNotifications(notificationData, transaction) {
         let result;
@@ -92,7 +126,8 @@ let NotificationService = class NotificationService {
 NotificationService = __decorate([
     common_1.Injectable(),
     __param(0, sequelize_1.InjectModel(notification_model_1.Notification)),
-    __metadata("design:paramtypes", [Object, sequelize_typescript_1.Sequelize])
+    __metadata("design:paramtypes", [Object, sequelize_typescript_1.Sequelize,
+        users_service_1.UsersService])
 ], NotificationService);
 exports.NotificationService = NotificationService;
 //# sourceMappingURL=notification.service.js.map

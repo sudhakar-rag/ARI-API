@@ -415,13 +415,16 @@ let AppointmentService = class AppointmentService {
     async getAppointmentsListByDate(date) {
         try {
             const where = {
-                date: date
+                date: {
+                    [sequelize_2.Op.gte]: date
+                }
             };
             const includes = [];
             if (this.usersService.isAdmin()) {
             }
             else if (this.usersService.isProvider()) {
                 where.providerId = this.usersService.getLoggedinProviderId();
+                where.type = 'G';
                 includes.push({
                     model: patient_model_1.Patient,
                     attributes: ['id'],

@@ -26,11 +26,11 @@ EmailModule = __decorate([
                         secure: false,
                         auth: {
                             user: 'ramakrishnan001@gmail.com',
-                            pass: 'raavananvsram'
+                            pass: 'Prajna1910$'
                         }
                     },
                     defaults: {
-                        from: '"nnps" <ram.izaap@gmail.com>',
+                        from: '"ARI" <admin@ari.com>',
                     },
                     template: {
                         dir: __dirname + '/templates',
