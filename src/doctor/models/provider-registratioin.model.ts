@@ -38,4 +38,7 @@ export class ProviderRegistration extends Model<ProviderRegistration> {
 
     @Column
     currentlyEnrolledIn: string;
+
+    @Column
+    verified: number;
 }

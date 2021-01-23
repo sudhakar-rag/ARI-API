@@ -68,6 +68,7 @@ export declare class ProviderRegistrationDto {
     phone: string;
     yearsInPractice: string;
     boardCertifiedSpecialty: string;
+    statesOfLicensure: string;
     howLearnAboutTeladocHealth: string;
     otherTeladocHealth: string;
     currentlyEnrolledIn: string;

@@ -2,6 +2,7 @@ import { AddressDto } from './../../patient/dto/address.dto';
 import { IsArray, IsBoolean, ValidateNested } from 'class-validator';
 import { IsOptional, IsNumber, IsString } from 'class-validator';
 import { Type } from 'class-transformer';
+import { ApiProperty } from '@nestjs/swagger';
 
 export class ProviderDto {
   @IsOptional()
@@ -210,6 +211,9 @@ export class ProviderRegistrationDto {
 
   @IsString()
   boardCertifiedSpecialty: string;
+
+  @IsString()
+  statesOfLicensure: string;
 
   @IsOptional()
   @IsString()

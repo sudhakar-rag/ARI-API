@@ -449,7 +449,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], ProvidersController.prototype, "setAvailabilityByDay", null);
 __decorate([
-    common_1.Post('providerRegistration'),
+    common_1.Post('registration'),
     __param(0, common_1.Body()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [provider_dto_1.ProviderRegistrationDto]),

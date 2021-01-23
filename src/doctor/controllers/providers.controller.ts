@@ -364,7 +364,7 @@ export class ProvidersController {
   }
 
 
-  @Post('providerRegistration')
+  @Post('registration')
   async providerRegistration(@Body() registrationData: ProviderRegistrationDto): Promise<ResponseData> {
     const output = new ResponseData();
 

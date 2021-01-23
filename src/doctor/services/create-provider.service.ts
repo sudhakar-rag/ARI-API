@@ -633,11 +633,13 @@ export class CreateProviderService {
                 lastName: providerData.lastName,
                 email: providerData.email,
                 phone: providerData.phone,
+                statesOfLicensure: providerData.statesOfLicensure,
                 yearsInPractice: providerData.yearsInPractice,
                 boardCertifiedSpecialty: providerData.boardCertifiedSpecialty,
                 howLearnAboutTeladocHealth: providerData.howLearnAboutTeladocHealth,
                 otherTeladocHealth: providerData.otherTeladocHealth,
                 currentlyEnrolledIn: providerData.currentlyEnrolledIn,
+                verified: 0
             }
 
             let providerInfo: ProviderRegistration;

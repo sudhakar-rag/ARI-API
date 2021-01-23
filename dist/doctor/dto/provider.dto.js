@@ -285,6 +285,10 @@ __decorate([
     __metadata("design:type", String)
 ], ProviderRegistrationDto.prototype, "boardCertifiedSpecialty", void 0);
 __decorate([
+    class_validator_2.IsString(),
+    __metadata("design:type", String)
+], ProviderRegistrationDto.prototype, "statesOfLicensure", void 0);
+__decorate([
     class_validator_2.IsOptional(),
     class_validator_2.IsString(),
     __metadata("design:type", String)

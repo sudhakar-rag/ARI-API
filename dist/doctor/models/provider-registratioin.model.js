@@ -61,6 +61,10 @@ __decorate([
     sequelize_typescript_1.Column,
     __metadata("design:type", String)
 ], ProviderRegistration.prototype, "currentlyEnrolledIn", void 0);
+__decorate([
+    sequelize_typescript_1.Column,
+    __metadata("design:type", Number)
+], ProviderRegistration.prototype, "verified", void 0);
 ProviderRegistration = __decorate([
     sequelize_typescript_1.Table
 ], ProviderRegistration);

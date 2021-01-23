@@ -12,4 +12,5 @@ export declare class ProviderRegistration extends Model<ProviderRegistration> {
     howLearnAboutTeladocHealth: string;
     otherTeladocHealth: string;
     currentlyEnrolledIn: string;
+    verified: number;
 }
