@@ -32,4 +32,5 @@ export declare class ProviderService {
     getExceptionalDays(providerId: string): Promise<any>;
     setExceptionalDays(data: any): Promise<any>;
     getProvidersLeads(queryParams: ListQueryParamsDto): Promise<any>;
+    getProviderLeadById(providerId: any): Promise<any>;
 }

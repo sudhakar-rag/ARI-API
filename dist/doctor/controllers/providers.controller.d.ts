@@ -4,10 +4,12 @@ import { ResponseData } from './../../core/common/response-data';
 import { CreateProviderService } from '../services/create-provider.service';
 import { AppointmentAvailabilityDto, ProviderSettingsDto } from '../dto/appointment-availability.dto';
 import { ListQueryParamsDto } from '@app/src/core/common/list-query-params.dto';
+import { ProviderRegistration } from '../models/provider-registratioin.model';
 export declare class ProvidersController {
     private providerService;
     private createProviderService;
-    constructor(providerService: ProviderService, createProviderService: CreateProviderService);
+    private readonly providerRegistrationModel;
+    constructor(providerService: ProviderService, createProviderService: CreateProviderService, providerRegistrationModel: typeof ProviderRegistration);
     getSettings(providerId: string): Promise<ResponseData>;
     getExceptionalDays(providerId: string): Promise<ResponseData>;
     getProviderById(userId: string): Promise<ResponseData>;
@@ -30,4 +32,6 @@ export declare class ProvidersController {
     setAvailabilityByDay(providerId: string, params: any): Promise<ResponseData>;
     providerRegistration(registrationData: ProviderRegistrationDto): Promise<ResponseData>;
     getProvidersLead(queryParams: ListQueryParamsDto): Promise<ResponseData>;
+    dasdasd(providerId: string): Promise<ResponseData>;
+    removeLeadProvider(providerId: string): Promise<any>;
 }

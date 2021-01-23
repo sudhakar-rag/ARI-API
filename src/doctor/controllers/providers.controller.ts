@@ -17,6 +17,8 @@ import { CreateProviderService } from '../services/create-provider.service';
 import { AppointmentAvailabilityDto, ProviderSettingsDto } from '../dto/appointment-availability.dto';
 import { ApiBearerAuth, ApiBody, ApiCreatedResponse, ApiOperation, ApiParam, ApiTags } from '@nestjs/swagger';
 import { ListQueryParamsDto } from '@app/src/core/common/list-query-params.dto';
+import { ProviderRegistration } from '../models/provider-registratioin.model';
+import { InjectModel } from '@nestjs/sequelize';
 
 @ApiTags('provider')
 @ApiBearerAuth()
@@ -25,7 +27,9 @@ import { ListQueryParamsDto } from '@app/src/core/common/list-query-params.dto';
 export class ProvidersController {
   constructor(
     private providerService: ProviderService,
-    private createProviderService: CreateProviderService
+    private createProviderService: CreateProviderService,
+    @InjectModel(ProviderRegistration)
+    private readonly providerRegistrationModel: typeof ProviderRegistration,
   ) { }
 
 
@@ -391,6 +395,28 @@ export class ProvidersController {
     }
 
     return output;
+  }
+
+  @Get('providerLead/:providerId')
+  async dasdasd(@Param('providerId') providerId: string): Promise<ResponseData> {
+    const output = new ResponseData();
+
+    try {
+      output.data = await this.providerService.getProviderLeadById(providerId);
+    } catch (error) {
+      console.log(error);
+      output.status = false;
+      output.message = typeof error == 'string' ? error : '';
+    }
+
+    return output;
+  }
+
+
+  @Delete(':providerId')
+  async removeLeadProvider(@Param('providerId') providerId: string): Promise<any> {
+    const provider = await this.providerRegistrationModel.findOne({ where: { id: providerId } });
+    return await provider.destroy();
   }
 
 

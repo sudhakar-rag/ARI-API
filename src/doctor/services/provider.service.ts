@@ -408,5 +408,12 @@ export class ProviderService {
     });
   }
 
+
+  async getProviderLeadById(providerId: any): Promise<any> {
+    return await this.providerRegistrationModel.findOne({
+      where: { id: providerId }
+    });
+  }
+
 }
 

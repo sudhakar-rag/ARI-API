@@ -21,10 +21,13 @@ const create_provider_service_1 = require("../services/create-provider.service")
 const appointment_availability_dto_1 = require("../dto/appointment-availability.dto");
 const swagger_1 = require("@nestjs/swagger");
 const list_query_params_dto_1 = require("../../core/common/list-query-params.dto");
+const provider_registratioin_model_1 = require("../models/provider-registratioin.model");
+const sequelize_1 = require("@nestjs/sequelize");
 let ProvidersController = class ProvidersController {
-    constructor(providerService, createProviderService) {
+    constructor(providerService, createProviderService, providerRegistrationModel) {
         this.providerService = providerService;
         this.createProviderService = createProviderService;
+        this.providerRegistrationModel = providerRegistrationModel;
     }
     async getSettings(providerId) {
         const output = new response_data_1.ResponseData();
@@ -290,6 +293,22 @@ let ProvidersController = class ProvidersController {
         }
         return output;
     }
+    async dasdasd(providerId) {
+        const output = new response_data_1.ResponseData();
+        try {
+            output.data = await this.providerService.getProviderLeadById(providerId);
+        }
+        catch (error) {
+            console.log(error);
+            output.status = false;
+            output.message = typeof error == 'string' ? error : '';
+        }
+        return output;
+    }
+    async removeLeadProvider(providerId) {
+        const provider = await this.providerRegistrationModel.findOne({ where: { id: providerId } });
+        return await provider.destroy();
+    }
 };
 __decorate([
     swagger_1.ApiOperation({ summary: 'list provider settings' }),
@@ -474,12 +493,27 @@ __decorate([
     __metadata("design:paramtypes", [list_query_params_dto_1.ListQueryParamsDto]),
     __metadata("design:returntype", Promise)
 ], ProvidersController.prototype, "getProvidersLead", null);
+__decorate([
+    common_1.Get('providerLead/:providerId'),
+    __param(0, common_1.Param('providerId')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], ProvidersController.prototype, "dasdasd", null);
+__decorate([
+    common_1.Delete(':providerId'),
+    __param(0, common_1.Param('providerId')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], ProvidersController.prototype, "removeLeadProvider", null);
 ProvidersController = __decorate([
     swagger_1.ApiTags('provider'),
     swagger_1.ApiBearerAuth(),
     common_1.Controller('provider'),
+    __param(2, sequelize_1.InjectModel(provider_registratioin_model_1.ProviderRegistration)),
     __metadata("design:paramtypes", [provider_service_1.ProviderService,
-        create_provider_service_1.CreateProviderService])
+        create_provider_service_1.CreateProviderService, Object])
 ], ProvidersController);
 exports.ProvidersController = ProvidersController;
 //# sourceMappingURL=providers.controller.js.map

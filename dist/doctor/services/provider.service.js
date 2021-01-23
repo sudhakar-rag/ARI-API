@@ -345,6 +345,11 @@ let ProviderService = class ProviderService {
             order: orderBy
         });
     }
+    async getProviderLeadById(providerId) {
+        return await this.providerRegistrationModel.findOne({
+            where: { id: providerId }
+        });
+    }
 };
 ProviderService = __decorate([
     common_1.Injectable(),
