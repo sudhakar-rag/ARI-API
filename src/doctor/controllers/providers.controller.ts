@@ -379,4 +379,19 @@ export class ProvidersController {
     return output;
   }
 
+  @Post('providerLeads')
+  async getProvidersLead(@Body() queryParams: ListQueryParamsDto): Promise<ResponseData> {
+    const output = new ResponseData();
+    try {
+      output.data = await this.providerService.getProvidersLeads(queryParams);
+    } catch (error) {
+      console.log(error);
+      output.status = false;
+      output.message = typeof error == 'string' ? error : '';
+    }
+
+    return output;
+  }
+
+
 }

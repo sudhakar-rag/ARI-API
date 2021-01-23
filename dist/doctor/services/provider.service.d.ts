@@ -8,6 +8,7 @@ import { ProviderSetting } from '../models/provider-settings.model';
 import { ListQueryParamsDto } from '@app/src/core/common/list-query-params.dto';
 import { Appointment } from '../../shared/models/appointment.model';
 import { ProviderExceptionalDays } from '../models/provider-exceptional-days.model';
+import { ProviderRegistration } from '../models/provider-registratioin.model';
 export declare class ProviderService {
     private readonly providerModel;
     private readonly providerAvailabilityModel;
@@ -16,8 +17,9 @@ export declare class ProviderService {
     private readonly ratingHistoryModel;
     private readonly appointmentModel;
     private readonly providerExceptionalDaysModel;
+    private readonly providerRegistrationModel;
     private readonly sequelize;
-    constructor(providerModel: typeof Provider, providerAvailabilityModel: typeof ProviderAvailability, providerAvailabilitySlotModel: typeof ProviderAvailabilitySlot, providerSettingModel: typeof ProviderSetting, ratingHistoryModel: typeof RatingHistory, appointmentModel: typeof Appointment, providerExceptionalDaysModel: typeof ProviderExceptionalDays, sequelize: Sequelize);
+    constructor(providerModel: typeof Provider, providerAvailabilityModel: typeof ProviderAvailability, providerAvailabilitySlotModel: typeof ProviderAvailabilitySlot, providerSettingModel: typeof ProviderSetting, ratingHistoryModel: typeof RatingHistory, appointmentModel: typeof Appointment, providerExceptionalDaysModel: typeof ProviderExceptionalDays, providerRegistrationModel: typeof ProviderRegistration, sequelize: Sequelize);
     getProviders(queryParams: ListQueryParamsDto): Promise<any>;
     getAppointments(queryParams: ListQueryParamsDto): Promise<any>;
     getProviderById(providerId: any): Promise<any>;
@@ -29,4 +31,5 @@ export declare class ProviderService {
     getProviderSettings(providerId: string): Promise<any>;
     getExceptionalDays(providerId: string): Promise<any>;
     setExceptionalDays(data: any): Promise<any>;
+    getProvidersLeads(queryParams: ListQueryParamsDto): Promise<any>;
 }

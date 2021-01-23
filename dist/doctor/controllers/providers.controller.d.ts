@@ -29,4 +29,5 @@ export declare class ProvidersController {
     getAvailabilityByDay(params: any): Promise<ResponseData>;
     setAvailabilityByDay(providerId: string, params: any): Promise<ResponseData>;
     providerRegistration(registrationData: ProviderRegistrationDto): Promise<ResponseData>;
+    getProvidersLead(queryParams: ListQueryParamsDto): Promise<ResponseData>;
 }

@@ -39,8 +39,9 @@ const address_model_1 = require("../../users/models/address.model");
 const provider_speciality_model_1 = require("../models/provider-speciality.model");
 const specalist_model_1 = require("../../shared/models/specalist.model");
 const provider_exceptional_days_model_1 = require("../models/provider-exceptional-days.model");
+const provider_registratioin_model_1 = require("../models/provider-registratioin.model");
 let ProviderService = class ProviderService {
-    constructor(providerModel, providerAvailabilityModel, providerAvailabilitySlotModel, providerSettingModel, ratingHistoryModel, appointmentModel, providerExceptionalDaysModel, sequelize) {
+    constructor(providerModel, providerAvailabilityModel, providerAvailabilitySlotModel, providerSettingModel, ratingHistoryModel, appointmentModel, providerExceptionalDaysModel, providerRegistrationModel, sequelize) {
         this.providerModel = providerModel;
         this.providerAvailabilityModel = providerAvailabilityModel;
         this.providerAvailabilitySlotModel = providerAvailabilitySlotModel;
@@ -48,6 +49,7 @@ let ProviderService = class ProviderService {
         this.ratingHistoryModel = ratingHistoryModel;
         this.appointmentModel = appointmentModel;
         this.providerExceptionalDaysModel = providerExceptionalDaysModel;
+        this.providerRegistrationModel = providerRegistrationModel;
         this.sequelize = sequelize;
     }
     async getProviders(queryParams) {
@@ -311,6 +313,38 @@ let ProviderService = class ProviderService {
             return null;
         }
     }
+    async getProvidersLeads(queryParams) {
+        const searchText = queryParams.queryString || '';
+        queryParams.pageNumber = queryParams.pageNumber || 0;
+        queryParams.pageSize = queryParams.pageSize || 10;
+        const offset = queryParams.pageNumber * queryParams.pageSize;
+        const limit = queryParams.pageSize;
+        const sortField = queryParams.sortField || 'id';
+        const sortOrder = queryParams.sortOrder || 'desc';
+        const where = {};
+        if (queryParams.filter) {
+            if (queryParams.filter.firstName) {
+                where['firstName'] = queryParams.filter.firstName;
+            }
+            if (queryParams.filter.lastName) {
+                where['lastName'] = queryParams.filter.lastName;
+            }
+        }
+        let orderBy = [['id', 'desc']];
+        if (sortField == 'id') {
+            orderBy = [[sortField, sortOrder]];
+        }
+        else if (queryParams.sortField == 'name') {
+            orderBy = [[sequelize_typescript_1.Sequelize.literal('`providerRegistrationModel.firstName`'), sortOrder]];
+        }
+        return await this.providerRegistrationModel.findAndCountAll({
+            distinct: true,
+            where: where,
+            offset: offset,
+            limit: limit,
+            order: orderBy
+        });
+    }
 };
 ProviderService = __decorate([
     common_1.Injectable(),
@@ -321,7 +355,8 @@ ProviderService = __decorate([
     __param(4, sequelize_1.InjectModel(rating_history_1.RatingHistory)),
     __param(5, sequelize_1.InjectModel(appointment_model_1.Appointment)),
     __param(6, sequelize_1.InjectModel(provider_exceptional_days_model_1.ProviderExceptionalDays)),
-    __metadata("design:paramtypes", [Object, Object, Object, Object, Object, Object, Object, sequelize_typescript_1.Sequelize])
+    __param(7, sequelize_1.InjectModel(provider_registratioin_model_1.ProviderRegistration)),
+    __metadata("design:paramtypes", [Object, Object, Object, Object, Object, Object, Object, Object, sequelize_typescript_1.Sequelize])
 ], ProviderService);
 exports.ProviderService = ProviderService;
 //# sourceMappingURL=provider.service.js.map

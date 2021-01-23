@@ -26,6 +26,7 @@ import { Address } from '@app/src/users/models/address.model';
 import { ProviderSpecality } from '../models/provider-speciality.model';
 import { Specalist } from '@app/src/shared/models/specalist.model';
 import { ProviderExceptionalDays } from '../models/provider-exceptional-days.model';
+import { ProviderRegistration } from '../models/provider-registratioin.model';
 
 @Injectable()
 export class ProviderService {
@@ -44,6 +45,8 @@ export class ProviderService {
     private readonly appointmentModel: typeof Appointment,
     @InjectModel(ProviderExceptionalDays)
     private readonly providerExceptionalDaysModel: typeof ProviderExceptionalDays,
+    @InjectModel(ProviderRegistration)
+    private readonly providerRegistrationModel: typeof ProviderRegistration,
     private readonly sequelize: Sequelize,
   ) { }
 
@@ -361,6 +364,48 @@ export class ProviderService {
     } catch (error) {
       return null;
     }
+  }
+
+
+  async getProvidersLeads(queryParams: ListQueryParamsDto): Promise<any> {
+
+    const searchText = queryParams.queryString || '';
+
+    queryParams.pageNumber = queryParams.pageNumber || 0;
+    queryParams.pageSize = queryParams.pageSize || 10;
+    const offset = queryParams.pageNumber * queryParams.pageSize;
+    const limit = queryParams.pageSize;
+    const sortField = queryParams.sortField || 'id';
+    const sortOrder = queryParams.sortOrder || 'desc';
+
+    const where = {};
+
+    if (queryParams.filter) {
+      if (queryParams.filter.firstName) {
+        where['firstName'] = queryParams.filter.firstName;
+      }
+
+      if (queryParams.filter.lastName) {
+        where['lastName'] = queryParams.filter.lastName;
+      }
+
+    }
+
+
+    let orderBy: any = [['id', 'desc']];
+    if (sortField == 'id') {
+      orderBy = [[sortField, sortOrder]];
+    } else if (queryParams.sortField == 'name') {
+      orderBy = [[Sequelize.literal('`providerRegistrationModel.firstName`'), sortOrder]]
+    }
+
+    return await this.providerRegistrationModel.findAndCountAll({
+      distinct: true,
+      where: where,
+      offset: offset,
+      limit: limit,
+      order: orderBy
+    });
   }
 
 }

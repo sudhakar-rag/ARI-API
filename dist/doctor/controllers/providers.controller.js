@@ -278,6 +278,18 @@ let ProvidersController = class ProvidersController {
         }
         return output;
     }
+    async getProvidersLead(queryParams) {
+        const output = new response_data_1.ResponseData();
+        try {
+            output.data = await this.providerService.getProvidersLeads(queryParams);
+        }
+        catch (error) {
+            console.log(error);
+            output.status = false;
+            output.message = typeof error == 'string' ? error : '';
+        }
+        return output;
+    }
 };
 __decorate([
     swagger_1.ApiOperation({ summary: 'list provider settings' }),
@@ -455,6 +467,13 @@ __decorate([
     __metadata("design:paramtypes", [provider_dto_1.ProviderRegistrationDto]),
     __metadata("design:returntype", Promise)
 ], ProvidersController.prototype, "providerRegistration", null);
+__decorate([
+    common_1.Post('providerLeads'),
+    __param(0, common_1.Body()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [list_query_params_dto_1.ListQueryParamsDto]),
+    __metadata("design:returntype", Promise)
+], ProvidersController.prototype, "getProvidersLead", null);
 ProvidersController = __decorate([
     swagger_1.ApiTags('provider'),
     swagger_1.ApiBearerAuth(),
