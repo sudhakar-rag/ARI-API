@@ -21,6 +21,9 @@ export class ProviderRegistration extends Model<ProviderRegistration> {
     @Column
     phone: string;
 
+    @Column(DataType.ENUM('M', 'F', 'T'))
+    gender: 'M' | 'F' | 'T'
+
     @Column
     yearsInPractice: string;
 

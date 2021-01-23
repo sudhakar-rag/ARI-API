@@ -279,6 +279,10 @@ __decorate([
 __decorate([
     class_validator_2.IsString(),
     __metadata("design:type", String)
+], ProviderRegistrationDto.prototype, "gender", void 0);
+__decorate([
+    class_validator_2.IsString(),
+    __metadata("design:type", String)
 ], ProviderRegistrationDto.prototype, "yearsInPractice", void 0);
 __decorate([
     class_validator_2.IsString(),

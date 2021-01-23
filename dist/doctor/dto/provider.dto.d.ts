@@ -66,6 +66,7 @@ export declare class ProviderRegistrationDto {
     lastName: string;
     email: string;
     phone: string;
+    gender: string;
     yearsInPractice: string;
     boardCertifiedSpecialty: string;
     statesOfLicensure: string;

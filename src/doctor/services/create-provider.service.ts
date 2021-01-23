@@ -652,6 +652,7 @@ export class CreateProviderService {
                 howLearnAboutTeladocHealth: providerData.howLearnAboutTeladocHealth,
                 otherTeladocHealth: providerData.otherTeladocHealth,
                 currentlyEnrolledIn: providerData.currentlyEnrolledIn,
+                gender: providerData.gender,
                 verified: 0
             }
 

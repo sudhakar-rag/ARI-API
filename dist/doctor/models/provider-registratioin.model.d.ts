@@ -6,6 +6,7 @@ export declare class ProviderRegistration extends Model<ProviderRegistration> {
     lastName: string;
     email: string;
     phone: string;
+    gender: 'M' | 'F' | 'T';
     yearsInPractice: string;
     boardCertifiedSpecialty: string;
     statesOfLicensure: string;

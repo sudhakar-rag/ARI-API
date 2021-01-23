@@ -38,6 +38,10 @@ __decorate([
     __metadata("design:type", String)
 ], ProviderRegistration.prototype, "phone", void 0);
 __decorate([
+    sequelize_typescript_1.Column(sequelize_typescript_1.DataType.ENUM('M', 'F', 'T')),
+    __metadata("design:type", String)
+], ProviderRegistration.prototype, "gender", void 0);
+__decorate([
     sequelize_typescript_1.Column,
     __metadata("design:type", String)
 ], ProviderRegistration.prototype, "yearsInPractice", void 0);

@@ -207,6 +207,9 @@ export class ProviderRegistrationDto {
   phone: string;
 
   @IsString()
+  gender: string;
+
+  @IsString()
   yearsInPractice: string;
 
   @IsString()
