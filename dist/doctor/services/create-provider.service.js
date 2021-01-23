@@ -33,8 +33,9 @@ const provider_reference_model_1 = require("../models/provider-reference.model")
 const provider_history_model_1 = require("../models/provider-history.model");
 const sequelize_2 = require("sequelize");
 const provider_speciality_model_1 = require("../models/provider-speciality.model");
+const provider_registratioin_model_1 = require("../models/provider-registratioin.model");
 let CreateProviderService = class CreateProviderService {
-    constructor(userModel, providerModel, providerHistoryModel, addressModel, providerAddressModel, providerLanguageModel, providerAffilationModel, providerHospitalModel, providerEducationModel, providerReferenceModel, providerServicesModel, ratingHistoryModel, providerSpecalityModel, userCreateService, emailService, sequelize) {
+    constructor(userModel, providerModel, providerHistoryModel, addressModel, providerAddressModel, providerLanguageModel, providerAffilationModel, providerHospitalModel, providerEducationModel, providerReferenceModel, providerServicesModel, ratingHistoryModel, providerSpecalityModel, providerRegistrationModel, userCreateService, emailService, sequelize) {
         this.userModel = userModel;
         this.providerModel = providerModel;
         this.providerHistoryModel = providerHistoryModel;
@@ -48,6 +49,7 @@ let CreateProviderService = class CreateProviderService {
         this.providerServicesModel = providerServicesModel;
         this.ratingHistoryModel = ratingHistoryModel;
         this.providerSpecalityModel = providerSpecalityModel;
+        this.providerRegistrationModel = providerRegistrationModel;
         this.userCreateService = userCreateService;
         this.emailService = emailService;
         this.sequelize = sequelize;
@@ -445,6 +447,45 @@ let CreateProviderService = class CreateProviderService {
         const result = await this.providerModel.update(ProviderData, { where: { userId: data.providerId } });
         return result;
     }
+    async providerRegistration(providerData) {
+        let transaction;
+        try {
+            transaction = await this.sequelize.transaction();
+            let action = 'C';
+            if (providerData.id) {
+                action = 'E';
+            }
+            const data = {
+                title: providerData.title,
+                providerCredential: providerData.providerCredential,
+                firstName: providerData.firstName,
+                lastName: providerData.lastName,
+                email: providerData.email,
+                phone: providerData.phone,
+                yearsInPractice: providerData.yearsInPractice,
+                boardCertifiedSpecialty: providerData.boardCertifiedSpecialty,
+                howLearnAboutTeladocHealth: providerData.howLearnAboutTeladocHealth,
+                otherTeladocHealth: providerData.otherTeladocHealth,
+                currentlyEnrolledIn: providerData.currentlyEnrolledIn,
+            };
+            let providerInfo;
+            if (action == 'C') {
+                providerInfo = await this.providerRegistrationModel.create(data, { transaction });
+            }
+            if (action == 'E') {
+                await this.providerRegistrationModel.update(data, { where: { id: providerData.id }, transaction });
+                providerInfo = await this.providerRegistrationModel.findOne({ where: { id: providerData.id }, transaction });
+            }
+            await transaction.commit();
+            return providerInfo;
+        }
+        catch (error) {
+            console.log(error);
+            if (transaction)
+                await transaction.rollback();
+            return null;
+        }
+    }
 };
 CreateProviderService = __decorate([
     common_1.Injectable(),
@@ -461,7 +502,8 @@ CreateProviderService = __decorate([
     __param(10, sequelize_1.InjectModel(provider_services_model_1.ProviderServices)),
     __param(11, sequelize_1.InjectModel(rating_history_1.RatingHistory)),
     __param(12, sequelize_1.InjectModel(provider_speciality_model_1.ProviderSpecality)),
-    __metadata("design:paramtypes", [Object, Object, Object, Object, Object, Object, Object, Object, Object, Object, Object, Object, Object, user_create_service_1.UserCreateService,
+    __param(13, sequelize_1.InjectModel(provider_registratioin_model_1.ProviderRegistration)),
+    __metadata("design:paramtypes", [Object, Object, Object, Object, Object, Object, Object, Object, Object, Object, Object, Object, Object, Object, user_create_service_1.UserCreateService,
         email_service_1.EmailService,
         sequelize_typescript_1.Sequelize])
 ], CreateProviderService);

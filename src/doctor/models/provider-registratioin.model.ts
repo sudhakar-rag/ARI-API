@@ -7,7 +7,7 @@ export class ProviderRegistration extends Model<ProviderRegistration> {
     title: string;
 
     @Column(DataType.ENUM('MD', 'DO'))
-    doctorcredential: 'MD' | 'DO'
+    providerCredential: 'MD' | 'DO'
 
     @Column
     firstName: string;

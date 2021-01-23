@@ -10,7 +10,7 @@ import { Transaction } from 'sequelize';
 import { InjectModel } from '@nestjs/sequelize';
 import { UserCreateService } from '@app/src/users/services/user-create.service';
 import { Provider } from '../models/provider.model';
-import { ProviderDto, ProviderEducationDto, ProviderHospitalDto, ProviderReferenceDto } from '../dto/provider.dto';
+import { ProviderDto, ProviderEducationDto, ProviderHospitalDto, ProviderReferenceDto, ProviderRegistrationDto } from '../dto/provider.dto';
 import { AddressDto } from '@app/src/patient/dto/address.dto';
 import { Address } from '@app/src/users/models/address.model';
 import { ProviderAddress } from '../models/provider-address.model';
@@ -22,6 +22,7 @@ import { ProviderReference } from '../models/provider-reference.model';
 import { ProviderHistory } from '../models/provider-history.model';
 import sequelize from 'sequelize';
 import { ProviderSpecality } from '../models/provider-speciality.model';
+import { ProviderRegistration } from '../models/provider-registratioin.model';
 
 @Injectable()
 export class CreateProviderService {
@@ -52,6 +53,8 @@ export class CreateProviderService {
         private readonly ratingHistoryModel: typeof RatingHistory,
         @InjectModel(ProviderSpecality)
         private readonly providerSpecalityModel: typeof ProviderSpecality,
+        @InjectModel(ProviderRegistration)
+        private readonly providerRegistrationModel: typeof ProviderRegistration,
         private userCreateService: UserCreateService,
         private emailService: EmailService,
         private readonly sequelize: Sequelize,
@@ -608,6 +611,57 @@ export class CreateProviderService {
         const result = await this.providerModel.update(ProviderData, { where: { userId: data.providerId } });
 
         return result;
+    }
+
+
+    async providerRegistration(providerData: ProviderRegistrationDto): Promise<any> {
+        let transaction;
+
+        try {
+            transaction = await this.sequelize.transaction();
+
+            let action = 'C';
+            if (providerData.id) {
+                action = 'E';
+            }
+
+            // create user
+            const data = {
+                title: providerData.title,
+                providerCredential: providerData.providerCredential,
+                firstName: providerData.firstName,
+                lastName: providerData.lastName,
+                email: providerData.email,
+                phone: providerData.phone,
+                yearsInPractice: providerData.yearsInPractice,
+                boardCertifiedSpecialty: providerData.boardCertifiedSpecialty,
+                howLearnAboutTeladocHealth: providerData.howLearnAboutTeladocHealth,
+                otherTeladocHealth: providerData.otherTeladocHealth,
+                currentlyEnrolledIn: providerData.currentlyEnrolledIn,
+            }
+
+            let providerInfo: ProviderRegistration;
+
+            if (action == 'C') {
+                providerInfo = await this.providerRegistrationModel.create(data, { transaction });
+            }
+
+            if (action == 'E') {
+                await this.providerRegistrationModel.update(data, { where: { id: providerData.id }, transaction });
+                providerInfo = await this.providerRegistrationModel.findOne({ where: { id: providerData.id }, transaction });
+            }
+
+
+            await transaction.commit();
+            // await this.emailService.sendWeclcomeMail(welcomeData);
+
+            return providerInfo;
+        } catch (error) {
+            console.log(error);
+            if (transaction) await transaction.rollback();
+
+            return null;
+        }
     }
 
 }

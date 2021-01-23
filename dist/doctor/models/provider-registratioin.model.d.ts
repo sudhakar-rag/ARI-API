@@ -1,7 +1,7 @@
 import { Model } from 'sequelize-typescript';
 export declare class ProviderRegistration extends Model<ProviderRegistration> {
     title: string;
-    doctorcredential: 'MD' | 'DO';
+    providerCredential: 'MD' | 'DO';
     firstName: string;
     lastName: string;
     email: string;

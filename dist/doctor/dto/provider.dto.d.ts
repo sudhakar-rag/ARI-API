@@ -58,3 +58,17 @@ export declare class ProviderReferenceDto {
     email: string;
     phone: string;
 }
+export declare class ProviderRegistrationDto {
+    id: number;
+    title: string;
+    providerCredential: string;
+    firstName: string;
+    lastName: string;
+    email: string;
+    phone: string;
+    yearsInPractice: string;
+    boardCertifiedSpecialty: string;
+    howLearnAboutTeladocHealth: string;
+    otherTeladocHealth: string;
+    currentlyEnrolledIn: string;
+}

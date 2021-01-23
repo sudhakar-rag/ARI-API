@@ -6,7 +6,7 @@ import { Sequelize } from 'sequelize-typescript';
 import { Transaction } from 'sequelize';
 import { UserCreateService } from '@app/src/users/services/user-create.service';
 import { Provider } from '../models/provider.model';
-import { ProviderDto, ProviderEducationDto, ProviderHospitalDto, ProviderReferenceDto } from '../dto/provider.dto';
+import { ProviderDto, ProviderEducationDto, ProviderHospitalDto, ProviderReferenceDto, ProviderRegistrationDto } from '../dto/provider.dto';
 import { AddressDto } from '@app/src/patient/dto/address.dto';
 import { Address } from '@app/src/users/models/address.model';
 import { ProviderAddress } from '../models/provider-address.model';
@@ -17,6 +17,7 @@ import { ProviderHospital } from '../models/provider-hospital.model';
 import { ProviderReference } from '../models/provider-reference.model';
 import { ProviderHistory } from '../models/provider-history.model';
 import { ProviderSpecality } from '../models/provider-speciality.model';
+import { ProviderRegistration } from '../models/provider-registratioin.model';
 export declare class CreateProviderService {
     private readonly userModel;
     private readonly providerModel;
@@ -31,10 +32,11 @@ export declare class CreateProviderService {
     private readonly providerServicesModel;
     private readonly ratingHistoryModel;
     private readonly providerSpecalityModel;
+    private readonly providerRegistrationModel;
     private userCreateService;
     private emailService;
     private readonly sequelize;
-    constructor(userModel: typeof User, providerModel: typeof Provider, providerHistoryModel: typeof ProviderHistory, addressModel: typeof Address, providerAddressModel: typeof ProviderAddress, providerLanguageModel: typeof ProviderLanguage, providerAffilationModel: typeof ProviderAffilation, providerHospitalModel: typeof ProviderHospital, providerEducationModel: typeof ProviderEducation, providerReferenceModel: typeof ProviderReference, providerServicesModel: typeof ProviderServices, ratingHistoryModel: typeof RatingHistory, providerSpecalityModel: typeof ProviderSpecality, userCreateService: UserCreateService, emailService: EmailService, sequelize: Sequelize);
+    constructor(userModel: typeof User, providerModel: typeof Provider, providerHistoryModel: typeof ProviderHistory, addressModel: typeof Address, providerAddressModel: typeof ProviderAddress, providerLanguageModel: typeof ProviderLanguage, providerAffilationModel: typeof ProviderAffilation, providerHospitalModel: typeof ProviderHospital, providerEducationModel: typeof ProviderEducation, providerReferenceModel: typeof ProviderReference, providerServicesModel: typeof ProviderServices, ratingHistoryModel: typeof RatingHistory, providerSpecalityModel: typeof ProviderSpecality, providerRegistrationModel: typeof ProviderRegistration, userCreateService: UserCreateService, emailService: EmailService, sequelize: Sequelize);
     createProvider(providerData: ProviderDto): Promise<any>;
     saveProviderAddress(addressData: AddressDto, transaction: Transaction, patientId?: any): Promise<any>;
     saveProviderHistoryInfo(providerData: ProviderDto, action: string, transaction: Transaction, providerId?: any): Promise<ProviderHistory>;
@@ -76,4 +78,5 @@ export declare class CreateProviderService {
     updateStatus(data: any): Promise<any>;
     updateVerifyStatus(data: any): Promise<any>;
     saveRating(data: any): Promise<any>;
+    providerRegistration(providerData: ProviderRegistrationDto): Promise<any>;
 }

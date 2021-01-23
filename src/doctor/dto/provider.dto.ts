@@ -177,3 +177,51 @@ export class ProviderReferenceDto {
   @IsString()
   phone: string;
 }
+
+
+
+export class ProviderRegistrationDto {
+  @IsOptional()
+  @IsNumber()
+  id: number;
+
+  @IsOptional()
+  @IsString()
+  title: string;
+
+  @IsOptional()
+  @IsString()
+  providerCredential: string;
+
+  @IsString()
+  firstName: string;
+
+  @IsString()
+  lastName: string;
+
+  @IsString()
+  email: string;
+
+  @IsString()
+  phone: string;
+
+  @IsString()
+  yearsInPractice: string;
+
+  @IsString()
+  boardCertifiedSpecialty: string;
+
+  @IsOptional()
+  @IsString()
+  howLearnAboutTeladocHealth: string;
+
+  @IsOptional()
+  @IsString()
+  otherTeladocHealth: string;
+
+  @IsString()
+  currentlyEnrolledIn: string;
+
+}
+
+

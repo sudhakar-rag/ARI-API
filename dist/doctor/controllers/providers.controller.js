@@ -266,6 +266,18 @@ let ProvidersController = class ProvidersController {
         }
         return output;
     }
+    async providerRegistration(registrationData) {
+        const output = new response_data_1.ResponseData();
+        try {
+            output.data = await this.createProviderService.providerRegistration(registrationData);
+        }
+        catch (error) {
+            console.log(error);
+            output.status = false;
+            output.message = typeof error == 'string' ? error : '';
+        }
+        return output;
+    }
 };
 __decorate([
     swagger_1.ApiOperation({ summary: 'list provider settings' }),
@@ -436,6 +448,13 @@ __decorate([
     __metadata("design:paramtypes", [String, Object]),
     __metadata("design:returntype", Promise)
 ], ProvidersController.prototype, "setAvailabilityByDay", null);
+__decorate([
+    common_1.Post('providerRegistration'),
+    __param(0, common_1.Body()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [provider_dto_1.ProviderRegistrationDto]),
+    __metadata("design:returntype", Promise)
+], ProvidersController.prototype, "providerRegistration", null);
 ProvidersController = __decorate([
     swagger_1.ApiTags('provider'),
     swagger_1.ApiBearerAuth(),

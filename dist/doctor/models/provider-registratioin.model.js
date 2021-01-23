@@ -20,7 +20,7 @@ __decorate([
 __decorate([
     sequelize_typescript_1.Column(sequelize_typescript_1.DataType.ENUM('MD', 'DO')),
     __metadata("design:type", String)
-], ProviderRegistration.prototype, "doctorcredential", void 0);
+], ProviderRegistration.prototype, "providerCredential", void 0);
 __decorate([
     sequelize_typescript_1.Column,
     __metadata("design:type", String)

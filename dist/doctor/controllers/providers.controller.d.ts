@@ -1,4 +1,4 @@
-import { ProviderDto } from './../dto/provider.dto';
+import { ProviderDto, ProviderRegistrationDto } from './../dto/provider.dto';
 import { ProviderService } from './../services/provider.service';
 import { ResponseData } from './../../core/common/response-data';
 import { CreateProviderService } from '../services/create-provider.service';
@@ -28,4 +28,5 @@ export declare class ProvidersController {
     getAvailability(providerId: string): Promise<ResponseData>;
     getAvailabilityByDay(params: any): Promise<ResponseData>;
     setAvailabilityByDay(providerId: string, params: any): Promise<ResponseData>;
+    providerRegistration(registrationData: ProviderRegistrationDto): Promise<ResponseData>;
 }

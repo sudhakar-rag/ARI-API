@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-import { ProviderDto } from './../dto/provider.dto';
+import { ProviderDto, ProviderRegistrationDto } from './../dto/provider.dto';
 import { ProviderService } from './../services/provider.service';
 import {
   Controller,
@@ -354,6 +354,22 @@ export class ProvidersController {
 
     try {
       output.data = await this.providerService.setExceptionalDays({ providerId: providerId, days: params.days });
+    } catch (error) {
+      console.log(error);
+      output.status = false;
+      output.message = typeof error == 'string' ? error : '';
+    }
+
+    return output;
+  }
+
+
+  @Post('providerRegistration')
+  async providerRegistration(@Body() registrationData: ProviderRegistrationDto): Promise<ResponseData> {
+    const output = new ResponseData();
+
+    try {
+      output.data = await this.createProviderService.providerRegistration(registrationData);
     } catch (error) {
       console.log(error);
       output.status = false;

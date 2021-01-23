@@ -9,7 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ProviderReferenceDto = exports.ProviderHospitalDto = exports.ProviderEducationDto = exports.ProviderDto = void 0;
+exports.ProviderRegistrationDto = exports.ProviderReferenceDto = exports.ProviderHospitalDto = exports.ProviderEducationDto = exports.ProviderDto = void 0;
 const address_dto_1 = require("./../../patient/dto/address.dto");
 const class_validator_1 = require("class-validator");
 const class_validator_2 = require("class-validator");
@@ -243,4 +243,60 @@ __decorate([
     __metadata("design:type", String)
 ], ProviderReferenceDto.prototype, "phone", void 0);
 exports.ProviderReferenceDto = ProviderReferenceDto;
+class ProviderRegistrationDto {
+}
+__decorate([
+    class_validator_2.IsOptional(),
+    class_validator_2.IsNumber(),
+    __metadata("design:type", Number)
+], ProviderRegistrationDto.prototype, "id", void 0);
+__decorate([
+    class_validator_2.IsOptional(),
+    class_validator_2.IsString(),
+    __metadata("design:type", String)
+], ProviderRegistrationDto.prototype, "title", void 0);
+__decorate([
+    class_validator_2.IsOptional(),
+    class_validator_2.IsString(),
+    __metadata("design:type", String)
+], ProviderRegistrationDto.prototype, "providerCredential", void 0);
+__decorate([
+    class_validator_2.IsString(),
+    __metadata("design:type", String)
+], ProviderRegistrationDto.prototype, "firstName", void 0);
+__decorate([
+    class_validator_2.IsString(),
+    __metadata("design:type", String)
+], ProviderRegistrationDto.prototype, "lastName", void 0);
+__decorate([
+    class_validator_2.IsString(),
+    __metadata("design:type", String)
+], ProviderRegistrationDto.prototype, "email", void 0);
+__decorate([
+    class_validator_2.IsString(),
+    __metadata("design:type", String)
+], ProviderRegistrationDto.prototype, "phone", void 0);
+__decorate([
+    class_validator_2.IsString(),
+    __metadata("design:type", String)
+], ProviderRegistrationDto.prototype, "yearsInPractice", void 0);
+__decorate([
+    class_validator_2.IsString(),
+    __metadata("design:type", String)
+], ProviderRegistrationDto.prototype, "boardCertifiedSpecialty", void 0);
+__decorate([
+    class_validator_2.IsOptional(),
+    class_validator_2.IsString(),
+    __metadata("design:type", String)
+], ProviderRegistrationDto.prototype, "howLearnAboutTeladocHealth", void 0);
+__decorate([
+    class_validator_2.IsOptional(),
+    class_validator_2.IsString(),
+    __metadata("design:type", String)
+], ProviderRegistrationDto.prototype, "otherTeladocHealth", void 0);
+__decorate([
+    class_validator_2.IsString(),
+    __metadata("design:type", String)
+], ProviderRegistrationDto.prototype, "currentlyEnrolledIn", void 0);
+exports.ProviderRegistrationDto = ProviderRegistrationDto;
 //# sourceMappingURL=provider.dto.js.map
