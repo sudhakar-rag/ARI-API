@@ -36,4 +36,5 @@ export declare class AppointmentService {
     updateAppointmentStatus(data: UpdateAppointmentDto): Promise<any>;
     deleteFile(fileId: string): Promise<any>;
     getAppointmentsListByDate(date: string): Promise<Appointment[]>;
+    getAppointmentCountByStatus(status: any): Promise<any>;
 }

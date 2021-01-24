@@ -447,6 +447,9 @@ let AppointmentService = class AppointmentService {
             return null;
         }
     }
+    async getAppointmentCountByStatus(status) {
+        return await this.appointmentModel.count({ where: { status: status } });
+    }
 };
 AppointmentService = __decorate([
     common_1.Injectable(),

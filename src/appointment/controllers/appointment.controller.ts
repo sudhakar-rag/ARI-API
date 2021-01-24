@@ -212,4 +212,15 @@ export class AppointmentController {
 
         return output;
     }
+
+
+    @Get('appointmentsCount/:status')
+    async getAppointmentsCount(@Param('status') status: string) {
+        let result = await this.appointmentService.getAppointmentCountByStatus(status);
+        return {
+            data: result
+        };
+    }
+
+
 }

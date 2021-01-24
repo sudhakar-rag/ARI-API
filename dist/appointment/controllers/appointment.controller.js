@@ -152,6 +152,12 @@ let AppointmentController = class AppointmentController {
         }
         return output;
     }
+    async getAppointmentsCount(status) {
+        let result = await this.appointmentService.getAppointmentCountByStatus(status);
+        return {
+            data: result
+        };
+    }
 };
 __decorate([
     swagger_1.ApiOperation({ summary: "Get appointment list by date" }),
@@ -243,6 +249,13 @@ __decorate([
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
 ], AppointmentController.prototype, "deleteFile", null);
+__decorate([
+    common_1.Get('appointmentsCount/:status'),
+    __param(0, common_1.Param('status')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], AppointmentController.prototype, "getAppointmentsCount", null);
 AppointmentController = __decorate([
     swagger_1.ApiTags('appointment'),
     swagger_1.ApiBearerAuth(),

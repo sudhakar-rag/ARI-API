@@ -16,4 +16,7 @@ export declare class AppointmentController {
     addAttachment(attachmentData: CreateAttachmentDto): Promise<ResponseData>;
     getAttachments(queryParams: ListQueryParamsDto): Promise<ResponseData>;
     deleteFile(fileId: string): Promise<ResponseData>;
+    getAppointmentsCount(status: string): Promise<{
+        data: any;
+    }>;
 }

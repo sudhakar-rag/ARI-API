@@ -519,4 +519,10 @@ export class AppointmentService {
             return null;
         }
     }
+
+
+    async getAppointmentCountByStatus(status): Promise<any> {
+        return await this.appointmentModel.count({ where: { status: status } });
+    }
+
 }
