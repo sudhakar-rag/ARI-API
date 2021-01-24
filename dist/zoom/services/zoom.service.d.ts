@@ -9,4 +9,5 @@ export declare class ZoomService {
     getToken(): string;
     getSignature(data: CreateSignatureDto): string;
     getToken1(): Promise<any>;
+    getMeetingDetails(mettingId: string): Promise<any>;
 }
