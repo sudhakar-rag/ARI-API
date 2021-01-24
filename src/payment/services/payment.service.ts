@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { EmailService } from './../../email/email.service';
 import { UsersService } from './../../users/services/users.service';
 import { STRIPE_SECRET_KEY } from './../../core/config/constants';
