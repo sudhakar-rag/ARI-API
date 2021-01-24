@@ -435,4 +435,23 @@ export class ProvidersController {
   }
 
 
+
+  @Get('verifiedProviders')
+  async getVerifiedProvidersCount() {
+    let result = await this.providerService.getVerifiedProviders();
+    return {
+      data: result
+    };
+  }
+
+  @Get('leadProvidersCount/:status')
+  async getLeadProvidersCount(@Param('status') status: string) {
+    let result = await this.providerService.getleadProvidersByStatus(status);
+    return {
+      data: result
+    };
+  }
+
+
+
 }

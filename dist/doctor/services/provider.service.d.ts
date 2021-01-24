@@ -33,4 +33,6 @@ export declare class ProviderService {
     setExceptionalDays(data: any): Promise<any>;
     getProvidersLeads(queryParams: ListQueryParamsDto): Promise<any>;
     getProviderLeadById(providerId: any): Promise<any>;
+    getVerifiedProviders(): Promise<any>;
+    getleadProvidersByStatus(status: any): Promise<any>;
 }

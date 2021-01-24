@@ -321,6 +321,18 @@ let ProvidersController = class ProvidersController {
         const provider = await this.providerRegistrationModel.findOne({ where: { id: providerId } });
         return await provider.destroy();
     }
+    async getVerifiedProvidersCount() {
+        let result = await this.providerService.getVerifiedProviders();
+        return {
+            data: result
+        };
+    }
+    async getLeadProvidersCount(status) {
+        let result = await this.providerService.getleadProvidersByStatus(status);
+        return {
+            data: result
+        };
+    }
 };
 __decorate([
     swagger_1.ApiOperation({ summary: 'list provider settings' }),
@@ -526,6 +538,19 @@ __decorate([
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
 ], ProvidersController.prototype, "removeLeadProvider", null);
+__decorate([
+    common_1.Get('verifiedProviders'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], ProvidersController.prototype, "getVerifiedProvidersCount", null);
+__decorate([
+    common_1.Get('leadProvidersCount/:status'),
+    __param(0, common_1.Param('status')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], ProvidersController.prototype, "getLeadProvidersCount", null);
 ProvidersController = __decorate([
     swagger_1.ApiTags('provider'),
     swagger_1.ApiBearerAuth(),

@@ -350,6 +350,12 @@ let ProviderService = class ProviderService {
             where: { id: providerId }
         });
     }
+    async getVerifiedProviders() {
+        return await this.providerModel.count();
+    }
+    async getleadProvidersByStatus(status) {
+        return await this.providerRegistrationModel.count({ where: { verified: status } });
+    }
 };
 ProviderService = __decorate([
     common_1.Injectable(),

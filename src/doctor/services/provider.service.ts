@@ -415,5 +415,16 @@ export class ProviderService {
     });
   }
 
+
+  async getVerifiedProviders(): Promise<any> {
+    return await this.providerModel.count();
+  }
+
+
+
+  async getleadProvidersByStatus(status): Promise<any> {
+    return await this.providerRegistrationModel.count({ where: { verified: status } });
+  }
+
 }
 
