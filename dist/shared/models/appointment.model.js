@@ -61,7 +61,7 @@ __decorate([
     __metadata("design:type", String)
 ], Appointment.prototype, "startUrl", void 0);
 __decorate([
-    sequelize_typescript_2.Column(sequelize_typescript_2.DataType.ENUM('PENDING', 'COMPLETED')),
+    sequelize_typescript_2.Column(sequelize_typescript_2.DataType.ENUM('PENDING', 'ACCEPTED', 'COMPLETED', 'CANCELLED')),
     __metadata("design:type", String)
 ], Appointment.prototype, "status", void 0);
 __decorate([

@@ -20,6 +20,9 @@ let ZoomController = class ZoomController {
     constructor(zoomService) {
         this.zoomService = zoomService;
     }
+    getMeetingData(meetingId) {
+        return this.zoomService.getMeetingDetails(meetingId);
+    }
     createToken(tokenRequest) {
         return this.zoomService.createMeeting(tokenRequest);
     }
@@ -32,6 +35,13 @@ let ZoomController = class ZoomController {
         return await this.zoomService.getToken1();
     }
 };
+__decorate([
+    common_1.Get('meeting/:meetingId'),
+    __param(0, common_1.Param('meetingId')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Object)
+], ZoomController.prototype, "getMeetingData", null);
 __decorate([
     common_1.Post('meeting'),
     __param(0, common_1.Body()),

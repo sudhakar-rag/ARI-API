@@ -113,6 +113,25 @@ let ZoomService = class ZoomService {
             });
         });
     }
+    getMeetingDetails(mettingId) {
+        return new Promise((resolve) => {
+            const apiUser = this.configService.get('ZOOM_API_USER');
+            const endpoint = 'https://api.zoom.us/v2/meetings/' + mettingId;
+            const auth_token = this.getToken();
+            const headers = {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${auth_token}`
+            };
+            return this.httpService.get(endpoint, { headers: headers }).pipe(operators_1.map((resp) => {
+                return resp.data || {};
+            }), operators_1.catchError(error => {
+                console.log(error);
+                return rxjs_1.of({});
+            })).subscribe((data) => {
+                resolve(data);
+            });
+        });
+    }
 };
 ZoomService = __decorate([
     common_1.Injectable(),
