@@ -350,7 +350,7 @@ let ProviderService = class ProviderService {
             where: { id: providerId }
         });
     }
-    async getVerifiedProviders() {
+    async getProvidersCount() {
         return await this.providerModel.count();
     }
     async getleadProvidersByStatus(status) {

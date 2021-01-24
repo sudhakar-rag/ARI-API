@@ -436,9 +436,9 @@ export class ProvidersController {
 
 
 
-  @Get('verifiedProviders')
-  async getVerifiedProvidersCount() {
-    let result = await this.providerService.getVerifiedProviders();
+  @Get('providers/count')
+  async getProvidersCount() {
+    let result = await this.providerService.getProvidersCount();
     return {
       data: result
     };

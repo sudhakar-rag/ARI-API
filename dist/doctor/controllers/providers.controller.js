@@ -321,8 +321,8 @@ let ProvidersController = class ProvidersController {
         const provider = await this.providerRegistrationModel.findOne({ where: { id: providerId } });
         return await provider.destroy();
     }
-    async getVerifiedProvidersCount() {
-        let result = await this.providerService.getVerifiedProviders();
+    async getProvidersCount() {
+        let result = await this.providerService.getProvidersCount();
         return {
             data: result
         };
@@ -539,11 +539,11 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], ProvidersController.prototype, "removeLeadProvider", null);
 __decorate([
-    common_1.Get('verifiedProviders'),
+    common_1.Get('providers/count'),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
-], ProvidersController.prototype, "getVerifiedProvidersCount", null);
+], ProvidersController.prototype, "getProvidersCount", null);
 __decorate([
     common_1.Get('leadProvidersCount/:status'),
     __param(0, common_1.Param('status')),

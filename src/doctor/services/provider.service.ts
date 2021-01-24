@@ -416,7 +416,7 @@ export class ProviderService {
   }
 
 
-  async getVerifiedProviders(): Promise<any> {
+  async getProvidersCount(): Promise<any> {
     return await this.providerModel.count();
   }
 

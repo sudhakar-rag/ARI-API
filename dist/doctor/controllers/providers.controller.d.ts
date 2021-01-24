@@ -35,7 +35,7 @@ export declare class ProvidersController {
     dasdasd(providerId: string): Promise<ResponseData>;
     updateLeadStatus(providerData: any): Promise<ResponseData>;
     removeLeadProvider(providerId: string): Promise<any>;
-    getVerifiedProvidersCount(): Promise<{
+    getProvidersCount(): Promise<{
         data: any;
     }>;
     getLeadProvidersCount(status: string): Promise<{
