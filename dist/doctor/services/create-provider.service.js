@@ -70,7 +70,7 @@ let CreateProviderService = class CreateProviderService {
                 email: providerData.email,
                 phone: providerData.phone,
                 picture: providerData.picture,
-                status: 0
+                status: 0,
             };
             const user = await this.userCreateService.saveUser(userData, action, transaction, 2);
             providerData.id = user.id;
@@ -92,7 +92,9 @@ let CreateProviderService = class CreateProviderService {
                 password: userData.password
             };
             await this.emailService.sendWeclcomeMail(welcomeData);
-            return user;
+            let data = user;
+            data.provider = provider;
+            return data;
         }
         catch (error) {
             console.log(error);

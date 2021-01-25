@@ -82,7 +82,8 @@ export class CreateProviderService {
                 email: providerData.email,
                 phone: providerData.phone,
                 picture: providerData.picture,
-                status: 0
+                status: 0,
+
             }
 
             const user = await this.userCreateService.saveUser(userData, action, transaction, 2);
@@ -122,7 +123,11 @@ export class CreateProviderService {
 
             await this.emailService.sendWeclcomeMail(welcomeData);
 
-            return user;
+            let data: any = user;
+            data.provider = provider;
+
+            return data;
+
         } catch (error) {
             console.log(error);
             if (transaction) await transaction.rollback();
