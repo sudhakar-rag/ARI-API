@@ -92,9 +92,7 @@ let CreateProviderService = class CreateProviderService {
                 password: userData.password
             };
             await this.emailService.sendWeclcomeMail(welcomeData);
-            let data = user;
-            data.provider = provider;
-            return data;
+            return { user, provider };
         }
         catch (error) {
             console.log(error);
