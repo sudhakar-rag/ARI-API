@@ -20,6 +20,7 @@ import { ZoomService } from '@app/src/zoom/services/zoom.service';
 import { UpdateAppointmentDto } from '../dto/update-appointment.dto';
 import { Attachments } from '@app/src/shared/models/attachments.model';
 import { FcmService } from '@app/src/fcm/fcm.service';
+import { Payment } from '@app/src/shared/models/payment.model';
 @Injectable()
 export class AppointmentService {
     constructor(
@@ -31,6 +32,8 @@ export class AppointmentService {
         private readonly attachmentsModel: typeof Attachments,
         @InjectModel(ProviderAvailabilitySlot)
         private readonly providerAvailabilitySlotModel: typeof ProviderAvailabilitySlot,
+        @InjectModel(Payment)
+        private readonly paymentModel: typeof Payment,
         private readonly sequelize: Sequelize,
         private usersService: UsersService,
         private providerService: ProviderService,
@@ -223,6 +226,11 @@ export class AppointmentService {
                 });
 
 
+            }
+
+            // update payment table
+            if (appointmentData.paymentId) {
+                await this.paymentModel.update({ appointmentId: appointmentData.appointmentId }, { where: { id: appointmentData.paymentId } });
             }
 
             await transaction.commit();

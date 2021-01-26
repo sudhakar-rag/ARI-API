@@ -100,4 +100,9 @@ export class CreateAppointmentDto {
     @ApiProperty({ type: String, default: 'assets/image/user.png' })
     @IsString()
     files: string;
+
+    @ApiProperty({ type: Number })
+    @IsOptional()
+    @IsNumber()
+    paymentId: number;
 }

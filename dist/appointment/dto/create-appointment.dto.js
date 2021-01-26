@@ -130,5 +130,11 @@ __decorate([
     class_validator_1.IsString(),
     __metadata("design:type", String)
 ], CreateAppointmentDto.prototype, "files", void 0);
+__decorate([
+    swagger_1.ApiProperty({ type: Number }),
+    class_validator_1.IsOptional(),
+    class_validator_1.IsNumber(),
+    __metadata("design:type", Number)
+], CreateAppointmentDto.prototype, "paymentId", void 0);
 exports.CreateAppointmentDto = CreateAppointmentDto;
 //# sourceMappingURL=create-appointment.dto.js.map

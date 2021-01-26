@@ -12,6 +12,7 @@ import { ZoomModule } from '../zoom/zoom.module';
 import { AppointmentController } from './controllers/appointment.controller';
 import { AppointmentService } from './services/appointment.service';
 import { FcmModule } from '../fcm/fcm.module';
+import { Payment } from '../shared/models/payment.model';
 
 @Module({
   imports: [
@@ -19,7 +20,8 @@ import { FcmModule } from '../fcm/fcm.module';
       Appointment,
       AppointmentDetails,
       ProviderAvailabilitySlot,
-      Attachments
+      Attachments,
+      Payment
     ]),
     UsersModule,
     ZoomModule,

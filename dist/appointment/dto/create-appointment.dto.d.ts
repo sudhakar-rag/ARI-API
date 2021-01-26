@@ -28,4 +28,5 @@ export declare class CreateAppointmentDto {
     fileName: string;
     uploadedBy: number;
     files: string;
+    paymentId: number;
 }
