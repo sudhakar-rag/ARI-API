@@ -29,6 +29,5 @@ export class CreatePaymentDto {
     @IsString()
     status: 'APPROVED' | 'PENDING' | 'CANCELLED' | 'REFUNDED'
 
-    @IsString()
     stripe?: any;
 }
