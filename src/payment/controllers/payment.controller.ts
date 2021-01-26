@@ -42,6 +42,23 @@ export class PaymentController {
     return output;
   }
 
+
+  @Get('provider/:id')
+  async getProviderPayments(@Param('id') providerId: number): Promise<ResponseData> {
+    const output = new ResponseData();
+
+    try {
+      output.data = await this.paymentService.getProviderPaymentsById(+providerId);
+    } catch (error) {
+      console.log(error);
+      output.status = false;
+      output.message = typeof error == 'string' ? error : '';
+    }
+
+    return output;
+  }
+
+
   @Post()
   async savePayment(@Body() paymentData: CreatePaymentDto): Promise<ResponseData> {
     const output = new ResponseData();

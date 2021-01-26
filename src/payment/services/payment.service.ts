@@ -8,6 +8,9 @@ import { InjectModel } from '@nestjs/sequelize';
 import { Injectable } from '@nestjs/common';
 import Stripe from 'stripe';
 import { CreatePaymentDto } from '../dto/payment.dto';
+import { Appointment } from '@app/src/shared/models/appointment.model';
+import { Subscription } from '@app/src/shared/models/subscription.model';
+import { User } from '@app/src/users/models/user.model';
 
 
 @Injectable()
@@ -23,10 +26,36 @@ export class PaymentService {
 
   async getPaymentsById(userId: number): Promise<any> {
     return await this.paymentModel.findAll({
-      where: { userId: userId }
+      where: { userId: userId },
+      include: [
+        {
+          model: Appointment,
+          required: false
+        },
+        {
+          model: Subscription,
+          required: false
+        }
+      ]
     });
   }
 
+
+  async getProviderPaymentsById(providerId: number): Promise<any> {
+    return await this.paymentModel.findAll({
+      where: { paymentType: 'A' },
+      include: [
+        {
+          model: Appointment,
+          where: { providerId: providerId },
+          required: true
+        },
+        {
+          model: User
+        }
+      ]
+    });
+  }
 
   /**
    * doStripePayment
