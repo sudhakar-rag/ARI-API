@@ -42,8 +42,9 @@ let PaymentService = class PaymentService {
             currency: paymentData.currency,
             source: paymentData.source
         });
+        let payment;
         if (stripeResult) {
-            await this.paymentModel.create({
+            payment = await this.paymentModel.create({
                 userId: paymentData.userId,
                 type: paymentData.type,
                 amount: paymentData.amount,
@@ -57,7 +58,7 @@ let PaymentService = class PaymentService {
                 amount: paymentData.amount,
             };
             await this.emailService.sendPaymentMail(mailData);
-            return stripeResult;
+            return { stripeResult, payment };
         }
         else {
             return paymentData;

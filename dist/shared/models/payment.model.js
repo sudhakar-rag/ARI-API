@@ -12,6 +12,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Payment = void 0;
 const user_model_1 = require("./../../users/models/user.model");
 const sequelize_typescript_1 = require("sequelize-typescript");
+const appointment_model_1 = require("./appointment.model");
+const subscription_model_1 = require("./subscription.model");
 let Payment = class Payment extends sequelize_typescript_1.Model {
 };
 __decorate([
@@ -24,6 +26,20 @@ __decorate([
     __metadata("design:type", String)
 ], Payment.prototype, "type", void 0);
 __decorate([
+    sequelize_typescript_1.Column(sequelize_typescript_1.DataType.ENUM('S', 'A')),
+    __metadata("design:type", String)
+], Payment.prototype, "paymentType", void 0);
+__decorate([
+    sequelize_typescript_1.ForeignKey(() => appointment_model_1.Appointment),
+    sequelize_typescript_1.Column,
+    __metadata("design:type", Number)
+], Payment.prototype, "appointmentId", void 0);
+__decorate([
+    sequelize_typescript_1.ForeignKey(() => subscription_model_1.Subscription),
+    sequelize_typescript_1.Column,
+    __metadata("design:type", subscription_model_1.Subscription)
+], Payment.prototype, "subscriptionId", void 0);
+__decorate([
     sequelize_typescript_1.Column(sequelize_typescript_1.DataType.DECIMAL(10, 2)),
     __metadata("design:type", Number)
 ], Payment.prototype, "amount", void 0);
@@ -32,9 +48,21 @@ __decorate([
     __metadata("design:type", String)
 ], Payment.prototype, "txnId", void 0);
 __decorate([
-    sequelize_typescript_1.Column(sequelize_typescript_1.DataType.ENUM('succeeded', 'pending', 'failed')),
+    sequelize_typescript_1.Column(sequelize_typescript_1.DataType.ENUM('APPROVED', 'PENDING', 'CANCELLED', 'REFUNDED')),
     __metadata("design:type", String)
 ], Payment.prototype, "status", void 0);
+__decorate([
+    sequelize_typescript_1.BelongsTo(() => subscription_model_1.Subscription, {
+        onDelete: "SET NULL"
+    }),
+    __metadata("design:type", subscription_model_1.Subscription)
+], Payment.prototype, "subscription", void 0);
+__decorate([
+    sequelize_typescript_1.BelongsTo(() => appointment_model_1.Appointment, {
+        onDelete: "SET NULL"
+    }),
+    __metadata("design:type", appointment_model_1.Appointment)
+], Payment.prototype, "appointment", void 0);
 Payment = __decorate([
     sequelize_typescript_1.Table
 ], Payment);

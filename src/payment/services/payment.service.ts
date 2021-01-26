@@ -39,9 +39,11 @@ export class PaymentService {
       source: paymentData.source
     });
 
+    let payment;
+
     if (stripeResult) {
 
-      await this.paymentModel.create({
+      payment = await this.paymentModel.create({
         userId: paymentData.userId,
         type: paymentData.type,
         amount: paymentData.amount,
@@ -59,7 +61,7 @@ export class PaymentService {
 
       await this.emailService.sendPaymentMail(mailData);
 
-      return stripeResult;
+      return { stripeResult, payment };
 
     } else {
       return paymentData;
