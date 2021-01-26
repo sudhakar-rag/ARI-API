@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { CreateAttachmentDto } from './../dto/create-attachment.dto';
 import { ResponseData } from '@app/src/core/common/response-data';
 import { CreateAppointmentDto } from '@app/src/appointment/dto/create-appointment.dto';
@@ -7,6 +8,7 @@ import { AppointmentService } from '../services/appointment.service';
 import { ListQueryParamsDto } from '@app/src/core/common/list-query-params.dto';
 import { JwtAuthGuard } from '@app/src/auth/guards/jwt-auth.guard';
 import { UpdateAppointmentDto } from '../dto/update-appointment.dto';
+import { FcmService } from '@app/src/fcm/fcm.service';
 
 @ApiTags('appointment')
 @ApiBearerAuth()
@@ -16,7 +18,21 @@ export class AppointmentController {
 
     constructor(
         private appointmentService: AppointmentService,
+        private fcmService: FcmService
     ) { }
+
+    // @Get('test')
+    // async test() {
+    //     const result = await this.fcmService.sendMessage({
+    //         title: 'DDDDDDDD server',
+    //         body: 'Hi Rama',
+    //         userId: 9
+    //     });
+
+    //     return {
+    //         data: result
+    //     };
+    // }
 
     @ApiOperation({ summary: "Get appointment list by date" })
     @Get('byDate/:date')
@@ -216,11 +232,12 @@ export class AppointmentController {
 
     @Get('appointmentsCount/:status')
     async getAppointmentsCount(@Param('status') status: string) {
-        let result = await this.appointmentService.getAppointmentCountByStatus(status);
+        const result = await this.appointmentService.getAppointmentCountByStatus(status);
         return {
             data: result
         };
     }
+
 
 
 }

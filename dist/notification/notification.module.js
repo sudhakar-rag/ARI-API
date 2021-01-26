@@ -14,6 +14,7 @@ const common_1 = require("@nestjs/common");
 const sequelize_1 = require("@nestjs/sequelize");
 const appointment_model_1 = require("../shared/models/appointment.model");
 const users_module_1 = require("../users/users.module");
+const fcm_module_1 = require("../fcm/fcm.module");
 let NotificationModule = class NotificationModule {
 };
 NotificationModule = __decorate([
@@ -24,6 +25,7 @@ NotificationModule = __decorate([
                 appointment_model_1.Appointment
             ]),
             users_module_1.UsersModule,
+            fcm_module_1.FcmModule
         ],
         controllers: [notification_controller_1.NotificationController],
         providers: [notification_service_1.NotificationService],

@@ -19,6 +19,7 @@ import { Op } from 'sequelize';
 import { ZoomService } from '@app/src/zoom/services/zoom.service';
 import { UpdateAppointmentDto } from '../dto/update-appointment.dto';
 import { Attachments } from '@app/src/shared/models/attachments.model';
+import { FcmService } from '@app/src/fcm/fcm.service';
 @Injectable()
 export class AppointmentService {
     constructor(
@@ -35,7 +36,8 @@ export class AppointmentService {
         private providerService: ProviderService,
         private emailService: EmailService,
         private zoomService: ZoomService,
-        private notificationService: NotificationService
+        private notificationService: NotificationService,
+        private fcmService: FcmService
     ) { }
 
 
@@ -211,6 +213,16 @@ export class AppointmentService {
                 };
 
                 await this.notificationService.saveNotifications(notificationData, transaction);
+
+                await this.fcmService.sendMessage({
+                    title: 'New Message from ARI',
+                    body: 'You have OnDemand eVisit call with ' + this.usersService.getLoggedinUserName() + '.',
+                    userId: notificationData.userId,
+                    appointmentId: notificationData.appointmentId,
+                    url: 'providers/appointments/view/' + notificationData.appointmentId
+                });
+
+
             }
 
             await transaction.commit();

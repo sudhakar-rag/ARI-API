@@ -14,6 +14,8 @@ import { Address } from '../models/address.model';
 import { convertToJSONObject } from '@app/src/core/common/helpers';
 import { Provider } from '@app/src/doctor/models/provider.model';
 import { Patient } from '@app/src/patient/models/patient.model';
+import { CreateFCMDto } from '../dto/fcm.dto';
+import { UserFCMToken } from '../models/user-fcm-token.model';
 
 @Injectable()
 export class UsersService {
@@ -27,6 +29,8 @@ export class UsersService {
     private readonly userAddressModel: typeof UserAddress,
     @InjectModel(Address)
     private readonly addressModel: typeof Address,
+    @InjectModel(UserFCMToken)
+    private readonly userFCMTokenModel: typeof UserFCMToken,
     private readonly sequelize: Sequelize,
   ) { }
 
@@ -269,6 +273,25 @@ export class UsersService {
     return this.providerModel.findOne({
       where: where
     });
+  }
+
+  async createFCM(CreateFCMDto: CreateFCMDto): Promise<UserFCMToken> {
+    let data = await this.userFCMTokenModel.findOne({
+      where: {
+        userId: CreateFCMDto.userId,
+        token: CreateFCMDto.token
+      }
+    });
+
+    if (!data) {
+      data = await this.userFCMTokenModel.create({
+        userId: CreateFCMDto.userId,
+        token: CreateFCMDto.token,
+        type: CreateFCMDto.type
+      });
+    };
+
+    return data;
   }
 
 }

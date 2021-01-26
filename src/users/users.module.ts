@@ -14,6 +14,7 @@ import { RolesController } from './controllers/roles.controller';
 import { RolesService } from './services/roles.service';
 import { UserCardDetail } from './models/user-card-detail';
 import { Provider } from '../doctor/models/provider.model';
+import { UserFCMToken } from './models/user-fcm-token.model';
 
 @Module({
   imports: [
@@ -26,7 +27,8 @@ import { Provider } from '../doctor/models/provider.model';
       Address,
       UserAddress,
       UserCardDetail,
-      Provider
+      Provider,
+      UserFCMToken
     ]),
   ],
   providers: [UsersService, UserCreateService, RolesService],

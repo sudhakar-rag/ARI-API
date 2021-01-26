@@ -11,6 +11,7 @@ import { UsersModule } from '../users/users.module';
 import { ZoomModule } from '../zoom/zoom.module';
 import { AppointmentController } from './controllers/appointment.controller';
 import { AppointmentService } from './services/appointment.service';
+import { FcmModule } from '../fcm/fcm.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { AppointmentService } from './services/appointment.service';
     UsersModule,
     ZoomModule,
     NotificationModule,
+    FcmModule,
     EmailModule,
     ProviderModule
   ],

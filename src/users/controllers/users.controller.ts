@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { UserGroup } from './../models/user-group.model';
 import { Body, Controller, Delete, Get, Param, Post, UseGuards, Put } from '@nestjs/common';
 import { CreateUserDto, CreateVendorDto } from '../dto/create-user.dto';
@@ -6,6 +7,7 @@ import { User } from '../models/user.model';
 import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
 import { ResponseData } from '@app/src/core/common/response-data';
 import { UserCreateService } from '../services/user-create.service';
+import { CreateFCMDto } from '../dto/fcm.dto';
 
 @Controller('users')
 @UseGuards(JwtAuthGuard)
@@ -23,7 +25,7 @@ export class UsersController {
 
   @Post('createVendor')
   async createVendor(@Body() createVendorData: CreateVendorDto): Promise<ResponseData> {
-    let output = new ResponseData();
+    const output = new ResponseData();
 
     try {
 
@@ -41,11 +43,28 @@ export class UsersController {
 
   @Post('listVendors')
   async listProducts(@Body() queryParams): Promise<ResponseData> {
-    let output = new ResponseData();
+    const output = new ResponseData();
 
     try {
 
       output.data = await this.usersService.listVendors(queryParams);
+
+    } catch (error) {
+      console.log(error);
+      output.status = false;
+      output.message = typeof error == 'string' ? error : '';
+    }
+
+    return output;
+  }
+
+  @Post('fcm')
+  async saveFCM(@Body() params: CreateFCMDto): Promise<ResponseData> {
+    const output = new ResponseData();
+
+    try {
+
+      output.data = await this.usersService.createFCM(params);
 
     } catch (error) {
       console.log(error);
@@ -63,7 +82,7 @@ export class UsersController {
 
   @Get('loggedinUser')
   async getLoggedInUserData(): Promise<any> {
-    let output = new ResponseData();
+    const output = new ResponseData();
 
     try {
       output.data = await this.usersService.getLoggedinUserData();

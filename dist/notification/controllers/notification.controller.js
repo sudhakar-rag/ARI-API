@@ -19,9 +19,11 @@ const common_1 = require("@nestjs/common");
 const response_data_1 = require("./../../core/common/response-data");
 const swagger_1 = require("@nestjs/swagger");
 const list_query_params_dto_1 = require("../../core/common/list-query-params.dto");
+const fcm_service_1 = require("./../../fcm/fcm.service");
 let NotificationController = class NotificationController {
-    constructor(notificationService) {
+    constructor(notificationService, fcmService) {
         this.notificationService = notificationService;
+        this.fcmService = fcmService;
     }
     async getNotifications(userId) {
         const output = new response_data_1.ResponseData();
@@ -39,6 +41,13 @@ let NotificationController = class NotificationController {
         const output = new response_data_1.ResponseData();
         try {
             output.data = await this.notificationService.saveNotifications(notificationData, transaction);
+            await this.fcmService.sendMessage({
+                title: 'New Message from ARI',
+                body: notificationData.message,
+                userId: notificationData.userId,
+                appointmentId: notificationData.appointmentId,
+                url: 'providers/appointments/view/' + notificationData.appointmentId
+            });
         }
         catch (error) {
             console.log(error);
@@ -103,7 +112,8 @@ __decorate([
 NotificationController = __decorate([
     swagger_1.ApiTags('notification'),
     common_1.Controller('notification'),
-    __metadata("design:paramtypes", [notification_service_1.NotificationService])
+    __metadata("design:paramtypes", [notification_service_1.NotificationService,
+        fcm_service_1.FcmService])
 ], NotificationController);
 exports.NotificationController = NotificationController;
 //# sourceMappingURL=notification.controller.js.map

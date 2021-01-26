@@ -16,13 +16,16 @@ import {
 import { ResponseData } from './../../core/common/response-data';
 import { ApiBearerAuth, ApiBody, ApiCreatedResponse, ApiOperation, ApiParam, ApiTags } from '@nestjs/swagger';
 import { ListQueryParamsDto } from '@app/src/core/common/list-query-params.dto';
+import { FcmService } from './../../fcm/fcm.service';
 
 @ApiTags('notification')
 // @ApiBearerAuth()
 // @UseGuards(JwtAuthGuard)
 @Controller('notification')
 export class NotificationController {
-  constructor(private notificationService: NotificationService,
+  constructor(
+    private notificationService: NotificationService,
+    private fcmService: FcmService
   ) {
 
   }
@@ -53,6 +56,15 @@ export class NotificationController {
 
     try {
       output.data = await this.notificationService.saveNotifications(notificationData, transaction);
+
+      await this.fcmService.sendMessage({
+        title: 'New Message from ARI',
+        body: notificationData.message,
+        userId: notificationData.userId,
+        appointmentId: notificationData.appointmentId,
+        url: 'providers/appointments/view/' + notificationData.appointmentId
+      });
+
     } catch (error) {
       console.log(error);
       output.status = false;
