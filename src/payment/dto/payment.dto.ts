@@ -1,4 +1,4 @@
-import { IsNumber, IsOptional, IsString } from "class-validator";
+import { IsNotEmpty, IsNumber, IsOptional, IsString } from "class-validator";
 
 
 export class CreatePaymentDto {
@@ -29,5 +29,7 @@ export class CreatePaymentDto {
     @IsString()
     status: 'APPROVED' | 'PENDING' | 'CANCELLED' | 'REFUNDED'
 
+    @IsOptional()
+    @IsNotEmpty()
     stripe?: any;
 }
