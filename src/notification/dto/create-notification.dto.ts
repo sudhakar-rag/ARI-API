@@ -21,6 +21,11 @@ export class CreateNotificationDto {
     @IsString()
     message: string;
 
+    @ApiProperty({ type: String })
+    @IsOptional()
+    @IsString()
+    text?: string;
+
     @ApiProperty({ type: Boolean })
     @IsBoolean()
     status: boolean;
