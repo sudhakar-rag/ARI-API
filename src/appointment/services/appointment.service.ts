@@ -228,9 +228,13 @@ export class AppointmentService {
 
             }
 
+            console.log(appointmentData.paymentId, appointmentData.appointmentId);
+
             // update payment table
             if (appointmentData.paymentId) {
-                await this.paymentModel.update({ appointmentId: appointmentData.appointmentId }, { where: { id: appointmentData.paymentId } });
+                await this.paymentModel.update(
+                    { appointmentId: appointmentData.appointmentId },
+                    { where: { id: appointmentData.paymentId }, transaction });
             }
 
             await transaction.commit();
