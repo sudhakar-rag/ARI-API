@@ -51,4 +51,10 @@ export class Payment extends Model<Payment> {
         onDelete: "SET NULL"
     })
     appointment: Appointment;
+
+    @BelongsTo(() => User, {
+        // onUpdate: "CASCADE",
+        onDelete: "SET NULL"
+    })
+    user: User;
 }
