@@ -7,6 +7,7 @@ import { Sequelize } from 'sequelize-typescript';
 import { InjectModel } from '@nestjs/sequelize';
 import { Injectable } from '@nestjs/common';
 import Stripe from 'stripe';
+import { CreatePaymentDto } from '../dto/payment.dto';
 
 
 @Injectable()
@@ -27,45 +28,52 @@ export class PaymentService {
   }
 
 
-  async savePayment(paymentData: any): Promise<any> {
-
+  /**
+   * doStripePayment
+   */
+  public async doStripePayment(data: { amount: number, token: string }) {
     const stripe = new Stripe(STRIPE_SECRET_KEY, {
       apiVersion: '2020-08-27',
     });
 
-    const stripeResult = stripe.charges.create({
-      amount: paymentData.amount,
-      currency: paymentData.currency,
-      source: paymentData.source
+    const stripeResult = await stripe.charges.create({
+      amount: data.amount,
+      currency: 'USD',
+      source: data.token
     });
 
-    let payment;
+    return stripeResult;
+  }
 
-    if (stripeResult) {
+  async savePayment(paymentData: CreatePaymentDto): Promise<any> {
 
-      payment = await this.paymentModel.create({
-        userId: paymentData.userId,
-        type: paymentData.type,
-        amount: paymentData.amount,
-        txnId: (await stripeResult).id,
-        status: (await stripeResult).status,
-      });
-
-      const userDetails = await this.usersService.getLoggedinUserData();
-
-      const mailData = {
-        name: (await userDetails).firstName,
-        email: (await userDetails).email,
-        amount: paymentData.amount,
-      };
-
-      await this.emailService.sendPaymentMail(mailData);
-
-      return { stripeResult, payment };
-
-    } else {
-      return paymentData;
+    const txnData = { id: '', status: 'PENDING' };
+    if (paymentData.type == 'S') {
+      const sp = await this.doStripePayment({ amount: paymentData.amount, token: paymentData.stripe.token });
+      txnData.id = sp.id;
+      txnData.status = sp.status == 'succeeded' ? 'APPROVED' : 'PENDING'
     }
+
+    const payment = await this.paymentModel.create({
+      userId: paymentData.userId,
+      type: paymentData.type,
+      paymentType: paymentData.paymentType,
+      amount: paymentData.amount,
+      txnId: txnData.id,
+      status: txnData.status,
+    });
+
+    // const userDetails = await this.usersService.getLoggedinUserData();
+
+    // const mailData = {
+    //   name: userDetails.firstName,
+    //   email: userDetails.email,
+    //   amount: paymentData.amount,
+    // };
+
+    // await this.emailService.sendPaymentMail(mailData);
+
+    return payment;
 
   }
 
