@@ -27,6 +27,12 @@ var AppointmentStatus;
 class CreateAppointmentDto {
 }
 __decorate([
+    swagger_1.ApiProperty({ type: Number, default: 1 }),
+    class_validator_1.IsOptional(),
+    class_validator_1.IsNumber(),
+    __metadata("design:type", Number)
+], CreateAppointmentDto.prototype, "appointmentId", void 0);
+__decorate([
     swagger_1.ApiProperty({ type: Number, default: 11 }),
     class_validator_1.IsNumber(),
     __metadata("design:type", Number)
@@ -36,12 +42,6 @@ __decorate([
     class_validator_1.IsNumber(),
     __metadata("design:type", Number)
 ], CreateAppointmentDto.prototype, "patientId", void 0);
-__decorate([
-    swagger_1.ApiProperty({ type: Number, default: 1 }),
-    class_validator_1.IsOptional(),
-    class_validator_1.IsNumber(),
-    __metadata("design:type", Number)
-], CreateAppointmentDto.prototype, "appointmentId", void 0);
 __decorate([
     swagger_1.ApiProperty({ type: Number, default: 1 }),
     class_validator_1.IsOptional(),

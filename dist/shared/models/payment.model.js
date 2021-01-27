@@ -37,7 +37,7 @@ __decorate([
 __decorate([
     sequelize_typescript_1.ForeignKey(() => subscription_model_1.Subscription),
     sequelize_typescript_1.Column,
-    __metadata("design:type", subscription_model_1.Subscription)
+    __metadata("design:type", Number)
 ], Payment.prototype, "subscriptionId", void 0);
 __decorate([
     sequelize_typescript_1.Column(sequelize_typescript_1.DataType.DECIMAL(10, 2)),
@@ -63,6 +63,12 @@ __decorate([
     }),
     __metadata("design:type", appointment_model_1.Appointment)
 ], Payment.prototype, "appointment", void 0);
+__decorate([
+    sequelize_typescript_1.BelongsTo(() => user_model_1.User, {
+        onDelete: "SET NULL"
+    }),
+    __metadata("design:type", user_model_1.User)
+], Payment.prototype, "user", void 0);
 Payment = __decorate([
     sequelize_typescript_1.Table
 ], Payment);

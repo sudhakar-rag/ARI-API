@@ -4,14 +4,17 @@ import { User } from '../models/user.model';
 import { UserAddress } from '../models/user-address.model';
 import { Address } from '../models/address.model';
 import { Provider } from '@app/src/doctor/models/provider.model';
+import { CreateFCMDto } from '../dto/fcm.dto';
+import { UserFCMToken } from '../models/user-fcm-token.model';
 export declare class UsersService {
     private readonly userModel;
     private readonly providerModel;
     private readonly userAddressModel;
     private readonly addressModel;
+    private readonly userFCMTokenModel;
     private readonly sequelize;
     private loggedinUserData;
-    constructor(userModel: typeof User, providerModel: typeof Provider, userAddressModel: typeof UserAddress, addressModel: typeof Address, sequelize: Sequelize);
+    constructor(userModel: typeof User, providerModel: typeof Provider, userAddressModel: typeof UserAddress, addressModel: typeof Address, userFCMTokenModel: typeof UserFCMToken, sequelize: Sequelize);
     setLoggedinUserData(rawData: User): any;
     getLoggedinUserData(): any;
     getLoggedinUserName(): any;
@@ -31,4 +34,5 @@ export declare class UsersService {
     updatePassword(data: any): Promise<any>;
     updateProfilePicture(data: any): Promise<any>;
     finProvider(where: any): Promise<Provider>;
+    createFCM(CreateFCMDto: CreateFCMDto): Promise<UserFCMToken>;
 }

@@ -3,5 +3,6 @@ export declare class CreateNotificationDto {
     appointmentId: number;
     userId: number;
     message: string;
+    text?: string;
     status: boolean;
 }

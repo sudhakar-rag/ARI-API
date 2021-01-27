@@ -25,6 +25,7 @@ const shared_module_1 = require("./shared/shared.module");
 const appointment_module_1 = require("./appointment/appointment.module");
 const zoom_module_1 = require("./zoom/zoom.module");
 const aws_module_1 = require("./core/aws/aws.module");
+const fcm_module_1 = require("./fcm/fcm.module");
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
@@ -45,7 +46,8 @@ AppModule = __decorate([
             aws_module_1.AwsModule,
             notification_module_1.NotificationModule,
             payment_module_1.PaymentModule,
-            email_module_1.EmailModule
+            email_module_1.EmailModule,
+            fcm_module_1.FcmModule
         ],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],

@@ -1,3 +1,4 @@
+import { User } from './../../users/models/user.model';
 import { Model } from 'sequelize-typescript';
 import { Appointment } from './appointment.model';
 import { Subscription } from './subscription.model';
@@ -6,10 +7,11 @@ export declare class Payment extends Model<Payment> {
     type: 'S' | 'P';
     paymentType: 'S' | 'A';
     appointmentId: number;
-    subscriptionId: Subscription;
+    subscriptionId: number;
     amount: number;
     txnId: string;
     status: 'APPROVED' | 'PENDING' | 'CANCELLED' | 'REFUNDED';
     subscription: Subscription;
     appointment: Appointment;
+    user: User;
 }

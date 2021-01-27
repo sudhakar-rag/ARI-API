@@ -22,9 +22,11 @@ const appointment_service_1 = require("../services/appointment.service");
 const list_query_params_dto_1 = require("../../core/common/list-query-params.dto");
 const jwt_auth_guard_1 = require("../../auth/guards/jwt-auth.guard");
 const update_appointment_dto_1 = require("../dto/update-appointment.dto");
+const fcm_service_1 = require("../../fcm/fcm.service");
 let AppointmentController = class AppointmentController {
-    constructor(appointmentService) {
+    constructor(appointmentService, fcmService) {
         this.appointmentService = appointmentService;
+        this.fcmService = fcmService;
     }
     async getTodaysAppointmentList(date) {
         const output = new response_data_1.ResponseData();
@@ -97,6 +99,19 @@ let AppointmentController = class AppointmentController {
         }
         return output;
     }
+    async rescheduleAppointment(appointmentData) {
+        const output = new response_data_1.ResponseData();
+        try {
+            output.data = await this.appointmentService.rescheduleAppointment(appointmentData);
+            output.status = true;
+        }
+        catch (error) {
+            console.log(error);
+            output.status = false;
+            output.message = typeof error == 'string' ? error : '';
+        }
+        return output;
+    }
     async updateStatus(appointmentData) {
         const output = new response_data_1.ResponseData();
         try {
@@ -153,7 +168,7 @@ let AppointmentController = class AppointmentController {
         return output;
     }
     async getAppointmentsCount(status) {
-        let result = await this.appointmentService.getAppointmentCountByStatus(status);
+        const result = await this.appointmentService.getAppointmentCountByStatus(status);
         return {
             data: result
         };
@@ -209,6 +224,19 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], AppointmentController.prototype, "createAppointment", null);
 __decorate([
+    swagger_1.ApiOperation({ summary: 'reschedule appointment' }),
+    swagger_1.ApiBody({ type: create_appointment_dto_1.CreateAppointmentDto }),
+    swagger_1.ApiCreatedResponse({
+        description: 'The record has been successfully rescheduled.',
+        type: create_appointment_dto_1.CreateAppointmentDto,
+    }),
+    common_1.Post('reschedule'),
+    __param(0, common_1.Body()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [create_appointment_dto_1.CreateAppointmentDto]),
+    __metadata("design:returntype", Promise)
+], AppointmentController.prototype, "rescheduleAppointment", null);
+__decorate([
     swagger_1.ApiOperation({ summary: 'update appointment' }),
     swagger_1.ApiBody({ type: update_appointment_dto_1.UpdateAppointmentDto }),
     swagger_1.ApiCreatedResponse({
@@ -261,7 +289,8 @@ AppointmentController = __decorate([
     swagger_1.ApiBearerAuth(),
     common_1.UseGuards(jwt_auth_guard_1.JwtAuthGuard),
     common_1.Controller('appointment'),
-    __metadata("design:paramtypes", [appointment_service_1.AppointmentService])
+    __metadata("design:paramtypes", [appointment_service_1.AppointmentService,
+        fcm_service_1.FcmService])
 ], AppointmentController);
 exports.AppointmentController = AppointmentController;
 //# sourceMappingURL=appointment.controller.js.map

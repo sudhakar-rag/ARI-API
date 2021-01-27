@@ -549,4 +549,94 @@ export class AppointmentService {
         return await this.appointmentModel.count({ where: { status: status } });
     }
 
+    async rescheduleAppointment(appointmentData: CreateAppointmentDto): Promise<any> {
+
+        let transaction;
+
+        try {
+            transaction = await this.sequelize.transaction();
+
+
+            const result = await this.appointmentModel.findOne({
+                where: { id: appointmentData.appointmentId },
+                transaction: transaction
+            })
+            if (result) {
+                const data: any = {
+                    providerId: appointmentData.providerId,
+                    patientId: appointmentData.patientId,
+                    date: appointmentData.date,
+                    start: appointmentData.start,
+                    end: appointmentData.end,
+                    type: appointmentData.type,
+                    status: result.status
+                };
+
+                if (appointmentData.status) {
+                    data.status = appointmentData.status;
+                }
+
+                appointmentData.meetingId = result.meetingId;
+                appointmentData.appointmentId = result.id;
+
+                await this.appointmentModel.update({
+                    providerId: appointmentData.providerId,
+                    patientId: appointmentData.patientId,
+                    start: appointmentData.start,
+                    end: appointmentData.end,
+                    type: appointmentData.type,
+                    status: appointmentData.status || 'PENDING'
+                }, {
+                    where: { id: result.id },
+                    transaction
+                });
+
+                await this.appointmentDetailsModel.update(
+                    {
+                        appointmentId: result.id,
+                        appointmentType: appointmentData.appointmentType,
+                        subject: appointmentData.subject,
+                        message: appointmentData.message,
+                        files: appointmentData.files
+                    },
+                    { where: { appointmentId: result.id }, transaction });
+
+            }
+
+
+            if (appointmentData.type == 'I') {
+                const provider = await this.usersService.finProvider({ id: appointmentData.providerId });
+                const notificationData: CreateNotificationDto = {
+                    appointmentId: appointmentData.appointmentId,
+                    userId: provider.userId,
+                    message: 'You have OnDemand eVisit call with <b>' + this.usersService.getLoggedinUserName() + '</b>.',
+                    status: false
+                };
+
+                await this.notificationService.saveNotifications(notificationData, transaction);
+
+                await this.fcmService.sendMessage({
+                    title: 'New Message from ARI',
+                    body: 'You have OnDemand eVisit call with ' + this.usersService.getLoggedinUserName() + '.',
+                    userId: notificationData.userId,
+                    appointmentId: notificationData.appointmentId,
+                    url: 'providers/appointments/view/' + notificationData.appointmentId
+                });
+
+
+            }
+
+            // console.log(appointmentData.paymentId, appointmentData.appointmentId);
+
+            await transaction.commit();
+
+            return appointmentData;
+
+        } catch (error) {
+            console.log(error);
+            if (transaction) await transaction.rollback();
+
+            return null;
+        }
+    }
 }

@@ -21,6 +21,9 @@ const sequelize_typescript_1 = require("sequelize-typescript");
 const sequelize_1 = require("@nestjs/sequelize");
 const common_1 = require("@nestjs/common");
 const stripe_1 = require("stripe");
+const appointment_model_1 = require("../../shared/models/appointment.model");
+const subscription_model_1 = require("../../shared/models/subscription.model");
+const user_model_1 = require("../../users/models/user.model");
 let PaymentService = class PaymentService {
     constructor(paymentModel, usersService, emailService, sequelize) {
         this.paymentModel = paymentModel;
@@ -30,39 +33,61 @@ let PaymentService = class PaymentService {
     }
     async getPaymentsById(userId) {
         return await this.paymentModel.findAll({
-            where: { userId: userId }
+            where: { userId: userId },
+            include: [
+                {
+                    model: appointment_model_1.Appointment,
+                    required: false
+                },
+                {
+                    model: subscription_model_1.Subscription,
+                    required: false
+                }
+            ]
         });
     }
-    async savePayment(paymentData) {
+    async getProviderPaymentsById(providerId) {
+        return await this.paymentModel.findAll({
+            where: { paymentType: 'A' },
+            include: [
+                {
+                    model: appointment_model_1.Appointment,
+                    where: { providerId: providerId },
+                    required: true
+                },
+                {
+                    model: user_model_1.User
+                }
+            ]
+        });
+    }
+    async doStripePayment(data) {
         const stripe = new stripe_1.default(constants_1.STRIPE_SECRET_KEY, {
             apiVersion: '2020-08-27',
         });
-        const stripeResult = stripe.charges.create({
-            amount: paymentData.amount,
-            currency: paymentData.currency,
-            source: paymentData.source
+        const stripeResult = await stripe.charges.create({
+            amount: data.amount,
+            currency: 'USD',
+            source: data.token
         });
-        let payment;
-        if (stripeResult) {
-            payment = await this.paymentModel.create({
-                userId: paymentData.userId,
-                type: paymentData.type,
-                amount: paymentData.amount,
-                txnId: (await stripeResult).id,
-                status: (await stripeResult).status,
-            });
-            const userDetails = await this.usersService.getLoggedinUserData();
-            const mailData = {
-                name: (await userDetails).firstName,
-                email: (await userDetails).email,
-                amount: paymentData.amount,
-            };
-            await this.emailService.sendPaymentMail(mailData);
-            return { stripeResult, payment };
+        return stripeResult;
+    }
+    async savePayment(paymentData) {
+        const txnData = { id: '', status: 'PENDING' };
+        if (paymentData.type == 'S') {
+            const sp = await this.doStripePayment({ amount: paymentData.amount, token: paymentData.stripe.token });
+            txnData.id = sp.id;
+            txnData.status = sp.status == 'succeeded' ? 'APPROVED' : 'PENDING';
         }
-        else {
-            return paymentData;
-        }
+        const payment = await this.paymentModel.create({
+            userId: paymentData.userId,
+            type: paymentData.type,
+            paymentType: paymentData.paymentType,
+            amount: paymentData.amount,
+            txnId: txnData.id,
+            status: txnData.status,
+        });
+        return payment;
     }
     async chargeStripe(token) {
         const stripe = new stripe_1.default(constants_1.STRIPE_SECRET_KEY, {

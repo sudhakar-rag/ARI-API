@@ -19,6 +19,7 @@ const users_service_1 = require("../services/users.service");
 const jwt_auth_guard_1 = require("../../auth/guards/jwt-auth.guard");
 const response_data_1 = require("../../core/common/response-data");
 const user_create_service_1 = require("../services/user-create.service");
+const fcm_dto_1 = require("../dto/fcm.dto");
 let UsersController = class UsersController {
     constructor(usersService, userCreateService) {
         this.usersService = usersService;
@@ -28,7 +29,7 @@ let UsersController = class UsersController {
         return this.usersService.create(createUserDto);
     }
     async createVendor(createVendorData) {
-        let output = new response_data_1.ResponseData();
+        const output = new response_data_1.ResponseData();
         try {
             output.data = await this.userCreateService.saveVendor(createVendorData);
         }
@@ -40,9 +41,21 @@ let UsersController = class UsersController {
         return output;
     }
     async listProducts(queryParams) {
-        let output = new response_data_1.ResponseData();
+        const output = new response_data_1.ResponseData();
         try {
             output.data = await this.usersService.listVendors(queryParams);
+        }
+        catch (error) {
+            console.log(error);
+            output.status = false;
+            output.message = typeof error == 'string' ? error : '';
+        }
+        return output;
+    }
+    async saveFCM(params) {
+        const output = new response_data_1.ResponseData();
+        try {
+            output.data = await this.usersService.createFCM(params);
         }
         catch (error) {
             console.log(error);
@@ -55,7 +68,7 @@ let UsersController = class UsersController {
         return this.usersService.findAll();
     }
     async getLoggedInUserData() {
-        let output = new response_data_1.ResponseData();
+        const output = new response_data_1.ResponseData();
         try {
             output.data = await this.usersService.getLoggedinUserData();
         }
@@ -94,6 +107,13 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], UsersController.prototype, "listProducts", null);
+__decorate([
+    common_1.Post('fcm'),
+    __param(0, common_1.Body()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [fcm_dto_1.CreateFCMDto]),
+    __metadata("design:returntype", Promise)
+], UsersController.prototype, "saveFCM", null);
 __decorate([
     common_1.Get(),
     __metadata("design:type", Function),

@@ -14,6 +14,12 @@ export enum AppointmentStatus {
 }
 
 export class CreateAppointmentDto {
+
+    @ApiProperty({ type: Number, default: 1 })
+    @IsOptional()
+    @IsNumber()
+    appointmentId?: number;
+
     @ApiProperty({ type: Number, default: 11 })
     @IsNumber()
     providerId: number;
@@ -21,11 +27,6 @@ export class CreateAppointmentDto {
     @ApiProperty({ type: Number, default: 1 })
     @IsNumber()
     patientId: number;
-
-    @ApiProperty({ type: Number, default: 1 })
-    @IsOptional()
-    @IsNumber()
-    appointmentId?: number;
 
     @ApiProperty({ type: Number, default: 1 })
     @IsOptional()

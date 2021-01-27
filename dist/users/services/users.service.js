@@ -25,12 +25,14 @@ const address_model_1 = require("../models/address.model");
 const helpers_1 = require("../../core/common/helpers");
 const provider_model_1 = require("../../doctor/models/provider.model");
 const patient_model_1 = require("../../patient/models/patient.model");
+const user_fcm_token_model_1 = require("../models/user-fcm-token.model");
 let UsersService = class UsersService {
-    constructor(userModel, providerModel, userAddressModel, addressModel, sequelize) {
+    constructor(userModel, providerModel, userAddressModel, addressModel, userFCMTokenModel, sequelize) {
         this.userModel = userModel;
         this.providerModel = providerModel;
         this.userAddressModel = userAddressModel;
         this.addressModel = addressModel;
+        this.userFCMTokenModel = userFCMTokenModel;
         this.sequelize = sequelize;
     }
     setLoggedinUserData(rawData) {
@@ -208,6 +210,23 @@ let UsersService = class UsersService {
             where: where
         });
     }
+    async createFCM(CreateFCMDto) {
+        let data = await this.userFCMTokenModel.findOne({
+            where: {
+                userId: CreateFCMDto.userId,
+                token: CreateFCMDto.token
+            }
+        });
+        if (!data) {
+            data = await this.userFCMTokenModel.create({
+                userId: CreateFCMDto.userId,
+                token: CreateFCMDto.token,
+                type: CreateFCMDto.type
+            });
+        }
+        ;
+        return data;
+    }
 };
 UsersService = __decorate([
     common_1.Injectable(),
@@ -215,7 +234,8 @@ UsersService = __decorate([
     __param(1, sequelize_1.InjectModel(provider_model_1.Provider)),
     __param(2, sequelize_1.InjectModel(user_address_model_1.UserAddress)),
     __param(3, sequelize_1.InjectModel(address_model_1.Address)),
-    __metadata("design:paramtypes", [Object, Object, Object, Object, sequelize_typescript_1.Sequelize])
+    __param(4, sequelize_1.InjectModel(user_fcm_token_model_1.UserFCMToken)),
+    __metadata("design:paramtypes", [Object, Object, Object, Object, Object, sequelize_typescript_1.Sequelize])
 ], UsersService);
 exports.UsersService = UsersService;
 //# sourceMappingURL=users.service.js.map

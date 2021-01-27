@@ -141,6 +141,31 @@ export class AppointmentController {
 
     }
 
+
+    @ApiOperation({ summary: 'reschedule appointment' })
+    @ApiBody({ type: CreateAppointmentDto })
+    @ApiCreatedResponse({
+        description: 'The record has been successfully rescheduled.',
+        type: CreateAppointmentDto,
+    })
+    @Post('reschedule')
+    async rescheduleAppointment(@Body() appointmentData: CreateAppointmentDto): Promise<ResponseData> {
+        const output = new ResponseData();
+
+        try {
+            output.data = await this.appointmentService.rescheduleAppointment(appointmentData);
+            output.status = true;
+
+        } catch (error) {
+            console.log(error);
+            output.status = false;
+            output.message = typeof error == 'string' ? error : '';
+        }
+
+        return output;
+
+    }
+
     @ApiOperation({ summary: 'update appointment' })
     @ApiBody({ type: UpdateAppointmentDto })
     @ApiCreatedResponse({

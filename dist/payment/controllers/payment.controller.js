@@ -17,6 +17,7 @@ const payment_service_1 = require("./../services/payment.service");
 const common_1 = require("@nestjs/common");
 const response_data_1 = require("./../../core/common/response-data");
 const swagger_1 = require("@nestjs/swagger");
+const payment_dto_1 = require("../dto/payment.dto");
 let PaymentController = class PaymentController {
     constructor(paymentService) {
         this.paymentService = paymentService;
@@ -25,6 +26,18 @@ let PaymentController = class PaymentController {
         const output = new response_data_1.ResponseData();
         try {
             output.data = await this.paymentService.getPaymentsById(userId);
+        }
+        catch (error) {
+            console.log(error);
+            output.status = false;
+            output.message = typeof error == 'string' ? error : '';
+        }
+        return output;
+    }
+    async getProviderPayments(providerId) {
+        const output = new response_data_1.ResponseData();
+        try {
+            output.data = await this.paymentService.getProviderPaymentsById(+providerId);
         }
         catch (error) {
             console.log(error);
@@ -54,10 +67,17 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], PaymentController.prototype, "getPayments", null);
 __decorate([
+    common_1.Get('provider/:id'),
+    __param(0, common_1.Param('id')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number]),
+    __metadata("design:returntype", Promise)
+], PaymentController.prototype, "getProviderPayments", null);
+__decorate([
     common_1.Post(),
     __param(0, common_1.Body()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
+    __metadata("design:paramtypes", [payment_dto_1.CreatePaymentDto]),
     __metadata("design:returntype", Promise)
 ], PaymentController.prototype, "savePayment", null);
 PaymentController = __decorate([

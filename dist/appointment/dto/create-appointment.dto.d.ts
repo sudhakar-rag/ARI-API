@@ -9,9 +9,9 @@ export declare enum AppointmentStatus {
     COMPLETED = "COMPLETED"
 }
 export declare class CreateAppointmentDto {
+    appointmentId?: number;
     providerId: number;
     patientId: number;
-    appointmentId?: number;
     userId: number;
     date: string;
     start: string;

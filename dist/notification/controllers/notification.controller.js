@@ -43,7 +43,7 @@ let NotificationController = class NotificationController {
             output.data = await this.notificationService.saveNotifications(notificationData, transaction);
             await this.fcmService.sendMessage({
                 title: 'New Message from ARI',
-                body: notificationData.message,
+                body: notificationData.text || notificationData.message,
                 userId: notificationData.userId,
                 appointmentId: notificationData.appointmentId,
                 url: 'providers/appointments/view/' + notificationData.appointmentId

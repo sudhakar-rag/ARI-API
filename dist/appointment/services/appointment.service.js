@@ -30,18 +30,22 @@ const users_service_1 = require("../../users/services/users.service");
 const sequelize_2 = require("sequelize");
 const zoom_service_1 = require("../../zoom/services/zoom.service");
 const attachments_model_1 = require("../../shared/models/attachments.model");
+const fcm_service_1 = require("../../fcm/fcm.service");
+const payment_model_1 = require("../../shared/models/payment.model");
 let AppointmentService = class AppointmentService {
-    constructor(appointmentModel, appointmentDetailsModel, attachmentsModel, providerAvailabilitySlotModel, sequelize, usersService, providerService, emailService, zoomService, notificationService) {
+    constructor(appointmentModel, appointmentDetailsModel, attachmentsModel, providerAvailabilitySlotModel, paymentModel, sequelize, usersService, providerService, emailService, zoomService, notificationService, fcmService) {
         this.appointmentModel = appointmentModel;
         this.appointmentDetailsModel = appointmentDetailsModel;
         this.attachmentsModel = attachmentsModel;
         this.providerAvailabilitySlotModel = providerAvailabilitySlotModel;
+        this.paymentModel = paymentModel;
         this.sequelize = sequelize;
         this.usersService = usersService;
         this.providerService = providerService;
         this.emailService = emailService;
         this.zoomService = zoomService;
         this.notificationService = notificationService;
+        this.fcmService = fcmService;
     }
     async getAppointmentDeatils(appId) {
         console.log(appId);
@@ -184,6 +188,17 @@ let AppointmentService = class AppointmentService {
                     status: false
                 };
                 await this.notificationService.saveNotifications(notificationData, transaction);
+                await this.fcmService.sendMessage({
+                    title: 'New Message from ARI',
+                    body: 'You have OnDemand eVisit call with ' + this.usersService.getLoggedinUserName() + '.',
+                    userId: notificationData.userId,
+                    appointmentId: notificationData.appointmentId,
+                    url: 'providers/appointments/view/' + notificationData.appointmentId
+                });
+            }
+            console.log(appointmentData.paymentId, appointmentData.appointmentId);
+            if (appointmentData.paymentId) {
+                await this.paymentModel.update({ appointmentId: appointmentData.appointmentId }, { where: { id: appointmentData.paymentId }, transaction });
             }
             await transaction.commit();
             return appointmentData;
@@ -450,6 +465,75 @@ let AppointmentService = class AppointmentService {
     async getAppointmentCountByStatus(status) {
         return await this.appointmentModel.count({ where: { status: status } });
     }
+    async rescheduleAppointment(appointmentData) {
+        let transaction;
+        try {
+            transaction = await this.sequelize.transaction();
+            const result = await this.appointmentModel.findOne({
+                where: { id: appointmentData.appointmentId },
+                transaction: transaction
+            });
+            if (result) {
+                const data = {
+                    providerId: appointmentData.providerId,
+                    patientId: appointmentData.patientId,
+                    date: appointmentData.date,
+                    start: appointmentData.start,
+                    end: appointmentData.end,
+                    type: appointmentData.type,
+                    status: result.status
+                };
+                if (appointmentData.status) {
+                    data.status = appointmentData.status;
+                }
+                appointmentData.meetingId = result.meetingId;
+                appointmentData.appointmentId = result.id;
+                await this.appointmentModel.update({
+                    providerId: appointmentData.providerId,
+                    patientId: appointmentData.patientId,
+                    start: appointmentData.start,
+                    end: appointmentData.end,
+                    type: appointmentData.type,
+                    status: appointmentData.status || 'PENDING'
+                }, {
+                    where: { id: result.id },
+                    transaction
+                });
+                await this.appointmentDetailsModel.update({
+                    appointmentId: result.id,
+                    appointmentType: appointmentData.appointmentType,
+                    subject: appointmentData.subject,
+                    message: appointmentData.message,
+                    files: appointmentData.files
+                }, { where: { appointmentId: result.id }, transaction });
+            }
+            if (appointmentData.type == 'I') {
+                const provider = await this.usersService.finProvider({ id: appointmentData.providerId });
+                const notificationData = {
+                    appointmentId: appointmentData.appointmentId,
+                    userId: provider.userId,
+                    message: 'You have OnDemand eVisit call with <b>' + this.usersService.getLoggedinUserName() + '</b>.',
+                    status: false
+                };
+                await this.notificationService.saveNotifications(notificationData, transaction);
+                await this.fcmService.sendMessage({
+                    title: 'New Message from ARI',
+                    body: 'You have OnDemand eVisit call with ' + this.usersService.getLoggedinUserName() + '.',
+                    userId: notificationData.userId,
+                    appointmentId: notificationData.appointmentId,
+                    url: 'providers/appointments/view/' + notificationData.appointmentId
+                });
+            }
+            await transaction.commit();
+            return appointmentData;
+        }
+        catch (error) {
+            console.log(error);
+            if (transaction)
+                await transaction.rollback();
+            return null;
+        }
+    }
 };
 AppointmentService = __decorate([
     common_1.Injectable(),
@@ -457,12 +541,14 @@ AppointmentService = __decorate([
     __param(1, sequelize_1.InjectModel(appointment_details_model_1.AppointmentDetails)),
     __param(2, sequelize_1.InjectModel(attachments_model_1.Attachments)),
     __param(3, sequelize_1.InjectModel(provider_availability_slot_model_1.ProviderAvailabilitySlot)),
-    __metadata("design:paramtypes", [Object, Object, Object, Object, sequelize_typescript_1.Sequelize,
+    __param(4, sequelize_1.InjectModel(payment_model_1.Payment)),
+    __metadata("design:paramtypes", [Object, Object, Object, Object, Object, sequelize_typescript_1.Sequelize,
         users_service_1.UsersService,
         provider_service_1.ProviderService,
         email_service_1.EmailService,
         zoom_service_1.ZoomService,
-        notification_service_1.NotificationService])
+        notification_service_1.NotificationService,
+        fcm_service_1.FcmService])
 ], AppointmentService);
 exports.AppointmentService = AppointmentService;
 //# sourceMappingURL=appointment.service.js.map

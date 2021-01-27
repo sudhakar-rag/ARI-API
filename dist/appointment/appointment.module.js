@@ -20,6 +20,8 @@ const users_module_1 = require("../users/users.module");
 const zoom_module_1 = require("../zoom/zoom.module");
 const appointment_controller_1 = require("./controllers/appointment.controller");
 const appointment_service_1 = require("./services/appointment.service");
+const fcm_module_1 = require("../fcm/fcm.module");
+const payment_model_1 = require("../shared/models/payment.model");
 let AppointmentModule = class AppointmentModule {
 };
 AppointmentModule = __decorate([
@@ -29,11 +31,13 @@ AppointmentModule = __decorate([
                 appointment_model_1.Appointment,
                 appointment_details_model_1.AppointmentDetails,
                 provider_availability_slot_model_1.ProviderAvailabilitySlot,
-                attachments_model_1.Attachments
+                attachments_model_1.Attachments,
+                payment_model_1.Payment
             ]),
             users_module_1.UsersModule,
             zoom_module_1.ZoomModule,
             notification_module_1.NotificationModule,
+            fcm_module_1.FcmModule,
             email_module_1.EmailModule,
             provider_module_1.ProviderModule
         ],
