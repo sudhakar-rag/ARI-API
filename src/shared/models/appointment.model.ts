@@ -41,10 +41,10 @@ export class Appointment extends Model<Appointment> {
     type: 'I' | 'G'
 
     @Column
-    meetingId: string;
+    isRefundRequested: boolean;
 
     @Column
-    isRefundRequested: boolean;
+    meetingId: string;
 
     @Column(DataType.TEXT({ length: 'medium' }))
     joinUrl: string;
@@ -52,8 +52,8 @@ export class Appointment extends Model<Appointment> {
     @Column(DataType.TEXT({ length: 'medium' }))
     startUrl: string;
 
-    @Column(DataType.ENUM('PENDING', 'ACCEPTED', 'COMPLETED', 'CANCELLED'))
-    status: 'PENDING' | 'ACCEPTED' | 'COMPLETED' | 'CANCELLED'
+    @Column(DataType.ENUM('PENDING', 'ACCEPTED', 'COMPLETED', 'CANCELLED', 'REFUNDED'))
+    status: 'PENDING' | 'ACCEPTED' | 'COMPLETED' | 'CANCELLED' | 'REFUNDED'
 
     @BelongsTo(() => Provider)
     provider: Provider;

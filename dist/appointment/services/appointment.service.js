@@ -533,6 +533,14 @@ let AppointmentService = class AppointmentService {
             return null;
         }
     }
+    async refundRequest(appointmentId) {
+        let transaction = await this.sequelize.transaction();
+        return await this.appointmentModel.update({ isRefundRequested: true }, { where: { appointmentId: appointmentId }, transaction });
+    }
+    async refundPayment(appointmentId) {
+        let transaction = await this.sequelize.transaction();
+        return await this.appointmentModel.update({ status: 'REFUNDED' }, { where: { appointmentId: appointmentId }, transaction });
+    }
 };
 AppointmentService = __decorate([
     common_1.Injectable(),

@@ -264,5 +264,21 @@ export class AppointmentController {
     }
 
 
+    @Get('refundRequest/:appointmentId')
+    async refundRequest(@Param('appointmentId') appointmentId): Promise<any> {
+        let data = await this.appointmentService.refundRequest(appointmentId);
+        return {
+            data: data
+        };
+    }
+
+
+    @Get('refund/:appointmentId')
+    async refundPayment(@Param('appointmentId') appointmentId): Promise<any> {
+        let data = await this.appointmentService.refundPayment(appointmentId);
+        return {
+            data: data
+        };
+    }
 
 }

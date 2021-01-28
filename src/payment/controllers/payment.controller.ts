@@ -74,12 +74,5 @@ export class PaymentController {
     return output;
   }
 
-  @Get('refund/:appointmentId')
-  async refundPayment(@Param('appointmentId') appointmentId): Promise<any> {
-    let data = await this.paymentService.refundPayment(appointmentId);
-    return {
-      data: data
-    };
-  }
 
 }

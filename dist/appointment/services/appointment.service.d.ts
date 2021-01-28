@@ -42,4 +42,6 @@ export declare class AppointmentService {
     getAppointmentsListByDate(date: string): Promise<Appointment[]>;
     getAppointmentCountByStatus(status: any): Promise<any>;
     rescheduleAppointment(appointmentData: CreateAppointmentDto): Promise<any>;
+    refundRequest(appointmentId: any): Promise<any>;
+    refundPayment(appointmentId: any): Promise<any>;
 }

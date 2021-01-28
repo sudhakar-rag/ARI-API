@@ -50,12 +50,12 @@ __decorate([
 ], Appointment.prototype, "type", void 0);
 __decorate([
     sequelize_typescript_2.Column,
-    __metadata("design:type", String)
-], Appointment.prototype, "meetingId", void 0);
-__decorate([
-    sequelize_typescript_2.Column,
     __metadata("design:type", Boolean)
 ], Appointment.prototype, "isRefundRequested", void 0);
+__decorate([
+    sequelize_typescript_2.Column,
+    __metadata("design:type", String)
+], Appointment.prototype, "meetingId", void 0);
 __decorate([
     sequelize_typescript_2.Column(sequelize_typescript_2.DataType.TEXT({ length: 'medium' })),
     __metadata("design:type", String)
@@ -65,7 +65,7 @@ __decorate([
     __metadata("design:type", String)
 ], Appointment.prototype, "startUrl", void 0);
 __decorate([
-    sequelize_typescript_2.Column(sequelize_typescript_2.DataType.ENUM('PENDING', 'ACCEPTED', 'COMPLETED', 'CANCELLED')),
+    sequelize_typescript_2.Column(sequelize_typescript_2.DataType.ENUM('PENDING', 'ACCEPTED', 'COMPLETED', 'CANCELLED', 'REFUNDED')),
     __metadata("design:type", String)
 ], Appointment.prototype, "status", void 0);
 __decorate([

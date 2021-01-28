@@ -22,4 +22,6 @@ export declare class AppointmentController {
     getAppointmentsCount(status: string): Promise<{
         data: any;
     }>;
+    refundRequest(appointmentId: any): Promise<any>;
+    refundPayment(appointmentId: any): Promise<any>;
 }

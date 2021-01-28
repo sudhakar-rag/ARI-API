@@ -173,6 +173,18 @@ let AppointmentController = class AppointmentController {
             data: result
         };
     }
+    async refundRequest(appointmentId) {
+        let data = await this.appointmentService.refundRequest(appointmentId);
+        return {
+            data: data
+        };
+    }
+    async refundPayment(appointmentId) {
+        let data = await this.appointmentService.refundPayment(appointmentId);
+        return {
+            data: data
+        };
+    }
 };
 __decorate([
     swagger_1.ApiOperation({ summary: "Get appointment list by date" }),
@@ -284,6 +296,20 @@ __decorate([
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
 ], AppointmentController.prototype, "getAppointmentsCount", null);
+__decorate([
+    common_1.Get('refundRequest/:appointmentId'),
+    __param(0, common_1.Param('appointmentId')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], AppointmentController.prototype, "refundRequest", null);
+__decorate([
+    common_1.Get('refund/:appointmentId'),
+    __param(0, common_1.Param('appointmentId')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], AppointmentController.prototype, "refundPayment", null);
 AppointmentController = __decorate([
     swagger_1.ApiTags('appointment'),
     swagger_1.ApiBearerAuth(),

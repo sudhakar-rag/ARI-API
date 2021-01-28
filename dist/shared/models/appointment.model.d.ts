@@ -12,11 +12,11 @@ export declare class Appointment extends Model<Appointment> {
     start: string;
     end: string;
     type: 'I' | 'G';
-    meetingId: string;
     isRefundRequested: boolean;
+    meetingId: string;
     joinUrl: string;
     startUrl: string;
-    status: 'PENDING' | 'ACCEPTED' | 'COMPLETED' | 'CANCELLED';
+    status: 'PENDING' | 'ACCEPTED' | 'COMPLETED' | 'CANCELLED' | 'REFUNDED';
     provider: Provider;
     patient: Patient;
     payments: Payment[];
