@@ -539,7 +539,11 @@ let AppointmentService = class AppointmentService {
     }
     async refundPayment(appointmentId) {
         let transaction = await this.sequelize.transaction();
-        return await this.appointmentModel.update({ status: 'REFUNDED' }, { where: { id: appointmentId } });
+        let data = {
+            status: 'REFUNDED',
+            isRefundRequested: '0'
+        };
+        return await this.appointmentModel.update(data, { where: { id: appointmentId } });
     }
 };
 AppointmentService = __decorate([

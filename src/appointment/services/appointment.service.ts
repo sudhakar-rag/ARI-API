@@ -649,7 +649,10 @@ export class AppointmentService {
     async refundPayment(appointmentId): Promise<any> {
 
         let transaction = await this.sequelize.transaction();
-
-        return await this.appointmentModel.update({ status: 'REFUNDED' }, { where: { id: appointmentId } });
+        let data = {
+            status: 'REFUNDED',
+            isRefundRequested: '0'
+        }
+        return await this.appointmentModel.update(data, { where: { id: appointmentId } });
     }
 }
