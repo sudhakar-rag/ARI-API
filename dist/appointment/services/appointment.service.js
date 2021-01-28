@@ -489,11 +489,9 @@ let AppointmentService = class AppointmentService {
                 appointmentData.meetingId = result.meetingId;
                 appointmentData.appointmentId = result.id;
                 await this.appointmentModel.update({
-                    providerId: appointmentData.providerId,
-                    patientId: appointmentData.patientId,
+                    date: appointmentData.date,
                     start: appointmentData.start,
                     end: appointmentData.end,
-                    type: appointmentData.type,
                     status: appointmentData.status || 'PENDING'
                 }, {
                     where: { id: result.id },
