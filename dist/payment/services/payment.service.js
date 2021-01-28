@@ -101,6 +101,10 @@ let PaymentService = class PaymentService {
         });
         return charge;
     }
+    async refundPayment(appointmentId) {
+        let transaction = await this.sequelize.transaction();
+        return await this.paymentModel.update({ status: 'REFUNDED' }, { where: { appointmentId: appointmentId }, transaction });
+    }
 };
 PaymentService = __decorate([
     common_1.Injectable(),

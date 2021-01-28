@@ -43,6 +43,9 @@ export class Appointment extends Model<Appointment> {
     @Column
     meetingId: string;
 
+    @Column
+    isRefundRequested: boolean;
+
     @Column(DataType.TEXT({ length: 'medium' }))
     joinUrl: string;
 

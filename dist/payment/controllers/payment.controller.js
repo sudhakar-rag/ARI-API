@@ -58,6 +58,12 @@ let PaymentController = class PaymentController {
         }
         return output;
     }
+    async refundPayment(appointmentId) {
+        let data = await this.paymentService.refundPayment(appointmentId);
+        return {
+            data: data
+        };
+    }
 };
 __decorate([
     common_1.Get(':id'),
@@ -80,6 +86,13 @@ __decorate([
     __metadata("design:paramtypes", [payment_dto_1.CreatePaymentDto]),
     __metadata("design:returntype", Promise)
 ], PaymentController.prototype, "savePayment", null);
+__decorate([
+    common_1.Get('refund/:appointmentId'),
+    __param(0, common_1.Param('appointmentId')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], PaymentController.prototype, "refundPayment", null);
 PaymentController = __decorate([
     swagger_1.ApiTags('payment'),
     common_1.Controller('payment'),

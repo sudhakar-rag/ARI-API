@@ -53,6 +53,10 @@ __decorate([
     __metadata("design:type", String)
 ], Appointment.prototype, "meetingId", void 0);
 __decorate([
+    sequelize_typescript_2.Column,
+    __metadata("design:type", Boolean)
+], Appointment.prototype, "isRefundRequested", void 0);
+__decorate([
     sequelize_typescript_2.Column(sequelize_typescript_2.DataType.TEXT({ length: 'medium' })),
     __metadata("design:type", String)
 ], Appointment.prototype, "joinUrl", void 0);

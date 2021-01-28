@@ -122,6 +122,15 @@ export class PaymentService {
     return charge;
   }
 
+
+
+  async refundPayment(appointmentId): Promise<any> {
+
+    let transaction = await this.sequelize.transaction();
+
+    return await this.paymentModel.update({ status: 'REFUNDED' }, { where: { appointmentId: appointmentId }, transaction });
+  }
+
 }
 
 

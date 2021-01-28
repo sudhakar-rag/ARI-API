@@ -7,4 +7,5 @@ export declare class PaymentController {
     getPayments(userId: number): Promise<ResponseData>;
     getProviderPayments(providerId: number): Promise<ResponseData>;
     savePayment(paymentData: CreatePaymentDto): Promise<ResponseData>;
+    refundPayment(appointmentId: any): Promise<any>;
 }

@@ -556,6 +556,7 @@ export class AppointmentService {
         try {
             transaction = await this.sequelize.transaction();
 
+            let loggedinUser = this.usersService.getLoggedinUserData();
 
             const result = await this.appointmentModel.findOne({
                 where: { id: appointmentData.appointmentId },
@@ -569,11 +570,11 @@ export class AppointmentService {
                     start: appointmentData.start,
                     end: appointmentData.end,
                     type: appointmentData.type,
-                    status: result.status
+                    status: 'PENDING'
                 };
 
-                if (appointmentData.status) {
-                    data.status = appointmentData.status;
+                if (loggedinUser && loggedinUser.roles && loggedinUser.roles[0].roleId == '2') {
+                    data.status = 'COMPLETED';
                 }
 
                 appointmentData.meetingId = result.meetingId;
@@ -637,4 +638,5 @@ export class AppointmentService {
             return null;
         }
     }
+
 }

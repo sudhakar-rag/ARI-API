@@ -13,6 +13,7 @@ export declare class Appointment extends Model<Appointment> {
     end: string;
     type: 'I' | 'G';
     meetingId: string;
+    isRefundRequested: boolean;
     joinUrl: string;
     startUrl: string;
     status: 'PENDING' | 'ACCEPTED' | 'COMPLETED' | 'CANCELLED';
