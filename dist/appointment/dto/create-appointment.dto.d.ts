@@ -17,6 +17,7 @@ export declare class CreateAppointmentDto {
     start: string;
     end: string;
     type: string;
+    isRefundRequested?: boolean;
     meetingId: string;
     joinUrl: string;
     startUrl: string;

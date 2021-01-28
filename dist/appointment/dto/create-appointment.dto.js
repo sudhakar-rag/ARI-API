@@ -69,6 +69,12 @@ __decorate([
     __metadata("design:type", String)
 ], CreateAppointmentDto.prototype, "type", void 0);
 __decorate([
+    swagger_1.ApiProperty({ type: Boolean, default: false }),
+    class_validator_1.IsOptional(),
+    class_validator_1.IsBoolean(),
+    __metadata("design:type", Boolean)
+], CreateAppointmentDto.prototype, "isRefundRequested", void 0);
+__decorate([
     swagger_1.ApiProperty({ type: String }),
     class_validator_1.IsOptional(),
     class_validator_1.IsString(),

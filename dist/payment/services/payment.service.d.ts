@@ -18,5 +18,4 @@ export declare class PaymentService {
     }): Promise<Stripe.Response<Stripe.Charge>>;
     savePayment(paymentData: CreatePaymentDto): Promise<any>;
     chargeStripe(token: string): Promise<any>;
-    refundPayment(appointmentId: any): Promise<any>;
 }

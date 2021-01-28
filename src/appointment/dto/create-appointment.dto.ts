@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsOptional, IsNumber, IsString } from 'class-validator';
+import { IsOptional, IsNumber, IsString, IsBoolean } from 'class-validator';
 
 export enum AppointmentType {
     I = 'I',
@@ -49,6 +49,11 @@ export class CreateAppointmentDto {
     @ApiProperty({ enum: AppointmentType, enumName: 'appointmentType' })
     @IsString()
     type: string;
+
+    @ApiProperty({ type: Boolean, default: false })
+    @IsOptional()
+    @IsBoolean()
+    isRefundRequested?: boolean;
 
     @ApiProperty({ type: String })
     @IsOptional()

@@ -644,12 +644,12 @@ export class AppointmentService {
 
         let transaction = await this.sequelize.transaction();
 
-        return await this.appointmentModel.update({ isRefundRequested: true }, { where: { appointmentId: appointmentId }, transaction });
+        return await this.appointmentModel.update({ isRefundRequested: '1' }, { where: { id: appointmentId } });
     }
     async refundPayment(appointmentId): Promise<any> {
 
         let transaction = await this.sequelize.transaction();
 
-        return await this.appointmentModel.update({ status: 'REFUNDED' }, { where: { appointmentId: appointmentId }, transaction });
+        return await this.appointmentModel.update({ status: 'REFUNDED' }, { where: { id: appointmentId } });
     }
 }
