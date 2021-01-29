@@ -17,6 +17,7 @@ import { AppointmentModule } from './appointment/appointment.module';
 import { ZoomModule } from './zoom/zoom.module';
 import { AwsModule } from './core/aws/aws.module';
 import { FcmModule } from './fcm/fcm.module';
+import { WalletModule } from './wallet/wallet.module';
 
 @Module({
   imports: [
@@ -36,7 +37,8 @@ import { FcmModule } from './fcm/fcm.module';
     NotificationModule,
     PaymentModule,
     EmailModule,
-    FcmModule
+    FcmModule,
+    WalletModule
   ],
   controllers: [AppController],
   providers: [AppService],
