@@ -19,6 +19,7 @@ import { ApiBearerAuth, ApiBody, ApiCreatedResponse, ApiOperation, ApiParam, Api
 import { ListQueryParamsDto } from '@app/src/core/common/list-query-params.dto';
 import { ProviderRegistration } from '../models/provider-registratioin.model';
 import { InjectModel } from '@nestjs/sequelize';
+import { UsersService } from '@app/src/users/services/users.service';
 
 @ApiTags('provider')
 @ApiBearerAuth()
@@ -30,6 +31,7 @@ export class ProvidersController {
     private createProviderService: CreateProviderService,
     @InjectModel(ProviderRegistration)
     private readonly providerRegistrationModel: typeof ProviderRegistration,
+    private usersService: UsersService,
   ) { }
 
 
@@ -144,6 +146,12 @@ export class ProvidersController {
     const output = new ResponseData();
 
     try {
+      const user = await this.usersService.findOne({ email: providerData.email });
+      if (user) {
+        throw "Provider already exists.";
+
+      }
+
       output.data = await this.createProviderService.createProvider(providerData);
     } catch (error) {
       console.log(error);
