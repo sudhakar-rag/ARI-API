@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { EmailService } from './../../email/email.service';
 import { ProviderService } from './../../doctor/services/provider.service';
 import { CreateNotificationDto } from './../../notification/dto/create-notification.dto';
@@ -21,6 +22,7 @@ import { UpdateAppointmentDto } from '../dto/update-appointment.dto';
 import { Attachments } from '@app/src/shared/models/attachments.model';
 import { FcmService } from '@app/src/fcm/fcm.service';
 import { Payment } from '@app/src/shared/models/payment.model';
+import { WalletService } from '@app/src/wallet/services/wallet.service';
 @Injectable()
 export class AppointmentService {
     constructor(
@@ -40,7 +42,8 @@ export class AppointmentService {
         private emailService: EmailService,
         private zoomService: ZoomService,
         private notificationService: NotificationService,
-        private fcmService: FcmService
+        private fcmService: FcmService,
+        private walletService: WalletService
     ) { }
 
 
@@ -232,9 +235,26 @@ export class AppointmentService {
 
             // update payment table
             if (appointmentData.paymentId) {
-                await this.paymentModel.update(
-                    { appointmentId: appointmentData.appointmentId },
-                    { where: { id: appointmentData.paymentId }, transaction });
+
+                const payment = await this.paymentModel.findOne({ where: { id: appointmentData.paymentId } });
+
+                if (payment) {
+                    await this.paymentModel.update(
+                        { appointmentId: appointmentData.appointmentId },
+                        { where: { id: appointmentData.paymentId }, transaction });
+
+                    const amount = payment.amount * (80 / 100);
+
+                    const walletInfo: any = await this.walletService.getWalletData(appointmentData.providerId);
+
+                    await this.walletService.createEntry({
+                        walletId: walletInfo.wallet.id,
+                        amount: amount,
+                        type: 'C',
+                        note: 'Amount from appointment #' + appointmentData.appointmentId
+                    });
+                }
+
             }
 
             await transaction.commit();
@@ -556,7 +576,7 @@ export class AppointmentService {
         try {
             transaction = await this.sequelize.transaction();
 
-            let loggedinUser = this.usersService.getLoggedinUserData();
+            const loggedinUser = this.usersService.getLoggedinUserData();
 
             const result = await this.appointmentModel.findOne({
                 where: { id: appointmentData.appointmentId },
@@ -641,15 +661,12 @@ export class AppointmentService {
 
 
     async refundRequest(appointmentId): Promise<any> {
-
-        let transaction = await this.sequelize.transaction();
-
         return await this.appointmentModel.update({ isRefundRequested: '1' }, { where: { id: appointmentId } });
     }
+
     async refundPayment(appointmentId): Promise<any> {
 
-        let transaction = await this.sequelize.transaction();
-        let data = {
+        const data = {
             status: 'REFUNDED',
             isRefundRequested: '0'
         }

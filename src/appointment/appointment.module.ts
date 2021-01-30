@@ -13,6 +13,7 @@ import { AppointmentController } from './controllers/appointment.controller';
 import { AppointmentService } from './services/appointment.service';
 import { FcmModule } from '../fcm/fcm.module';
 import { Payment } from '../shared/models/payment.model';
+import { WalletModule } from '../wallet/wallet.module';
 
 @Module({
   imports: [
@@ -28,7 +29,8 @@ import { Payment } from '../shared/models/payment.model';
     NotificationModule,
     FcmModule,
     EmailModule,
-    ProviderModule
+    ProviderModule,
+    WalletModule
   ],
   controllers: [AppointmentController],
   providers: [AppointmentService],

@@ -22,6 +22,8 @@ import { WalletService } from './services/wallet.service';
     providers: [
         WalletService
     ],
-    exports: []
+    exports: [
+        WalletService
+    ]
 })
 export class WalletModule { }
