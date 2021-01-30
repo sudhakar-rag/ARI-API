@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 30, 2021 at 03:54 PM
+-- Generation Time: Jan 30, 2021 at 04:18 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.2.31
 
@@ -41,6 +41,14 @@ CREATE TABLE `addresses` (
   `updatedAt` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `addresses`
+--
+
+INSERT INTO `addresses` (`id`, `name`, `phone`, `address1`, `address2`, `city`, `state`, `country`, `zip`, `createdAt`, `updatedAt`) VALUES
+(1, 'Patient1', '12345678901', 'add1', 'sfsadas', 'CA', 'California', '1', '10001', '2021-01-30 15:08:49', '2021-01-30 15:08:49'),
+(2, 'John', '1122334455', '', '', '', '', '1', '', '2021-01-30 15:12:16', '2021-01-30 15:13:23');
+
 -- --------------------------------------------------------
 
 --
@@ -58,6 +66,13 @@ CREATE TABLE `appointmentdetails` (
   `createdAt` datetime NOT NULL,
   `updatedAt` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `appointmentdetails`
+--
+
+INSERT INTO `appointmentdetails` (`id`, `appointmentId`, `appointmentType`, `subject`, `message`, `files`, `session`, `createdAt`, `updatedAt`) VALUES
+(1, 1, '', '', '', '', NULL, '2021-01-30 15:17:05', '2021-01-30 15:17:05');
 
 -- --------------------------------------------------------
 
@@ -94,6 +109,13 @@ CREATE TABLE `appointments` (
   `createdAt` datetime NOT NULL,
   `updatedAt` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `appointments`
+--
+
+INSERT INTO `appointments` (`id`, `providerId`, `patientId`, `date`, `start`, `end`, `type`, `isRefundRequested`, `meetingId`, `joinUrl`, `startUrl`, `status`, `createdAt`, `updatedAt`) VALUES
+(1, 1, 1, '2021-01-30', '20:46', '21:16', 'I', NULL, '79005854360', 'https://us04web.zoom.us/j/79005854360?pwd=dG0zNHlPbnpUNmxqNFhZNlRLZUNkUT09', 'https://us04web.zoom.us/s/79005854360?zak=eyJ6bV9za20iOiJ6bV9vMm0iLCJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJjbGllbnQiLCJ1aWQiOiJqWUQ1a1RRWFJ4eWdjZ3F3R1l3eWJRIiwiaXNzIjoid2ViIiwic3R5IjoxMDAsIndjZCI6InVzMDQiLCJjbHQiOjAsInN0ayI6IkNRN0hqb3M1SXc2X3pyU0ZOdlNhb3BfYm01V3MzWHJMcGM1TFJTRm9DOU0uQmdZZ1VVYzNiRTFGVDJkclpIWkRLMHQ1VUZGblJtbHdiek00VEU1V1ZIbFlaMmxBTXpGaU0yWmtaVFV5TkRnNU9HSXhPRFl4WlRoa05XRTJPRGxpTldJNVpqZzFNekl5WkRrelltTmxOemMwTjJFMVpESmtPV0U1WWpKbFlXRm1aVEU0WmdBTU0wTkNRWFZ2YVZsVE0zTTlBQVIxY3pBMEFBQUJkMVBlZlNzQUVuVUFBQUEiLCJleHAiOjE2MTIwMjcwMjUsImlhdCI6MTYxMjAxOTgyNSwiYWlkIjoiQ0VpUHBSSHFTR2lYcHlDOVNFVkJIQSIsImNpZCI6IiJ9.EH0pTbQOUlJ4C4LbywR7SeaYH1ICy_rkKgIEoY2wRlU', 'PENDING', '2021-01-30 15:17:05', '2021-01-30 15:17:05');
 
 -- --------------------------------------------------------
 
@@ -344,6 +366,13 @@ CREATE TABLE `notifications` (
   `updatedAt` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `notifications`
+--
+
+INSERT INTO `notifications` (`id`, `appointmentId`, `userId`, `message`, `status`, `createdAt`, `updatedAt`) VALUES
+(1, 1, 3, 'You have OnDemand eVisit call with <b>Patient1 p</b>.', 0, '2021-01-30 15:17:08', '2021-01-30 15:17:08');
+
 -- --------------------------------------------------------
 
 --
@@ -359,6 +388,13 @@ CREATE TABLE `patientaddresses` (
   `addressId` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `patientaddresses`
+--
+
+INSERT INTO `patientaddresses` (`id`, `patientId`, `type`, `createdAt`, `updatedAt`, `addressId`) VALUES
+(1, 1, NULL, '2021-01-30 15:08:49', '2021-01-30 15:08:49', 1);
+
 -- --------------------------------------------------------
 
 --
@@ -372,6 +408,14 @@ CREATE TABLE `patientmedicalproblems` (
   `createdAt` datetime NOT NULL,
   `updatedAt` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `patientmedicalproblems`
+--
+
+INSERT INTO `patientmedicalproblems` (`id`, `patientId`, `MedicalProblemId`, `createdAt`, `updatedAt`) VALUES
+(1, 1, 7, '2021-01-30 15:08:50', '2021-01-30 15:08:50'),
+(2, 1, 99, '2021-01-30 15:08:50', '2021-01-30 15:08:50');
 
 -- --------------------------------------------------------
 
@@ -417,6 +461,13 @@ CREATE TABLE `patients` (
   `updatedAt` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `patients`
+--
+
+INSERT INTO `patients` (`id`, `userId`, `dateOfBirth`, `ethnicity`, `gender`, `subscriptionId`, `otherMedicalProblems`, `otherSymptoms`, `otherSpecialist`, `medications`, `vitamins`, `restrictions`, `allergies`, `socialHistory`, `surgeryHistory`, `familyHistory`, `vaccinationHistory`, `travelHistory`, `hospitalizationHistory`, `createdAt`, `updatedAt`) VALUES
+(1, 2, '1998-10-19T18:30:00.000Z', 'American Indian', 'M', 1, '', '', '', '', '', '', '', '{\"recreationalDrugUse\":null,\"smoking\":null,\"packsPerDay\":null,\"alcohol\":null,\"drinksPerDay\":null}', '', '{\"fatherDob\":null,\"fatherDod\":null,\"fatherMedProblems\":[],\"motherDob\":null,\"motherDod\":null,\"motherMedProblems\":[]}', '', '', '', '2021-01-30 15:08:49', '2021-01-30 15:08:49');
+
 -- --------------------------------------------------------
 
 --
@@ -445,6 +496,13 @@ CREATE TABLE `patientsubscriptions` (
   `createdAt` datetime NOT NULL,
   `updatedAt` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `patientsubscriptions`
+--
+
+INSERT INTO `patientsubscriptions` (`id`, `patientId`, `subscriptionId`, `lastSubscriptionAt`, `createdAt`, `updatedAt`) VALUES
+(1, 1, 1, '2021-01-30 15:08:49', '2021-01-30 15:08:49', '2021-01-30 15:08:49');
 
 -- --------------------------------------------------------
 
@@ -480,6 +538,13 @@ CREATE TABLE `payments` (
   `updatedAt` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `payments`
+--
+
+INSERT INTO `payments` (`id`, `userId`, `type`, `paymentType`, `appointmentId`, `subscriptionId`, `amount`, `txnId`, `status`, `createdAt`, `updatedAt`) VALUES
+(1, 2, 'S', 'A', 1, NULL, '75.00', 'ch_1IFLC7Lp2j6xvwlPOAzSLdbM', 'APPROVED', '2021-01-30 15:17:03', '2021-01-30 15:17:09');
+
 -- --------------------------------------------------------
 
 --
@@ -494,6 +559,13 @@ CREATE TABLE `provideraddresses` (
   `updatedAt` datetime NOT NULL,
   `addressId` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `provideraddresses`
+--
+
+INSERT INTO `provideraddresses` (`id`, `providerId`, `type`, `createdAt`, `updatedAt`, `addressId`) VALUES
+(1, 1, NULL, '2021-01-30 15:12:16', '2021-01-30 15:12:16', 2);
 
 -- --------------------------------------------------------
 
@@ -589,6 +661,13 @@ CREATE TABLE `providerhistories` (
   `updatedAt` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `providerhistories`
+--
+
+INSERT INTO `providerhistories` (`id`, `providerId`, `religoiusAffiliations`, `specialBackground`, `limitations`, `drugAddiction`, `crimianalRecord`, `malpractice`, `createdAt`, `updatedAt`) VALUES
+(1, 1, '', '', '', '', '', '', '2021-01-30 15:12:16', '2021-01-30 15:12:16');
+
 -- --------------------------------------------------------
 
 --
@@ -667,6 +746,13 @@ CREATE TABLE `providerregistrations` (
   `updatedAt` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `providerregistrations`
+--
+
+INSERT INTO `providerregistrations` (`id`, `title`, `providerCredential`, `firstName`, `lastName`, `email`, `phone`, `gender`, `yearsInPractice`, `boardCertifiedSpecialty`, `statesOfLicensure`, `howLearnAboutTeladocHealth`, `otherTeladocHealth`, `currentlyEnrolledIn`, `verified`, `createdAt`, `updatedAt`) VALUES
+(1, 'Dr', 'MD', 'John', 'Peter', 'john@ari.com', '1122334455', 'M', '7', 'test', 'Alabama,Alaska', 'Health Plan Referral', '', 'Medicare', 1, '2021-01-30 15:06:27', '2021-01-30 15:12:16');
+
 -- --------------------------------------------------------
 
 --
@@ -692,6 +778,13 @@ CREATE TABLE `providers` (
   `updatedAt` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `providers`
+--
+
+INSERT INTO `providers` (`id`, `userId`, `dateOfBirth`, `ethnicity`, `gender`, `areaOfInterest`, `speciality`, `hasDrugAddiction`, `hasCriminalRecord`, `hasMalpractice`, `isAvailable`, `isVerified`, `rating`, `otherLang`, `createdAt`, `updatedAt`) VALUES
+(1, 3, '', '', 'M', '', '', 0, 0, 0, 1, 1, NULL, '', '2021-01-30 15:12:16', '2021-01-30 15:13:24');
+
 -- --------------------------------------------------------
 
 --
@@ -705,6 +798,14 @@ CREATE TABLE `providerservices` (
   `createdAt` datetime NOT NULL,
   `updatedAt` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `providerservices`
+--
+
+INSERT INTO `providerservices` (`id`, `providerId`, `serviceId`, `createdAt`, `updatedAt`) VALUES
+(1, 1, 1, '2021-01-30 15:13:23', '2021-01-30 15:13:23'),
+(2, 1, 2, '2021-01-30 15:13:23', '2021-01-30 15:13:23');
 
 -- --------------------------------------------------------
 
@@ -734,6 +835,14 @@ CREATE TABLE `providerspecalities` (
   `createdAt` datetime NOT NULL,
   `updatedAt` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `providerspecalities`
+--
+
+INSERT INTO `providerspecalities` (`id`, `providerId`, `specalityId`, `createdAt`, `updatedAt`) VALUES
+(1, 1, 2, '2021-01-30 15:13:23', '2021-01-30 15:13:23'),
+(2, 1, 9, '2021-01-30 15:13:23', '2021-01-30 15:13:23');
 
 -- --------------------------------------------------------
 
@@ -1075,6 +1184,15 @@ CREATE TABLE `userfcmtokens` (
   `updatedAt` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `userfcmtokens`
+--
+
+INSERT INTO `userfcmtokens` (`id`, `userId`, `token`, `type`, `createdAt`, `updatedAt`) VALUES
+(1, 2, 'dxSLI_Ktvk_HBnutQEHPvf:APA91bHQrq55skij3TK-Hxvvc_Qk-Xx0AL1fYqJnhfUGQXizwtkT5XATt-4cm0i_WWrm8UxnZfox79N-QeQNWKueKBTA3bb2ixl60k3Odn1gWMjqnG5Js1eaxR1PlZSxCZosiIu1ca0o', 'D', '2021-01-30 15:09:15', '2021-01-30 15:09:15'),
+(2, 1, 'dxSLI_Ktvk_HBnutQEHPvf:APA91bHQrq55skij3TK-Hxvvc_Qk-Xx0AL1fYqJnhfUGQXizwtkT5XATt-4cm0i_WWrm8UxnZfox79N-QeQNWKueKBTA3bb2ixl60k3Odn1gWMjqnG5Js1eaxR1PlZSxCZosiIu1ca0o', 'D', '2021-01-30 15:12:00', '2021-01-30 15:12:00'),
+(3, 3, 'dxSLI_Ktvk_HBnutQEHPvf:APA91bHQrq55skij3TK-Hxvvc_Qk-Xx0AL1fYqJnhfUGQXizwtkT5XATt-4cm0i_WWrm8UxnZfox79N-QeQNWKueKBTA3bb2ixl60k3Odn1gWMjqnG5Js1eaxR1PlZSxCZosiIu1ca0o', 'D', '2021-01-30 15:12:53', '2021-01-30 15:12:53');
+
 -- --------------------------------------------------------
 
 --
@@ -1101,6 +1219,15 @@ CREATE TABLE `userroles` (
   `updatedAt` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `userroles`
+--
+
+INSERT INTO `userroles` (`userId`, `roleId`, `createdAt`, `updatedAt`) VALUES
+(1, 1, '2021-01-30 20:41:20', '2021-01-30 20:41:20'),
+(2, 3, '2021-01-30 15:08:49', '2021-01-30 15:08:49'),
+(3, 2, '2021-01-30 15:12:16', '2021-01-30 15:12:16');
+
 -- --------------------------------------------------------
 
 --
@@ -1120,6 +1247,15 @@ CREATE TABLE `users` (
   `createdAt` datetime NOT NULL,
   `updatedAt` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`id`, `userName`, `email`, `password`, `firstName`, `lastName`, `picture`, `phone`, `status`, `createdAt`, `updatedAt`) VALUES
+(1, 'admin@ari.com', 'admin@ari.com', '123456', 'Admin', 'ARI', NULL, '121212121212', 1, '2021-01-23 20:32:49', '2021-01-30 20:32:49'),
+(2, 'patient1@ari.com', 'patient1@ari.com', '123456', 'Patient1', 'p', '', '12345678901', 1, '2021-01-30 15:08:49', '2021-01-30 15:08:49'),
+(3, 'john@ari.com', 'john@ari.com', '123456', 'John', 'Peter', '', '1122334455', 0, '2021-01-30 15:12:16', '2021-01-30 15:13:23');
 
 -- --------------------------------------------------------
 
@@ -1154,6 +1290,13 @@ CREATE TABLE `wallethistories` (
   `updatedAt` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `wallethistories`
+--
+
+INSERT INTO `wallethistories` (`id`, `walletId`, `openingBalance`, `credit`, `debit`, `closingBalance`, `note`, `createdAt`, `updatedAt`) VALUES
+(1, 1, '0.00', '60.00', '0.00', '60.00', 'Amount from appointment #1', '2021-01-30 15:17:09', '2021-01-30 15:17:09');
+
 -- --------------------------------------------------------
 
 --
@@ -1167,6 +1310,13 @@ CREATE TABLE `wallets` (
   `createdAt` datetime NOT NULL,
   `updatedAt` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `wallets`
+--
+
+INSERT INTO `wallets` (`id`, `userId`, `balance`, `createdAt`, `updatedAt`) VALUES
+(1, 1, '60.00', '2021-01-30 15:17:09', '2021-01-30 15:17:09');
 
 --
 -- Indexes for dumped tables
@@ -1552,19 +1702,19 @@ ALTER TABLE `wallets`
 -- AUTO_INCREMENT for table `addresses`
 --
 ALTER TABLE `addresses`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `appointmentdetails`
 --
 ALTER TABLE `appointmentdetails`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `appointments`
 --
 ALTER TABLE `appointments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `attachments`
@@ -1612,19 +1762,19 @@ ALTER TABLE `medicalproblems`
 -- AUTO_INCREMENT for table `notifications`
 --
 ALTER TABLE `notifications`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `patientaddresses`
 --
 ALTER TABLE `patientaddresses`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `patientmedicalproblems`
 --
 ALTER TABLE `patientmedicalproblems`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `patientprovidertypes`
@@ -1636,7 +1786,7 @@ ALTER TABLE `patientprovidertypes`
 -- AUTO_INCREMENT for table `patients`
 --
 ALTER TABLE `patients`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `patientspecalists`
@@ -1648,7 +1798,7 @@ ALTER TABLE `patientspecalists`
 -- AUTO_INCREMENT for table `patientsubscriptions`
 --
 ALTER TABLE `patientsubscriptions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `patientsymptoms`
@@ -1660,13 +1810,13 @@ ALTER TABLE `patientsymptoms`
 -- AUTO_INCREMENT for table `payments`
 --
 ALTER TABLE `payments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `provideraddresses`
 --
 ALTER TABLE `provideraddresses`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `provideraffilations`
@@ -1702,7 +1852,7 @@ ALTER TABLE `providerexceptionaldays`
 -- AUTO_INCREMENT for table `providerhistories`
 --
 ALTER TABLE `providerhistories`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `providerhospitals`
@@ -1714,7 +1864,7 @@ ALTER TABLE `providerhospitals`
 -- AUTO_INCREMENT for table `providerlanguages`
 --
 ALTER TABLE `providerlanguages`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `providerreferences`
@@ -1726,19 +1876,19 @@ ALTER TABLE `providerreferences`
 -- AUTO_INCREMENT for table `providerregistrations`
 --
 ALTER TABLE `providerregistrations`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `providers`
 --
 ALTER TABLE `providers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `providerservices`
 --
 ALTER TABLE `providerservices`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `providersettings`
@@ -1750,7 +1900,7 @@ ALTER TABLE `providersettings`
 -- AUTO_INCREMENT for table `providerspecalities`
 --
 ALTER TABLE `providerspecalities`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `providertypes`
@@ -1822,13 +1972,13 @@ ALTER TABLE `usercarddetails`
 -- AUTO_INCREMENT for table `userfcmtokens`
 --
 ALTER TABLE `userfcmtokens`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `walletclaims`
@@ -1840,13 +1990,13 @@ ALTER TABLE `walletclaims`
 -- AUTO_INCREMENT for table `wallethistories`
 --
 ALTER TABLE `wallethistories`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `wallets`
 --
 ALTER TABLE `wallets`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Constraints for dumped tables
