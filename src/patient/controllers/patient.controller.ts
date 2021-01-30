@@ -11,6 +11,7 @@ import { CreateAppointmentDto } from '../../appointment/dto/create-appointment.d
 import { ApiBearerAuth, ApiBody, ApiCreatedResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { ListQueryParamsDto } from '@app/src/core/common/list-query-params.dto';
 import { JwtAuthGuard } from '@app/src/auth/guards/jwt-auth.guard';
+import { UsersService } from '@app/src/users/services/users.service';
 
 @ApiTags('patient')
 @ApiBearerAuth()
@@ -22,6 +23,7 @@ export class PatientsController {
     private patientsService: PatientService,
     private createPatientService: CreatePatientService,
     private emailService: EmailService,
+    private usersService: UsersService,
   ) { }
 
   @Post()
@@ -98,6 +100,12 @@ export class PatientsController {
     const output = new ResponseData();
 
     try {
+      const user = await this.usersService.findOne({ email: patientInfo.email });
+      if (user) {
+        throw "Patient already exists.";
+
+      }
+
       output.data = await this.createPatientService.createPatient(patientInfo);
       output.status = true;
 

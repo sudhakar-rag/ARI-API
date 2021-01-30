@@ -446,7 +446,7 @@ export class ProvidersController {
 
   @Get('providers/count')
   async getProvidersCount() {
-    let result = await this.providerService.getProvidersCount();
+    const result = await this.providerService.getProvidersCount();
     return {
       data: result
     };
@@ -454,7 +454,7 @@ export class ProvidersController {
 
   @Get('leadProvidersCount/:status')
   async getLeadProvidersCount(@Param('status') status: string) {
-    let result = await this.providerService.getleadProvidersByStatus(status);
+    const result = await this.providerService.getleadProvidersByStatus(status);
     return {
       data: result
     };
