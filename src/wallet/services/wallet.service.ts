@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { Injectable, Inject } from '@nestjs/common';
 import { Op } from 'sequelize';
 import { Wallet } from '../models/wallet.model';
@@ -22,6 +23,11 @@ export class WalletService {
         private usersService: UsersService
     ) {
 
+    }
+
+    async findOne(where) {
+        const wallet = await this.walletModel.findOne({ where: where });
+        return wallet;
     }
 
     async getWalletData(userId: number): Promise<any> {

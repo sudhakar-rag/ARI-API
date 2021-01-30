@@ -76,7 +76,8 @@ export class WalletController {
 
             await this.walletService.createEntry(data);
 
-            const walletInfo = await this.walletService.getWalletData(data.walletId);
+            const wallet = await this.walletService.findOne({ id: data.walletId });
+            const walletInfo = await this.walletService.getWalletData(wallet.userId);
             // await this.smsService.sendWalletClaimApproval(data.amount, [walletInfo.wallet.user.phone]);
         }
 
