@@ -112,3 +112,19 @@ export class CreateAppointmentDto {
     @IsNumber()
     paymentId: number;
 }
+
+export class getAppointmentsCountDto {
+    @ApiProperty({ type: Number, default: 0 })
+    @IsNumber()
+    patientId: number;
+
+    @ApiProperty({ type: String, default: '' })
+    @IsString()
+    from: string;
+
+    @ApiProperty({ type: String, default: '' })
+    @IsString()
+    to: string;
+}
+
+

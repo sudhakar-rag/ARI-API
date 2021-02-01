@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { CreateAttachmentDto } from './../dto/create-attachment.dto';
 import { ResponseData } from '@app/src/core/common/response-data';
-import { CreateAppointmentDto } from '@app/src/appointment/dto/create-appointment.dto';
+import { CreateAppointmentDto, getAppointmentsCountDto } from '@app/src/appointment/dto/create-appointment.dto';
 import { Body, Controller, Delete, Get, Param, Post, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiBody, ApiCreatedResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { AppointmentService } from '../services/appointment.service';
@@ -89,7 +89,7 @@ export class AppointmentController {
         type: ResponseData,
     })
     @Post('list')
-    async getAppointments(@Body() queryParams: ListQueryParamsDto): Promise<ResponseData> {
+    async getAppointmentsList(@Body() queryParams: ListQueryParamsDto): Promise<ResponseData> {
         const output = new ResponseData();
         try {
             output.data = await this.appointmentService.getAppointments(queryParams);
@@ -102,11 +102,11 @@ export class AppointmentController {
         return output;
     }
 
-    @Post('date')
-    async getAppointmentsByDate(@Body() data: any): Promise<ResponseData> {
+    @Post('between')
+    async getAppointmentsCountBetween(@Body() data: getAppointmentsCountDto): Promise<ResponseData> {
         const output = new ResponseData();
         try {
-            output.data = await this.appointmentService.getAppointmentByDate(data);
+            output.data = { count: await this.appointmentService.getAppointmentsCountBetween(data) };
         } catch (error) {
             console.log(error);
             output.status = false;
