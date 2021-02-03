@@ -488,6 +488,64 @@ export class AppointmentService {
                 order: [[sortField, sortOrder]]
             });
         }
+
+
+        if (this.usersService.isAdmin()) {
+            return await this.appointmentModel.findAndCountAll({
+                distinct: true,
+                include: [
+                    {
+                        model: Provider,
+                        include: [
+                            {
+                                model: User,
+                                attributes: ['id', 'firstName', 'lastName', 'picture', 'phone'],
+                                where: {
+                                    [Op.or]: [
+                                        {
+                                            firstName: { [Op.like]: '%' + searchText + '%' }
+                                        },
+                                        {
+                                            lastName: { [Op.like]: '%' + searchText + '%' }
+                                        }
+                                    ]
+                                },
+                            },
+                        ],
+                        required: true
+                    },
+                    {
+                        model: Patient,
+                        include: [
+                            {
+                                model: User,
+                                attributes: ['id', 'firstName', 'lastName', 'picture', 'phone'],
+                                where: {
+                                    [Op.or]: [
+                                        {
+                                            firstName: { [Op.like]: '%' + searchText + '%' }
+                                        },
+                                        {
+                                            lastName: { [Op.like]: '%' + searchText + '%' }
+                                        }
+                                    ]
+                                },
+                            },
+                        ],
+                        required: true
+                    },
+                    {
+                        model: Payment,
+                        required: false
+                    },
+                    Attachments,
+                ],
+                where: where,
+                offset: offset,
+                limit: limit,
+                order: [[sortField, sortOrder]]
+            });
+        }
     }
 
     async updateAppointmentStatus(data: UpdateAppointmentDto): Promise<any> {

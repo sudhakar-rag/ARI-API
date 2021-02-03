@@ -22,6 +22,7 @@ const appointment_controller_1 = require("./controllers/appointment.controller")
 const appointment_service_1 = require("./services/appointment.service");
 const fcm_module_1 = require("../fcm/fcm.module");
 const payment_model_1 = require("../shared/models/payment.model");
+const wallet_module_1 = require("../wallet/wallet.module");
 let AppointmentModule = class AppointmentModule {
 };
 AppointmentModule = __decorate([
@@ -39,7 +40,8 @@ AppointmentModule = __decorate([
             notification_module_1.NotificationModule,
             fcm_module_1.FcmModule,
             email_module_1.EmailModule,
-            provider_module_1.ProviderModule
+            provider_module_1.ProviderModule,
+            wallet_module_1.WalletModule
         ],
         controllers: [appointment_controller_1.AppointmentController],
         providers: [appointment_service_1.AppointmentService],

@@ -31,3 +31,8 @@ export declare class CreateAppointmentDto {
     files: string;
     paymentId: number;
 }
+export declare class getAppointmentsCountDto {
+    patientId: number;
+    from: string;
+    to: string;
+}

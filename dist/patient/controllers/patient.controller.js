@@ -24,12 +24,14 @@ const create_patient_service_1 = require("../services/create-patient.service");
 const swagger_1 = require("@nestjs/swagger");
 const list_query_params_dto_1 = require("../../core/common/list-query-params.dto");
 const jwt_auth_guard_1 = require("../../auth/guards/jwt-auth.guard");
+const users_service_1 = require("../../users/services/users.service");
 let PatientsController = class PatientsController {
-    constructor(providerService, patientsService, createPatientService, emailService) {
+    constructor(providerService, patientsService, createPatientService, emailService, usersService) {
         this.providerService = providerService;
         this.patientsService = patientsService;
         this.createPatientService = createPatientService;
         this.emailService = emailService;
+        this.usersService = usersService;
     }
     async getPatients(queryParams) {
         const output = new response_data_1.ResponseData();
@@ -84,6 +86,10 @@ let PatientsController = class PatientsController {
     async createPatient(patientInfo) {
         const output = new response_data_1.ResponseData();
         try {
+            const user = await this.usersService.findOne({ email: patientInfo.email });
+            if (user) {
+                throw "Patient already exists.";
+            }
             output.data = await this.createPatientService.createPatient(patientInfo);
             output.status = true;
         }
@@ -315,7 +321,8 @@ PatientsController = __decorate([
     __metadata("design:paramtypes", [create_provider_service_1.CreateProviderService,
         patient_service_1.PatientService,
         create_patient_service_1.CreatePatientService,
-        email_service_1.EmailService])
+        email_service_1.EmailService,
+        users_service_1.UsersService])
 ], PatientsController);
 exports.PatientsController = PatientsController;
 //# sourceMappingURL=patient.controller.js.map

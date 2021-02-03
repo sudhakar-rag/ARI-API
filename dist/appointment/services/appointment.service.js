@@ -32,8 +32,9 @@ const zoom_service_1 = require("../../zoom/services/zoom.service");
 const attachments_model_1 = require("../../shared/models/attachments.model");
 const fcm_service_1 = require("../../fcm/fcm.service");
 const payment_model_1 = require("../../shared/models/payment.model");
+const wallet_service_1 = require("../../wallet/services/wallet.service");
 let AppointmentService = class AppointmentService {
-    constructor(appointmentModel, appointmentDetailsModel, attachmentsModel, providerAvailabilitySlotModel, paymentModel, sequelize, usersService, providerService, emailService, zoomService, notificationService, fcmService) {
+    constructor(appointmentModel, appointmentDetailsModel, attachmentsModel, providerAvailabilitySlotModel, paymentModel, sequelize, usersService, providerService, emailService, zoomService, notificationService, fcmService, walletService) {
         this.appointmentModel = appointmentModel;
         this.appointmentDetailsModel = appointmentDetailsModel;
         this.attachmentsModel = attachmentsModel;
@@ -46,6 +47,7 @@ let AppointmentService = class AppointmentService {
         this.zoomService = zoomService;
         this.notificationService = notificationService;
         this.fcmService = fcmService;
+        this.walletService = walletService;
     }
     async getAppointmentDeatils(appId) {
         console.log(appId);
@@ -66,13 +68,13 @@ let AppointmentService = class AppointmentService {
             return null;
         }
     }
-    async getAppointmentByDate(data) {
+    async getAppointmentsCountBetween(data) {
         try {
-            const result = await this.appointmentModel.findAll({
+            const result = await this.appointmentModel.count({
                 where: {
                     patientId: data.patientId,
                     createdAt: {
-                        [sequelize_2.Op.gte]: data.date
+                        [sequelize_2.Op.gte]: data.from
                     }
                 }
             });
@@ -198,7 +200,18 @@ let AppointmentService = class AppointmentService {
             }
             console.log(appointmentData.paymentId, appointmentData.appointmentId);
             if (appointmentData.paymentId) {
-                await this.paymentModel.update({ appointmentId: appointmentData.appointmentId }, { where: { id: appointmentData.paymentId }, transaction });
+                const payment = await this.paymentModel.findOne({ where: { id: appointmentData.paymentId } });
+                if (payment) {
+                    await this.paymentModel.update({ appointmentId: appointmentData.appointmentId }, { where: { id: appointmentData.paymentId }, transaction });
+                    const amount = payment.amount * (80 / 100);
+                    const walletInfo = await this.walletService.getWalletData(appointmentData.providerId);
+                    await this.walletService.createEntry({
+                        walletId: walletInfo.wallet.id,
+                        amount: amount,
+                        type: 'C',
+                        note: 'Amount from appointment #' + appointmentData.appointmentId
+                    });
+                }
             }
             await transaction.commit();
             return appointmentData;
@@ -402,6 +415,62 @@ let AppointmentService = class AppointmentService {
                 order: [[sortField, sortOrder]]
             });
         }
+        if (this.usersService.isAdmin()) {
+            return await this.appointmentModel.findAndCountAll({
+                distinct: true,
+                include: [
+                    {
+                        model: provider_model_1.Provider,
+                        include: [
+                            {
+                                model: user_model_1.User,
+                                attributes: ['id', 'firstName', 'lastName', 'picture', 'phone'],
+                                where: {
+                                    [sequelize_2.Op.or]: [
+                                        {
+                                            firstName: { [sequelize_2.Op.like]: '%' + searchText + '%' }
+                                        },
+                                        {
+                                            lastName: { [sequelize_2.Op.like]: '%' + searchText + '%' }
+                                        }
+                                    ]
+                                },
+                            },
+                        ],
+                        required: true
+                    },
+                    {
+                        model: patient_model_1.Patient,
+                        include: [
+                            {
+                                model: user_model_1.User,
+                                attributes: ['id', 'firstName', 'lastName', 'picture', 'phone'],
+                                where: {
+                                    [sequelize_2.Op.or]: [
+                                        {
+                                            firstName: { [sequelize_2.Op.like]: '%' + searchText + '%' }
+                                        },
+                                        {
+                                            lastName: { [sequelize_2.Op.like]: '%' + searchText + '%' }
+                                        }
+                                    ]
+                                },
+                            },
+                        ],
+                        required: true
+                    },
+                    {
+                        model: payment_model_1.Payment,
+                        required: false
+                    },
+                    attachments_model_1.Attachments,
+                ],
+                where: where,
+                offset: offset,
+                limit: limit,
+                order: [[sortField, sortOrder]]
+            });
+        }
     }
     async updateAppointmentStatus(data) {
         try {
@@ -469,7 +538,7 @@ let AppointmentService = class AppointmentService {
         let transaction;
         try {
             transaction = await this.sequelize.transaction();
-            let loggedinUser = this.usersService.getLoggedinUserData();
+            const loggedinUser = this.usersService.getLoggedinUserData();
             const result = await this.appointmentModel.findOne({
                 where: { id: appointmentData.appointmentId },
                 transaction: transaction
@@ -534,12 +603,10 @@ let AppointmentService = class AppointmentService {
         }
     }
     async refundRequest(appointmentId) {
-        let transaction = await this.sequelize.transaction();
         return await this.appointmentModel.update({ isRefundRequested: '1' }, { where: { id: appointmentId } });
     }
     async refundPayment(appointmentId) {
-        let transaction = await this.sequelize.transaction();
-        let data = {
+        const data = {
             status: 'REFUNDED',
             isRefundRequested: '0'
         };
@@ -559,7 +626,8 @@ AppointmentService = __decorate([
         email_service_1.EmailService,
         zoom_service_1.ZoomService,
         notification_service_1.NotificationService,
-        fcm_service_1.FcmService])
+        fcm_service_1.FcmService,
+        wallet_service_1.WalletService])
 ], AppointmentService);
 exports.AppointmentService = AppointmentService;
 //# sourceMappingURL=appointment.service.js.map

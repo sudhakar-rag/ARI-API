@@ -5,12 +5,14 @@ import { PatientService } from './../services/patient.service';
 import { ResponseData } from '@app/src/core/common/response-data';
 import { PatientDto } from '../dto/patient.dto';
 import { CreatePatientService } from '../services/create-patient.service';
+import { UsersService } from '@app/src/users/services/users.service';
 export declare class PatientsController {
     private providerService;
     private patientsService;
     private createPatientService;
     private emailService;
-    constructor(providerService: CreateProviderService, patientsService: PatientService, createPatientService: CreatePatientService, emailService: EmailService);
+    private usersService;
+    constructor(providerService: CreateProviderService, patientsService: PatientService, createPatientService: CreatePatientService, emailService: EmailService, usersService: UsersService);
     getPatients(queryParams: any): Promise<ResponseData>;
     getAvailabilityData(providerId: string): Promise<ResponseData>;
     testMail(data: any): Promise<ResponseData>;

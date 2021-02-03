@@ -23,11 +23,13 @@ const swagger_1 = require("@nestjs/swagger");
 const list_query_params_dto_1 = require("../../core/common/list-query-params.dto");
 const provider_registratioin_model_1 = require("../models/provider-registratioin.model");
 const sequelize_1 = require("@nestjs/sequelize");
+const users_service_1 = require("../../users/services/users.service");
 let ProvidersController = class ProvidersController {
-    constructor(providerService, createProviderService, providerRegistrationModel) {
+    constructor(providerService, createProviderService, providerRegistrationModel, usersService) {
         this.providerService = providerService;
         this.createProviderService = createProviderService;
         this.providerRegistrationModel = providerRegistrationModel;
+        this.usersService = usersService;
     }
     async getSettings(providerId) {
         const output = new response_data_1.ResponseData();
@@ -104,6 +106,10 @@ let ProvidersController = class ProvidersController {
     async create(providerData) {
         const output = new response_data_1.ResponseData();
         try {
+            const user = await this.usersService.findOne({ email: providerData.email });
+            if (user) {
+                throw "Provider already exists.";
+            }
             output.data = await this.createProviderService.createProvider(providerData);
         }
         catch (error) {
@@ -322,13 +328,13 @@ let ProvidersController = class ProvidersController {
         return await provider.destroy();
     }
     async getProvidersCount() {
-        let result = await this.providerService.getProvidersCount();
+        const result = await this.providerService.getProvidersCount();
         return {
             data: result
         };
     }
     async getLeadProvidersCount(status) {
-        let result = await this.providerService.getleadProvidersByStatus(status);
+        const result = await this.providerService.getleadProvidersByStatus(status);
         return {
             data: result
         };
@@ -557,7 +563,7 @@ ProvidersController = __decorate([
     common_1.Controller('provider'),
     __param(2, sequelize_1.InjectModel(provider_registratioin_model_1.ProviderRegistration)),
     __metadata("design:paramtypes", [provider_service_1.ProviderService,
-        create_provider_service_1.CreateProviderService, Object])
+        create_provider_service_1.CreateProviderService, Object, users_service_1.UsersService])
 ], ProvidersController);
 exports.ProvidersController = ProvidersController;
 //# sourceMappingURL=providers.controller.js.map

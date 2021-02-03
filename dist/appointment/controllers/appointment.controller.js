@@ -62,7 +62,7 @@ let AppointmentController = class AppointmentController {
         }
         return output;
     }
-    async getAppointments(queryParams) {
+    async getAppointmentsList(queryParams) {
         const output = new response_data_1.ResponseData();
         try {
             output.data = await this.appointmentService.getAppointments(queryParams);
@@ -74,10 +74,10 @@ let AppointmentController = class AppointmentController {
         }
         return output;
     }
-    async getAppointmentsByDate(data) {
+    async getAppointmentsCountBetween(data) {
         const output = new response_data_1.ResponseData();
         try {
-            output.data = await this.appointmentService.getAppointmentByDate(data);
+            output.data = { count: await this.appointmentService.getAppointmentsCountBetween(data) };
         }
         catch (error) {
             console.log(error);
@@ -174,13 +174,13 @@ let AppointmentController = class AppointmentController {
         };
     }
     async refundRequest(appointmentId) {
-        let data = await this.appointmentService.refundRequest(appointmentId);
+        const data = await this.appointmentService.refundRequest(appointmentId);
         return {
             data: data
         };
     }
     async refundPayment(appointmentId) {
-        let data = await this.appointmentService.refundPayment(appointmentId);
+        const data = await this.appointmentService.refundPayment(appointmentId);
         return {
             data: data
         };
@@ -214,14 +214,14 @@ __decorate([
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [list_query_params_dto_1.ListQueryParamsDto]),
     __metadata("design:returntype", Promise)
-], AppointmentController.prototype, "getAppointments", null);
+], AppointmentController.prototype, "getAppointmentsList", null);
 __decorate([
-    common_1.Post('date'),
+    common_1.Post('between'),
     __param(0, common_1.Body()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
+    __metadata("design:paramtypes", [create_appointment_dto_1.getAppointmentsCountDto]),
     __metadata("design:returntype", Promise)
-], AppointmentController.prototype, "getAppointmentsByDate", null);
+], AppointmentController.prototype, "getAppointmentsCountBetween", null);
 __decorate([
     swagger_1.ApiOperation({ summary: 'create appointment' }),
     swagger_1.ApiBody({ type: create_appointment_dto_1.CreateAppointmentDto }),

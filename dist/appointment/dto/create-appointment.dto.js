@@ -9,7 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.CreateAppointmentDto = exports.AppointmentStatus = exports.AppointmentType = void 0;
+exports.getAppointmentsCountDto = exports.CreateAppointmentDto = exports.AppointmentStatus = exports.AppointmentType = void 0;
 const swagger_1 = require("@nestjs/swagger");
 const class_validator_1 = require("class-validator");
 var AppointmentType;
@@ -143,4 +143,22 @@ __decorate([
     __metadata("design:type", Number)
 ], CreateAppointmentDto.prototype, "paymentId", void 0);
 exports.CreateAppointmentDto = CreateAppointmentDto;
+class getAppointmentsCountDto {
+}
+__decorate([
+    swagger_1.ApiProperty({ type: Number, default: 0 }),
+    class_validator_1.IsNumber(),
+    __metadata("design:type", Number)
+], getAppointmentsCountDto.prototype, "patientId", void 0);
+__decorate([
+    swagger_1.ApiProperty({ type: String, default: '' }),
+    class_validator_1.IsString(),
+    __metadata("design:type", String)
+], getAppointmentsCountDto.prototype, "from", void 0);
+__decorate([
+    swagger_1.ApiProperty({ type: String, default: '' }),
+    class_validator_1.IsString(),
+    __metadata("design:type", String)
+], getAppointmentsCountDto.prototype, "to", void 0);
+exports.getAppointmentsCountDto = getAppointmentsCountDto;
 //# sourceMappingURL=create-appointment.dto.js.map

@@ -5,11 +5,13 @@ import { CreateProviderService } from '../services/create-provider.service';
 import { AppointmentAvailabilityDto, ProviderSettingsDto } from '../dto/appointment-availability.dto';
 import { ListQueryParamsDto } from '@app/src/core/common/list-query-params.dto';
 import { ProviderRegistration } from '../models/provider-registratioin.model';
+import { UsersService } from '@app/src/users/services/users.service';
 export declare class ProvidersController {
     private providerService;
     private createProviderService;
     private readonly providerRegistrationModel;
-    constructor(providerService: ProviderService, createProviderService: CreateProviderService, providerRegistrationModel: typeof ProviderRegistration);
+    private usersService;
+    constructor(providerService: ProviderService, createProviderService: CreateProviderService, providerRegistrationModel: typeof ProviderRegistration, usersService: UsersService);
     getSettings(providerId: string): Promise<ResponseData>;
     getExceptionalDays(providerId: string): Promise<ResponseData>;
     getProviderById(userId: string): Promise<ResponseData>;
