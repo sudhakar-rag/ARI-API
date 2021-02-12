@@ -13,18 +13,22 @@ const users_module_1 = require("../users/users.module");
 const general_settings_model_1 = require("./models/general-settings.model");
 const general_settings_controller_1 = require("./controllers/general-settings.controller");
 const settings_service_1 = require("./services/settings.service");
+const tax_model_1 = require("../shared/models/tax.model");
+const tax_settings_controller_1 = require("./controllers/tax-settings.controller");
 let SettingsModule = class SettingsModule {
 };
 SettingsModule = __decorate([
     common_1.Module({
         imports: [
             sequelize_1.SequelizeModule.forFeature([
-                general_settings_model_1.GeneralSetting
+                general_settings_model_1.GeneralSetting,
+                tax_model_1.Tax
             ]),
             users_module_1.UsersModule
         ],
         controllers: [
-            general_settings_controller_1.GeneralSettingsController
+            general_settings_controller_1.GeneralSettingsController,
+            tax_settings_controller_1.TaxSettingsController
         ],
         providers: [
             settings_service_1.SettingsService

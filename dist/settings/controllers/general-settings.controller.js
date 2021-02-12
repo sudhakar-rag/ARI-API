@@ -13,13 +13,11 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.GeneralSettingsController = void 0;
-const users_service_1 = require("./../../users/services/users.service");
 const common_1 = require("@nestjs/common");
 const settings_service_1 = require("../services/settings.service");
 let GeneralSettingsController = class GeneralSettingsController {
-    constructor(settingsService, usersService) {
+    constructor(settingsService) {
         this.settingsService = settingsService;
-        this.usersService = usersService;
     }
     async list() {
         return await this.settingsService.findAll();
@@ -43,8 +41,7 @@ __decorate([
 ], GeneralSettingsController.prototype, "saveSettings", null);
 GeneralSettingsController = __decorate([
     common_1.Controller('general-settings'),
-    __metadata("design:paramtypes", [settings_service_1.SettingsService,
-        users_service_1.UsersService])
+    __metadata("design:paramtypes", [settings_service_1.SettingsService])
 ], GeneralSettingsController);
 exports.GeneralSettingsController = GeneralSettingsController;
 //# sourceMappingURL=general-settings.controller.js.map

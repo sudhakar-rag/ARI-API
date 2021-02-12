@@ -1,4 +1,4 @@
-import { IsOptional, IsNumber, IsBoolean } from "class-validator";
+import { IsOptional, IsNumber, IsBoolean, IsString } from "class-validator";
 
 export class SaveTaxDto {
     @IsOptional()
@@ -10,7 +10,7 @@ export class SaveTaxDto {
     price?: number;
 
     @IsOptional()
-    @IsNumber()
+    @IsString()
     type?: 'F' | 'P';
 
     @IsBoolean()
