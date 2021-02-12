@@ -308,4 +308,9 @@ export class PatientService {
       order: [[sortField, sortOrder]]
     });
   }
+
+  async getPatientsCount(): Promise<any> {
+    return await this.patientModel.count();
+  }
+
 }

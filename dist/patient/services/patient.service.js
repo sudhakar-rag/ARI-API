@@ -259,6 +259,9 @@ let PatientService = class PatientService {
             order: [[sortField, sortOrder]]
         });
     }
+    async getPatientsCount() {
+        return await this.patientModel.count();
+    }
 };
 PatientService = __decorate([
     common_1.Injectable(),

@@ -21,4 +21,5 @@ export declare class PatientService {
     deletePatient(id: number): Promise<any>;
     saveAppointment(appointmentData: CreateAppointmentDto): Promise<any>;
     getAppointments(queryParams: ListQueryParamsDto): Promise<any>;
+    getPatientsCount(): Promise<any>;
 }

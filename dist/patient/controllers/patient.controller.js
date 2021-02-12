@@ -83,6 +83,12 @@ let PatientsController = class PatientsController {
         }
         return output;
     }
+    async getProvidersCount() {
+        const result = await this.patientsService.getPatientsCount();
+        return {
+            data: result
+        };
+    }
     async createPatient(patientInfo) {
         const output = new response_data_1.ResponseData();
         try {
@@ -244,6 +250,12 @@ __decorate([
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
 ], PatientsController.prototype, "getPatientInfo", null);
+__decorate([
+    common_1.Get('patients/count'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], PatientsController.prototype, "getProvidersCount", null);
 __decorate([
     common_1.Post('createPatient'),
     __param(0, common_1.Body()),

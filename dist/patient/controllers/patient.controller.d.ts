@@ -17,6 +17,9 @@ export declare class PatientsController {
     getAvailabilityData(providerId: string): Promise<ResponseData>;
     testMail(data: any): Promise<ResponseData>;
     getPatientInfo(userId: string): Promise<ResponseData>;
+    getProvidersCount(): Promise<{
+        data: any;
+    }>;
     createPatient(patientInfo: PatientDto): Promise<ResponseData>;
     updateBasicInfo(basicInfo: PatientBasicDto): Promise<ResponseData>;
     updateSubscription(subData: any): Promise<ResponseData>;

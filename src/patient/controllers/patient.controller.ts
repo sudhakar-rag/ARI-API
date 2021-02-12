@@ -95,6 +95,15 @@ export class PatientsController {
   }
 
 
+  @Get('patients/count')
+  async getProvidersCount() {
+    const result = await this.patientsService.getPatientsCount();
+    return {
+      data: result
+    };
+  }
+
+
   @Post('createPatient')
   async createPatient(@Body() patientInfo: PatientDto): Promise<ResponseData> {
     const output = new ResponseData();
