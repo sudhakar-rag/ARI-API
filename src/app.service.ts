@@ -9,6 +9,6 @@ export class AppService {
   }
 
   getHello(): string {
-    return this.configService.get('DATABASE_PASSWORD');;
+    return this.configService.get('DATABASE_HOST');;
   }
 }
