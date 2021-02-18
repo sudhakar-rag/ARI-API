@@ -299,6 +299,9 @@ export class AppointmentService {
             [Op.or]: [
                 {
                     fileName: { [Op.like]: '%' + searchText + '%' }
+                },
+                {
+                    type: { [Op.like]: '%' + searchText + '%' }
                 }
             ]
         };
