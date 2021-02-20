@@ -24,7 +24,7 @@ import { FileUploadService } from './services/file-upload.service';
                 return new AWS.S3({
                     accessKeyId: config.get('AWS_ACCESS_KEY_ID'),
                     secretAccessKey: config.get('AWS_SECRET_ACCESS_KEY'),
-                    region: 'ap-south-1'
+                    region: 'us-east-1'
                 })
             }
         }
