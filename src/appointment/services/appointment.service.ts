@@ -116,8 +116,10 @@ export class AppointmentService {
                 const meetingInput = {
                     topic: this.usersService.getLoggedinUserName(),
                     startTime: startTime,
-                    duration: 30
+                    duration: 30,
+                    timeZone: appointmentData.timeZone
                 }
+                console.log('meetingInput', meetingInput);
 
                 const meetingData: any = await this.zoomService.createMeeting(meetingInput);
 

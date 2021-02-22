@@ -26,7 +26,7 @@ export class ZoomService {
                 "type": 2,
                 "start_time": data.startTime,
                 "duration": data.duration,
-                "timezone": "America/New_York",
+                "timezone": data.timeZone,
                 "password": "1234",
                 "agenda": "ARI",
                 "tracking_fields": [

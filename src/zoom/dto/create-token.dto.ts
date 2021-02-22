@@ -9,6 +9,9 @@ export class CreateZoomTokenDto {
 
     @IsNumber()
     duration: number;
+
+    @IsString()
+    timeZone: string;
 }
 
 export class CreateSignatureDto {

@@ -110,7 +110,12 @@ export class CreateAppointmentDto {
     @ApiProperty({ type: Number })
     @IsOptional()
     @IsNumber()
-    paymentId: number;
+    paymentId?: number;
+
+    @ApiProperty({ type: Number })
+    @IsOptional()
+    @IsString()
+    timeZone?: string;
 }
 
 export class getAppointmentsCountDto {
