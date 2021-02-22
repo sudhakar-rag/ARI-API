@@ -40,7 +40,7 @@ export class ZoomService {
                     "participant_video": true,
                     "cn_meeting": false,
                     "in_meeting": false,
-                    "join_before_host": false,
+                    "join_before_host": true,
                     "mute_upon_entry": true,
                     "watermark": false,
                     "use_pmi": false,
