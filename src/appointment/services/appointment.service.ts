@@ -54,7 +54,8 @@ export class AppointmentService {
                 include: [
                     AppointmentDetails,
                     // ProviderAvailabilitySlot,
-                    Attachments
+                    Attachments,
+                    Provider
                 ],
                 where: {
                     id: appId

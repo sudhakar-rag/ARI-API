@@ -61,6 +61,9 @@ export class Provider extends Model<Provider> {
   @Column
   rating: number;
 
+  @Column
+  timezone: string;
+
   @HasOne(() => ProviderHistory)
   history: ProviderHistory;
 
