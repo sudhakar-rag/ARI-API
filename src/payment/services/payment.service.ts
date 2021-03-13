@@ -25,7 +25,7 @@ export class PaymentService {
 
 
   async getPaymentsById(userId: number): Promise<any> {
-    return await this.paymentModel.findAll({
+    return await this.paymentModel.findAndCountAll({
       where: { userId: userId },
       include: [
         {
@@ -42,7 +42,7 @@ export class PaymentService {
 
 
   async getProviderPaymentsById(providerId: number): Promise<any> {
-    return await this.paymentModel.findAll({
+    return await this.paymentModel.findAndCountAll({
       where: { paymentType: 'A' },
       include: [
         {
