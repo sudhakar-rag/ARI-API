@@ -44,4 +44,7 @@ export class ProviderRegistration extends Model<ProviderRegistration> {
 
     @Column
     verified: number;
+
+    @Column
+    timezone: string;
 }

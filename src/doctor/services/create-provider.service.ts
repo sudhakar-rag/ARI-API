@@ -201,7 +201,8 @@ export class CreateProviderService {
             speciality: providerData.medicalSpeciality,
             hasDrugAddiction: providerData.hasDrugAddiction,
             hasCriminalRecord: providerData.hasCriminalRecord,
-            hasMalpractice: providerData.hasMalpractice
+            hasMalpractice: providerData.hasMalpractice,
+            timezone: providerData.timezone
         };
 
         let patient: Provider;
@@ -641,7 +642,7 @@ export class CreateProviderService {
             }
 
             // create user
-            const data = {
+            const data: any = {
                 title: providerData.title,
                 providerCredential: providerData.providerCredential,
                 firstName: providerData.firstName,
@@ -656,6 +657,10 @@ export class CreateProviderService {
                 currentlyEnrolledIn: providerData.currentlyEnrolledIn,
                 gender: providerData.gender,
                 verified: 0
+            }
+
+            if (providerData.timezone) {
+                data.timezone = providerData.timezone;
             }
 
             let providerInfo: ProviderRegistration;

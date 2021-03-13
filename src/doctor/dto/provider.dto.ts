@@ -99,6 +99,10 @@ export class ProviderDto {
   @IsString()
   malpractice: string;
 
+  @IsOptional()
+  @IsString()
+  timezone?: string;
+
 }
 
 export class ProviderEducationDto {
@@ -229,6 +233,8 @@ export class ProviderRegistrationDto {
   @IsString()
   currentlyEnrolledIn: string;
 
+  @IsString()
+  timezone?: string;
 }
 
 
