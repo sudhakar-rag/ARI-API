@@ -326,7 +326,7 @@ export class AppointmentService {
         }
         console.log(where);
 
-        const result = await this.attachmentsModel.findAll(
+        const result = await this.attachmentsModel.findAndCountAll(
             {
 
                 include: [
