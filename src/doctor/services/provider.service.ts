@@ -401,7 +401,19 @@ export class ProviderService {
 
     return await this.providerRegistrationModel.findAndCountAll({
       distinct: true,
-      where: where,
+      where: {
+        [Op.or]: [
+          {
+            firstName: { [Op.like]: '%' + searchText + '%' }
+          },
+          {
+            lastName: { [Op.like]: '%' + searchText + '%' }
+          },
+          {
+            email: { [Op.like]: '%' + searchText + '%' }
+          }
+        ]
+      },
       offset: offset,
       limit: limit,
       order: orderBy
