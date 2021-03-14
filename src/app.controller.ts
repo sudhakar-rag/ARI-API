@@ -21,7 +21,7 @@ export class AppController {
 
   @Get()
   getHello(): string {
-    return this.appService.getHello();
+    return 'ARI api is running....';
   }
 
   @Post()
