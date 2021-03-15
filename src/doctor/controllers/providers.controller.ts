@@ -221,6 +221,22 @@ export class ProvidersController {
     return output;
   }
 
+
+  @Put('timezone')
+  async updateTimezone(@Body() providerData: any): Promise<ResponseData> {
+    const output = new ResponseData();
+
+    try {
+      output.data = await this.createProviderService.updateTimezone(providerData);
+    } catch (error) {
+      console.log(error);
+      output.status = false;
+      output.message = typeof error == 'string' ? error : '';
+    }
+
+    return output;
+  }
+
   @Put('training')
   async updateTraining(@Body() providerData: any): Promise<ResponseData> {
     const output = new ResponseData();

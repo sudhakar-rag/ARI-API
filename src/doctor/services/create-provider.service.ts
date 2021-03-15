@@ -423,6 +423,17 @@ export class CreateProviderService {
     }
 
 
+    async updateTimezone(data: any): Promise<any> {
+
+        const ProviderData = {
+            timezone: data.timezone,
+        };
+
+        // provider
+        const result = await this.providerModel.update(ProviderData, { where: { id: data.providerId } });
+
+        return result;
+    }
     async updateTraining(data: any): Promise<any> {
 
         await this.providerEducationModel.destroy({
