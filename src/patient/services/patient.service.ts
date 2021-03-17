@@ -1,5 +1,5 @@
 import { PatientSubscription } from './../models/patient-subscription.model';
-import { RatingHistory } from './../../doctor/models/rating-history';
+import { RatingHistory } from '../../provider/models/rating-history';
 import { PatientDto } from './../dto/patient.dto';
 import { Patient } from './../models/patient.model';
 import { Sequelize } from 'sequelize-typescript';
@@ -19,8 +19,8 @@ import { CreateAppointmentDto } from '../../appointment/dto/create-appointment.d
 import { Appointment } from '@app/src/shared/models/appointment.model';
 import { AppointmentDetails } from '@app/src/shared/models/appointment-details.model';
 import { ListQueryParamsDto } from '@app/src/core/common/list-query-params.dto';
-import { Provider } from '@app/src/doctor/models/provider.model';
-import { ProviderAvailabilitySlot } from '@app/src/doctor/models/provider-availability-slot.model';
+import { Provider } from '@app/src/provider/models/provider.model';
+import { ProviderAvailabilitySlot } from '@app/src/provider/models/provider-availability-slot.model';
 import { Address } from '@app/src/users/models/address.model';
 
 @Injectable()

@@ -1,7 +1,7 @@
 import { Notification } from './notification.model';
 import { Attachments } from './attachments.model';
 import { HasMany } from 'sequelize-typescript';
-import { ProviderAvailabilitySlot } from '@app/src/doctor/models/provider-availability-slot.model';
+import { ProviderAvailabilitySlot } from '@app/src/provider/models/provider-availability-slot.model';
 import {
     Table,
     Column,
@@ -12,7 +12,7 @@ import {
     BelongsToMany,
     HasOne,
 } from 'sequelize-typescript';
-import { Provider } from './../../doctor/models/provider.model';
+import { Provider } from '../../provider/models/provider.model';
 import { Patient } from './../../patient/models/patient.model';
 import { AppointmentDetails } from './appointment-details.model';
 import { AppointmentPayment } from './appointment-payment.model';

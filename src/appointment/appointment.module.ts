@@ -1,8 +1,8 @@
-import { ProviderModule } from './../doctor/provider.module';
+import { ProviderModule } from '../provider/provider.module';
 import { EmailModule } from './../email/email.module';
 import { Module } from '@nestjs/common';
 import { SequelizeModule } from '@nestjs/sequelize';
-import { ProviderAvailabilitySlot } from '../doctor/models/provider-availability-slot.model';
+import { ProviderAvailabilitySlot } from '../provider/models/provider-availability-slot.model';
 import { NotificationModule } from '../notification/notification.module';
 import { AppointmentDetails } from '../shared/models/appointment-details.model';
 import { Appointment } from '../shared/models/appointment.model';

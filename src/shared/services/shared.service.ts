@@ -5,7 +5,7 @@ import { State } from './../models/state.model';
 import { ProviderType } from './../models/provider-type.model';
 import { AppointmentDetails } from './../models/appointment-details.model';
 import { Service } from './../models/services.model';
-import { Language } from './../../doctor/models/language.model';
+import { Language } from '../../provider/models/language.model';
 import { Address } from './../../users/models/address.model';
 import { Symptom } from './../models/symptom.model';
 import { MedicalProblems } from './../models/medical-problems.model';
@@ -100,28 +100,28 @@ export class SharedService {
   async updateAppointmentSession(data: any): Promise<any> {
 
     const sessionData = {
-        session: data.session
+      session: data.session
     }
 
     const result = await this.appointmentDetailsModel.update(sessionData, { where: { appointmentId: data.appointmentId } });
 
     return result;
 
-}
+  }
 
-async updateSubscription(data: any): Promise<any> {
+  async updateSubscription(data: any): Promise<any> {
 
-  const subData = {
+    const subData = {
       name: data.name,
       code: data.code,
       price: data.price
+    }
+
+    const result = await this.subscriptionModel.update(subData, { where: { id: data.subId } });
+
+    return result;
+
   }
-
-  const result = await this.subscriptionModel.update(subData, { where: { id: data.subId } });
-
-  return result;
-
-}
 
 
 

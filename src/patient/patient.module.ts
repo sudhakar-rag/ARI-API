@@ -1,6 +1,6 @@
 import { EmailModule } from './../email/email.module';
 import { PatientSubscription } from './models/patient-subscription.model';
-import { ProviderModule } from './../doctor/provider.module';
+import { ProviderModule } from '../provider/provider.module';
 import { PatientService } from './services/patient.service';
 import { PatientsController } from './controllers/patient.controller';
 import { Module } from '@nestjs/common';
@@ -17,8 +17,8 @@ import { PatientAddress } from './models/patient-address.model';
 import { Address } from '../users/models/address.model';
 import { Appointment } from '../shared/models/appointment.model';
 import { AppointmentDetails } from '../shared/models/appointment-details.model';
-import { Provider } from '../doctor/models/provider.model';
-import { ProviderAvailabilitySlot } from '../doctor/models/provider-availability-slot.model';
+import { Provider } from '../provider/models/provider.model';
+import { ProviderAvailabilitySlot } from '../provider/models/provider-availability-slot.model';
 
 @Module({
   imports: [

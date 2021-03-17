@@ -4,7 +4,7 @@ import { Notification } from './models/notification.model';
 import { Attachments } from './models/attachments.model';
 import { UsersModule } from './../users/users.module';
 import { Service } from './models/services.model';
-import { Language } from './../doctor/models/language.model';
+import { Language } from '../provider/models/language.model';
 import { Address } from './../users/models/address.model';
 import { SharedController } from './controllers/shared.controller';
 import { SharedService } from './services/shared.service';

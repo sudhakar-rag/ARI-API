@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { EmailService } from './../../email/email.service';
-import { CreateProviderService } from './../../doctor/services/create-provider.service';
+import { CreateProviderService } from '../../provider/services/create-provider.service';
 import { PatientBasicDto } from './../dto/patient-basic.dto';
 import { PatientService } from './../services/patient.service';
 import { Body, Controller, Get, Param, Post, Put, UseGuards } from '@nestjs/common';

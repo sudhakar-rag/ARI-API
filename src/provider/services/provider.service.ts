@@ -121,6 +121,7 @@ export class ProviderService {
           include: [Address]
         },
         ProviderLanguage,
+        RatingHistory,
         {
           model: ProviderServices,
           required: typeof serviceWhere.serviceId != 'undefined',

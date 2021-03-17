@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { EmailService } from './../../email/email.service';
-import { ProviderService } from './../../doctor/services/provider.service';
+import { ProviderService } from '../../provider/services/provider.service';
 import { CreateNotificationDto } from './../../notification/dto/create-notification.dto';
 import { NotificationService } from './../../notification/services/notification.service';
 import { CreateAttachmentDto } from './../dto/create-attachment.dto';
@@ -12,8 +12,8 @@ import { CreateAppointmentDto, getAppointmentsCountDto } from '../../appointment
 import { Appointment } from '@app/src/shared/models/appointment.model';
 import { AppointmentDetails } from '@app/src/shared/models/appointment-details.model';
 import { ListQueryParamsDto } from '@app/src/core/common/list-query-params.dto';
-import { Provider } from '@app/src/doctor/models/provider.model';
-import { ProviderAvailabilitySlot } from '@app/src/doctor/models/provider-availability-slot.model';
+import { Provider } from '@app/src/provider/models/provider.model';
+import { ProviderAvailabilitySlot } from '@app/src/provider/models/provider-availability-slot.model';
 import { Patient } from '@app/src/patient/models/patient.model';
 import { UsersService } from '@app/src/users/services/users.service';
 import { Op } from 'sequelize';
@@ -23,6 +23,7 @@ import { Attachments } from '@app/src/shared/models/attachments.model';
 import { FcmService } from '@app/src/fcm/fcm.service';
 import { Payment } from '@app/src/shared/models/payment.model';
 import { WalletService } from '@app/src/wallet/services/wallet.service';
+import { RatingHistory } from '@app/src/provider/models/rating-history';
 @Injectable()
 export class AppointmentService {
     constructor(
@@ -52,10 +53,19 @@ export class AppointmentService {
         try {
             const result = await this.appointmentModel.findOne({
                 include: [
-                    AppointmentDetails,
-                    // ProviderAvailabilitySlot,
-                    Attachments,
-                    Provider
+                    {
+                        model: AppointmentDetails
+                    },
+                    {
+                        model: Attachments
+                    },
+                    {
+                        model: Provider,
+                        include: [RatingHistory]
+                    },
+                    {
+                        model: AppointmentDetails
+                    }
                 ],
                 where: {
                     id: appId

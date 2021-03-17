@@ -12,7 +12,7 @@ import * as md5 from "md5";
 import { UserAddress } from '../models/user-address.model';
 import { Address } from '../models/address.model';
 import { convertToJSONObject } from '@app/src/core/common/helpers';
-import { Provider } from '@app/src/doctor/models/provider.model';
+import { Provider } from '@app/src/provider/models/provider.model';
 import { Patient } from '@app/src/patient/models/patient.model';
 import { CreateFCMDto } from '../dto/fcm.dto';
 import { UserFCMToken } from '../models/user-fcm-token.model';

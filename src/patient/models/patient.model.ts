@@ -1,5 +1,5 @@
 import { PatientSubscription } from './patient-subscription.model';
-import { RatingHistory } from './../../doctor/models/rating-history';
+import { RatingHistory } from '../../provider/models/rating-history';
 // import { PatientMedicalProblem } from './patient-medical-problems.model';
 import { User } from './../../users/models/user.model';
 import {

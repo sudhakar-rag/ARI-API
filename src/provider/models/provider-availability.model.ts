@@ -7,7 +7,7 @@ import {
     DataType,
     HasMany,
 } from 'sequelize-typescript';
-import { Provider } from './../../doctor/models/provider.model';
+import { Provider } from './../../provider/models/provider.model';
 import { ProviderAvailabilitySlot } from './provider-availability-slot.model';
 
 @Table

@@ -1,4 +1,4 @@
-import { Provider } from './../../doctor/models/provider.model';
+import { Provider } from '../../provider/models/provider.model';
 import { Table, Model, Column, HasMany, BelongsToMany, BelongsTo, HasOne } from "sequelize-typescript";
 import { UserRole } from "./user-role.model";
 import { UserAddress } from "./user-address.model";

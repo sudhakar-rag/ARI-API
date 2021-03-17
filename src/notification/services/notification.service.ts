@@ -1,4 +1,4 @@
-import { Provider } from './../../doctor/models/provider.model';
+import { Provider } from '../../provider/models/provider.model';
 import { User } from './../../users/models/user.model';
 import { CreateNotificationDto } from './../dto/create-notification.dto';
 import { Appointment } from '@app/src/shared/models/appointment.model';
