@@ -1,14 +1,10 @@
-import { User } from './../users/models/user.model';
-import { InjectModel } from '@nestjs/sequelize';
 import { Injectable } from '@nestjs/common';
 import { UsersService } from '../users/services/users.service';
-import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class AuthService {
     constructor(
-        private readonly usersService: UsersService,
-        private readonly jwtService: JwtService,
+        private readonly usersService: UsersService
     ) { }
 
     async login(where: any): Promise<any> {
@@ -31,6 +27,6 @@ export class AuthService {
 
     }
 
-    
+
 
 }

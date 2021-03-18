@@ -49,7 +49,6 @@ export class AuthController {
   }
 
   @Put('resetPassword')
-  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   async updatePassword(@Body() userData: any): Promise<ResponseData> {
     const output = new ResponseData();
 
@@ -68,7 +67,6 @@ export class AuthController {
   }
 
   @Post('verifyPassword')
-  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   async verifyPassword(@Body() userData: any): Promise<ResponseData> {
     const output = new ResponseData();
 
