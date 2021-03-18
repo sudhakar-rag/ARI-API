@@ -635,7 +635,7 @@ export class CreateProviderService {
         };
 
         // provider
-        const result = await this.providerModel.update(ProviderData, { where: { userId: data.providerId } });
+        const result = await this.providerModel.update(ProviderData, { where: { id: data.providerId } });
 
         return result;
     }
