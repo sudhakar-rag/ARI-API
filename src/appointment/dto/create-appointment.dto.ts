@@ -39,12 +39,12 @@ export class CreateAppointmentDto {
 
     @ApiProperty({ type: String, default: '' })
     @IsString()
-    start: string;
+    start: number;
 
 
     @ApiProperty({ type: String, default: '' })
     @IsString()
-    end: string;
+    end: number;
 
     @ApiProperty({ enum: AppointmentType, enumName: 'appointmentType' })
     @IsString()

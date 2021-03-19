@@ -24,9 +24,17 @@ export class Notification extends Model<Notification> {
     @Column
     status: boolean;
 
-    @BelongsTo(() => Appointment)
+    @BelongsTo(() => Appointment, {
+        // onUpdate: "CASCADE",
+        onDelete: "CASCADE",
+        // hooks: true
+    })
     Appointment: Appointment;
 
-    @BelongsTo(() => User)
+    @BelongsTo(() => User, {
+        // onUpdate: "CASCADE",
+        onDelete: "CASCADE",
+        // hooks: true
+    })
     user: User;
 }

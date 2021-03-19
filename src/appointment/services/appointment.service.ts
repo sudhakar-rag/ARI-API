@@ -23,6 +23,7 @@ import { Attachments } from '@app/src/shared/models/attachments.model';
 import { FcmService } from '@app/src/fcm/fcm.service';
 import { Payment } from '@app/src/shared/models/payment.model';
 import { WalletService } from '@app/src/wallet/services/wallet.service';
+import * as moment from 'moment-timezone';
 @Injectable()
 export class AppointmentService {
     constructor(
@@ -98,13 +99,15 @@ export class AppointmentService {
         try {
             transaction = await this.sequelize.transaction();
 
+            const startTimestamp = moment(appointmentData.date + ' ' + appointmentData.start, 'YYYY-MM-DD H:mm A').tz(appointmentData.timeZone).utc().valueOf();
+            const endTimestamp = moment(appointmentData.date + ' ' + appointmentData.end, 'YYYY-MM-DD H:mm A').tz(appointmentData.timeZone).utc().valueOf();
 
             const result = await this.appointmentModel.findOne({
                 where: {
                     providerId: appointmentData.providerId,
                     patientId: appointmentData.patientId,
-                    start: appointmentData.start,
-                    end: appointmentData.end,
+                    start: startTimestamp,
+                    end: endTimestamp,
                     type: appointmentData.type,
                     date: appointmentData.date
                 },
@@ -128,8 +131,8 @@ export class AppointmentService {
                     providerId: appointmentData.providerId,
                     patientId: appointmentData.patientId,
                     date: appointmentData.date,
-                    start: appointmentData.start,
-                    end: appointmentData.end,
+                    start: startTimestamp,
+                    end: endTimestamp,
                     type: appointmentData.type,
                     status: appointmentData.status || 'PENDING',
                     meetingId: meetingData.id,
@@ -176,8 +179,8 @@ export class AppointmentService {
                     providerId: appointmentData.providerId,
                     patientId: appointmentData.patientId,
                     date: appointmentData.date,
-                    start: appointmentData.start,
-                    end: appointmentData.end,
+                    start: startTimestamp,
+                    end: endTimestamp,
                     type: appointmentData.type,
                     status: result.status
                 };
@@ -192,8 +195,8 @@ export class AppointmentService {
                 await this.appointmentModel.update({
                     providerId: appointmentData.providerId,
                     patientId: appointmentData.patientId,
-                    start: appointmentData.start,
-                    end: appointmentData.end,
+                    start: startTimestamp,
+                    end: endTimestamp,
                     type: appointmentData.type,
                     status: appointmentData.status || 'PENDING'
                 }, {

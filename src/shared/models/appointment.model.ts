@@ -31,11 +31,11 @@ export class Appointment extends Model<Appointment> {
     @Column(DataType.DATEONLY)
     date: string;
 
-    @Column
-    start: string;
+    @Column(DataType.BIGINT)
+    start: number;
 
-    @Column
-    end: string;
+    @Column(DataType.BIGINT)
+    end: number;
 
     @Column(DataType.ENUM('I', 'G'))
     type: 'I' | 'G'
