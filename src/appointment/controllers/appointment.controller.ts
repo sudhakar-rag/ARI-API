@@ -21,19 +21,6 @@ export class AppointmentController {
         private fcmService: FcmService
     ) { }
 
-    // @Get('test')
-    // async test() {
-    //     const result = await this.fcmService.sendMessage({
-    //         title: 'DDDDDDDD server',
-    //         body: 'Hi Rama',
-    //         userId: 9
-    //     });
-
-    //     return {
-    //         data: result
-    //     };
-    // }
-
     @ApiOperation({ summary: "Get appointment list by date" })
     @Get('byDate/:date')
     async getTodaysAppointmentList(@Param('date') date: string): Promise<ResponseData> {
@@ -94,7 +81,6 @@ export class AppointmentController {
         try {
             output.data = await this.appointmentService.getAppointments(queryParams);
         } catch (error) {
-            console.log(error);
             output.status = false;
             output.message = typeof error == 'string' ? error : '';
         }

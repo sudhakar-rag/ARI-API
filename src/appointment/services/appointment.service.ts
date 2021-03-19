@@ -99,8 +99,15 @@ export class AppointmentService {
         try {
             transaction = await this.sequelize.transaction();
 
-            const startTimestamp = moment(appointmentData.date + ' ' + appointmentData.start, 'YYYY-MM-DD H:mm A').tz(appointmentData.timeZone).utc().valueOf();
-            const endTimestamp = moment(appointmentData.date + ' ' + appointmentData.end, 'YYYY-MM-DD H:mm A').tz(appointmentData.timeZone).utc().valueOf();
+            const timezoneOffset = moment.tz(appointmentData.timeZone).format('Z');
+            const providerSlotStart = appointmentData.date + ' ' + appointmentData.start + ' GMT ' + timezoneOffset;
+            let providerSlotEnd = appointmentData.date + ' ' + appointmentData.end + ' GMT ' + timezoneOffset;
+            if (appointmentData.end == '12:00 AM') {
+                providerSlotEnd = moment(appointmentData.date).add(1, 'day').format('YYYY-MM-DD') + ' ' + appointmentData.end + ' GMT ' + timezoneOffset;
+            }
+
+            const startTimestamp = moment(providerSlotStart).valueOf();
+            const endTimestamp = moment(providerSlotEnd).valueOf();
 
             const result = await this.appointmentModel.findOne({
                 where: {
@@ -410,6 +417,25 @@ export class AppointmentService {
             if (queryParams.filter.date) {
                 where.date = queryParams.filter.date;
             }
+
+            if (queryParams.filter.type) {
+                where.type = queryParams.filter.type;
+            }
+
+            if (queryParams.filter.from) {
+                const temp = queryParams.filter.from;
+                if (temp.type == 'gte') {
+                    where.start = { [Op.gte]: temp.timestamp };
+                }
+
+                if (temp.type == 'lte') {
+                    where.start = { [Op.lte]: temp.timestamp };
+                }
+            }
+
+            if (Array.isArray(queryParams.filter.status) && queryParams.filter.status.length) {
+                where.status = { [Op.in]: queryParams.filter.status };
+            }
         }
 
         if (this.usersService.isAdmin()) {
@@ -427,7 +453,7 @@ export class AppointmentService {
         } else if (this.usersService.isPatient()) {
             where.patientId = this.usersService.getLoggedinPatientId();
         }
-        console.log(where, this.usersService.getLoggedinUserData());
+        // console.log(where, this.usersService.getLoggedinUserData());
 
 
         if (this.usersService.isProvider()) {
