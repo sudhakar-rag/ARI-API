@@ -4,6 +4,7 @@ import {
     Model,
     ForeignKey,
     DataType,
+    BelongsTo,
 } from 'sequelize-typescript';
 import { Appointment } from './appointment.model';
 
@@ -27,4 +28,11 @@ export class AppointmentDetails extends Model<AppointmentDetails> {
 
     @Column(DataType.TEXT({ length: 'medium' }))
     session: string;
+
+    @BelongsTo(() => Appointment, {
+        // onUpdate: "CASCADE",
+        onDelete: "CASCADE",
+        // hooks: true
+    })
+    appointment: Appointment;
 }

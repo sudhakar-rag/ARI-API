@@ -29,7 +29,7 @@ export class Notification extends Model<Notification> {
         onDelete: "CASCADE",
         // hooks: true
     })
-    Appointment: Appointment;
+    appointment: Appointment;
 
     @BelongsTo(() => User, {
         // onUpdate: "CASCADE",
