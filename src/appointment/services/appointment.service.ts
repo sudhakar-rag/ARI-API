@@ -433,6 +433,17 @@ export class AppointmentService {
                 }
             }
 
+            if (queryParams.filter.to) {
+                const temp = queryParams.filter.to;
+                if (temp.type == 'gte') {
+                    where.end = { [Op.gte]: temp.timestamp };
+                }
+
+                if (temp.type == 'lte') {
+                    where.end = { [Op.lte]: temp.timestamp };
+                }
+            }
+
             if (Array.isArray(queryParams.filter.status) && queryParams.filter.status.length) {
                 where.status = { [Op.in]: queryParams.filter.status };
             }
