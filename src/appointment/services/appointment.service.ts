@@ -258,7 +258,8 @@ export class AppointmentService {
 
                     const amount = payment.amount * (80 / 100);
 
-                    const walletInfo: any = await this.walletService.getWalletData(appointmentData.providerId);
+                    const provider = await this.usersService.finProvider({ id: appointmentData.providerId });
+                    const walletInfo: any = await this.walletService.getWalletData(provider.userId);
 
                     await this.walletService.createEntry({
                         walletId: walletInfo.wallet.id,
